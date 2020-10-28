@@ -1,5 +1,9 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: merlot
+=======
+Built-By: heran
+>>>>>>> c17d166cc97dfaa3e821e0c34c493d2589f033a0
 Build-Jdk: 14.0.2
 Created-By: Maven Integration for Eclipse
 
