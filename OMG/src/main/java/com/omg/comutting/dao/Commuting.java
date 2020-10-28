@@ -2,7 +2,7 @@ package com.omg.comutting.dao;
 
 import com.omg.cmn.DTO;
 
-public class Comutting extends DTO {
+public class Commuting extends DTO {
 	/** 순번 */
 	private String seq;
 	/** 사번 */
