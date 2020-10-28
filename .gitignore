@@ -71,6 +71,7 @@ local.properties
 ### Java-Web ###
 ## ignoring target file
 target/
+pom.properties
 
 ### Maven ###
 pom.xml.tag
@@ -111,3 +112,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,maven,java-web
+OMG/target/m2e-wtp/web-resources/META-INF/maven/com.omg/cmn/pom.properties
+OMG/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
