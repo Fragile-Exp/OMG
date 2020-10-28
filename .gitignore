@@ -114,3 +114,7 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,maven,java-web
 OMG/target/m2e-wtp/web-resources/META-INF/maven/com.omg/cmn/pom.properties
 OMG/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+OMG/.classpath
+OMG/.project
+OMG/src/main/webapp/WEB-INF/views/home.jsp
+OMG/target/m2e-wtp/web-resources/META-INF/maven/com.omg/cmn/pom.properties
