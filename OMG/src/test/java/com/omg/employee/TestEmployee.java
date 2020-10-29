@@ -42,12 +42,9 @@ public class TestEmployee {
     EmployeeVO employee03;
     
     @Test 
-    @Ignore
     public void doUpdate() {
     	//기존 데이터 삭제
     	employeeDao.doDelete(employee01);
-    	employeeDao.doDelete(employee02);
-    	employeeDao.doDelete(employee03);
     	
     	//단건입력
     	int flag=employeeDao.doInsert(employee01);
@@ -75,6 +72,7 @@ public class TestEmployee {
     }
     
     @Test
+    @Ignore
     public void addAndGet() {
     	//기존 데이터 삭제
     	employeeDao.doDelete(employee01);

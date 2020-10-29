@@ -74,16 +74,16 @@ public class EmployeeDao {
 	public int doUpdate(EmployeeVO employee) {
 		int flag=0;
 		StringBuilder sb=new StringBuilder();
-		sb.append("UPDATE employee                \n");
-		sb.append("SET		password 	= ?  ,    \n");
-		sb.append("		dept_no 	= ?  ,        \n");
-		sb.append("		position_no = ?  ,        \n");
-		sb.append("		cell_phone 	= ?  ,        \n");
-		sb.append("		email 		= ?  ,        \n");
-		sb.append("		address 	= ?  ,        \n");
-		sb.append("		holiday 	= ?  ,        \n");
-		sb.append("		img_code 	= ?           \n");
-		sb.append("WHERE employee_id 	= ?       \n");
+		sb.append("UPDATE employee             \n");
+		sb.append("SET	password 	= ?,       \n");
+		sb.append("	dept_no 	= ?,           \n");
+		sb.append("	position_no = ?,           \n");
+		sb.append("	cell_phone 	= ?,           \n");
+		sb.append("	email 		= ?,           \n");
+		sb.append("	address 	= ?,           \n");
+		sb.append("	holiday 	= ?,           \n");
+		sb.append("	img_code 	= ?            \n");
+		sb.append("WHERE employee_id = ?       \n");
 		LOG.debug("========================");
 		LOG.debug("=sql\n="+sb.toString());
 		LOG.debug("=param="+employee);
@@ -96,7 +96,8 @@ public class EmployeeDao {
 							employee.getEmail(),
 							employee.getAddress(),
 							employee.getHoliday(),
-							employee.getImg_code()
+							employee.getImg_code(),
+							employee.getEmployee_id()
 		};
 		
 		flag=this.jdbcTemplate.update(sb.toString(), args);
