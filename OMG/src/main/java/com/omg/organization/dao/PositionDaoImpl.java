@@ -38,6 +38,18 @@ public class PositionDaoImpl {
 	
 	public int doDelete(PositionVO position) {
 		int flag = 0;
+		// Param Setting
+		Object[] args = {position.getPositionNo()};
+		// Query
+		StringBuilder sb = new StringBuilder();
+		sb.append("DELETE FROM position				\n");
+		sb.append("WHERE position_no = ?			\n");
+		LOG.debug("query : \n"+sb.toString());
+		LOG.debug("param : "+position);
+		
+		// Excute
+		flag = jdbcTemplate.update(sb.toString(),args );
+		LOG.debug(" 삭제 Flag : "+ flag);
 		return flag;
 	}
 	
@@ -53,7 +65,7 @@ public class PositionDaoImpl {
 		
 		// Query
 		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO omg ( 				\n");
+		sb.append("INSERT INTO position (			\n");
 		sb.append("	    position_no,              	\n");
 		sb.append("	    position_nm,              	\n");
 		sb.append("	    up_position            		\n");
@@ -65,24 +77,83 @@ public class PositionDaoImpl {
 		LOG.debug("query : \n"+sb.toString());
 		LOG.debug("param : \n"+position);
 		
+		// Excute
 		flag = jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("flag : "+flag);
+		LOG.debug(" 등록 Flag : "+flag);
 		
 		return flag;
 	}
 
-	public int doSelectOne(PositionVO position) {
-		int flag = 0;
-		return flag;
+	public PositionVO doSelectOne(PositionVO position) {
+		PositionVO outVO = null;
+		// Param Setting
+		Object[] args = {position.getPositionNo()};
+		// Query
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT							\n");
+		sb.append("	    position_no,              	\n");
+		sb.append("	    position_nm,              	\n");
+		sb.append("	    up_position            		\n");
+		sb.append("FROM position            		\n");
+		sb.append("WHERE							\n");
+		sb.append("		position_no = ?				\n");
+		LOG.debug("query : \n"+sb.toString());
+		LOG.debug("param : \n"+position);
+		
+		// Excute
+		outVO = (PositionVO) jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
+		LOG.debug(" 조회 VO : "+ outVO);
+		
+		return outVO;
 	}
 	
 	public int doUpdate(PositionVO position) {
 		int flag = 0;
+		
+		// Param Setting
+		Object[] args = {position.getPositionNo(),
+						position.getPositionNm(),
+						position.getUpPosition()!=0?position.getUpPosition():null,
+						position.getPositionNo()};
+				
+		// Query
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE position SET				\n");
+		sb.append("	    position_no = ?,           	\n");
+		sb.append("	    position_nm = ?,           	\n");
+		sb.append("	    up_position = ?        		\n");
+		sb.append("	WHERE 		           			\n");
+		sb.append("	    position_no = ?    			\n");
+		LOG.debug("param : \n"+position);
+		
+		// Excute
+		flag = jdbcTemplate.update(sb.toString(), args);
+		LOG.debug(" 수정 Flag : "+flag);
 		return flag;
 	}
 	
 	public List<PositionVO> doSelectList() {
 		List<PositionVO> list = null;
+		
+		// Query
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT							\n");
+		sb.append("	    position_no,              	\n");
+		sb.append("	    position_nm,              	\n");
+		sb.append("	    up_position            		\n");
+		sb.append("FROM position            		\n");
+		sb.append("START WITH up_position =0		\n");
+		sb.append("CONNECT BY prior 				\n");
+		sb.append("		position_no=up_position		\n");
+		LOG.debug("query : \n"+sb.toString());
+		
+		// Excute
+		list = (List<PositionVO>) jdbcTemplate.query(sb.toString(), rowMapper);
+		
+		for(PositionVO vo:list) {
+			LOG.debug(" 조회 VO : "+ vo);
+		}
+		
 		return list;
 	}
 }
