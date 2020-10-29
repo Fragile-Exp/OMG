@@ -1,21 +1,17 @@
 package com.omg.cmn;
 
 public class Message extends DTO {
-
-	/**
-	 * ë©”ì‹œì§? ID : 10
-	 */
+	
+	/**ë©”ì‹œì§€ ID : 10*/
 	private String msgId;
 	
-	/**
-	 * ë©”ì‹œì§? ?‚´?š©: ?“±ë¡ë˜?—ˆ?Šµ?‹ˆ?‹¤.
-	 */
+	/**ë©”ì‹œì§€ ID : ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤! */
 	private String msgContents;
 	
 	public Message() {
-		
+		// TODO Auto-generated constructor stub
 	}
-
+	
 	public String getMsgId() {
 		return msgId;
 	}
