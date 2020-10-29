@@ -46,11 +46,128 @@ public class EmployeeDao {
 		}
 	};
 	
-	//湲곕낯 �깮�꽦�옄
 	public EmployeeDao() {}
 	
+	public int count(EmployeeVO employee) {
+		int cnt=0;
+		
+		StringBuilder  sb=new StringBuilder();
+		sb.append("SELECT COUNT(*) cnt        \n");
+		sb.append("FROM employee              \n");
+		sb.append("WHERE employee_id like ?   \n");
+		
+		LOG.debug("========================");
+		LOG.debug("=sql\n="+sb.toString());
+		LOG.debug("=param="+employee);
+		LOG.debug("========================");
+		
+		cnt=this.jdbcTemplate.queryForObject(sb.toString(), 
+											new Object[] {"%"+employee.getEmployee_id()+"%"},
+											Integer.class
+				);
+		LOG.debug("========================");
+		LOG.debug("=cnt="+cnt);
+		LOG.debug("========================");		
+		return cnt;
+	}
+	
+	public int doUpdate(EmployeeVO employee) {
+		int flag=0;
+		StringBuilder sb=new StringBuilder();
+		sb.append("UPDATE employee                \n");
+		sb.append("SET		password 	= ?  ,    \n");
+		sb.append("		dept_no 	= ?  ,        \n");
+		sb.append("		position_no = ?  ,        \n");
+		sb.append("		cell_phone 	= ?  ,        \n");
+		sb.append("		email 		= ?  ,        \n");
+		sb.append("		address 	= ?  ,        \n");
+		sb.append("		holiday 	= ?  ,        \n");
+		sb.append("		img_code 	= ?           \n");
+		sb.append("WHERE employee_id 	= ?       \n");
+		LOG.debug("========================");
+		LOG.debug("=sql\n="+sb.toString());
+		LOG.debug("=param="+employee);
+		LOG.debug("========================");	
+		
+		Object[] args= {	employee.getPassword(),
+							employee.getDept_no(),
+							employee.getPosition_no(),
+							employee.getCell_phone(),
+							employee.getEmail(),
+							employee.getAddress(),
+							employee.getHoliday(),
+							employee.getImg_code()
+		};
+		
+		flag=this.jdbcTemplate.update(sb.toString(), args);
+		LOG.debug("=flag="+flag);	
+		return flag;
+		
+	}
+	
+	public EmployeeVO doSelectOne(String id) {
+		EmployeeVO outVO=null;
+		StringBuilder  sb=new StringBuilder();
+		
+		sb.append("SELECT                   \n");
+		sb.append("    employee_id,         \n");
+		sb.append("    password,            \n");
+		sb.append("    name,                \n");
+		sb.append("    dept_no,             \n");
+		sb.append("    position_no,         \n");
+		sb.append("    cell_phone,          \n");
+		sb.append("    email,               \n");
+		sb.append("    address,             \n");
+//		sb.append("         TO_CHAR(hire_date,'YYYY-MM-DD HH24MISS') AS hire_date \n");
+		sb.append("         TO_CHAR(hire_date,'YY/MM/DD ') AS hire_date, \n");
+		sb.append("    birth_day,           \n");
+		sb.append("    holiday,             \n");
+		sb.append("    img_code             \n");
+		sb.append("FROM                     \n");
+		sb.append("    employee             \n");
+		sb.append("WHERE employee_id = ?    \n");
+		
+		LOG.debug("========================");
+		LOG.debug("=sql\n="+sb.toString());
+		LOG.debug("=param="+id);
+		LOG.debug("========================");	
+		
+		Object args[] = {id};
+		outVO = (EmployeeVO) this.jdbcTemplate.queryForObject(sb.toString(), 
+    			                        args, 
+    			                        rowMapper);
+		
+		LOG.debug("========================");
+		LOG.debug("=outVO="+outVO);
+		LOG.debug("========================");	
+		
+		return outVO;
+	}
+	
 	/**
-	 * �궗�썝�벑濡�
+	 * 삭제
+	 * @param employee
+	 * @return
+	 */
+	public int doDelete(EmployeeVO employee){
+		int flag = 0;
+		StringBuilder  sb=new StringBuilder();
+		sb.append("DELETE FROM employee       \n");
+		sb.append("WHERE employee_id = ?      \n");
+		
+		LOG.debug("=====================================");
+		LOG.debug("=sql=\n"+sb.toString());
+		LOG.debug("=param="+employee);
+		LOG.debug("=====================================");
+		
+		Object[] args= {employee.getEmployee_id()};
+		flag=this.jdbcTemplate.update(sb.toString(),args);
+		
+		return flag;
+	}
+	
+	/**
+	 * 등록
 	 * @param employee
 	 * @return
 	 */
