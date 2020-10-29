@@ -11,6 +11,13 @@ public class PositionVO extends DTO {
 	private int upPosition;
 	
 	public PositionVO(){}
+	
+	public PositionVO(int positionNo, String positionNm, int upPosition) {
+		super();
+		this.positionNo = positionNo;
+		this.positionNm = positionNm;
+		this.upPosition = upPosition;
+	}
 
 	public int getPositionNo() {
 		return positionNo;
