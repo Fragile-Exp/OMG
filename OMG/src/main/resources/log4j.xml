@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.sist.ehr">
+	<logger name="com.omg">
 		<level value="debug" />
 	</logger>
 	
