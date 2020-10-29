@@ -8,15 +8,16 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public class StringUtil {
 	final static Logger LOG = LoggerFactory.getLogger(StringUtil.class);
 	/**
 	 * 
 	 *Method Name:renderPaging
-	 *html ?Š¹?ˆ˜ ë¬¸ì url : https://dev.w3.org/html5/html-author/charref
-	 *?‘?„±?¼: 2020. 9. 23
-	 *?‘?„±?: sist
-	 *?„¤ëª?:
+	 *html íŠ¹ìˆ˜ ë¬¸ì url : https://dev.w3.org/html5/html-author/charref
+	 *ì‘ì„±ì¼: 2020. 9. 23
+	 *ì‘ì„±ì: sist
+	 *ì„¤ëª…:
 	 *@param maxNum : 21
 	 *@param currPageNo : 1
 	 *@param rowPerPage : 10
@@ -29,14 +30,14 @@ public class StringUtil {
 	   String url, String scriptName) {
 
 	   /**
-	    * ì´ê??ˆ˜: 21
-	    * ?˜„?¬?˜?´ì§?: 1
-	    * ?•œ?˜?´ì§??— ë³´ì—¬ì§? ?–‰?ˆ˜: 10
-	    * ë°”ë‹¥?— ë³´ì—¬ì§? ?˜?´ì§? ?ˆ˜: 10
-	    * << ?‹œ?‘?˜?´ì§?
+	    * ì´ê¸€ìˆ˜: 21
+	    * í˜„ì¬í˜ì´ì§€: 1
+	    * í•œí˜ì´ì§€ì— ë³´ì—¬ì§ˆ í–‰ìˆ˜: 10
+	    * ë°”ë‹¥ì— ë³´ì—¬ì§ˆ í˜ì´ì§€ ìˆ˜: 10
+	    * << ì‹œì‘í˜ì´ì§€
 	    * < bottomCount : -10ê°œì”©
 	    * > bottomCount : +10ê°œì”©
-	    * >> ë§ˆì?ë§? page
+	    * >> ë§ˆì§€ë§‰ page
 	    * 
 	    * << < 1 2 3 4 5 6 7 8 9 10 > >>
 	    */
@@ -84,9 +85,9 @@ public class StringUtil {
 	   }
 
 
-	   // 1 2 3 ... 10 (?ˆ«?ë³´ì—¬ì£¼ê¸°)
+	   // 1 2 3 ... 10 (ìˆ«ìë³´ì—¬ì£¼ê¸°)
 	   for (inx = startPageNo; inx < maxPageNo && inx <= endPageNo; inx++) {
-			if (inx == currPageNo) {// ?˜„?¬ page
+			if (inx == currPageNo) {// í˜„ì¬ page
 				html.append("<li  class=\"disabled\" 	>");
 				html.append("<a  href=\"javascript:#\"  > ");
 				html.append(inx);
@@ -124,14 +125,14 @@ public class StringUtil {
 	   return html.toString();
 	  }
 	
-//	/**
-//	 * select?ƒ?„±
-//	 * @param list
-//	 * @param selectBoxNm
-//	 * @param selectNm
-//	 * @param allYN
-//	 * @return String
-//	 */
+	/**
+	 * selectìƒì„±
+	 * @param list
+	 * @param selectBoxNm
+	 * @param selectNm
+	 * @param allYN
+	 * @return String
+	 */
 //	public static String makeSelectBox(List<CodeVO> list,
 //                                       String selectBoxNm,
 //                                       String selectNm,
@@ -139,20 +140,20 @@ public class StringUtil {
 //		StringBuilder sb = new StringBuilder();
 //		sb.append("<select name='"+selectBoxNm+"' id='"+selectBoxNm+"' class=\"form-control input-sm\"> \n");
 //		
-//		//? „ì²?
+//		//ì „ì²´
 //		if(allYN==true) {
-//			sb.append("<option value=\"\">? „ì²?</option> \n");
+//			sb.append("<option value=\"\">ì „ì²´</option> \n");
 //		}
 //		
 //		if(null !=list) {
 //			for(CodeVO vo:list) {
 //				sb.append("<option value='"+vo.getDetCode()+"' ");
-//				//selectbox?„ ?ƒ
+//				//selectboxì„ íƒ
 //				if(selectNm.equals(vo.getDetCode())) {
 //					sb.append(" selected ");
 //				}
 //				sb.append(">");
-//				//ì½”ë“œ?´ë¦?
+//				//ì½”ë“œì´ë¦„
 //				sb.append(vo.getDetNm());
 //				sb.append("</option>\n");
 //			}
@@ -166,8 +167,8 @@ public class StringUtil {
 
 	//nvl
     /**
-     * request NVL(?›ë³?,ì¹˜í™˜)
-	 * @param val(?›ë³? String)
+     * request NVL(ì›ë³¸,ì¹˜í™˜)
+	 * @param val(ì›ë³¸ String)
 	 * @param rep(ì¹˜í™˜ String)
      * @return String
      */
@@ -191,12 +192,12 @@ public class StringUtil {
 	}
 	
    /**
-    *  ?˜•?‹ ?‚ ì§? ì¶œë ¥
+    *  í˜•ì‹ ë‚ ì§œ ì¶œë ¥
     * @param format(yyyy/MM/dd)
     * @return format Date String
     */
 	public static String formatDate(String format) {
-		Date date = new Date();//?‚ ì§? ê°ì²´
+		Date date = new Date();//ë‚ ì§œ ê°ì²´
 		SimpleDateFormat  sdf01=new SimpleDateFormat(format);
 		
 		return sdf01.format(date);
@@ -225,4 +226,3 @@ public class StringUtil {
 		
 	
 }
-

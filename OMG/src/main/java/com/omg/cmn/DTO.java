@@ -1,11 +1,16 @@
 package com.omg.cmn;
-
+/**
+ * 모든 VO의 아버지: 모든 VO는 DTO를 상속 받아야 한다.
+ * 
+ * @author sist
+ *
+ */
 public class DTO {
 	/**구분 */
 	private String div;
-	/**�? 번호 */
+	/**글 번호 */
 	private int num;
-	/**총�??�� */
+	/**총글수 */
 	private int totalCnt;
 	
 	public DTO(){}
@@ -42,4 +47,3 @@ public class DTO {
 	
 	
 }
-
