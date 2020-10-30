@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.omg.cmn.Search;
 import com.omg.employee.dao.EmployeeDao;
 //메소드 수행 순서:
 import com.omg.employee.dao.EmployeeVO;
@@ -44,6 +45,17 @@ public class TestEmployee {
     EmployeeVO employee03;
     
     @Test
+    public void doSelectList() {
+    	
+    	//조회
+    	Search search=new Search("20","1",3,1);
+    	List<EmployeeVO> list=employeeDao.doSelectList(search);
+    	LOG.debug("list.size()="+list.size());
+    	
+    }
+    
+    @Test
+    @Ignore
     public void getAll() {
     	//기존 데이터 삭제
     	employeeDao.doDelete(employee01);

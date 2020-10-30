@@ -2,6 +2,7 @@ package com.omg.employee.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.omg.cmn.Search;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -49,13 +51,95 @@ public class EmployeeDao {
 	
 	public EmployeeDao() {}
 	
-	public List<EmployeeVO> doSelectList(EmployeeVO employee){
+	public List<EmployeeVO> doSelectList(Search search){
 		StringBuilder sbWhere=new StringBuilder();
-		List<EmployeeVO> list=null;
+		
 		//이름(10), 부서(20)
+		if(null != search.getSearchDiv() && !"".equals(search.getSearchDiv())) {
+			if("10".equals(search.getSearchDiv())) {
+				sbWhere.append(" WHERE name like '%'|| ? ||'%'  \n");
+			}else if("20".equals(search.getSearchDiv())) {
+				sbWhere.append(" WHERE dept_no like '%'|| ? ||'%'  \n");
+			}
+		}
 		
+		StringBuilder sb=new StringBuilder();
+		sb.append(" SELECT T1.*,T2.*                                                                \n");
+		sb.append(" FROM                                                                            \n");
+		sb.append("  (                                                                              \n");
+		sb.append("      SELECT B.rnum,                                                             \n");
+		sb.append("             B.employee_id,                                                             \n");
+		sb.append("             B.password,                                                             \n");
+		sb.append("             B.name,                                                           \n");
+		sb.append("             B.dept_no,                                                          \n");
+		sb.append("             B.position_no,                                                            \n");
+		sb.append("             B.cell_phone,                                                        \n");
+		sb.append("             B.email,                                                             \n");
+		sb.append("             B.address,                                                             \n");
+		sb.append("             TO_CHAR(B.hire_date,'YYYYMMDD') hire_date,                                                         \n");
+		sb.append("             B.birth_day,                                                             \n");
+		sb.append("             B.holiday,                                                             \n");
+		sb.append("             B.img_code                                                             \n");
+		sb.append("      FROM (                                                                     \n");
+		sb.append("          SELECT ROWNUM rnum, A.*                                                \n");
+		sb.append("          FROM(                                                                  \n");
+		sb.append("              SELECT *                                                           \n");
+		sb.append("              FROM  employee                                                 \n");
+		//----------------------------------------------------------------------------------------------
+		//Where조건 
+		//----------------------------------------------------------------------------------------------		
+		sb.append(sbWhere.toString() );
+
+		sb.append("              ORDER BY hire_date DESC                                               \n");
+		sb.append("          )A                                                                     \n");
+		//sb.append("          WHERE ROWNUM <=(&PAGE_SIZE *(&PAGE_NUM-1)+&PAGE_SIZE)                  \n");
+		sb.append("          WHERE ROWNUM <=(? *(?-1)+?)                  \n");
+
+		sb.append("      )B                                                                         \n");
+		//sb.append("      WHERE b.rnum >=(&PAGE_SIZE *(&PAGE_NUM-1)+1)                               \n");
+		sb.append("      WHERE b.rnum >=(? *(?-1)+1)                               \n");
+		sb.append("      )T1                                                                        \n");
+		sb.append("      CROSS JOIN                                                                 \n");
+		sb.append("      --전체COUNT                                                                  \n");
+		sb.append("      (SELECT COUNT(*) total_cnt                                                 \n");
+		sb.append("       FROM  employee                                                           \n");
+		//----------------------------------------------------------------------------------------------
+		//Where조건 
+		//----------------------------------------------------------------------------------------------		
+		sb.append(sbWhere.toString() );
+		sb.append("      )T2                                                                        \n");
+		//param 처리
+		List<Object> listArg=new ArrayList<Object>();
 		
+		//검색조건+:7개 ?
+		if(null != search.getSearchDiv() && !"".equals(search.getSearchDiv())) {
+			listArg.add(search.getSearchWord());
+			
+			listArg.add(search.getPageSize());
+			listArg.add(search.getPageNum());
+			listArg.add(search.getPageSize());
+			listArg.add(search.getPageSize());
+			listArg.add(search.getPageNum());
+			
+			listArg.add(search.getSearchWord());
+		}else {
+			//&PAGE_SIZE *(&PAGE_NUM-1)+&PAGE_SIZE
+			//&PAGE_SIZE *(&PAGE_NUM
+			listArg.add(search.getPageSize());
+			listArg.add(search.getPageNum());
+			listArg.add(search.getPageSize());
+			listArg.add(search.getPageSize());
+			listArg.add(search.getPageNum());
+		}
+		LOG.debug("========================");
+		LOG.debug("=sql\n="+sb.toString());
+		LOG.debug("=param="+search);
+		LOG.debug("========================");	
 		
+		List<EmployeeVO> list=(List<EmployeeVO>)jdbcTemplate.query(sb.toString(), listArg.toArray(), rowMapper);
+		for(EmployeeVO vo: list) {
+			LOG.debug("=vo="+vo);
+		}
 		
 		
 		return list;
