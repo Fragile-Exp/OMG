@@ -9,6 +9,8 @@ public class Commuting extends DTO {
 	private String employeeId;
 	/** 이름 */
 	private String name;
+	/** 부서번호 */
+	private String deptNo;
 	/** 출근시간 */
 	private String attendTime;
 	/** 퇴근시간 */
@@ -20,8 +22,29 @@ public class Commuting extends DTO {
 	/** 근무시간 */
 	private String workTime;
 	/** 등록자*/
-	private String regId;
+	private String regDt;
 	
+	public Commuting() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public Commuting(String seq, String employeeId, String name, String deptNo, String attendTime, String leaveTime,
+			PresentState presentState, State state, String workTime, String regDt) {
+		super();
+		this.seq = seq;
+		this.employeeId = employeeId;
+		this.name = name;
+		this.deptNo = deptNo;
+		this.attendTime = attendTime;
+		this.leaveTime = leaveTime;
+		this.presentState = presentState;
+		this.state = state;
+		this.workTime = workTime;
+		this.regDt = regDt;
+	}
+
+
 	public String getSeq() {
 		return seq;
 	}
@@ -39,6 +62,12 @@ public class Commuting extends DTO {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getDeptNo() {
+		return deptNo;
+	}
+	public void setDeptNo(String deptNo) {
+		this.deptNo = deptNo;
 	}
 	public String getAttendTime() {
 		return attendTime;
@@ -70,19 +99,22 @@ public class Commuting extends DTO {
 	public void setWorkTime(String workTime) {
 		this.workTime = workTime;
 	}
-	public String getRegId() {
-		return regId;
+	public String getRegDt() {
+		return regDt;
 	}
-	public void setRegId(String regId) {
-		this.regId = regId;
+	public void setRegDt(String regId) {
+		this.regDt = regId;
 	}
-	
+
+
 	@Override
 	public String toString() {
-		return "Comutting [seq=" + seq + ", employeeId=" + employeeId + ", name=" + name + ", attendTime=" + attendTime
-				+ ", leaveTime=" + leaveTime + ", presentState=" + presentState + ", state=" + state + ", workTime="
-				+ workTime + ", regId=" + regId + ", toString()=" + super.toString() + "]";
+		return "Commuting [seq=" + seq + ", employeeId=" + employeeId + ", name=" + name + ", deptNo=" + deptNo
+				+ ", attendTime=" + attendTime + ", leaveTime=" + leaveTime + ", presentState=" + presentState
+				+ ", state=" + state + ", workTime=" + workTime + ", regDt=" + regDt + ", toString()="
+				+ super.toString() + "]";
 	}
 	
 	
-	}
+	
+}
