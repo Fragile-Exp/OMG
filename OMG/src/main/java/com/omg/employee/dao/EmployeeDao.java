@@ -2,6 +2,7 @@ package com.omg.employee.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -47,6 +48,53 @@ public class EmployeeDao {
 	};
 	
 	public EmployeeDao() {}
+	
+	public List<EmployeeVO> doSelectList(EmployeeVO employee){
+		StringBuilder sbWhere=new StringBuilder();
+		List<EmployeeVO> list=null;
+		//이름(10), 부서(20)
+		
+		
+		
+		
+		
+		return list;
+	}
+	
+	public List<EmployeeVO> doSelectAll(EmployeeVO employee){
+		List<EmployeeVO> list=null;
+		StringBuilder sb=new StringBuilder();
+		sb.append("SELECT                      \n");
+		sb.append("    employee_id,            \n");
+		sb.append("    password,               \n");
+		sb.append("    name,                   \n");
+		sb.append("    dept_no,                \n");
+		sb.append("    position_no,            \n");
+		sb.append("    cell_phone,             \n");
+		sb.append("    email,                  \n");
+		sb.append("    address,                \n");
+		sb.append("    hire_date,              \n");
+		sb.append("    birth_day,              \n");
+		sb.append("    holiday,                \n");
+		sb.append("    img_code                \n");
+		sb.append("FROM                        \n");
+		sb.append("    employee                \n");
+		sb.append("WHERE employee_id like ?    \n");
+		LOG.debug("========================");
+		LOG.debug("=sql\n="+sb.toString());
+		LOG.debug("=param="+employee);
+		LOG.debug("========================");
+		
+		list=this.jdbcTemplate.query(sb.toString(), 
+									new Object[] {"%"+employee.getEmployee_id()+"%"},
+									rowMapper);
+		for(EmployeeVO vo:list) {
+			LOG.debug("====================================");
+			LOG.debug("=vo="+vo);
+			LOG.debug("====================================");
+		}
+		return list;
+	}
 	
 	public int count(EmployeeVO employee) {
 		int cnt=0;

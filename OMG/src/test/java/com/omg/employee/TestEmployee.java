@@ -3,6 +3,8 @@ package com.omg.employee;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -41,7 +43,33 @@ public class TestEmployee {
     EmployeeVO employee02;
     EmployeeVO employee03;
     
+    @Test
+    public void getAll() {
+    	//기존 데이터 삭제
+    	employeeDao.doDelete(employee01);
+    	employeeDao.doDelete(employee02);
+    	employeeDao.doDelete(employee03);
+    	
+    	//데이터 입력
+    	employeeDao.doInsert(employee01);
+    	employeeDao.doInsert(employee02);
+    	employeeDao.doInsert(employee03);
+    	
+    	//전체 데이터 조회: 3건 확인
+    	EmployeeVO cntEmployee=new EmployeeVO();
+    	cntEmployee.setEmployee_id("ID");
+    	
+    	List<EmployeeVO> list=employeeDao.doSelectAll(cntEmployee);
+    	assertThat(list.size(), is(3));
+    	
+    	//입력데이터와 비교
+    	checkUser(employee01, list.get(0));
+    	checkUser(employee02, list.get(1));
+    	checkUser(employee03, list.get(2));
+    }
+    
     @Test 
+    @Ignore
     public void doUpdate() {
     	//기존 데이터 삭제
     	employeeDao.doDelete(employee01);
