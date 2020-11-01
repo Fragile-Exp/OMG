@@ -7,13 +7,13 @@ import com.omg.cmn.Search;
 
 public interface CommutingDao {
 	
-	public int doInsert(DTO dto);
 	
 	public int doDelete(DTO dto);
 	
-	public int doUpdate(DTO dto);
 	
-	public DTO doSelectOne(DTO dto);
+	public DTO doSelectToday(DTO dto);
 	
 	public List<Commuting> doSelectList(Search search);
+	
+	public int doUpsert(DTO dto);
 }

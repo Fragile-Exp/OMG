@@ -29,6 +29,14 @@ public class Commuting extends DTO {
 	}
 	
 	
+	public Commuting(String employeeId, String name, String deptNo) {
+		super();
+		this.employeeId = employeeId;
+		this.name = name;
+		this.deptNo = deptNo;
+	}
+
+
 	public Commuting(String seq, String employeeId, String name, String deptNo, String attendTime, String leaveTime,
 			PresentState presentState, State state, String workTime, String regDt) {
 		super();
