@@ -42,9 +42,12 @@ public class TestEmployee {
     
     EmployeeVO employee01;
     EmployeeVO employee02;
-    EmployeeVO employee03;
+    EmployeeVO employee03;  
+    EmployeeVO employee04;
+    EmployeeVO employee05;
     
     @Test
+    @Ignore
     public void doSelectList() {
     	
     	//조회
@@ -52,6 +55,28 @@ public class TestEmployee {
     	List<EmployeeVO> list=employeeDao.doSelectList(search);
     	LOG.debug("list.size()="+list.size());
     	
+    }
+    
+    @Test
+    public void passwdConfirm() throws ClassNotFoundException   {
+    	LOG.debug("++++++++++++++++++++");
+		LOG.debug("++idConfirm()++");
+		LOG.debug("++++++++++++++++++++");
+    	int cnt=employeeDao.passwdConfirm(employee05);
+    	
+    	LOG.debug("=비밀번호 확인="+cnt);
+    }
+    
+    @Test
+    @Ignore
+    public void idConfirm() throws ClassNotFoundException {
+    	LOG.debug("++++++++++++++++++++");
+		LOG.debug("++idConfirm()++");
+		LOG.debug("++++++++++++++++++++");
+    	int cnt=employeeDao.idConfirm(employee01);
+    	
+    	
+    	LOG.debug("=flag="+cnt);
     }
     
     @Test
@@ -179,7 +204,11 @@ public class TestEmployee {
 		employee01=new EmployeeVO("ID01","123456","유비_01",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1");
 		employee02=new EmployeeVO("ID02","123456","유비_02",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1");
 		employee03=new EmployeeVO("ID03","123456","유비_03",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1");
-		
+		//없는 아이디
+		employee04=new EmployeeVO("noId","123456","유비_02",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1");
+		//틀린 비밀번호
+		employee05=new EmployeeVO("ID03","123456_wrong","유비_03",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1");
+				
 	}
 	
 	@After
