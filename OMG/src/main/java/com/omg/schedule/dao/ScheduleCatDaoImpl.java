@@ -11,9 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.omg.schedule.domain.ScheduleCatVO;
 
+@Repository("scheduleCatDao")
 public class ScheduleCatDaoImpl implements ScheduleCatDao {
     
     final static Logger LOG = LoggerFactory.getLogger(ScheduleCatDaoImpl.class);
@@ -37,6 +39,13 @@ public class ScheduleCatDaoImpl implements ScheduleCatDao {
 	}
     };
     
+    /**
+     * 카테고리 등록
+     * @param schedulCatVO
+     * @return flag
+     * @author 박정민
+     * @Date 2020-10-30
+     */
     @Override
     public int doInsert(ScheduleCatVO scheduleCatVO) {
 	int flag = 0;
@@ -64,25 +73,38 @@ public class ScheduleCatDaoImpl implements ScheduleCatDao {
 	return flag;
     }
     
+    /**
+     * 카테고리 삭제
+     * @param categoryId
+     * @return flag
+     * @author 박정민
+     * @Date 2020-10-30
+     */
     @Override
-    public int doDelete(ScheduleCatVO scheduleCatVO) {
+    public int doDelete(int categoryId) {
 	int flag = 0;
-	Object arg = scheduleCatVO.getCategoryId();
 	StringBuilder sb = new StringBuilder();
 
 	sb.append(" DELETE FROM schedule_cat \n");
 	sb.append(" WHERE category_id = ?    \n");
 	
 	LOG.debug("==============================");
-	LOG.debug("= Parameter: " + scheduleCatVO);
+	LOG.debug("= Parameter: " + categoryId);
 	LOG.debug("==============================");
 	
-	flag = jdbcTemplate.update(sb.toString(), arg);
+	flag = jdbcTemplate.update(sb.toString(), categoryId);
 	LOG.debug("flag: " + flag);
 	
-	return 0;
+	return flag;
     }
     
+    /**
+     * 카테고리 수정
+     * @param scheduleCatVO
+     * @return flag
+     * @author 박정민
+     * @Date 2020-10-30
+     */
     @Override
     public int doUpdate(ScheduleCatVO scheduleCatVO) {
 	int flag = 0;
@@ -102,13 +124,20 @@ public class ScheduleCatDaoImpl implements ScheduleCatDao {
 	
 	flag = jdbcTemplate.update(sb.toString(), args);
 	
-	return 0;
+	return flag;
     }
     
+    /**
+     * 카테고리 선택
+     * @param categoryId
+     * @return outVO
+     * @author 박정민
+     * @Date 2020-10-30
+     */
     @Override
-    public ScheduleCatVO doSelectOne(ScheduleCatVO scheduleCatVO) {
+    public ScheduleCatVO doSelectOne(int categoryId) {
 	ScheduleCatVO outVO = null;
-	Object[] args = {scheduleCatVO.getCategoryId()};		
+	Object[] args = {categoryId};		
 	StringBuilder sb = new StringBuilder();
 	
 	sb.append(" SELECT category_id,   \n");
@@ -117,7 +146,7 @@ public class ScheduleCatDaoImpl implements ScheduleCatDao {
 	sb.append(" WHERE category_id = ? \n");
 	
 	LOG.debug("==============================");
-	LOG.debug("= Parameter: " + scheduleCatVO);
+	LOG.debug("= Parameter: " + categoryId);
 	LOG.debug("==============================");
 	
 	outVO = (ScheduleCatVO) jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
@@ -129,6 +158,12 @@ public class ScheduleCatDaoImpl implements ScheduleCatDao {
 	return outVO;
     }
 
+    /**
+     * 카테고리 리스트
+     * @return list
+     * @author 박정민
+     * @Date 2020-10-30
+     */
     @Override
     public List<ScheduleCatVO> doSelectList() {
 	List<ScheduleCatVO> list = null;
@@ -137,8 +172,14 @@ public class ScheduleCatDaoImpl implements ScheduleCatDao {
 	sb.append(" SELECT category_id, \n");
 	sb.append("        category_nm  \n");
 	sb.append(" FROM schedule_cat   \n");
+
+	list = jdbcTemplate.query(sb.toString(), rowMapper);
 	
-	
+	LOG.debug("==============================");
+	for(ScheduleCatVO vo : list) {
+	    LOG.debug("= VO: " + vo);
+	}
+	LOG.debug("==============================");
 	
 	return list;
     }

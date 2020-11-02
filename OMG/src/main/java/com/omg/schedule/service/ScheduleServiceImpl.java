@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.omg.schedule.dao.ScheduleDao;
 import com.omg.schedule.domain.ScheduleVO;
 
-@Service("scheduleServiceImpl")
+@Service("scheduleService")
 public class ScheduleServiceImpl implements ScheduleService {
     final Logger LOG = LoggerFactory.getLogger(ScheduleServiceImpl.class);
     
@@ -24,37 +24,43 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleServiceImpl() {}
     
     /**
-     * 
+     * 일정추가
      */
-    
-    /**
-     * 종일체크 구분
-     * time_status: 0(설정한 기간), 1(00:00 ~ 24:00)
-     */
-
     @Override
     public int doInsert(ScheduleVO scheduleVO) {
 	return scheduleDao.doInsert(scheduleVO);
     }
 
+    /**
+     * 일정삭제
+     */
     @Override
-    public int doDelete(ScheduleVO scheduleVO) {
-	return scheduleDao.doDelete(scheduleVO);
+    public int doDelete(int scheduleNo) {
+	return scheduleDao.doDelete(scheduleNo);
     }
 
+    /**
+     * 일정수정
+     */
     @Override
     public int doUpdate(ScheduleVO scheduleVO) {
 	return scheduleDao.doUpdate(scheduleVO);
     }
 
+    /**
+     * 일정선택
+     */
     @Override
-    public ScheduleVO doSelectOne(ScheduleVO scheduleVO) {
-	return scheduleDao.doSelectOne(scheduleVO);
+    public ScheduleVO doSelectOne(int scheduleNo) {
+	return scheduleDao.doSelectOne(scheduleNo);
     }
 
+    /**
+     * 일정 리스트화
+     */
     @Override
-    public List<ScheduleVO> doSelectList(ScheduleVO scheduleVO) {
-	return scheduleDao.doSelectList(scheduleVO);
+    public List<ScheduleVO> doSelectList(int deptNo) {
+	return scheduleDao.doSelectList(deptNo);
     }
 
 }
