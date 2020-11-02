@@ -6,12 +6,13 @@ package com.omg.comutting.dao;
  */
 public enum State {
 	
-	외근(5,null),
-	휴가(4,외근),
+	지각조퇴(12,null),
+	휴가(4,지각조퇴),
 	결근(3,휴가),
 	조퇴(2,결근),
 	지각(1,조퇴),
 	정상(0,지각);
+	
 	
 	private final int value;
 	private final State next;
@@ -40,7 +41,7 @@ public enum State {
 		case 2 : return 조퇴;
 		case 3 : return 결근;
 		case 4 : return 휴가;
-		case 5 : return 외근;
+		case 12 : return 지각조퇴;
 		default:
 			throw new AssertionError("Unknown value :" + value);
 

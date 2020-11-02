@@ -1,11 +1,11 @@
-package com.omg.board.dao;
+package com.omg.board.domain;
 
 import com.omg.cmn.DTO;
 
-public class Board extends DTO 
+public class BoardVO extends DTO 
 
 {
-	private String board_seq; 
+	private int board_seq; 
 	private String div;
 	private String title;
 	private String contents;
@@ -15,9 +15,9 @@ public class Board extends DTO
 	private String modDt;
 	private String modId;
 	
-	public Board() {}
+	public BoardVO() {}
 
-	public Board(String board_seq, String div, String title, String contents, int read_cnt, String regDt, String regId,
+	public BoardVO(int board_seq, String div, String title, String contents, int read_cnt, String regDt, String regId,
 			String modDt, String modId) 
 	{
 		super();
@@ -32,12 +32,12 @@ public class Board extends DTO
 		this.modId = modId;
 	}
 
-	public String getBoard_seq() 
+	public int getBoard_seq() 
 	{
 		return board_seq;
 	}
 
-	public void setBoard_seq(String board_seq) 
+	public void setBoard_seq(int board_seq) 
 	{
 		this.board_seq = board_seq;
 	}

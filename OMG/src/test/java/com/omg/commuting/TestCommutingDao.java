@@ -49,17 +49,25 @@ public class TestCommutingDao {
 		LOG.debug(">>>>>>>>>>>>>>>>>>>>>>>>");
 		LOG.debug("-addAndGet-");
 		LOG.debug(">>>>>>>>>>>>>>>>>>>>>>>>");
-		
-//		for(Commuting vo : attendlist) {
-//			dao.doDelete(vo);
-//		}
-		
 		int flag=0;
 		for(Commuting vo : attendlist) {
-			flag=dao.doInsert(vo);
+			flag+=dao.doDelete(vo);
 		}
 		
-		assertThat(flag, is(1));
+		
+		for(Commuting vo : attendlist) {
+			flag+=dao.doUpsert(vo);
+		}
+		
+		for(Commuting vo : attendlist) {
+			flag+=dao.doUpsert(vo);
+		}
+		
+		for(Commuting vo : attendlist) {
+			dao.doSelectToday(vo);
+		}
+		
+		assertThat(flag, is(15));
 		
 	}
 	
@@ -82,11 +90,11 @@ public class TestCommutingDao {
 	@Before
 	public void setUp() throws Exception {
 		attendlist = Arrays.asList(
-					new Commuting("", "01", "박재범", "11", "SYSDATE", "SYSDATE", PresentState.근무중, State.정상, "8시간", "SYSDATE")
-					,new Commuting("", "02", "식케이", "22", "SYSDATE", "SYSDATE", PresentState.근무중, State.지각, "8시간", "SYSDATE")
-					,new Commuting("", "03", "김하온", "33", "SYSDATE", "SYSDATE", PresentState.자리비움, State.휴가, "", "SYSDATE")
-					,new Commuting("", "04", "우디고차일드", "44", "SYSDATE", "SYSDATE", PresentState.퇴근, State.정상, "8시간", "SYSDATE")
-					,new Commuting("", "05", "ph1", "55", "SYSDATE", "SYSDATE", PresentState.퇴근, State.조퇴, "4시간", "SYSDATE")
+					new Commuting("jpark", "박재범", "10000")
+					,new Commuting("sik", "식케이", "11000")
+					,new Commuting("haon", "김하온", "12000")
+					,new Commuting("woodie", "우디고", "13000")
+					,new Commuting("donghyun", "서동현", "14000")
 				);
 	}
 

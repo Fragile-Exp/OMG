@@ -1,11 +1,11 @@
-package com.omg.board.dao;
+package com.omg.board.service;
 
 import java.util.List;
 
 import com.omg.board.domain.BoardVO;
 import com.omg.cmn.Search;
 
-public interface BoardDao 
+public interface BoardService 
 {
 	public int doInsert(BoardVO board);
 	
@@ -16,6 +16,4 @@ public interface BoardDao
 	public BoardVO doSelectOne(int board_seq);
 	
 	public List<BoardVO> doSelectList(Search search);
-	
-	
 }

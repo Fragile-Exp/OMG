@@ -36,6 +36,11 @@ public class PositionDaoImpl {
 	
 	public PositionDaoImpl() {}
 	
+	/**
+	 * 사원 직급체계 삭제
+	 * @param position
+	 * @return flag(1:성공)
+	 */
 	public int doDelete(PositionVO position) {
 		int flag = 0;
 		// Param Setting
@@ -84,6 +89,11 @@ public class PositionDaoImpl {
 		return flag;
 	}
 
+	/**
+	 * 사원 직급체계 선택
+	 * @param position
+	 * @return PositionVO
+	 */
 	public PositionVO doSelectOne(PositionVO position) {
 		PositionVO outVO = null;
 		// Param Setting
@@ -107,6 +117,11 @@ public class PositionDaoImpl {
 		return outVO;
 	}
 	
+	/**
+	 * 사원 직급체계 수정
+	 * @param position
+	 * @return PositionVO
+	 */
 	public int doUpdate(PositionVO position) {
 		int flag = 0;
 		
@@ -132,9 +147,13 @@ public class PositionDaoImpl {
 		return flag;
 	}
 	
+	/**
+	 * 사원 직급체계 조회
+	 * @param position
+	 * @return PositionVO
+	 */
 	public List<PositionVO> doSelectList() {
-		List<PositionVO> list = null;
-		
+
 		// Query
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT							\n");
@@ -142,13 +161,13 @@ public class PositionDaoImpl {
 		sb.append("	    position_nm,              	\n");
 		sb.append("	    up_position            		\n");
 		sb.append("FROM position            		\n");
-		sb.append("START WITH up_position =0		\n");
+		sb.append("START WITH up_position is null	\n");
 		sb.append("CONNECT BY prior 				\n");
 		sb.append("		position_no=up_position		\n");
 		LOG.debug("query : \n"+sb.toString());
 		
 		// Excute
-		list = (List<PositionVO>) jdbcTemplate.query(sb.toString(), rowMapper);
+		List<PositionVO> list = (List<PositionVO>) jdbcTemplate.query(sb.toString(), rowMapper);
 		
 		for(PositionVO vo:list) {
 			LOG.debug(" 조회 VO : "+ vo);
