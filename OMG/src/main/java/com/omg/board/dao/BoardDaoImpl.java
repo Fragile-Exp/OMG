@@ -10,23 +10,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
+import com.omg.board.domain.BoardVO;
 import com.omg.cmn.Search;
 
-public class BoardDao 
+@Repository("BoardDao")
+public class BoardDaoImpl implements BoardDao
 {
-	final static Logger LOG = LoggerFactory.getLogger(BoardDao.class);
+	final static Logger LOG = LoggerFactory.getLogger(BoardDaoImpl.class);
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	RowMapper rowMapper = new RowMapper<Board>() 
+	RowMapper rowMapper = new RowMapper<BoardVO>() 
 	{
-		public Board mapRow(ResultSet rs, int rowNum) throws SQLException
+		public BoardVO mapRow(ResultSet rs, int rowNum) throws SQLException
 		{
-			Board outVO = new Board();
+			BoardVO outVO = new BoardVO();
 		
-			outVO.setBoard_seq(rs.getString("BOARD_SEQ"));
+			outVO.setBoard_seq(rs.getInt("BOARD_SEQ"));
 			outVO.setDiv(rs.getString("DIV"));
 			outVO.setTitle(rs.getString("TITLE"));   
 			outVO.setContents(rs.getString("CONTENTS"));
@@ -37,11 +40,12 @@ public class BoardDao
 		}
 	};
 	
-	public BoardDao() {}
+	public BoardDaoImpl() {}
 	
-	public List<Board> doSelectList(Search search)
+	@Override
+	public List<BoardVO> doSelectList(Search search)
 	{
-		List<Board> list = new ArrayList();
+		List<BoardVO> list = new ArrayList();
 		
 		StringBuilder sbWhere=new StringBuilder();
 		//검색구분 != null !"".equals(검색구분)
@@ -134,7 +138,7 @@ public class BoardDao
 	    }
 	    
 	    list = jdbcTemplate.query(sb.toString(), listArg.toArray(), rowMapper);
-	    for(Board vo : list)
+	    for(BoardVO vo : list)
 	    {
 	    	LOG.debug("====================================");
 			LOG.debug("=vo="+vo);
@@ -144,9 +148,10 @@ public class BoardDao
 		return list;
 	}
 	
-	public Board doSelectOne(int board_seq)
+	@Override
+	public BoardVO doSelectOne(int board_seq)
 	{
-		Board outVO = null;
+		BoardVO outVO = null;
 		Object args[] = {board_seq};
 		StringBuilder sb=new StringBuilder();
 		sb.append("SELECT                                                 \n");
@@ -167,7 +172,7 @@ public class BoardDao
 		LOG.debug("========================");
 		
 		
-		outVO = (Board) this.jdbcTemplate.queryForObject(sb.toString(), 
+		outVO = (BoardVO) this.jdbcTemplate.queryForObject(sb.toString(), 
 	                   args, 
 	                   rowMapper);
 		
@@ -178,7 +183,8 @@ public class BoardDao
 		return outVO;
 	}
 	
-	public int doUpdate(Board board)
+	@Override
+	public int doUpdate(BoardVO board)
 	{
 		int flag = 0;
 		Object[]  args = { 
@@ -210,7 +216,8 @@ public class BoardDao
 		return flag;
 	}
 	
-	public int doDelete(Board board)
+	@Override
+	public int doDelete(BoardVO board)
 	{
 		int flag = 0;
 		Object[] args = { board.getBoard_seq()};
@@ -234,7 +241,8 @@ public class BoardDao
 	 * @param board
 	 * @return
 	 */
-	public int doInsert(Board board)
+	@Override
+	public int doInsert(BoardVO board)
 	{
 		int flag =0;
 		Object[]  args = { 
