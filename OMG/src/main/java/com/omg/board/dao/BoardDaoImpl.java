@@ -149,12 +149,13 @@ public class BoardDaoImpl implements BoardDao
 	}
 	
 	@Override
-	public BoardVO doSelectOne(int board_seq)
+	public BoardVO doSelectOne(BoardVO board)
 	{
 		BoardVO outVO = null;
-		Object args[] = {board_seq};
+		Object args[] = {board.getBoard_seq()};
 		StringBuilder sb=new StringBuilder();
 		sb.append("SELECT                                                 \n");
+		sb.append("    board_seq,                                         \n");
 		sb.append("    div,                                               \n");
 		sb.append("    title,                                             \n");
 		sb.append("    contents,                                          \n");
@@ -166,9 +167,9 @@ public class BoardDaoImpl implements BoardDao
 		sb.append("    1 AS rnum,                                         \n");
 		sb.append("    1 AS total_cnt                                     \n");
 		sb.append("FROM board                                             \n");
-		sb.append("WHERE board_seq = :v0                                  \n");
+		sb.append("WHERE board_seq = ?                                    \n");
 		LOG.debug("========================");
-		LOG.debug("=param=\n"+board_seq);
+		LOG.debug("=param=\n"+board);
 		LOG.debug("========================");
 		
 		
@@ -251,7 +252,8 @@ public class BoardDaoImpl implements BoardDao
 						    board.getTitle(),
 						    board.getContents(),
 						    board.getRead_cnt(),
-						    board.getRegDt()
+						    board.getRegId(),
+						    board.getModId()
 						 };
 		
 		StringBuilder  sb=new StringBuilder();
@@ -266,15 +268,15 @@ public class BoardDaoImpl implements BoardDao
 		sb.append("    mod_dt,         \n");
 		sb.append("    mod_id          \n");
 		sb.append(") VALUES (          \n");
-		sb.append("    :v0,            \n");
-		sb.append("    :v1,            \n");
-		sb.append("    :v2,            \n");
-		sb.append("    :v3,            \n");
-		sb.append("    :v4,            \n");
-		sb.append("    :v5,            \n");
-		sb.append("    :v6,            \n");
-		sb.append("    :v7,            \n");
-		sb.append("    :v8             \n");
+		sb.append("    ?,              \n");
+		sb.append("    ?,              \n");
+		sb.append("    ?,              \n");
+		sb.append("    ?,              \n");
+		sb.append("    ?,              \n");
+		sb.append("    SYSDATE,        \n");
+		sb.append("    ?,              \n");
+		sb.append("    SYSDATE,        \n");
+		sb.append("    ?               \n");
 		sb.append(")                   \n");
 		LOG.debug("========================");
 		LOG.debug("=param=\n"+board);

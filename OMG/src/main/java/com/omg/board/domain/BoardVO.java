@@ -5,7 +5,7 @@ import com.omg.cmn.DTO;
 public class BoardVO extends DTO 
 
 {
-	private int board_seq; 
+	private int    board_seq; 
 	private String div;
 	private String title;
 	private String contents;

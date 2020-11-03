@@ -40,9 +40,9 @@ public class BoardServiceImpl implements BoardService
 	}
 	
 	@Override
-	public BoardVO doSelectOne(int board_seq)
+	public BoardVO doSelectOne(BoardVO board)
 	{
-		return boardDao.doSelectOne(board_seq);
+		return boardDao.doSelectOne(board);
 	}
 	
 	@Override
