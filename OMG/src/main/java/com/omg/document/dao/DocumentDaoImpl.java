@@ -47,7 +47,7 @@ public class DocumentDaoImpl {
 	   
 	    
 	//삽입 
-	public int doInset(DocumentVO documentVO) {
+	public int doInsert(DocumentVO documentVO) {
 		int flag = 0;
 		
 		StringBuilder sb = new StringBuilder();
@@ -121,28 +121,35 @@ public class DocumentDaoImpl {
 		
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(" UPDATE document       \n");
-		sb.append(" SET kind = ?          \n");
-		sb.append("     title = ?   	  \n");
-		sb.append("     d_day = ?         \n");
-		sb.append("     document_cont = ? \n");
-		sb.append("     OK_USER = ?       \n");
-		sb.append(" WHERE document_id = ? \n");
+		Object[] args = {
+				documentVO.getDocument_id(),
+				documentVO.getEmployee_id(),
+				documentVO.getKind(),
+				documentVO.getTitle(),
+				documentVO.getD_day(),
+				documentVO.getDocument_cont(),
+				documentVO.getDocument_set(),
+				documentVO.getOk_user(),
+				documentVO.getDocument_id()
+			};
 		
-		
+		sb.append(" UPDATE document        \n");
+		sb.append(" SET document_id = ?,   \n");
+		sb.append("     employee_id = ?,   \n");
+		sb.append("     kind = ?,          \n");
+		sb.append("     title = ?,  	   \n");
+		sb.append("     d_day = ?,         \n");
+		sb.append("     document_cont = ?, \n");
+		sb.append("     document_set = ?,  \n");
+		sb.append("     ok_user = ?        \n");
+		sb.append(" WHERE document_id = ?  \n");
+
 		
 		LOG.debug("==============================");
 		LOG.debug("= Parameter: " + documentVO);
 		LOG.debug("==============================");
 		
-		Object[] args = {
-			documentVO.getKind(),
-			documentVO.getTitle(),
-			documentVO.getD_day(),
-			documentVO.getDocument_cont(),
-			documentVO.getOk_user(),
-			documentVO.getDocument_id()
-		};
+		
 		
 		flag = jdbcTemplate.update(sb.toString(), args);
 		LOG.debug("flag: " + flag);	
@@ -160,7 +167,7 @@ public class DocumentDaoImpl {
 		sb.append(" 	   employee_id,   \n");
 		sb.append(" 	   kind,   		  \n");
 		sb.append(" 	   title,   	  \n");
-		sb.append(" 	   TO_CHAR(end_dt, 'YYYY-MM-DD') AS d_day,   \n");
+		sb.append(" 	   TO_CHAR(d_day, 'YYYY-MM-DD') AS d_day,   \n");
 		sb.append(" 	   document_cont, \n");
 		sb.append(" 	   document_set,  \n");
 		sb.append(" 	   ok_user		  \n");

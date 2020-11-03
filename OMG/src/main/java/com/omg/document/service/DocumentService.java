@@ -18,7 +18,7 @@ public class DocumentService {
 	 * @return
 	 */
 	public int doInsert(DocumentVO documentVO) {
-		return documentDaoImpl.doInset(documentVO);
+		return documentDaoImpl.doInsert(documentVO);
 	}
 	
 	/**
@@ -38,4 +38,9 @@ public class DocumentService {
 	public int doUpdate(DocumentVO documentVO) {
 		return documentDaoImpl.doUpdate(documentVO);
 	}
+	
+	public DocumentVO doSelectOne(DocumentVO documentVO) {
+		return documentDaoImpl.doSelectOne(documentVO);
+	}
+	
 }

@@ -1,4 +1,4 @@
-package com.omg.document;
+package com.omg.car;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -21,100 +21,102 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.omg.comutting.dao.Commuting;
-import com.omg.document.dao.DocumentDaoImpl;
-import com.omg.document.domain.DocumentVO;
-import com.omg.document.service.DocumentService;
-import com.omg.organization.domain.DeptVO;
-import com.omg.organization.service.DeptService;
+import com.omg.car.domain.CarVO;
+import com.omg.car.service.CarService;
+
+
+
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) // 메소드 수행 순서
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class) // 스프링 테스트 컨텍스트 프레임워크의 Junit 기능 확장 applicationContext 공유
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
 									"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
-public class TestDocumentService {
-	
-	final Logger LOG = LoggerFactory.getLogger(TestDocumentService.class);
+public class TestCarService {
+	final Logger LOG = LoggerFactory.getLogger(TestCarService.class);
 	
 	@Autowired
 	WebApplicationContext context;
 	
 	@Autowired
-	DocumentService  documentService;
+	CarService  carService;
 	
-	private List<DocumentVO> list;
+	private List<CarVO> list;
+	
 	
 	@Before
 	public void setUp() throws Exception {
 		LOG.debug(" === setUp === ");
 		list = Arrays.asList(
-						new DocumentVO("W_0001","ID01",1,"워드01","2020-11-19","문서설명내용",0,"ID99(관리자)"),
-						new DocumentVO("E_0001","ID02",2,"엑셀01","2020-11-19","문서설명내용",1,"ID99(관리자)"),
-						new DocumentVO("P_0001","ID03",3,"ppt01","2020-11-19","문서설명내용",2,"ID99(관리자)")
+						new CarVO("125가 4568","AVANTE","LPN","ID01",0,"2020-11-20","출장"),
+						new CarVO("24마 4895","SONATA","가솔린","ID02",1,"2020-11-20","수리"),
+						new CarVO("34쌍 7985","GRANDEUR","디젤","ID03",2,"2020-11-20","업무"),
+						new CarVO("35쌍 1956","PALISADE","전기","ID04",3,"2020-11-20","폐차")
 				);   
-		
+	
 	}
 
-	
-	
 	@After
 	public void tearDown() throws Exception {
 		LOG.debug("=====================");
 		LOG.debug("==tearDown==");
 		LOG.debug("=====================");
-	
 	}
 
 	@Test
 	public void TotalTest() {
 		int flag = 0;
 		//삭제 
-		for(DocumentVO vo : list) {
-			flag =documentService.doDelete(vo);
+		for(CarVO vo : list) {
+			flag =carService.doDelete(vo);
 			
 		}
 	
 		//입력
-		for(DocumentVO vo : list) {
+		for(CarVO vo : list) {
 			LOG.debug("vo=="+vo);
-			flag =documentService.doInsert(vo);
+			flag =carService.doInsert(vo);
 			assertThat(flag, is(1));
 			
 		}
 
 		
-		DocumentVO param = list.get(0);
-		param.setTitle(param.getTitle()+"_U");
-		param.setD_day("2020-11-20");
-		param.setDocument_cont(param.getDocument_cont()+"_U");
+		CarVO param = list.get(0);
+		param.setKind(param.getKind()+"_U");
+		param.setRent_day("2020-11-30");
+		param.setReason(param.getReason()+"_U");
 		
 		//수정
 		LOG.debug("=param="+param);
-		flag = documentService.doUpdate(param);
+		flag = carService.doUpdate(param);
 		assertThat(flag, is(1));
 		
 		//단건검색
-		DocumentVO vsPos = documentService.doSelectOne(param);
-		checkDocumentVO(param, vsPos);
+		CarVO vsPos = carService.doSelectOne(param);
+		checkCarVO(param, vsPos);
 	
-	}
-
-	
-	
-	
-	private void checkDocumentVO(DocumentVO orgVO, DocumentVO vsVO) {
-		assertThat(orgVO.getDocument_id(), is(vsVO.getDocument_id()));
-		assertThat(orgVO.getEmployee_id(), is(vsVO.getEmployee_id()));
-		assertThat(orgVO.getKind(), is(vsVO.getKind()));
-		assertThat(orgVO.getTitle(), is(vsVO.getTitle()));
-		assertThat(orgVO.getD_day(), is(vsVO.getD_day()));
-		assertThat(orgVO.getDocument_cont(), is(vsVO.getDocument_cont()));
-		assertThat(orgVO.getDocument_set(), is(vsVO.getDocument_set()));
-		assertThat(orgVO.getOk_user(), is(vsVO.getOk_user()));
 		
 	}
 	
 	
+	private void checkCarVO(CarVO orgVO, CarVO vsVO) {
+		assertThat(orgVO.getCar_num(), is(vsVO.getCar_num()));
+		assertThat(orgVO.getKind(), is(vsVO.getKind()));
+		assertThat(orgVO.getCar_use(), is(vsVO.getCar_use()));
+		assertThat(orgVO.getEmployee_id(), is(vsVO.getEmployee_id()));
+		assertThat(orgVO.getCar_set(), is(vsVO.getCar_set()));
+		assertThat(orgVO.getRent_day(), is(vsVO.getRent_day()));
+		assertThat(orgVO.getReason(), is(vsVO.getReason()));
+		
+		
+	}
 	
+	
+	@Test
+	@Ignore
+	public void test() {
+		fail("Not yet implemented");
+	}
+
 }
