@@ -66,34 +66,36 @@
 													<div id="dept_2" class="collapse"
 														aria-labelledby="deptList_2" data-parent="#dept_a">
 														<div class="bg-white px-4 py-2 collapse-inner rounded">
-															<a class="collapse-item" href="#">전략1팀</a><br /> <a
-																class="collapse-item" href="#">전략2팀</a><br /> <a
-																class="collapse-item" href="#">기획1팀</a><br /> <a
-																class="collapse-item" href="#">기획2팀</a><br />
+															<a class="collapse-item" href="#">전략1팀</a><br />
+															<a class="collapse-item" href="#">전략2팀</a><br />
+															<a class="collapse-item" href="#">기획1팀</a><br />
+															<a class="collapse-item" href="#">기획2팀</a><br />
 														</div>
 													</div>
-													<a class="collapse-item" href="#">경영지원본부</a><br /> <a
-														class="collapse-item" href="#">기술개발본부</a><br /> <a
-														class="collapse-item" href="#">영업본부</a><br />
+													<a class="collapse-item" href="#">경영지원본부</a><br />
+													<a class="collapse-item" href="#">기술개발본부</a><br />
+													<a class="collapse-item" href="#">영업본부</a><br />
 
 												</div>
 											</div></li>
 									</ul>
-									<details>
-										<summary> details 사용 </summary>
+									<details class="text-primary">
+										<summary><input type="checkbox" name="dept" value="10000" /> OMG </summary>
 										<div class="bg-white px-4">
 											<details>
-												<summary>1</summary>
+												<summary><input type="checkbox" name="dept" value="11000" /> 전략기획본부</summary>
 												<div class="bg-white px-4 py-2">
-													1-1<br /> 1-2<br />
+													<input type="checkbox" name="dept" value="11100" /> 전략1팀<br />
+													<input type="checkbox" name="dept" value="11200" /> 전략2팀<br />
 												</div>
 											</details>
 										</div>
 										<div class="bg-white px-4">
 											<details>
-												<summary>2</summary>
+												<summary><input type="checkbox" name="dept" value="12000" /> 경영지원본부</summary>
 												<div class="bg-white px-4 py-2">
-													2-1<br /> 2-2<br />
+													<input type="checkbox" name="dept" value="12100" /> 경영1팀<br />
+													<input type="checkbox" name="dept" value="12200" /> 경영2팀<br />
 												</div>
 											</details>
 										</div>

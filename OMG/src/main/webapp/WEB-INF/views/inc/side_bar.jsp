@@ -21,7 +21,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${hContext}/view/main.do">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
@@ -33,7 +33,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="${hContext}/view/main.do">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -101,8 +101,9 @@
             <div class="collapse-divider"></div>
             <h6 class="collapse-header">Other Pages:</h6>
 			<a class="collapse-item" href="404.html">404 Page</a>
-			<a class="collapse-item" href="blank.html">Blank Page</a>
-			<a class="collapse-item" href="org-chart.html">Org-chart</a>
+			<a class="collapse-item" href="${hContext}/view/blank.do">Blank Page</a>
+			<a class="collapse-item" href="${hContext}/view/org.do">조직관리</a>
+			<a class="collapse-item" href="${hContext}/view/note.do">쪽지</a>
          </div>
        </div>
      </li>

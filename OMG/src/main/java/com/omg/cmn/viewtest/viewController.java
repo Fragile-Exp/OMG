@@ -30,5 +30,12 @@ public class viewController {
 		
 		return "org";
 	}
+	
+	@RequestMapping(value="view/note.do",method=RequestMethod.GET)
+	public String note_view() {
+		LOG.debug("== user_view ==");
+		
+		return "note";
+	}
 
 }
