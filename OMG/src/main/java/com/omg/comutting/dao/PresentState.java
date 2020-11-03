@@ -5,7 +5,7 @@ package com.omg.comutting.dao;
  */
 public enum PresentState {
 	
-	자리비움(30,null),퇴근(20,자리비움),근무중(10,퇴근);
+	자리비움(30,null),퇴근(20,자리비움),근무중(10,퇴근),대기중(0,근무중);
 	
 	private final int value;
 	private final PresentState next;
@@ -32,6 +32,7 @@ public enum PresentState {
 		case 10 : return 근무중;
 		case 20 : return 퇴근;
 		case 30 : return 자리비움;
+		case  0 : return 대기중;
 		
 		default:
 			throw new AssertionError("Unknown value :" + value);
