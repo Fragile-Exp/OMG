@@ -16,6 +16,9 @@ import org.springframework.stereotype.Repository;
 import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
+import com.omg.commuting.domain.Commuting;
+import com.omg.commuting.domain.PresentState;
+import com.omg.commuting.domain.State;
 
 import oracle.net.ns.Communication;
 

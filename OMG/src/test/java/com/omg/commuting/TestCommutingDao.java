@@ -26,10 +26,10 @@ import org.springframework.web.context.WebApplicationContext;
 import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
-import com.omg.comutting.dao.Commuting;
+import com.omg.commuting.domain.Commuting;
+import com.omg.commuting.domain.PresentState;
+import com.omg.commuting.domain.State;
 import com.omg.comutting.dao.CommutingDaoImpl;
-import com.omg.comutting.dao.PresentState;
-import com.omg.comutting.dao.State;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)//스프랭 테스트 컨텍스트 프레임워크의 JUnit기능 확장

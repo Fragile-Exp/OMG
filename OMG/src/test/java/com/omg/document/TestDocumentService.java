@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.omg.comutting.dao.Commuting;
+import com.omg.commuting.domain.Commuting;
 import com.omg.document.dao.DocumentDaoImpl;
 import com.omg.document.domain.DocumentVO;
 import com.omg.document.service.DocumentService;
