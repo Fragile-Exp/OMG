@@ -88,7 +88,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a id="Pages" class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
           <span>Pages</span>
         </a>
@@ -101,9 +101,30 @@
             <div class="collapse-divider"></div>
             <h6 class="collapse-header">Other Pages:</h6>
 			<a class="collapse-item" href="404.html">404 Page</a>
-			<a class="collapse-item" href="${hContext}/view/blank.do">Blank Page</a>
-			<a class="collapse-item" href="${hContext}/view/org.do">조직관리</a>
+			<a id="blank" class="collapse-item" href="${hContext}/view/blank.do">Blank Page</a>
 			<a class="collapse-item" href="${hContext}/view/note.do">쪽지</a>
+         </div>
+       </div>
+     </li>
+     
+     <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        관리자 메뉴
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a id="setting" class="nav-link" href="#" data-toggle="collapse" data-target="#adminSetting" aria-expanded="true" aria-controls="adminSetting">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>관리</span>
+        </a>
+        <div id="adminSetting" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+			<a id="org" class="collapse-item" href="${hContext}/view/org.do">조직 관리</a>
+			<div class="collapse-divider"></div>
          </div>
        </div>
      </li>
