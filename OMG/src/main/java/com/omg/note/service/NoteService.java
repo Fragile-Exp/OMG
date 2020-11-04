@@ -23,8 +23,8 @@ public class NoteService {
 	public Message doDelete(NoteVO note) {
 		int flag = 0;
 		Message message = new Message();
-		if(note.getNoteDiv()<10) {
-			flag = dao.MoveToTrash(note);
+		if(note.getNoteDiv()<3) {
+			flag = dao.doMoveToTrash(note);
 			message.setMsgId(flag+"");
 			message.setMsgContents("휴지통으로 이동 했습니다.");
 		} else {
