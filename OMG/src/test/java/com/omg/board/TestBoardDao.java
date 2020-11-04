@@ -58,16 +58,7 @@ public class TestBoardDao
 							 new BoardVO(6,"10","제목테스트4","내용테스트4",51,4,"","SAMGYOBI","","SAMGYOBI"),
 							 new BoardVO(7,"10","제목테스트5","내용테스트5",99,5,"","SAMGYOBI","","SAMGYOBI")
 							);
-				
-//		board_seq;
-//		div;      
-//		title;    
-//		contents; 
-//		read_cnt; 
-//		regDt;    
-//		regId;    
-//		modDt;    
-//		modId;    
+				   
 	}
 	
 	@After

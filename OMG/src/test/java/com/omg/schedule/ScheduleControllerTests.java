@@ -2,6 +2,7 @@ package com.omg.schedule;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -25,9 +26,6 @@ public class ScheduleControllerTests {
     @Autowired
     private WebApplicationContext ctx;
     
-    @Autowired
-    ScheduleService service; 
-    
     private MockMvc mockMvc;
 
     @Before
@@ -43,10 +41,27 @@ public class ScheduleControllerTests {
      * @Date 2020-11-03
      */
     @Test
+    @Ignore
     public void testList() throws Exception {
 	LOG.debug(mockMvc.perform(MockMvcRequestBuilders.get("/schedule/list")
 		.param("deptNo", "0")
 		).andReturn().getModelAndView().getModelMap());
+    }
+    
+    @Test
+    public void testInsert() throws Exception {
+	String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/schedule/insert")
+		.param("deptNo", "0")
+		.param("employeeId", "Test_User")
+		.param("categoryId", "10")
+		.param("timeStatus", "0")
+		.param("title", "테스트 제목")
+		.param("content", "테스트 내용")
+		.param("startDt", "2020-01-01 00:00")
+		.param("endDt", "2020-01-01 00:00")
+		).andReturn().getModelAndView().getViewName();
+	
+	LOG.debug(resultPage);
     }
     
 }

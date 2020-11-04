@@ -58,7 +58,7 @@ public class BoardDaoImpl implements BoardDao
 			}
 			else if("20".equals(search.getSearchDiv()))
 			{
-				sbWhere.append("WHERE contents like '%'|| ? ||'%' \n");
+				sbWhere.append("WHERE contents like '%'|| ? ||'%' A\n");
 			}
 		}
 		
