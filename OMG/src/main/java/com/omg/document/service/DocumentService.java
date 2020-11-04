@@ -1,5 +1,7 @@
 package com.omg.document.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +40,23 @@ public class DocumentService {
 	public int doUpdate(DocumentVO documentVO) {
 		return documentDaoImpl.doUpdate(documentVO);
 	}
-	
+	/**
+	 * 단건 검색 
+	 * @param documentVO
+	 * @return
+	 */
 	public DocumentVO doSelectOne(DocumentVO documentVO) {
 		return documentDaoImpl.doSelectOne(documentVO);
 	}
+	
+	/**
+	 * 다건 검색
+	 * @param documentVO
+	 * @return
+	 */
+	public List<DocumentVO> doSelectList(){
+		return documentDaoImpl.doSelectList();
+	}
+	
 	
 }
