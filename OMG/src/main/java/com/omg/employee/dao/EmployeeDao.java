@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
+import com.omg.employee.domain.EmployeeVO;
 
 import org.springframework.jdbc.core.RowMapper;
 

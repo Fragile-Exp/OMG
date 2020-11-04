@@ -23,8 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.omg.cmn.Search;
 import com.omg.employee.dao.EmployeeDao;
-//메소드 수행 순서:
-import com.omg.employee.dao.EmployeeVO;
+import com.omg.employee.domain.EmployeeVO;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)//스프랭 테스트 컨텍스트 프레임워크의 JUnit기능 확장
@@ -58,6 +57,7 @@ public class TestEmployee {
     }
     
     @Test
+    @Ignore
     public void passwdConfirm() throws ClassNotFoundException   {
     	LOG.debug("++++++++++++++++++++");
 		LOG.debug("++idConfirm()++");
@@ -137,7 +137,6 @@ public class TestEmployee {
     }
     
     @Test
-    @Ignore
     public void addAndGet() {
     	//기존 데이터 삭제
     	employeeDao.doDelete(employee01);

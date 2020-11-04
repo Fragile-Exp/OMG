@@ -1,4 +1,4 @@
-package com.omg.employee.dao;
+package com.omg.employee.service;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
+import com.omg.employee.dao.EmployeeDao;
+import com.omg.employee.domain.EmployeeVO;
 
 @Service("employeeService")
 public class EmployeeService{
