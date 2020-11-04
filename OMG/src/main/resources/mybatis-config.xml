@@ -11,5 +11,8 @@
 		<!--  type 별핑 VO의 이름을 간략히 사용 -->
 		<typeAlias type="com.omg.cmn.DTO" alias="DTO"/>
 		<typeAlias type="com.omg.commuting.domain.Commuting" alias="Commuting"/>
+		<typeAlias type="com.omg.organization.domain.DeptVO" alias="DeptVO"/>
+		<typeAlias type="com.omg.organization.domain.PositionVO" alias="PositionVO"/>
+		<typeAlias type="com.omg.note.domain.NoteVO" alias="NoteVO"/>
 	</typeAliases>
 </configuration>  
