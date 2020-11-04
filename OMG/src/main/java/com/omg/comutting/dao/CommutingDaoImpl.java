@@ -311,4 +311,37 @@ public class CommutingDaoImpl implements CommutingDao {
 
 		return verify;
 	}
+	
+	public int doUpdateWorkTime(DTO dto) {
+		LOG.debug("====================================");
+		LOG.debug("=DAO=");
+		LOG.debug("=doUpdateWorkTime=");
+		int verify = 0;
+		Commuting inVO = (Commuting) dto;
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(" UPDATE commuting c                                                                                      		 	\n");
+		sb.append(" SET work_time = (                                                                                         			\n");
+		sb.append("               TO_CHAR( TRUNC(((c.leave_time - c.attend_time) - TRUNC(c.leave_time - c.attend_time)) * 24-1))   		\n");
+		sb.append("               || '시간' ||                                                                                 			\n");
+		sb.append("               TO_CHAR(FLOOR(((((c.leave_time - c.attend_time) -TRUNC(c.leave_time - c.attend_time)) * 24)           \n");
+		sb.append("                       - TRUNC(((c.leave_time - c.attend_time)-TRUNC(c.leave_time - c.attend_time)) * 24)) * 60)     \n");
+		sb.append("                       )                                                                                   			\n");
+		sb.append("               || '분'                                                                                      			\n");
+		sb.append("             )                                                                                             			\n");
+		sb.append(" WHERE c.seq =?                                                                                            			\n");
+		sb.append(" AND c.employee_id =?                                                                                      			\n");
+		
+		LOG.debug("=update.param=" + inVO);
+		LOG.debug("=update.sql=" + sb.toString());
+		
+		Object args[] = {inVO.getSeq(),inVO.getEmployeeId()};
+		
+		verify = this.jdbcTemplate.update(sb.toString(), args);
+		
+		LOG.debug("=verify=" + verify);
+		LOG.debug("====================================");
+
+		return verify;
+	}
 }
