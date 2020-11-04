@@ -9,5 +9,6 @@
 	</settings>
 	<typeAliases>
 		<!--  type 별핑 VO의 이름을 간략히 사용 -->
+		
 	</typeAliases>
 </configuration>  
