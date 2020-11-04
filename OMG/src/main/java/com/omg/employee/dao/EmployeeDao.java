@@ -11,9 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
+import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
+import com.omg.employee.domain.EmployeeVO;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -47,9 +50,67 @@ public class EmployeeDao {
 			
 			return outVO;
 		}
+		
 	};
 	
+	RowMapper idMapper=new RowMapper() {
+
+		@Override
+		public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+			int outCnt=rs.getInt("cnt");
+			return outCnt;
+		}
+	};
+	RowMapper passwdMapper=new RowMapper() {
+
+		@Override
+		public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+			int outCnt=rs.getInt("cnt");
+			return outCnt;
+		}
+	};
+	
+	
 	public EmployeeDao() {}
+	
+	public int passwdConfirm(EmployeeVO employee)  {
+		int cnt=0;
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("SELECT count(*) cnt  \n");
+		sb.append("FROM employee        \n");
+		sb.append("WHERE employee_id=?  \n");
+		sb.append("    AND password=?   \n");
+		LOG.debug("=====================================");
+		LOG.debug("=sql\n="+sb.toString());
+		LOG.debug("=param="+employee);
+		LOG.debug("=====================================");
+		
+		Object[] args= {employee.getEmployee_id(),
+						employee.getPassword()};
+		cnt=(int) this.jdbcTemplate.queryForObject(sb.toString(), (Object[]) args, idMapper);
+		return cnt;
+	}
+	
+	public int idConfirm(EmployeeVO employee) {
+		int cnt=0;
+		StringBuilder sb=new StringBuilder();
+		
+		sb.append("SELECT count(*) cnt          \n");
+		sb.append("FROM employee                \n");
+		sb.append("WHERE employee_id=?          \n");
+		LOG.debug("=====================================");
+		LOG.debug("=sql\n="+sb.toString());
+		LOG.debug("=param="+employee.getEmployee_id());
+		LOG.debug("=====================================");
+	
+		Object[] args = {employee.getEmployee_id()};
+		cnt=(int) this.jdbcTemplate.queryForObject(sb.toString(), (Object[]) args, idMapper);
+
+		LOG.debug("=flag idConfrim="+cnt);
+		return cnt;
+	}
+	
 	
 	public List<EmployeeVO> doSelectList(Search search){
 		StringBuilder sbWhere=new StringBuilder();
@@ -282,6 +343,7 @@ public class EmployeeDao {
 	 * @param employee
 	 * @return
 	 */
+
 	public int doDelete(EmployeeVO employee){
 		int flag = 0;
 		StringBuilder  sb=new StringBuilder();
