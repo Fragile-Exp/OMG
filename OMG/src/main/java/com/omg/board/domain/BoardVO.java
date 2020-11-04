@@ -5,11 +5,12 @@ import com.omg.cmn.DTO;
 public class BoardVO extends DTO 
 
 {
-	private int    board_seq; 
+	private int    boardSeq; 
 	private String div;
 	private String title;
 	private String contents;
 	private int    read_cnt;
+	private int	   filecode;
 	private String regDt;
 	private String regId;
 	private String modDt;
@@ -17,29 +18,32 @@ public class BoardVO extends DTO
 	
 	public BoardVO() {}
 
-	public BoardVO(int board_seq, String div, String title, String contents, int read_cnt, String regDt, String regId,
-			String modDt, String modId) 
+	public BoardVO(int boardSeq, String div, String title, String contents, int read_cnt, int filecode, String regDt,
+			String regId, String modDt, String modId) 
 	{
 		super();
-		this.board_seq = board_seq;
+		this.boardSeq = boardSeq;
 		this.div = div;
 		this.title = title;
 		this.contents = contents;
 		this.read_cnt = read_cnt;
+		this.filecode = filecode;
 		this.regDt = regDt;
 		this.regId = regId;
 		this.modDt = modDt;
 		this.modId = modId;
 	}
 
-	public int getBoard_seq() 
+
+
+	public int getBoardSeq() 
 	{
-		return board_seq;
+		return boardSeq;
 	}
 
-	public void setBoard_seq(int board_seq) 
+	public void setBoardSeq(int boardSeq) 
 	{
-		this.board_seq = board_seq;
+		this.boardSeq = boardSeq;
 	}
 
 	public String getDiv() 
@@ -80,6 +84,16 @@ public class BoardVO extends DTO
 	public void setRead_cnt(int read_cnt) 
 	{
 		this.read_cnt = read_cnt;
+	}
+
+	public int getFilecode() 
+	{
+		return filecode;
+	}
+
+	public void setFilecode(int file_code) 
+	{
+		this.filecode = filecode;
 	}
 
 	public String getRegDt() 
@@ -125,10 +139,12 @@ public class BoardVO extends DTO
 	@Override
 	public String toString() 
 	{
-		return "Board [board_seq=" + board_seq + ", div=" + div + ", title=" + title + ", contents=" + contents
-				+ ", read_cnt=" + read_cnt + ", regDt=" + regDt + ", regId=" + regId + ", modDt=" + modDt + ", modId="
-				+ modId + ", toString()=" + super.toString() + "]";
+		return "BoardVO [boardSeq=" + boardSeq + ", div=" + div + ", title=" + title + ", contents=" + contents
+				+ ", read_cnt=" + read_cnt + ", filecode=" + filecode + ", regDt=" + regDt + ", regId=" + regId
+				+ ", modDt=" + modDt + ", modId=" + modId + ", toString()=" + super.toString() + "]";
 	}
+
+
 	
 	
 	
