@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
+import com.omg.commuting.domain.Commuting;
 
 public interface CommutingDao {
 	

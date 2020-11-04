@@ -12,6 +12,19 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
+	<!-- dao mapper에 sql 샐힝 class -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg index="0" ref="sqlSessionFactoryBean"></constructor-arg>
+	 </bean>
+		
+	<!-- mybatis -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<property name="mapperLocations" value="classpath:mappers/**/*.xml"/>
+		<property name="dataSource" ref="datasource"></property>
+	</bean>	
+	
+	
 	<!-- database properties 파일 -->
 	<context:property-placeholder location="classpath:resources/config/database.properties" />
 	<!-- dataSource -->

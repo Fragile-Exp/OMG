@@ -1,4 +1,4 @@
-package com.omg.comutting.dao;
+package com.omg.commuting.domain;
 /**
  * 현재 출결 
  *
