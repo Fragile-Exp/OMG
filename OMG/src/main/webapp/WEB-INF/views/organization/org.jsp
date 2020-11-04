@@ -10,7 +10,7 @@
 	<!-- wrap -->
 	<div id="wrapper">
 		<!-- side_bar -->
-		<%@include file="inc/side_bar.jsp"%>
+		<%@include file="/WEB-INF/views/inc/side_bar.jsp"%>
 		<!-- //side_bar -->
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
@@ -18,7 +18,7 @@
 			<!-- Main Content -->
 			<div id="content">
 				<!-- top_bar -->
-				<%@include file="inc/top_bar.jsp"%>
+				<%@include file="/WEB-INF/views/inc/top_bar.jsp"%>
 				<!-- //top_bar -->
 
 				<!-- page Content -->
@@ -39,16 +39,17 @@
 						<div class="col-lg-10">
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
-									<a href="#" class="btn btn-info btn-icon-split btn-sm"> <span
-										class="icon text-white-50"> <i class="fas fa-trash"></i>
-									</span> <span class="text">삭제</span>
-									</a> <a href="#" class="btn btn-info btn-icon-split btn-sm"> <span
-										class="icon text-white-50"> <i class="fas fa-check"></i>
-									</span> <span class="text">수정</span>
-									</a> <a href="#" class="btn btn-info btn-icon-split btn-sm"> <span
-										class="icon text-white-50"> <i
-											class="fas fa-arrow-right"></i>
-									</span> <span class="text">추가</span>
+									<a href="#" class="btn btn-info btn-icon-split btn-sm">
+										<span class="icon text-white-50"> <i class="fas fa-trash"></i></span>
+										<span class="text">삭제</span>
+									</a>
+									<a href="#" class="btn btn-info btn-icon-split btn-sm">
+										<span class="icon text-white-50"> <i class="fas fa-check"></i></span>
+										<span class="text">수정</span>
+									</a>
+									<a href="${hContext}/view/org_reg.do" class="btn btn-info btn-icon-split btn-sm">
+										<span class="icon text-white-50"> <i class="fas fa-arrow-right"></i></span>
+										<span class="text">추가</span>
 									</a>
 								</div>
 								<div class="card-body">
@@ -114,7 +115,7 @@
 			<!-- //Main Content -->
 
 			<!-- footer -->
-			<%@include file="inc/footer.jsp"%>
+			<%@include file="/WEB-INF/views/inc/footer.jsp"%>
 			<!-- //footer -->
 
 		</div>
