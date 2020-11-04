@@ -57,7 +57,6 @@ public class ScheduleDaoImpl implements ScheduleDao{
     public int doInsert(ScheduleVO scheduleVO) {
 	int flag = 0;
 	Object[] args = {
-		scheduleVO.getScheduleNo(),
 		scheduleVO.getDeptNo(),
 		scheduleVO.getEmployeeId(),
 		scheduleVO.getCategoryId(),
@@ -70,27 +69,27 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	
 	StringBuilder sb = new StringBuilder();
 	
-	sb.append(" INSERT INTO schedule (    \n");
-	sb.append("     schedule_no,          \n");
-	sb.append("     dept_no,              \n");
-	sb.append("     employee_id,          \n");
-	sb.append("     category_id,          \n");
-	sb.append("     time_status,          \n");
-	sb.append("     title,                \n");
-	sb.append("     content,              \n");
-	sb.append("     start_dt,             \n");
-	sb.append("     end_dt                \n");
-	sb.append(" ) VALUES (                \n");
-	sb.append("     SCHEDULE_SEQ.nextval, \n");
-	sb.append("     ?,                    \n");
-	sb.append("     ?,                    \n");
-	sb.append("     ?,                    \n");
-	sb.append("     ?,                    \n");
-	sb.append("     ?,                    \n");
-	sb.append("     ?,                    \n");
-	sb.append("     ?,                    \n");
-	sb.append("     ?                     \n");
-	sb.append(" )                         \n");
+	sb.append(" INSERT INTO schedule (                \n");   
+	sb.append("     schedule_no,                      \n");   
+	sb.append("     dept_no,                          \n");   
+	sb.append("     employee_id,                      \n");   
+	sb.append("     category_id,                      \n");   
+	sb.append("     time_status,                      \n");   
+	sb.append("     title,                            \n");   
+	sb.append("     content,                          \n");   
+	sb.append("     start_dt,                         \n");   
+	sb.append("     end_dt                            \n");   
+	sb.append(" ) VALUES (                            \n");   
+	sb.append("     SCHEDULE_SEQ.nextval,             \n");   
+	sb.append("     ?,                                \n"); 
+	sb.append("     ?,                                \n"); 
+	sb.append("     ?,                                \n"); 
+	sb.append("     ?,                                \n"); 
+	sb.append("     ?,                                \n"); 
+	sb.append("     ?,                                \n"); 
+	sb.append("     TO_DATE(?, 'yyyy-MM-dd HH24:mi'), \n"); 
+	sb.append("     TO_DATE(?, 'yyyy-MM-dd HH24:mi')  \n"); 
+	sb.append(" )                                     \n");
 	
 	LOG.debug("==============================");
 	LOG.debug("= Parameter: " + scheduleVO);
@@ -110,7 +109,7 @@ public class ScheduleDaoImpl implements ScheduleDao{
      * @Date 2020-10-28
      */
     @Override
-    public int doDelete(ScheduleVO scheduleVO) {
+    public int doDelete(int scheduleNo) {
 	int flag = 0;
 	
 	StringBuilder sb = new StringBuilder();
@@ -119,12 +118,10 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	sb.append(" WHERE schedule_no = ? \n");
 	
 	LOG.debug("==============================");
-	LOG.debug("= Parameter: " + scheduleVO);
+	LOG.debug("= Parameter: " + scheduleNo);
 	LOG.debug("==============================");
 	
-	Object[] args = { scheduleVO.getScheduleNo() };
-	
-	flag = jdbcTemplate.update(sb.toString(), args);
+	flag = jdbcTemplate.update(sb.toString(), scheduleNo);
 	LOG.debug("flag: " + flag);
 	
 	return flag;
@@ -144,12 +141,12 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	StringBuilder sb = new StringBuilder();
 	
 	sb.append(" UPDATE schedule       \n");
-	sb.append(" SET category_id = ?   \n");
-	sb.append("     time_status = ?   \n");
-	sb.append("     title = ?         \n");
-	sb.append("     content = ?       \n");
-	sb.append("     start_dt = ?      \n");
-	sb.append("     end_dt = ?        \n");
+	sb.append(" SET category_id = ?,  \n");
+	sb.append("     time_status = ?,  \n");
+	sb.append("     title = ?,        \n");
+	sb.append("     content = ?,      \n");
+	sb.append("     start_dt = TO_DATE(?, 'yyyy-MM-dd HH24:mi'), \n");
+	sb.append("     end_dt = TO_DATE(?, 'yyyy-MM-dd HH24:mi')    \n");
 	sb.append(" WHERE schedule_no = ? \n");
 	
 	LOG.debug("==============================");
@@ -180,7 +177,7 @@ public class ScheduleDaoImpl implements ScheduleDao{
      * @Date 2020-10-28
      */
     @Override
-    public ScheduleVO doSelectOne(ScheduleVO scheduleVO) {
+    public ScheduleVO doSelectOne(int scheduleNo) {
 	ScheduleVO outVO = null;
 	
 	StringBuilder sb = new StringBuilder();
@@ -192,16 +189,17 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	sb.append(" 	   time_status,   \n");
 	sb.append(" 	   title,         \n");
 	sb.append(" 	   content,       \n");
-	sb.append(" 	   TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') AS start_dt \n");
-	sb.append(" 	   TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') AS end_dt     \n");
+	sb.append(" 	   TO_CHAR(start_dt, 'yyyy-MM-dd HH24:mi') AS start_dt, \n");
+	sb.append(" 	   TO_CHAR(end_dt, 'yyyy-MM-dd HH24:mi') AS end_dt      \n");
 	sb.append(" FROM schedule         \n");
 	sb.append(" WHERE schedule_no = ? \n");
 	
 	LOG.debug("==============================");
-	LOG.debug("= Parameter: " + scheduleVO);
+	LOG.debug("= Parameter: " + scheduleNo);
 	LOG.debug("==============================");
 	
-	Object[] args = { scheduleVO.getScheduleNo() };
+	Object[] args = {scheduleNo};
+
 	outVO = (ScheduleVO) jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
 	
 	LOG.debug("==============================");
@@ -213,18 +211,16 @@ public class ScheduleDaoImpl implements ScheduleDao{
  
     /**
      * 일정조회
-     * dept_no가 0이면 전체조회 아니면 부서별 조회
-     * @param scheduleVO
+     * deptNo가 0이면 전체조회 아니면 부서별 조회
+     * @param deptNo 부서번호
      * @return outVO
      * @author 박정민
      * @Date 2020-10-28
      */
     @Override
-    public List<ScheduleVO> doSelectList(ScheduleVO scheduleVO) {
+    public List<ScheduleVO> doSelectList(int deptNo) {
 	List<ScheduleVO> list = null;
-	
-	StringBuilder sbSearch = new StringBuilder();
-	
+
 	StringBuilder sb = new StringBuilder();
 	
 	sb.append(" SELECT schedule_no,  \n");
@@ -234,20 +230,27 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	sb.append(" 	   time_status,  \n");
 	sb.append(" 	   title,        \n");
 	sb.append(" 	   content,      \n");
-	sb.append(" 	   TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') AS start_dt,\n");
-	sb.append(" 	   TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') AS end_dt     \n");
+	sb.append(" 	   TO_CHAR(start_dt, 'yyyy-MM-dd HH24:MI') AS start_dt,\n");
+	sb.append(" 	   TO_CHAR(end_dt, 'yyyy-MM-dd HH24:MI') AS end_dt     \n");
 	sb.append(" FROM schedule        \n");
-	if(scheduleVO.getDeptNo() != 0) {
-	    sb.append(" WHERE dept_no = ?	 \n");
+	if(deptNo != 0) {
+	    sb.append(" WHERE dept_no = ? \n");
 	}
 	sb.append(" ORDER BY schedule_no \n");
 	
 	LOG.debug("==============================");
-	LOG.debug("= Parameter: " + scheduleVO);
+	LOG.debug("= Parameter: " + deptNo);
 	LOG.debug("==============================");
 	
-	list = jdbcTemplate.query(sb.toString(), new Object[] {scheduleVO.getDeptNo()}, rowMapper);
+	Object[] args = {deptNo};
 	
+	//0이면 전체조회 아니면 부서별조회
+	if(deptNo == 0) {
+	    list = jdbcTemplate.query(sb.toString(), rowMapper);
+	} else {
+	    list = jdbcTemplate.query(sb.toString(), args, rowMapper);
+	}
+
 	LOG.debug("==============================");
 	for(ScheduleVO vo : list) {
 	    LOG.debug("= VO: " + vo);

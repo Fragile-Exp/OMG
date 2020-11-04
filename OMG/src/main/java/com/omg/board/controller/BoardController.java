@@ -150,7 +150,7 @@ public class BoardController
 		LOG.debug("=board : "+board);
 		LOG.debug("===========================");
 		
-		BoardVO outVO = (BoardVO) this.boardService.doSelectOne(board.getBoard_seq());
+		BoardVO outVO = (BoardVO) this.boardService.doSelectOne(board);
 
 		Gson gson = new Gson();
 		String json = gson.toJson(outVO);

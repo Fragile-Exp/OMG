@@ -11,17 +11,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.omg.document.domain.DocumentVO;
-import com.omg.schedule.dao.ScheduleDaoImpl;
-import com.omg.schedule.domain.ScheduleVO;
 
-public class DocumentDaoImpl implements DocumentDao {
+
+@Repository("documentDao")
+public class DocumentDaoImpl {
 	
-	final static Logger LOG = LoggerFactory.getLogger(ScheduleDaoImpl.class);
-	public DocumentDaoImpl() {}
+	static final Logger LOG = LoggerFactory.getLogger(DocumentDaoImpl.class);
 	@Autowired
     private JdbcTemplate jdbcTemplate;
+	
 	DataSource dataSource; 
 	
 	RowMapper rowMapper = new RowMapper<DocumentVO>() {
@@ -39,13 +40,18 @@ public class DocumentDaoImpl implements DocumentDao {
 		    outVO.setOk_user(rs.getString("ok_user"));             //결재자사번 
  		    
 		    return outVO;
-			}
-	    };
+		}
+	};
 	
+	public DocumentDaoImpl() {}
+	   
+	    
 	//삽입 
-	@Override
-	public int doInset(DocumentVO documentVO) {
+	public int doInsert(DocumentVO documentVO) {
 		int flag = 0;
+		
+		StringBuilder sb = new StringBuilder();
+		
 		Object[] args = {
 				documentVO.getDocument_id(),
 				documentVO.getEmployee_id(),
@@ -54,13 +60,10 @@ public class DocumentDaoImpl implements DocumentDao {
 				documentVO.getD_day(),
 				documentVO.getDocument_cont(),
 				documentVO.getDocument_set(),
-				documentVO.getOk_user(),
-			
-		};
+				documentVO.getOk_user()
+				};
 		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append(" INSERT INTO document (    \n");
+		sb.append(" INSERT INTO DOCUMENT (    \n");
 		sb.append("     document_id,          \n");
 		sb.append("     employee_id,          \n");
 		sb.append("     kind,                 \n");
@@ -68,7 +71,7 @@ public class DocumentDaoImpl implements DocumentDao {
 		sb.append("     d_day,                \n");
 		sb.append("     document_cont,        \n");
 		sb.append("     document_set,         \n");
-		sb.append("     ok_user,              \n");
+		sb.append("     ok_user              \n");
 		sb.append(" ) VALUES (                \n");
 		sb.append("     ?,                    \n");
 		sb.append("     ?,                    \n");
@@ -81,6 +84,7 @@ public class DocumentDaoImpl implements DocumentDao {
 		sb.append(" )                         \n");
 		
 		LOG.debug("==============================");
+		LOG.debug("=query : "+sb.toString());
 		LOG.debug("= Parameter: " + documentVO);
 		LOG.debug("==============================");
 		
@@ -90,7 +94,7 @@ public class DocumentDaoImpl implements DocumentDao {
 		return flag;
 	}
 
-	@Override
+	
 	public int doDelete(DocumentVO documentVO) {
 		int flag = 0;
 		
@@ -111,34 +115,41 @@ public class DocumentDaoImpl implements DocumentDao {
 		return flag;
 	}
 
-	@Override
+
 	public int doUpdate(DocumentVO documentVO) {
 		int flag = 0;
 		
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(" UPDATE document       \n");
-		sb.append(" SET kind = ?          \n");
-		sb.append("     title = ?   	  \n");
-		sb.append("     d_day = ?         \n");
-		sb.append("     document_cont = ? \n");
-		sb.append("     OK_USER = ?       \n");
-		sb.append(" WHERE document_id = ? \n");
+		Object[] args = {
+				documentVO.getDocument_id(),
+				documentVO.getEmployee_id(),
+				documentVO.getKind(),
+				documentVO.getTitle(),
+				documentVO.getD_day(),
+				documentVO.getDocument_cont(),
+				documentVO.getDocument_set(),
+				documentVO.getOk_user(),
+				documentVO.getDocument_id()
+			};
 		
-		
+		sb.append(" UPDATE document        \n");
+		sb.append(" SET document_id = ?,   \n");
+		sb.append("     employee_id = ?,   \n");
+		sb.append("     kind = ?,          \n");
+		sb.append("     title = ?,  	   \n");
+		sb.append("     d_day = ?,         \n");
+		sb.append("     document_cont = ?, \n");
+		sb.append("     document_set = ?,  \n");
+		sb.append("     ok_user = ?        \n");
+		sb.append(" WHERE document_id = ?  \n");
+
 		
 		LOG.debug("==============================");
 		LOG.debug("= Parameter: " + documentVO);
 		LOG.debug("==============================");
 		
-		Object[] args = {
-			documentVO.getKind(),
-			documentVO.getTitle(),
-			documentVO.getD_day(),
-			documentVO.getDocument_cont(),
-			documentVO.getOk_user(),
-			documentVO.getDocument_id()
-		};
+		
 		
 		flag = jdbcTemplate.update(sb.toString(), args);
 		LOG.debug("flag: " + flag);	
@@ -146,7 +157,7 @@ public class DocumentDaoImpl implements DocumentDao {
 		return flag;
 	}
 
-	@Override
+
 	public DocumentVO doSelectOne(DocumentVO documentVO) {
 		DocumentVO outVO = null;
 		
@@ -156,7 +167,7 @@ public class DocumentDaoImpl implements DocumentDao {
 		sb.append(" 	   employee_id,   \n");
 		sb.append(" 	   kind,   		  \n");
 		sb.append(" 	   title,   	  \n");
-		sb.append(" 	   TO_CHAR(end_dt, 'YYYY-MM-DD') AS d_day,   \n");
+		sb.append(" 	   TO_CHAR(d_day, 'YYYY-MM-DD') AS d_day,   \n");
 		sb.append(" 	   document_cont, \n");
 		sb.append(" 	   document_set,  \n");
 		sb.append(" 	   ok_user		  \n");
@@ -177,7 +188,7 @@ public class DocumentDaoImpl implements DocumentDao {
 		return outVO;
 	}
 
-	@Override
+	
 	public List<DocumentVO> doSelectList(DocumentVO documentVO) {
 		return null;
 		

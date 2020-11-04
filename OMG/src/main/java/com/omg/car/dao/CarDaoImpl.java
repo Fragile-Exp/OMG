@@ -11,13 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.omg.car.domain.CarVO;
 import com.omg.document.domain.DocumentVO;
 import com.omg.schedule.domain.ScheduleVO;
 
-
-public class CarDaoImpl implements CarDao {
+@Repository("carDao")
+public class CarDaoImpl {
 
 	final static Logger LOG = LoggerFactory.getLogger(CarDaoImpl.class);
 	public CarDaoImpl() {}
@@ -43,7 +44,7 @@ public class CarDaoImpl implements CarDao {
 	    };
 	
 	
-	@Override
+	
 	public int doInsert(CarVO carVO) {
 		int flag = 0;
 		Object[] args = {
@@ -67,7 +68,7 @@ public class CarDaoImpl implements CarDao {
 		sb.append("     employee_id,          \n");
 		sb.append("     car_set,              \n");
 		sb.append("     rent_day,             \n");
-		sb.append("     reason,               \n");
+		sb.append("     reason               \n");
 		sb.append(" ) VALUES (                \n");
 		sb.append("     ?,                    \n");
 		sb.append("     ?,                    \n");
@@ -75,7 +76,7 @@ public class CarDaoImpl implements CarDao {
 		sb.append("     ?,                    \n");
 		sb.append("     ?,                    \n");
 		sb.append("     ?,                    \n");
-		sb.append("     ?,                    \n");
+		sb.append("     ?                    \n");
 		sb.append(" )                         \n");
 		
 		LOG.debug("==============================");
@@ -89,7 +90,7 @@ public class CarDaoImpl implements CarDao {
 		
 	}
 
-	@Override 
+	
 	public int doDelete(CarVO carVO) {
 		int flag = 0;
 		
@@ -111,22 +112,31 @@ public class CarDaoImpl implements CarDao {
 		
 	}
 
-	@Override
 	public int doUpdate(CarVO carVO) {
 		int flag = 0;
 		
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(" UPDATE car         \n");
-		sb.append(" SET rent_day = ?   \n");
-		sb.append("     reason = ?     \n");
-		sb.append(" WHERE car_num = ?  \n");
+		sb.append(" UPDATE car             \n");
+		sb.append(" SET   car_num = ?, 	   \n");
+		sb.append(" 	  kind = ?,        \n");
+		sb.append(" 	  car_use = ?,     \n");
+		sb.append(" 	  employee_id =?,  \n");
+		sb.append("		  car_set = ?,     \n");
+		sb.append(" 	  rent_day = ?,    \n");
+		sb.append(" 	  reason = ?      \n");
+		sb.append(" WHERE car_num = ?      \n");
 		
 		LOG.debug("==============================");
 		LOG.debug("= Parameter: " + carVO);
 		LOG.debug("==============================");
 		
 		Object[] args = {
+			carVO.getCar_num(),
+			carVO.getKind(),
+			carVO.getCar_use(),
+			carVO.getEmployee_id(),
+			carVO.getCar_set(),
 			carVO.getRent_day(),
 			carVO.getReason(),
 			carVO.getCar_num()
@@ -139,7 +149,7 @@ public class CarDaoImpl implements CarDao {
 		
 	}
 
-	@Override
+	
 	public CarVO doSelectOne(CarVO carVO) {
 		CarVO outVO = null;
 		
@@ -150,7 +160,7 @@ public class CarDaoImpl implements CarDao {
 		sb.append(" 	   car_use,   	  \n");
 		sb.append(" 	   employee_id,   \n");
 		sb.append(" 	   car_set, 	  \n");
-		sb.append(" 	   TO_CHAR(end_dt, 'YYYY-MM-DD') AS  rent_day,  \n");
+		sb.append(" 	   TO_CHAR(rent_day, 'YYYY-MM-DD') AS  rent_day,  \n");
 		sb.append(" 	   reason		  \n");
 		sb.append(" FROM car              \n");
 		sb.append(" WHERE car_num = ?     \n");
@@ -169,9 +179,13 @@ public class CarDaoImpl implements CarDao {
 		return outVO;
 	}
 
-	@Override
+	
 	public List<CarVO> doSelectList(CarVO carVO) {
+		
+		
 		return null;
 	}
+		
+
 	
 }

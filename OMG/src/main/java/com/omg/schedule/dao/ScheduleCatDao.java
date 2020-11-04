@@ -8,11 +8,11 @@ public interface ScheduleCatDao {
 
     public int doInsert(ScheduleCatVO scheduleCatVO);
 
-    public int doDelete(ScheduleCatVO scheduleCatVO);
+    public int doDelete(int categoryId);
 
     public int doUpdate(ScheduleCatVO scheduleCatVO);
 
-    public ScheduleCatVO doSelectOne(ScheduleCatVO scheduleCatVO);
+    public ScheduleCatVO doSelectOne(int categoryId);
 
     public List<ScheduleCatVO> doSelectList();
 }

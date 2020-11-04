@@ -13,7 +13,7 @@ public interface BoardDao
 	
 	public int doUpdate(BoardVO board);
 	
-	public BoardVO doSelectOne(int board_seq);
+	public BoardVO doSelectOne(BoardVO board);
 	
 	public List<BoardVO> doSelectList(Search search);
 	
