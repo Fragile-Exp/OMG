@@ -62,7 +62,7 @@ public class TestNoteService {
 	}
 	
 	@Test
-	public void TotalTest() {
+	public void totalTest() {
 		int flag = 0;
 		Message message;
 		// 삭제(휴지통 이동)

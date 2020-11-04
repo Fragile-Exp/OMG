@@ -62,7 +62,7 @@ final Logger LOG = LoggerFactory.getLogger(TestDeptService.class);
 	}
 	
 	@Test
-	public void TotalTest() {
+	public void totalTest() {
 		int flag = 0;
 		// 삭제
 		for(DeptVO vo:list) {
