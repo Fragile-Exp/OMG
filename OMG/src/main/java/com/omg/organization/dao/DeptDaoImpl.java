@@ -1,14 +1,11 @@
 package com.omg.organization.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.omg.organization.domain.DeptVO;
@@ -16,23 +13,11 @@ import com.omg.organization.domain.DeptVO;
 @Repository("deptDao")
 public class DeptDaoImpl {
 	static final Logger LOG = LoggerFactory.getLogger(DeptDaoImpl.class);
+	private final String NAMESPACE = "com.omg.orgnization.dept";
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
-	RowMapper rowMapper = new RowMapper<DeptVO>() {
-
-		@Override
-		public DeptVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-			DeptVO outVO = new DeptVO();
-			outVO.setDeptNo(rs.getInt("dept_no"));
-			outVO.setDeptNm(rs.getString("dept_nm"));
-			outVO.setUpDept(rs.getInt("up_dept"));
-			outVO.setLevel(rs.getInt("level"));
-			return outVO;
-		}
-	};
-	
+	private SqlSessionTemplate sqlSessionTemplate;
+		
 	public DeptDaoImpl(){}
 	
 	/**
@@ -41,18 +26,15 @@ public class DeptDaoImpl {
 	 * @return flag(1:성공)
 	 */
 	public int doDelete(DeptVO dept) {
-		int flag = 0;
-		// Param Setting
-		Object[] args = {dept.getDeptNo()};
-		// Query
-		StringBuilder sb = new StringBuilder();
-		sb.append("DELETE FROM dept  				\n");
-		sb.append("WHERE dept_no = ?			    \n");
-		LOG.debug("query : \n"+sb.toString());
-		LOG.debug("param : "+dept);
+		LOG.debug("== doDelete ==");
 		
-		// Excute
-		flag = jdbcTemplate.update(sb.toString(),args );
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".doDelete";
+		LOG.debug("statement : "+statement );
+		
+		// 쿼리 실행
+		int flag = sqlSessionTemplate.delete(statement,dept);
+
 		LOG.debug(" 삭제 Flag : "+ flag);
 		return flag;
 	}
@@ -63,28 +45,16 @@ public class DeptDaoImpl {
 	 * @return flag(1:성공)
 	 */
 	public int doInsert(DeptVO dept) {
-		int flag = 0;
-		// Param Setting
-		Object[] args = {dept.getDeptNo(),dept.getDeptNm(),dept.getUpDept()!=0?dept.getUpDept():null};
+		LOG.debug("== doInsert ==");
 		
-		// Query
-		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO dept (				\n");
-		sb.append("	    dept_no,       	  	     	\n");
-		sb.append("	    dept_nm,      	        	\n");
-		sb.append("	    up_dept        	    		\n");
-		sb.append("	) VALUES (             			\n");
-		sb.append("	    ?,                 			\n");
-		sb.append("	    ?,                 			\n");
-		sb.append("	    ?                 			\n");
-		sb.append("	)                     			\n");
-		LOG.debug("query : \n"+sb.toString());
-		LOG.debug("param : \n"+dept);
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".doInsert";
+		LOG.debug("statement : "+statement );
 		
-		// Excute
-		flag = jdbcTemplate.update(sb.toString(), args);
-		LOG.debug(" 등록 Flag : "+flag);
-		
+		// 쿼리 실행
+		int flag = sqlSessionTemplate.insert(statement,dept);
+
+		LOG.debug(" 등록 Flag : "+ flag);
 		return flag;
 	}
 	
@@ -94,25 +64,14 @@ public class DeptDaoImpl {
 	 * @return DeptVO
 	 */
 	public DeptVO doSelectOne(DeptVO dept) {
-		DeptVO outVO = null;
-		// Param Setting
-		Object[] args = {dept.getDeptNo()};
-		// Query
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT							\n");
-		sb.append("	    dept_no,       	  	     	\n");
-		sb.append("	    dept_nm,      	        	\n");
-		sb.append("	    up_dept,       	    		\n");
-		// 부서 목록을 위한 level 더미값 처리
-		sb.append("	    1 as \"level\" 	    		\n");
-		sb.append("FROM dept	            		\n");
-		sb.append("WHERE							\n");
-		sb.append("		dept_no = ?					\n");
-		LOG.debug("query : \n"+sb.toString());
-		LOG.debug("param : \n"+dept);
+		LOG.debug("== doSelectOne ==");
 		
-		// Excute
-		outVO = (DeptVO) jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".doSelectOne";
+		LOG.debug("statement : "+statement );
+		
+		// 쿼리 실행
+		DeptVO outVO = sqlSessionTemplate.selectOne(statement,dept);
 		LOG.debug(" 조회 VO : "+ outVO);
 		
 		return outVO;
@@ -124,26 +83,14 @@ public class DeptDaoImpl {
 	 * @return DeptVO
 	 */
 	public int doUpdate(DeptVO dept) {
-		int flag = 0;
+		LOG.debug("== doUpdate ==");
 		
-		// Param Setting
-		Object[] args = {dept.getDeptNo(),
-						dept.getDeptNm(),
-						dept.getUpDept()!=0?dept.getUpDept():null,
-						dept.getDeptNo()};
-				
-		// Query
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE dept SET					\n");
-		sb.append("	    dept_no = ?,         	  	\n");
-		sb.append("	    dept_nm = ?,          	 	\n");
-		sb.append("	    up_dept = ?        			\n");
-		sb.append("	WHERE 		           			\n");
-		sb.append("	    dept_no = ?    				\n");
-		LOG.debug("param : \n"+dept);
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".doUpdate";
+		LOG.debug("statement : "+statement );
 		
-		// Excute
-		flag = jdbcTemplate.update(sb.toString(), args);
+		// 쿼리 실행
+		int flag = sqlSessionTemplate.update(statement,dept);
 		LOG.debug(" 수정 Flag : "+flag);
 		return flag;
 	}
@@ -154,22 +101,14 @@ public class DeptDaoImpl {
 	 * @return List<DeptVO>
 	 */
 	public List<DeptVO> doSelectList() {
-
-		// Query
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT							\n");
-		sb.append("	    dept_no,            	  	\n");
-		sb.append("	    dept_nm,        	      	\n");
-		sb.append("	    up_dept,    	       		\n");
-		sb.append("	    level 			       		\n");
-		sb.append("FROM dept	            		\n");
-		sb.append("START WITH up_dept is null		\n");
-		sb.append("CONNECT BY prior 				\n");
-		sb.append("		dept_no=up_dept				\n");
-		LOG.debug("query : \n"+sb.toString());
+		LOG.debug("== doSelectList ==");
 		
-		// Excute
-		List<DeptVO> list = (List<DeptVO>) jdbcTemplate.query(sb.toString(), rowMapper);
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".doSelectList";
+		LOG.debug("statement : "+statement );
+		
+		// 쿼리 실행
+		List<DeptVO> list = sqlSessionTemplate.selectList(statement);
 		
 		for(DeptVO vo:list) {
 			LOG.debug(" 조회 VO : "+ vo);

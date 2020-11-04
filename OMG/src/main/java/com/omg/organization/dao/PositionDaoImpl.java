@@ -1,15 +1,11 @@
 package com.omg.organization.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.omg.organization.domain.PositionVO;
@@ -17,23 +13,10 @@ import com.omg.organization.domain.PositionVO;
 @Repository("positionDao")
 public class PositionDaoImpl {
 	static final Logger LOG = LoggerFactory.getLogger(PositionDaoImpl.class);
-	
+	private final String NAMESPACE = "com.omg.orgnization.position";
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
-	RowMapper rowMapper = new RowMapper<PositionVO>() {
-
-		@Override
-		public PositionVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-			PositionVO outVO = new PositionVO();
-			outVO.setPositionNo(rs.getInt("position_no"));
-			outVO.setPositionNm(rs.getString("position_nm"));
-			outVO.setUpPosition(rs.getInt("up_position"));
-			return outVO;
-		}
+	private SqlSessionTemplate sqlSessionTemplate;
 		
-	};
-	
 	public PositionDaoImpl() {}
 	
 	/**
@@ -42,18 +25,15 @@ public class PositionDaoImpl {
 	 * @return flag(1:성공)
 	 */
 	public int doDelete(PositionVO position) {
-		int flag = 0;
-		// Param Setting
-		Object[] args = {position.getPositionNo()};
-		// Query
-		StringBuilder sb = new StringBuilder();
-		sb.append("DELETE FROM position				\n");
-		sb.append("WHERE position_no = ?			\n");
-		LOG.debug("query : \n"+sb.toString());
-		LOG.debug("param : "+position);
+		LOG.debug("== doDelete ==");
 		
-		// Excute
-		flag = jdbcTemplate.update(sb.toString(),args );
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".doDelete";
+		LOG.debug("statement : "+statement );
+		
+		// 쿼리 실행
+		int flag = sqlSessionTemplate.delete(statement,position);
+
 		LOG.debug(" 삭제 Flag : "+ flag);
 		return flag;
 	}
@@ -64,28 +44,16 @@ public class PositionDaoImpl {
 	 * @return flag(1:성공)
 	 */
 	public int doInsert(PositionVO position) {
-		int flag = 0;
-		// Param Setting
-		Object[] args = {position.getPositionNo(),position.getPositionNm(),position.getUpPosition()!=0?position.getUpPosition():null};
+LOG.debug("== doInsert ==");
 		
-		// Query
-		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO position (			\n");
-		sb.append("	    position_no,              	\n");
-		sb.append("	    position_nm,              	\n");
-		sb.append("	    up_position            		\n");
-		sb.append("	) VALUES (             			\n");
-		sb.append("	    ?,                 			\n");
-		sb.append("	    ?,                 			\n");
-		sb.append("	    ?                 			\n");
-		sb.append("	)                     			\n");
-		LOG.debug("query : \n"+sb.toString());
-		LOG.debug("param : \n"+position);
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".doInsert";
+		LOG.debug("statement : "+statement );
 		
-		// Excute
-		flag = jdbcTemplate.update(sb.toString(), args);
-		LOG.debug(" 등록 Flag : "+flag);
-		
+		// 쿼리 실행
+		int flag = sqlSessionTemplate.insert(statement,position);
+
+		LOG.debug(" 등록 Flag : "+ flag);
 		return flag;
 	}
 
@@ -95,23 +63,14 @@ public class PositionDaoImpl {
 	 * @return PositionVO
 	 */
 	public PositionVO doSelectOne(PositionVO position) {
-		PositionVO outVO = null;
-		// Param Setting
-		Object[] args = {position.getPositionNo()};
-		// Query
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT							\n");
-		sb.append("	    position_no,              	\n");
-		sb.append("	    position_nm,              	\n");
-		sb.append("	    up_position            		\n");
-		sb.append("FROM position            		\n");
-		sb.append("WHERE							\n");
-		sb.append("		position_no = ?				\n");
-		LOG.debug("query : \n"+sb.toString());
-		LOG.debug("param : \n"+position);
+		LOG.debug("== doSelectOne ==");
 		
-		// Excute
-		outVO = (PositionVO) jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".doSelectOne";
+		LOG.debug("statement : "+statement );
+		
+		// 쿼리 실행
+		PositionVO outVO = sqlSessionTemplate.selectOne(statement,position);
 		LOG.debug(" 조회 VO : "+ outVO);
 		
 		return outVO;
@@ -123,26 +82,14 @@ public class PositionDaoImpl {
 	 * @return PositionVO
 	 */
 	public int doUpdate(PositionVO position) {
-		int flag = 0;
+		LOG.debug("== doUpdate ==");
 		
-		// Param Setting
-		Object[] args = {position.getPositionNo(),
-						position.getPositionNm(),
-						position.getUpPosition()!=0?position.getUpPosition():null,
-						position.getPositionNo()};
-				
-		// Query
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE position SET				\n");
-		sb.append("	    position_no = ?,           	\n");
-		sb.append("	    position_nm = ?,           	\n");
-		sb.append("	    up_position = ?        		\n");
-		sb.append("	WHERE 		           			\n");
-		sb.append("	    position_no = ?    			\n");
-		LOG.debug("param : \n"+position);
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".doUpdate";
+		LOG.debug("statement : "+statement );
 		
-		// Excute
-		flag = jdbcTemplate.update(sb.toString(), args);
+		// 쿼리 실행
+		int flag = sqlSessionTemplate.update(statement,position);
 		LOG.debug(" 수정 Flag : "+flag);
 		return flag;
 	}
@@ -153,21 +100,14 @@ public class PositionDaoImpl {
 	 * @return PositionVO
 	 */
 	public List<PositionVO> doSelectList() {
-
-		// Query
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT							\n");
-		sb.append("	    position_no,              	\n");
-		sb.append("	    position_nm,              	\n");
-		sb.append("	    up_position            		\n");
-		sb.append("FROM position            		\n");
-		sb.append("START WITH up_position is null	\n");
-		sb.append("CONNECT BY prior 				\n");
-		sb.append("		position_no=up_position		\n");
-		LOG.debug("query : \n"+sb.toString());
+		LOG.debug("== doSelectList ==");
 		
-		// Excute
-		List<PositionVO> list = (List<PositionVO>) jdbcTemplate.query(sb.toString(), rowMapper);
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".doSelectList";
+		LOG.debug("statement : "+statement );
+		
+		// 쿼리 실행
+		List<PositionVO> list = sqlSessionTemplate.selectList(statement);
 		
 		for(PositionVO vo:list) {
 			LOG.debug(" 조회 VO : "+ vo);

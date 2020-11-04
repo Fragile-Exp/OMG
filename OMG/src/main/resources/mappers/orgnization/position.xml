@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.orgnization.position">
+
+	<!-- 삭제 -->
+	<delete id="doDelete" parameterType="PositionVO">
+		DELETE FROM position WHERE position_no = #{positionNo}
+	</delete>
+	
+	<!-- 등록 -->
+	<insert id="doInsert" parameterType="PositionVO">
+		INSERT INTO position (position_no, position_nm, up_position)
+				VALUES(#{positionNo},#{positionNm},#{upPosition})
+	</insert>
+	
+	<!-- 단건 조회 -->
+	<select id="doSelectOne" parameterType="PositionVO" resultType="PositionVO">
+		SELECT position_no, position_nm, up_position 
+		FROM position
+		WHERE position_no = #{positionNo}
+	</select>
+	
+	<!-- 수정 -->
+	<update id="doUpdate" parameterType="PositionVO">
+		UPDATE position SET position_no = #{positionNo},
+						position_nm = #{positionNm},
+						up_position = #{upPosition}
+		WHERE position_no = #{positionNo}
+	</update>
+	
+	<!-- 목록 조회 -->
+	<select id="doSelectList" resultType="PositionVO"  >
+		SELECT position_no, position_nm, up_position 
+		FROM position
+		START WITH up_position = 0
+		CONNECT BY prior
+			position_no=up_position
+	</select>
+
+</mapper>
