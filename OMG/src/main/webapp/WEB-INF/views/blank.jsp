@@ -41,5 +41,14 @@
 		<!-- //Content Wrapper -->
 </div>
 <!-- //wrap -->
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("#Pages").attr("class","nav-link");
+		$("#Pages").attr("aria-expanded","true");
+		$("#collapsePages").attr("class","collapse show");
+		$("#blank").attr("class","collapse-item active");
+		});
+	
+	</script>
 </body>
 </html>

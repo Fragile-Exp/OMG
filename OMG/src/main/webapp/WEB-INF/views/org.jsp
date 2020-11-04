@@ -52,6 +52,7 @@
 									</a>
 								</div>
 								<div class="card-body">
+									<!-- collapse 로 만듬 개힘들었는데.. 
 									<ul class="navbar-nav" id="dept_position">
 										<li class="nav-item active"><a class="nav-link collapsed"
 											href="#" data-toggle="collapse" data-target="#dept"
@@ -79,6 +80,7 @@
 												</div>
 											</div></li>
 									</ul>
+									-->
 									<details class="text-primary">
 										<summary><input type="checkbox" name="dept" value="10000" /> OMG </summary>
 										<div class="bg-white px-4">
@@ -119,5 +121,16 @@
 		<!-- //Content Wrapper -->
 	</div>
 	<!-- //wrap -->
+	
+		<script type="text/javascript">
+	$(document).ready(function(){
+		$("#setting").attr("class","nav-link");
+		$("#setting").attr("aria-expanded","true");
+		$("#adminSetting").attr("class","collapse show");
+		$("#org").attr("class","collapse-item active");
+		});
+	
+	</script>
+	
 </body>
 </html>
