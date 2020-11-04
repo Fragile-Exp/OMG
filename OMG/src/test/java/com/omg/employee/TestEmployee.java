@@ -68,7 +68,6 @@ public class TestEmployee {
     }
     
     @Test
-    @Ignore
     public void idConfirm() throws ClassNotFoundException {
     	LOG.debug("++++++++++++++++++++");
 		LOG.debug("++idConfirm()++");
@@ -137,6 +136,7 @@ public class TestEmployee {
     }
     
     @Test
+    @Ignore 
     public void addAndGet() {
     	//기존 데이터 삭제
     	employeeDao.doDelete(employee01);

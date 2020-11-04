@@ -21,7 +21,7 @@ import com.omg.employee.domain.EmployeeVO;
 import org.springframework.jdbc.core.RowMapper;
 
 @Repository("employeeDao")
-public class EmployeeDao {
+public class EmployeeDao   {
 	final static Logger LOG=LoggerFactory.getLogger(EmployeeDao.class);
 	
 	@Autowired
@@ -423,6 +423,6 @@ public class EmployeeDao {
 		return flag;
 	 
 	}
-	
+
 	
 }

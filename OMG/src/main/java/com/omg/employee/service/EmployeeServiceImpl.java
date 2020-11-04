@@ -7,20 +7,54 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.employee.dao.EmployeeDao;
 import com.omg.employee.domain.EmployeeVO;
 
-@Service("employeeService")
-public class EmployeeService{
-	final Logger LOG=LoggerFactory.getLogger(EmployeeService.class);
+@Service("employeeServiceImpl")
+public class EmployeeServiceImpl  {
+	final Logger LOG=LoggerFactory.getLogger(EmployeeServiceImpl.class);
 	
 	@Autowired
 	private EmployeeDao employeeDao;
 	
-	public EmployeeService() {}
+	public EmployeeServiceImpl() {}
 	
+	public int passwdConfirm(EmployeeVO employee) {
+		return employeeDao.passwdConfirm(employee);
+	}
+
+	public int idConfirm(EmployeeVO employee) {
+		return employeeDao.idConfirm(employee);
+	}
+
+	public List<EmployeeVO> doSelectList(Search search) {
+		return employeeDao.doSelectList(search);
+	}
+
+	public List<EmployeeVO> doSelectAll(EmployeeVO employee) {
+		return employeeDao.doSelectAll(employee);
+	}
+
+	public int count(EmployeeVO employee) {
+		return employeeDao.count(employee);
+	}
+
+	public int doUpdate(EmployeeVO employee) {
+		return employeeDao.doUpdate(employee);
+	}
+
+	public EmployeeVO doSelectOne(String id) {
+		return employeeDao.doSelectOne(id);
+	}
+
+	public int doDelete(EmployeeVO employee) {
+		return employeeDao.doDelete(employee);
+	}
+
+	public int doInsert(EmployeeVO employee) {
+		return employeeDao.doInsert(employee);
+	}
 	/**
 	 * 로그인시 아이디 존재 여부
 	 * @param employee
@@ -64,5 +98,5 @@ public class EmployeeService{
 		
 		return flag;
 	}
-	
+
 }
