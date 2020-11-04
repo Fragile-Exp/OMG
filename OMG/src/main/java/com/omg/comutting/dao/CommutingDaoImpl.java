@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,18 @@ public class CommutingDaoImpl implements CommutingDao {
 
 	/** LOG */
 	final static Logger LOG = LoggerFactory.getLogger(CommutingDaoImpl.class);
-
+	
+	
+	/** namespace*/
+	private final String NAMESPACE = "com.omg.commuting";
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
+	
+	
+	@Autowired
+	SqlSessionTemplate sqlSessionTemplate;
+	
 	RowMapper<Commuting> rowMapper = new RowMapper<Commuting>() {
 
 		@Override
@@ -61,22 +70,18 @@ public class CommutingDaoImpl implements CommutingDao {
 		LOG.debug("=DAO=");
 		LOG.debug("=doDelete=");
 		Commuting inVO = (Commuting) dto;
-		int verify = 0;
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(" DELETE FROM commuting   \n");
-		sb.append(" WHERE                   \n");
-		sb.append("     seq = ?             \n");
-		sb.append(" AND    employee_id = ?  \n");
 
-		LOG.debug("=delete.param=" + inVO);
-		LOG.debug("=delete.sql=" + sb.toString());
+		String statement = NAMESPACE + ".doDelete";
 
-		Object[] args = { inVO.getSeq(), inVO.getEmployeeId() };
-		verify = this.jdbcTemplate.update(sb.toString(), args);
+		LOG.debug(">statement>" + statement);
+		LOG.debug(">param>" + inVO);
+		
+		int verify = this.sqlSessionTemplate.insert(statement, inVO);
+
 		LOG.debug("=verify=" + verify);
-
 		LOG.debug("====================================");
+
 		return verify;
 	}
 
@@ -87,37 +92,11 @@ public class CommutingDaoImpl implements CommutingDao {
 		LOG.debug("=doSelectOne=");
 
 		Commuting inVO = (Commuting) dto;
-		Commuting outVO = null;
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(" SELECT                                                                             \n");
-		sb.append("     seq,                                       								       \n");
-		sb.append("     employee_id,                                                                   \n");
-		sb.append("     name,                                                                          \n");
-		sb.append("     dept_no,                                                                       \n");
-		sb.append("     DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(attend_time,'YYYYMMDD')             \n");
-		sb.append(" 				   ,TO_CHAR(attend_time,'HH24:MI')                                 \n");
-		sb.append(" 				   ,TO_CHAR(attend_time,'YYYY-MM-DD HH24:MI')) attend_time,        \n");
-		sb.append(" 	DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(leave_time,'YYYYMMDD')              \n");
-		sb.append(" 				   ,TO_CHAR(leave_time,'HH24:MI')                                  \n");
-		sb.append(" 				   ,TO_CHAR(leave_time,'YYYY-MM-DD HH24:MI'))  leave_time,         \n");
-		sb.append("     present_state,                                                                 \n");
-		sb.append("     state,                                                                         \n");
-		sb.append("     work_time,                                                                     \n");
-		sb.append("     reg_dt,                                                                        \n");
-		sb.append("     rownum rnum                                                                    \n");
-		sb.append(" FROM                                                                               \n");
-		sb.append("     commuting c                                                                    \n");
-		sb.append(" WHERE c.seq= ?                                                                     \n");
-		sb.append(" AND c.employee_id =?                                                               \n");
-
+		 
+		
+		String statement = NAMESPACE + ".doSelectOne";
+		Commuting outVO = this.sqlSessionTemplate.selectOne(statement, inVO);
 		LOG.debug("=selectone.param=" + inVO);
-		LOG.debug("=selectone.sql=" + sb.toString());
-
-		Object[] args = { inVO.getSeq(),inVO.getEmployeeId() };
-
-		outVO = this.jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
-
 		LOG.debug("=outVO=" + outVO);
 
 		if (null == outVO) {
@@ -233,41 +212,14 @@ public class CommutingDaoImpl implements CommutingDao {
 		LOG.debug("====================================");
 		LOG.debug("=DAO=");
 		LOG.debug("=doInsert=");
-		int verify = 0;
+		
 		Commuting inVO = (Commuting) dto;
+		String statement = NAMESPACE + ".doInsert";
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(" INSERT INTO commuting (  \n");
-		sb.append("     seq,                 \n");
-		sb.append("     employee_id,         \n");
-		sb.append("     name,                \n");
-		sb.append("     dept_no,             \n");
-		sb.append("     attend_time,         \n");
-		sb.append("     leave_time,          \n");
-		sb.append("     present_state,       \n");
-		sb.append("     state,               \n");
-		sb.append("     work_time,           \n");
-		sb.append("     reg_dt               \n");
-		sb.append(" ) VALUES (               \n");
-		sb.append("     ?,                   \n");
-		sb.append("     ?,                   \n");
-		sb.append("     ?,                   \n");
-		sb.append("     ?,                   \n");
-		sb.append("     TO_DATE(?,'yyyymmddHH24MISS'),  \n");
-		sb.append("     TO_DATE(?,'yyyymmddHH24MISS'),                   \n");
-		sb.append("     ?,                   \n");
-		sb.append("     ?,                   \n");
-		sb.append("     ?,                   \n");
-		sb.append("     TO_DATE(?,'yyyymmddHH24MISS')                    \n");
-		sb.append(" )                        \n");
-
-		LOG.debug("=insert.param=" + inVO);
-		LOG.debug("=insert.sql=" + sb.toString());
-		Object[] args = { inVO.getSeq(), inVO.getEmployeeId(), inVO.getName(), inVO.getDeptNo(), inVO.getAttendTime(),
-				inVO.getLeaveTime(), inVO.getPresentState().intValue(), inVO.getState().intValue(), inVO.getWorkTime(),
-				inVO.getRegDt() };
-
-		verify = this.jdbcTemplate.update(sb.toString(), args);
+		LOG.debug(">statement>" + statement);
+		LOG.debug(">param>" + inVO);
+		
+		int verify = this.sqlSessionTemplate.insert(statement, inVO);
 
 		LOG.debug("=verify=" + verify);
 		LOG.debug("====================================");
@@ -279,32 +231,35 @@ public class CommutingDaoImpl implements CommutingDao {
 		LOG.debug("====================================");
 		LOG.debug("=DAO=");
 		LOG.debug("=doUpdate=");
-		int verify = 0;
+		
 		Commuting inVO = (Commuting) dto;
+		String statement = NAMESPACE + ".doUpdate";
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(" UPDATE commuting               								      \n");
-		sb.append(" SET                            								      \n");
-		sb.append("     name = ?,                								      \n");
-		sb.append("     dept_no = ?,               								      \n");
-		sb.append("     attend_time = TO_DATE(?,'yyyymmddHH24MISS'),       	          \n");
-		sb.append("     leave_time = TO_DATE(?,'yyyymmddHH24MISS'),                   \n");
-		sb.append("     present_state = ?,        								      \n");
-		sb.append("     state = ?,                  						          \n");
-		sb.append("     work_time = ?,                                                \n");
-		sb.append("     reg_dt = TO_DATE(?,'yyyymmddHH24MISS')                        \n");
-		sb.append(" WHERE                         								      \n");
-		sb.append("        seq = ?                								      \n");
-		sb.append(" AND    employee_id = ?           								  \n");
+		LOG.debug(">statement>" + statement);
+		LOG.debug(">param>" + inVO);
+		
+		int verify = this.sqlSessionTemplate.update(statement, inVO);
 
-		LOG.debug("=update.param=" + inVO);
-		LOG.debug("=update.sql=" + sb.toString());
+		LOG.debug("=verify=" + verify);
+		LOG.debug("====================================");
 
-		Object[] args = { inVO.getName(), inVO.getDeptNo(), inVO.getAttendTime(), inVO.getLeaveTime(),
-				inVO.getPresentState().intValue(), inVO.getState().intValue(), inVO.getWorkTime(), inVO.getRegDt(),
-				inVO.getSeq(), inVO.getEmployeeId() };
+		return verify;
+		
+		
+	}
+	
+	public int doUpdateWorkTime(DTO dto) {
+		LOG.debug("====================================");
+		LOG.debug("=DAO=");
+		LOG.debug("=doUpdate=");
+		
+		Commuting inVO = (Commuting) dto;
+		String statement = NAMESPACE + ".doUpdateWorkTime";
 
-		verify = this.jdbcTemplate.update(sb.toString(), args);
+		LOG.debug(">statement>" + statement);
+		LOG.debug(">param>" + inVO);
+		
+		int verify = this.sqlSessionTemplate.update(statement, inVO);
 
 		LOG.debug("=verify=" + verify);
 		LOG.debug("====================================");
@@ -312,36 +267,19 @@ public class CommutingDaoImpl implements CommutingDao {
 		return verify;
 	}
 	
-	public int doUpdateWorkTime(DTO dto) {
+	public int doInit() {
 		LOG.debug("====================================");
 		LOG.debug("=DAO=");
-		LOG.debug("=doUpdateWorkTime=");
-		int verify = 0;
-		Commuting inVO = (Commuting) dto;
+		LOG.debug("=doInit=");
+		
+		String statement = NAMESPACE + ".doInit";
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(" UPDATE commuting c                                                                                      		 	\n");
-		sb.append(" SET work_time = (                                                                                         			\n");
-		sb.append("               TO_CHAR( TRUNC(((c.leave_time - c.attend_time) - TRUNC(c.leave_time - c.attend_time)) * 24-1))   		\n");
-		sb.append("               || '시간' ||                                                                                 			\n");
-		sb.append("               TO_CHAR(FLOOR(((((c.leave_time - c.attend_time) -TRUNC(c.leave_time - c.attend_time)) * 24)           \n");
-		sb.append("                       - TRUNC(((c.leave_time - c.attend_time)-TRUNC(c.leave_time - c.attend_time)) * 24)) * 60)     \n");
-		sb.append("                       )                                                                                   			\n");
-		sb.append("               || '분'                                                                                      			\n");
-		sb.append("             )                                                                                             			\n");
-		sb.append(" WHERE c.seq =?                                                                                            			\n");
-		sb.append(" AND c.employee_id =?                                                                                      			\n");
+		LOG.debug(">statement>" + statement);
 		
-		LOG.debug("=update.param=" + inVO);
-		LOG.debug("=update.sql=" + sb.toString());
-		
-		Object args[] = {inVO.getSeq(),inVO.getEmployeeId()};
-		
-		verify = this.jdbcTemplate.update(sb.toString(), args);
-		
+		int verify = this.sqlSessionTemplate.insert(statement);
+
 		LOG.debug("=verify=" + verify);
 		LOG.debug("====================================");
-
 		return verify;
 	}
 }

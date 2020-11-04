@@ -58,19 +58,27 @@ public class TestCommutingDao {
 	
 	
 	@Test
+	@Ignore
 	public void totalTest() throws Exception {
 		
-		doDeleteALL();
+		//doDeleteALL();
 		
 		doInsert();
 		
 		doUpdateSelectOne();
 		
-		doUpdateWorkTime();
+		//doUpdateWorkTime();
 		
-		doSelectList();
+		//doSelectList();
 		
 	}
+	
+	@Test
+	public void doInit() {
+		int verify = dao.doInit();
+		assertThat(verify, is(10));
+	}
+	
 	
 	public void doUpdateWorkTime() throws Exception {
 		int verify = 0;
@@ -116,6 +124,7 @@ public class TestCommutingDao {
 		
 		int flag = 0;
 		for(Commuting vo : attendlist) {
+			LOG.debug(vo.toString());
 			flag += dao.doInsert(vo);
 		}
 		assertThat(flag, is(10));
@@ -149,16 +158,16 @@ public class TestCommutingDao {
 	@Before
 	public void setUp() throws Exception {
 		attendlist = Arrays.asList(
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID01", "병운", "10000", StringUtil.formatDate(""), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID02", "성현", "11000", StringUtil.formatDate(""), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID03", "유비", "12000", StringUtil.formatDate(""), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID04", "정민", "13000", StringUtil.formatDate(""), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID05", "기태", "14000", StringUtil.formatDate(""), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID06", "광민", "10000", StringUtil.formatDate(""), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID07", "현수", "11000", StringUtil.formatDate(""), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID08", "성민", "12000", StringUtil.formatDate(""), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID09", "영민", "13000", StringUtil.formatDate(""), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID10", "국민", "14000", StringUtil.formatDate(""), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd"))
+					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID01", "병운", "10000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
+					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID02", "성현", "11000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
+					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID03", "유비", "12000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
+					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID04", "정민", "13000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
+					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID05", "기태", "14000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
+					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID06", "광민", "10000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
+					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID07", "현수", "11000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
+					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID08", "성민", "12000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
+					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID09", "영민", "13000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
+					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID10", "국민", "14000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd"))
 				);
 	}
 
