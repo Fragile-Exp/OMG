@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<settings>
-		<setting  name="mapUnderscoreToCamelCase" value="true" />
+		<setting  name="mapUnderscoreToCamelCase" value="false" />
 		<!-- 데이터 베이스 컬럼명 A_COLUMNS CamelCase형태의 자바 프로퍼티로 매핑 aColumn -->
 	</settings>
 	<typeAliases>

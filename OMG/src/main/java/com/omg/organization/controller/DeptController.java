@@ -16,7 +16,7 @@ public class DeptController {
 	@Autowired
 	DeptService service;
 	
-	@RequestMapping(value="view/org.do",method=RequestMethod.GET)
+	@RequestMapping(value="org/org.do",method=RequestMethod.GET)
 	public String org_view() {
 		LOG.debug("== user_view ==");
 		
@@ -28,6 +28,13 @@ public class DeptController {
 		LOG.debug("== user_view ==");
 		
 		return "organization/org_reg";
+	}
+	
+	@RequestMapping(value="view/org_mod.do",method=RequestMethod.GET)
+	public String org_mod() {
+		LOG.debug("== user_view ==");
+		
+		return "organization/org_mod";
 	}
 	
 
