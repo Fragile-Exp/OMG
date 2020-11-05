@@ -51,6 +51,12 @@ public class TestCommutingDao {
 	List<Commuting> attendList;
 
 	
+	
+	
+	@Before
+	public void setUp() throws Exception {
+		LOG.debug("=setUp()=");
+	}
 	/**
 	 * update 근무시간
 	 * @throws Exception
@@ -58,45 +64,93 @@ public class TestCommutingDao {
 	@Test
 	public void rollingTest() throws Exception {
 		
-		int verify = 0;
-		
 		//1.조회/삭제
-		Search search = new Search();
-		attendList = commutingDao.doSelectList(search);
-		
-		for(Commuting vo : attendList) {
-			verify += commutingDao.doDelete(vo);
-		}
+		doSelectList();
+		doDelete();
 		
 		//2.초기 데이터 주입
-		verify+=commutingDao.doInit();
+		doInit();
 		
 		//3. 출퇴근시간, 작업시간 업데이트
+		doSelectList();
+		doUpdate();
+		
+		//4. 확인
+		doSelectList();
+		doSelectOne();
+		
+	}
+	
+	/**
+	 * getAll
+	 */
+	private void doSelectList() {
+		Search search = new Search("","");
 		attendList = commutingDao.doSelectList(search);
+	}
+	
+	/**
+	 * init data insert
+	 */
+	private void doInit() {
+		commutingDao.doInit();
+	}
+	
+	/**
+	 * delete All
+	 */
+	private void doDelete() {
+		int flag = 0;
+		for(Commuting vo : attendList) {
+			flag += commutingDao.doDelete(vo);
+		}
+		
+		assertThat(flag, is(attendList.size()));
+	}
+		
+	/**
+	 * update All
+	 */
+	private void doUpdate() {
+		int flag = 0;
 		for(Commuting vo : attendList) {
 			vo.setAttendTime(StringUtil.formatDate("yyyyMMdd 090000"));
 			vo.setLeaveTime(StringUtil.formatDate("yyyyMMdd 180000"));
 			vo.setPresentState(PresentState.퇴근);
 			vo.setState(State.조퇴);
-			verify += commutingDao.doUpdate(vo);
-			verify += commutingDao.doUpdateWorkTime(vo);
+			flag += commutingDao.doUpdate(vo);
+			flag += commutingDao.doUpdateWorkTime(vo);
 		}
-		//4. 확인
-		attendList = commutingDao.doSelectList(search);
 		
+		assertThat(flag, is(attendList.size()*2));
 	}
 	
-
-	@Before
-	public void setUp() throws Exception {
-		
+	/**
+	 * selectOne
+	 * @throws Exception
+	 */
+	private void doSelectOne() throws Exception {
+		for(Commuting vo : attendList) {
+			Commuting inVO = (Commuting) commutingDao.doSelectOne(vo);
+			checkCommuting(vo, inVO);
+		}
 	}
-
+	
+	private void checkCommuting(Commuting org, Commuting vs) throws Exception {
+		assertThat(org.getSeq(), is(vs.getSeq()));
+		assertThat(org.getEmployeeId(), is(vs.getEmployeeId()));
+		assertThat(org.getName(), is(vs.getName()));
+		assertThat(org.getDeptNo(), is(vs.getDeptNo()));
+		assertThat(org.getAttendTime(), is(vs.getAttendTime()));
+		assertThat(org.getLeaveTime(), is(vs.getLeaveTime()));
+		assertThat(org.getPresentState(), is(vs.getPresentState()));
+		assertThat(org.getState(), is(vs.getState()));
+		assertThat(org.getWorkTime(), is(vs.getWorkTime()));
+		assertThat(org.getRegDt(), is(vs.getRegDt()));
+	}
 	@After
 	public void tearDown() throws Exception {
-		LOG.debug("====================================");
 		LOG.debug("=tearDown()=");
-		LOG.debug("====================================");
 	}
 
 	@Test

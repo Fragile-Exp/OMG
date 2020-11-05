@@ -56,9 +56,7 @@
 		    attend_time = TO_DATE(#{attendTime},'yyyymmddHH24MISS'),
 		    leave_time = TO_DATE(#{leaveTime},'yyyymmddHH24MISS'), 
 		    present_state = #{presentStateIntValue},        					
-		    state = #{stateIntValue},                  				
-		    work_time = #{workTime},                              
-		    reg_dt = TO_DATE(#{regDt},'yyyymmddHH24MISS')      
+		    state = #{stateIntValue}                  				                              
 		WHERE                         					
 		       seq = #{seq}                					
 		AND    employee_id = #{employeeId}           				
@@ -93,8 +91,7 @@
 		    present_state as presentStateIntValue,                                                         
 		    state as stateIntValue,                                                                 
 		    work_time as workTime,                                                             
-		    reg_dt as regDt,                                                                
-		    rownum as num                                                            
+		    reg_dt as regDt                                                              
 		FROM                                                                       
 		    commuting c                                                            
 		WHERE c.seq= #{seq}                                                             
