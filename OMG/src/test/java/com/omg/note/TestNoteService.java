@@ -62,7 +62,7 @@ public class TestNoteService {
 	}
 	
 	@Test
-	public void TotalTest() {
+	public void totalTest() {
 		int flag = 0;
 		Message message;
 		// 삭제(휴지통 이동)
@@ -84,11 +84,10 @@ public class TestNoteService {
 			NoteVO inVO = new NoteVO();
 			// 보낸 쪽지함 지우기
 			inVO.setNoteNo(vo.getNoteNo());
-			inVO.setNoteDiv(vo.getNoteDiv()+10);
+			inVO.setNoteDiv(3);
 			inVO.setEmployeeId(vo.getSenderId());
 			delete(inVO);
 			// 받은 쪽지함 지우기
-			inVO.setNoteDiv(vo.getNoteDiv()+11);
 			inVO.setEmployeeId(vo.getReceiveId());
 			delete(inVO);
 		}

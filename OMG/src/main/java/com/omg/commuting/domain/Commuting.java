@@ -24,6 +24,12 @@ public class Commuting extends DTO {
 	/** 등록자*/
 	private String regDt;
 	
+	/** presentStateIntValue*/
+	private int presentStateIntValue;
+	
+	/** stateIntValue*/
+	private int stateIntValue;
+	
 	public Commuting() {
 		// TODO Auto-generated constructor stub
 	}
@@ -50,6 +56,28 @@ public class Commuting extends DTO {
 		this.state = state;
 		this.workTime = workTime;
 		this.regDt = regDt;
+	}
+	
+	
+	public int getPresentStateIntValue() {
+		return this.presentState.intValue();
+	}
+	
+	public int getStateIntValue() {
+		return this.state.intValue();
+	}
+	
+	
+	
+	public void setPresentStateIntValue(int presentStateIntValue) {
+		this.presentStateIntValue = presentStateIntValue;
+		this.presentState = PresentState.valueOf(presentStateIntValue);
+	}
+
+
+	public void setStateIntValue(int stateIntValue) {
+		this.stateIntValue = stateIntValue;
+		this.state = State.valueOf(stateIntValue);
 	}
 
 

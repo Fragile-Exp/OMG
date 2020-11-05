@@ -19,14 +19,14 @@
 		
 	<!-- mybatis -->
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<property name="configLocation" value="classpath:config/mybatis-config.xml"/>
 		<property name="mapperLocations" value="classpath:mappers/**/*.xml"/>
 		<property name="dataSource" ref="datasource"></property>
 	</bean>	
 	
 	
 	<!-- database properties 파일 -->
-	<context:property-placeholder location="classpath:resources/config/database.properties" />
+	<context:property-placeholder location="classpath:config/database.properties" />
 	<!-- dataSource -->
 	<bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driver}" />

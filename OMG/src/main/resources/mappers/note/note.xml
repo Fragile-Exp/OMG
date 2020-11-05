@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.note">
+	<!-- 삭제 -->
+	<delete id="doDelete" parameterType="NoteVO">
+		DELETE FROM note WHERE note_no = #{noteNo}
+						 AND note_div = #{noteDiv}
+						 AND employee_id = #{employeeId}
+	</delete>
+	
+	<!-- 등록 -->
+	<insert id="doInsert" parameterType="NoteVO"> 
+		INSERT INTO note (note_no, note_div, sender_id, sender_nm, receive_div, receive_id,
+						  receive_ref, receive_nm, employee_id, employee_nm, title, contents, up_note)
+		VALUES (#{noteNo}, #{noteDiv}, #{senderId}, #{senderNm}, #{receiveDiv}, #{receiveId},
+				#{receiveRef,jdbcType=VARCHAR}, #{receiveNm}, #{employeeId}, #{employeeNm}, #{title}, #{contents}, #{upNote} )                 
+	</insert>
+	
+	<!-- 단건 조회 -->
+	<select id="doSelectOne" parameterType="NoteVO" resultType="NoteVO" >
+		SELECT note_no, note_div, sender_id, sender_nm, receive_div, receive_id, receive_ref,
+				receive_nm, employee_id, employee_nm, title, contents, up_note, read,      	  	     											
+        		--등록일이 당일이면:HH24MI 그렇치 않으면: YYYY-MM-DD   
+        		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(send_dt,'YYYYMMDD'),
+        				TO_CHAR(send_dt,'HH24:MI'),TO_CHAR(send_dt,'YYYY-MM-DD')) send_dt,
+        		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(read_dt,'YYYYMMDD'),
+        				TO_CHAR(read_dt,'HH24:MI'),TO_CHAR(read_dt,'YYYY-MM-DD')) read_dt                       
+		FROM note
+		WHERE note_no = #{noteNo}
+		AND note_div = #{noteDiv}
+		AND employee_id = #{employeeId}
+	</select>
+	
+	<!-- 메일 읽음 확인 처리 -->
+	<update id="doUpdateRead" parameterType="NoteVO">
+		UPDATE note SET read = #{read}, read_dt = sysdate
+		WHERE note_no = #{noteNo}
+		AND note_div = #{noteDiv}
+		AND employee_id = #{employeeId}
+	</update>
+	
+	<!-- 메일 삭제(휴지통 이동) -->
+	<update id="doMoveToTrash" parameterType="NoteVO">
+		UPDATE note SET note_div = 3
+		WHERE note_no = #{noteNo}
+		AND note_div = #{noteDiv}
+		AND employee_id = #{employeeId}
+	</update>
+	
+	<!-- 목록 조회 -->
+	<select id="doSelectList" parameterType="NoteVO" resultType="NoteVO" >
+		SELECT note_no, note_div, sender_id, sender_nm, receive_div, receive_id, receive_ref,
+				receive_nm, employee_id, employee_nm, title, contents, up_note, read,      	  	     											
+        		--등록일이 당일이면:HH24MI 그렇치 않으면: YYYY-MM-DD
+        		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(send_dt,'YYYYMMDD'),
+        				TO_CHAR(send_dt,'HH24:MI'),TO_CHAR(send_dt,'YYYY-MM-DD')) send_dt,
+        		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(read_dt,'YYYYMMDD'),
+        				TO_CHAR(read_dt,'HH24:MI'),TO_CHAR(read_dt,'YYYY-MM-DD')) read_dt                       
+		FROM note
+		WHERE note_div = #{noteDiv}
+		AND employee_id = #{employeeId}
+	</select>
+	
+	<select id="bringKey" resultType="int" >
+		SELECT note_seq.nextval FROM dual
+	</select>
+	
+	
+	
+
+</mapper>

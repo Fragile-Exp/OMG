@@ -29,11 +29,12 @@ public class BoardDaoImpl implements BoardDao
 		{
 			BoardVO outVO = new BoardVO();
 		
-			outVO.setBoard_seq(rs.getInt("BOARD_SEQ"));
+			outVO.setBoardSeq(rs.getInt("BOARD_SEQ"));
 			outVO.setDiv(rs.getString("DIV"));
 			outVO.setTitle(rs.getString("TITLE"));   
 			outVO.setContents(rs.getString("CONTENTS"));
 			outVO.setRead_cnt(rs.getInt("READ_CNT"));
+			outVO.setFilecode(rs.getInt("FILE_CODE"));
 			outVO.setRegDt(rs.getString("REG_DT"));
 		
 			return outVO;
@@ -57,7 +58,7 @@ public class BoardDaoImpl implements BoardDao
 			}
 			else if("20".equals(search.getSearchDiv()))
 			{
-				sbWhere.append("WHERE contents like '%'|| ? ||'%' \n");
+				sbWhere.append("WHERE contents like '%'|| ? ||'%' A\n");
 			}
 		}
 		
@@ -71,6 +72,7 @@ public class BoardDaoImpl implements BoardDao
 		sb.append("           B.title,                                                                    \n");
 		sb.append("           B.contents,                                                                 \n");
 		sb.append("           B.read_cnt,                                                                 \n");
+		sb.append("           B.file_code,                                                                \n");
 		sb.append("           DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')             \n");
 		sb.append("                                             ,TO_CHAR(B.reg_dt,'HH24:MI')              \n");
 		sb.append("                                             ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) reg_dt,  \n");                                                           
@@ -152,7 +154,7 @@ public class BoardDaoImpl implements BoardDao
 	public BoardVO doSelectOne(BoardVO board)
 	{
 		BoardVO outVO = null;
-		Object args[] = {board.getBoard_seq()};
+		Object args[] = {board.getBoardSeq()};
 		StringBuilder sb=new StringBuilder();
 		sb.append("SELECT                                                 \n");
 		sb.append("    board_seq,                                         \n");
@@ -160,6 +162,7 @@ public class BoardDaoImpl implements BoardDao
 		sb.append("    title,                                             \n");
 		sb.append("    contents,                                          \n");
 		sb.append("    read_cnt,                                          \n");
+		sb.append("    file_code,                                         \n");
 		sb.append("    TO_CHAR(reg_dt,'YYYY-MM-DD HH24MISS') AS reg_dt,   \n");
 		sb.append("    reg_id,                                            \n");
 		sb.append("    TO_CHAR(mod_dt,'YYYY-MM-DD HH24MISS') AS mod_dt,   \n");
@@ -194,8 +197,9 @@ public class BoardDaoImpl implements BoardDao
 						    board.getTitle(),
 						    board.getContents(),
 						    board.getRead_cnt(),
+						    board.getFilecode(),
 						    board.getModId(),
-						    board.getBoard_seq()
+						    board.getBoardSeq()
 						 };
 		
 		StringBuilder sb=new StringBuilder();
@@ -204,6 +208,7 @@ public class BoardDaoImpl implements BoardDao
 		sb.append("    title = ?,        \n");
 		sb.append("    contents = ?,     \n");
 		sb.append("    read_cnt = ?,     \n");
+		sb.append("    file_code = ?,    \n");
 		sb.append("    mod_dt = SYSDATE, \n");
 		sb.append("    mod_id = ?        \n");
 		sb.append("WHERE board_seq = ?   \n");
@@ -221,7 +226,7 @@ public class BoardDaoImpl implements BoardDao
 	public int doDelete(BoardVO board)
 	{
 		int flag = 0;
-		Object[] args = { board.getBoard_seq()};
+		Object[] args = { board.getBoardSeq()};
 		
 		StringBuilder  sb=new StringBuilder();
 		sb.append("DELETE FROM board   \n");
@@ -247,37 +252,40 @@ public class BoardDaoImpl implements BoardDao
 	{
 		int flag =0;
 		Object[]  args = { 
-							board.getBoard_seq(),
+							//board.getBoardSeq(),
 						    board.getDiv(),
 						    board.getTitle(),
 						    board.getContents(),
 						    board.getRead_cnt(),
+						    //board.getFilecode(),
 						    board.getRegId(),
 						    board.getModId()
 						 };
 		
 		StringBuilder  sb=new StringBuilder();
-		sb.append("INSERT INTO board ( \n");
-		sb.append("    board_seq,      \n");
-		sb.append("    div,            \n");
-		sb.append("    title,          \n");
-		sb.append("    contents,       \n");
-		sb.append("    read_cnt,       \n");
-		sb.append("    reg_dt,         \n");
-		sb.append("    reg_id,         \n");
-		sb.append("    mod_dt,         \n");
-		sb.append("    mod_id          \n");
-		sb.append(") VALUES (          \n");
-		sb.append("    ?,              \n");
-		sb.append("    ?,              \n");
-		sb.append("    ?,              \n");
-		sb.append("    ?,              \n");
-		sb.append("    ?,              \n");
-		sb.append("    SYSDATE,        \n");
-		sb.append("    ?,              \n");
-		sb.append("    SYSDATE,        \n");
-		sb.append("    ?               \n");
-		sb.append(")                   \n");
+		sb.append("INSERT INTO board (         \n");
+		sb.append("    board_seq,              \n");
+		sb.append("    div,                    \n");
+		sb.append("    title,                  \n");
+		sb.append("    contents,               \n");
+		sb.append("    read_cnt,               \n");
+		sb.append("    file_code,              \n");
+		sb.append("    reg_dt,                 \n");
+		sb.append("    reg_id,                 \n");
+		sb.append("    mod_dt,                 \n");
+		sb.append("    mod_id                  \n");
+		sb.append(") VALUES (                  \n");
+		sb.append("    BOARD_SEQ.NEXTVAL,      \n");
+		sb.append("    ?,                      \n");
+		sb.append("    ?,                      \n");
+		sb.append("    ?,                      \n");
+		sb.append("    ?,                      \n");
+		sb.append("    ATTACHMENT_SEQ.NEXTVAL, \n");
+		sb.append("    SYSDATE,                \n");
+		sb.append("    ?,                      \n");
+		sb.append("    SYSDATE,                \n");
+		sb.append("    ?                       \n");
+		sb.append(")                           \n");
 		LOG.debug("========================");
 		LOG.debug("=param=\n"+board);
 		LOG.debug("========================");

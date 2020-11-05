@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting  name="mapUnderscoreToCamelCase" value="true" />
+		<!-- 데이터 베이스 컬럼명 A_COLUMNS CamelCase형태의 자바 프로퍼티로 매핑 aColumn -->
+	</settings>
+	<typeAliases>
+		<!--  type 별핑 VO의 이름을 간략히 사용 -->
+		<typeAlias type="com.omg.cmn.DTO" alias="DTO"/>
+		<typeAlias type="com.omg.cmn.Search" alias ="Search"/>
+		<typeAlias type="com.omg.commuting.domain.Commuting" alias="Commuting"/>
+		<typeAlias type="com.omg.organization.domain.DeptVO" alias="DeptVO"/>
+		<typeAlias type="com.omg.organization.domain.PositionVO" alias="PositionVO"/>
+		<typeAlias type="com.omg.note.domain.NoteVO" alias="NoteVO"/>
+	</typeAliases>
+</configuration>  

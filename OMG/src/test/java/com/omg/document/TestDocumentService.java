@@ -95,8 +95,18 @@ public class TestDocumentService {
 		assertThat(flag, is(1));
 		
 		//단건검색
-		DocumentVO vsPos = documentService.doSelectOne(param);
-		checkDocumentVO(param, vsPos);
+		DocumentVO doPos = documentService.doSelectOne(param);
+		checkDocumentVO(param, doPos);
+		
+		
+		//전체 검색 
+		List<DocumentVO> listPos = (List<DocumentVO>) documentService.doSelectList();
+		
+		for(DocumentVO vo : listPos ) {
+			LOG.debug("=vo="+vo);
+			
+		}
+		
 	
 	}
 

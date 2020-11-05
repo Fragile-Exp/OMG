@@ -52,22 +52,13 @@ public class TestBoardDao
 		LOG.debug("=setUp()=");
 		LOG.debug("=============================");
 		list = Arrays.asList(
-							 new BoardVO(1,"10","제목테스트1","내용테스트1",10,"","SAMGYOBI","","SAMGYOBI"),
-							 new BoardVO(2,"10","제목테스트2","내용테스트2",11,"","SAMGYOBI","","SAMGYOBI"),
-							 new BoardVO(3,"10","제목테스트3","내용테스트3",49,"","SAMGYOBI","","SAMGYOBI"),
-							 new BoardVO(4,"10","제목테스트4","내용테스트4",51,"","SAMGYOBI","","SAMGYOBI"),
-							 new BoardVO(5,"10","제목테스트5","내용테스트5",99,"","SAMGYOBI","","SAMGYOBI")
+							 new BoardVO(3,"10","제목테스트1","내용테스트1",10,1,"","SAMGYOBI","","SAMGYOBI"),
+							 new BoardVO(4,"10","제목테스트2","내용테스트2",11,2,"","SAMGYOBI","","SAMGYOBI"),
+							 new BoardVO(5,"10","제목테스트3","내용테스트3",49,3,"","SAMGYOBI","","SAMGYOBI"),
+							 new BoardVO(6,"10","제목테스트4","내용테스트4",51,4,"","SAMGYOBI","","SAMGYOBI"),
+							 new BoardVO(7,"10","제목테스트5","내용테스트5",99,5,"","SAMGYOBI","","SAMGYOBI")
 							);
-				
-//		board_seq;
-//		div;      
-//		title;    
-//		contents; 
-//		read_cnt; 
-//		regDt;    
-//		regId;    
-//		modDt;    
-//		modId;    
+				   
 	}
 	
 	@After

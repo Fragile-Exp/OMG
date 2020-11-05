@@ -60,7 +60,7 @@ public class TestPosition {
 	}
 	
 	@Test
-	public void TotalTest() {
+	public void totalTest() {
 		int flag = 0;
 		// 삭제
 		for(PositionVO vo:list) {

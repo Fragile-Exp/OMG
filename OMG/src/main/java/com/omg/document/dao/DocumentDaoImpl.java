@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.omg.document.domain.DocumentVO;
 
 
+
 @Repository("documentDao")
 public class DocumentDaoImpl {
 	
@@ -189,8 +190,30 @@ public class DocumentDaoImpl {
 	}
 
 	
-	public List<DocumentVO> doSelectList(DocumentVO documentVO) {
-		return null;
+	public List<DocumentVO> doSelectList() {
+		
+		StringBuilder sb = new StringBuilder();
+	
+		sb.append(" SELECT document_id,   				\n");
+		sb.append(" 	   employee_id,   				\n");
+		sb.append(" 	   kind,   		  				\n");
+		sb.append(" 	   title,   	  				\n");
+		sb.append(" 	   TO_CHAR(d_day, 'YYYY-MM-DD') AS d_day,   \n");
+		sb.append(" 	   document_cont, 				\n");
+		sb.append(" 	   document_set,  				\n");
+		sb.append(" 	   ok_user		  				\n");
+		sb.append("FROM document	            		\n");
+		
+		LOG.debug("query : \n"+sb.toString());
+		
+		
+		List<DocumentVO> list = (List<DocumentVO>) jdbcTemplate.query(sb.toString(), rowMapper);
+		
+		for(DocumentVO vo:list) {
+			LOG.debug(" 조회 VO : "+ vo);
+		}
+		
+		return list;
 		
 	}
 

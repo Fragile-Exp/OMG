@@ -1,3 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mappers.orgnization.dept"></mapper>
+<mapper namespace="com.omg.orgnization.dept">
+
+	<!-- 삭제 -->
+	<delete id="doDelete" parameterType="DeptVO">
+		DELETE FROM dept WHERE dept_no = #{deptNo}
+	</delete>
+	
+	<!-- 등록 -->
+	<insert id="doInsert" parameterType="DeptVO">
+		INSERT INTO dept (dept_no, dept_nm, up_dept)
+				VALUES(#{deptNo},#{deptNm},#{upDept})
+	</insert>
+	
+	<!-- 단건 조회 -->
+	<select id="doSelectOne" parameterType="DeptVO" resultType="DeptVO">
+		SELECT dept_no, dept_nm, up_dept, 1 as "level" 
+		FROM dept
+		WHERE dept_no = #{deptNo}
+	</select>
+	
+	<!-- 수정 -->
+	<update id="doUpdate" parameterType="DeptVO">
+		UPDATE dept SET dept_no = #{deptNo},
+						dept_nm = #{deptNm},
+						up_dept = #{upDept}
+		WHERE dept_no = #{deptNo}
+	</update>
+	
+	<!-- 목록 조회 -->
+	<select id="doSelectList" resultType="DeptVO"  >
+		SELECT dept_no, dept_nm, up_dept, level 
+		FROM dept
+		START WITH up_dept = 0
+		CONNECT BY prior
+			dept_no=up_dept
+	</select>
+
+</mapper>

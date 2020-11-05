@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.commuting">
+
+	<insert id="doInsert" parameterType="Commuting">
+		INSERT INTO commuting (            
+		    seq,                           
+		    employee_id,                   
+		    name,                          
+		    dept_no,                       
+		    attend_time,                   
+		    leave_time,                    
+		    present_state,                 
+		    state,                         
+		    work_time,                     
+		    reg_dt                         
+		) VALUES (                         
+		    #{seq},                             
+		    #{employeeId},                             
+		    #{name},                             
+		    #{deptNo},                             
+		    TO_DATE(#{attendTime},'yyyymmddHH24MISS'), 
+		    TO_DATE(#{leaveTime},'yyyymmddHH24MISS'), 
+		    #{presentStateIntValue},                             
+		    #{stateIntValue},                             
+		    #{workTime},                             
+		    TO_DATE(#{regDt},'yyyymmddHH24MISS')  
+		)                                  
+	</insert>
+	
+	<insert id="doInit">
+		INSERT INTO commuting (seq,employee_id,name,dept_no,present_state,state,reg_dt) 
+		SELECT TO_CHAR(sysdate,'yyyy-MM-dd') as seq,                                    
+		       employee_id,                                                             
+		       name,                                                                    
+		       dept_no,                                                                 
+		       0,                                                                       
+		       0,                                                                       
+		       sysdate as reg_dt                                                        
+		FROM employee                                                                   
+	</insert>
+	
+	<delete id="doDelete" parameterType="Commuting">
+		DELETE FROM commuting 
+		WHERE                 
+		    seq = #{seq}           
+		AND    employee_id = #{employeeId}
+	</delete>
+	
+	<update id="doUpdate" parameterType="Commuting">
+		UPDATE commuting               					
+		SET                            					
+		    name = #{name},                					
+		    dept_no = #{deptNo},               					
+		    attend_time = TO_DATE(#{attendTime},'yyyymmddHH24MISS'),
+		    leave_time = TO_DATE(#{leaveTime},'yyyymmddHH24MISS'), 
+		    present_state = #{presentStateIntValue},        					
+		    state = #{stateIntValue},                  				
+		    work_time = #{workTime},                              
+		    reg_dt = TO_DATE(#{regDt},'yyyymmddHH24MISS')      
+		WHERE                         					
+		       seq = #{seq}                					
+		AND    employee_id = #{employeeId}           				
+	</update>
+	
+	<update id="doUpdateWorkTime" parameterType="Commuting">
+		UPDATE commuting c                                                                                      		
+		SET work_time = (                                                                                         		
+		              TO_CHAR( TRUNC(((c.leave_time - c.attend_time) - TRUNC(c.leave_time - c.attend_time)) * 24-1))   	
+		              || '시간' ||                                                                                 		
+		              TO_CHAR(FLOOR(((((c.leave_time - c.attend_time) -TRUNC(c.leave_time - c.attend_time)) * 24)       
+		                      - TRUNC(((c.leave_time - c.attend_time)-TRUNC(c.leave_time - c.attend_time)) * 24)) * 60) 
+		                      )                                                                                   		
+		              || '분'                                                                                      		
+		            )                                                                                             		
+		WHERE c.seq =#{seq}                                                                                            		
+		AND c.employee_id =#{employeeId}                                                                                      		
+	</update>
+	
+	<select id="doSelectOne" parameterType="Commuting" resultType="Commuting">
+		SELECT                                                                     
+		    seq,                                       								
+		    employee_id as employeeId,                                                           
+		    name,                                                                  
+		    dept_no as deptNo,                                                               
+		    DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(attend_time,'YYYYMMDD')     
+						   ,TO_CHAR(attend_time,'HH24:MI')                         
+						   ,TO_CHAR(attend_time,'YYYY-MM-DD HH24:MI')) as attendTime,
+			DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(leave_time,'YYYYMMDD')      
+						   ,TO_CHAR(leave_time,'HH24:MI')                          
+						   ,TO_CHAR(leave_time,'YYYY-MM-DD HH24:MI'))  as leaveTime, 
+		    present_state as presentStateIntValue,                                                         
+		    state as stateIntValue,                                                                 
+		    work_time as workTime,                                                             
+		    reg_dt as regDt,                                                                
+		    rownum as num                                                            
+		FROM                                                                       
+		    commuting c                                                            
+		WHERE c.seq= #{seq}                                                             
+		AND c.employee_id = #{employeeId}                                                       
+	</select>
+	
+	
+</mapper>
