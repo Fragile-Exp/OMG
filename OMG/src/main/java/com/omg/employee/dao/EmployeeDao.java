@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,13 @@ import com.omg.employee.domain.EmployeeVO;
 import org.springframework.jdbc.core.RowMapper;
 
 @Repository("employeeDao")
-public class EmployeeDao {
+public class EmployeeDao   {
 	final static Logger LOG=LoggerFactory.getLogger(EmployeeDao.class);
+	
+	private final String NAMESPACE="com.omg.employee";
+	
+	@Autowired
+   SqlSessionTemplate sqlSessionTemplate;
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -73,166 +79,77 @@ public class EmployeeDao {
 	
 	public EmployeeDao() {}
 	
+	/**
+	 * 비밀번호 확인
+	 * @param employee
+	 * @return 1(비밀번호 일치)/0(비밀번호 불일치)
+	 */
 	public int passwdConfirm(EmployeeVO employee)  {
-		int cnt=0;
-		StringBuilder sb = new StringBuilder();
+		LOG.debug("==================");
+		LOG.debug("passwdConfirm");
+		LOG.debug("==================");
 		
-		sb.append("SELECT count(*) cnt  \n");
-		sb.append("FROM employee        \n");
-		sb.append("WHERE employee_id=?  \n");
-		sb.append("    AND password=?   \n");
-		LOG.debug("=====================================");
-		LOG.debug("=sql\n="+sb.toString());
-		LOG.debug("=param="+employee);
-		LOG.debug("=====================================");
+		String statement = NAMESPACE + ".passwdConfirm";
+		LOG.debug("statement:" + statement);
+		LOG.debug("EmployeeVO:" + employee);
 		
-		Object[] args= {employee.getEmployee_id(),
-						employee.getPassword()};
-		cnt=(int) this.jdbcTemplate.queryForObject(sb.toString(), (Object[]) args, idMapper);
+		int cnt=this.sqlSessionTemplate.selectOne(statement, employee);
+		LOG.debug("cnt:" + cnt);
+		
 		return cnt;
 	}
 	
+	/**
+	 * 아이디 존재여부
+	 * @param employee
+	 * @return 1(존재)/0(존재하지 않는 아이디)
+	 */
 	public int idConfirm(EmployeeVO employee) {
-		int cnt=0;
-		StringBuilder sb=new StringBuilder();
+		LOG.debug("==================");
+		LOG.debug("idConfirm");
+		LOG.debug("==================");
 		
-		sb.append("SELECT count(*) cnt          \n");
-		sb.append("FROM employee                \n");
-		sb.append("WHERE employee_id=?          \n");
-		LOG.debug("=====================================");
-		LOG.debug("=sql\n="+sb.toString());
-		LOG.debug("=param="+employee.getEmployee_id());
-		LOG.debug("=====================================");
-	
-		Object[] args = {employee.getEmployee_id()};
-		cnt=(int) this.jdbcTemplate.queryForObject(sb.toString(), (Object[]) args, idMapper);
-
-		LOG.debug("=flag idConfrim="+cnt);
+		String statement = NAMESPACE + ".idConfirm";
+		LOG.debug("statement:" + statement);
+		LOG.debug("EmployeeVO:" + employee);
+		
+		int cnt=this.sqlSessionTemplate.selectOne(statement, employee);
+		LOG.debug("cnt:" + cnt);
+		
 		return cnt;
 	}
 	
 	
 	public List<EmployeeVO> doSelectList(Search search){
-		StringBuilder sbWhere=new StringBuilder();
+		LOG.debug("==================");
+		LOG.debug("doSelectList");
+		LOG.debug("==================");
+       
+		String statement = NAMESPACE + ".doSelectList";
+		LOG.debug("statement:" + statement);
+		LOG.debug("search:" + search);
 		
-		//이름(10), 부서(20)
-		if(null != search.getSearchDiv() && !"".equals(search.getSearchDiv())) {
-			if("10".equals(search.getSearchDiv())) {
-				sbWhere.append(" WHERE name like '%'|| ? ||'%'  \n");
-			}else if("20".equals(search.getSearchDiv())) {
-				sbWhere.append(" WHERE dept_no like '%'|| ? ||'%'  \n");
-			}
+		List<EmployeeVO> list=this.sqlSessionTemplate.selectList(statement, search);
+		
+		for(EmployeeVO vo:list) {
+			LOG.debug("vo:"+vo);
 		}
-		
-		StringBuilder sb=new StringBuilder();
-		sb.append(" SELECT T1.*,T2.*                                                                \n");
-		sb.append(" FROM                                                                            \n");
-		sb.append("  (                                                                              \n");
-		sb.append("      SELECT B.rnum,                                                             \n");
-		sb.append("             B.employee_id,                                                             \n");
-		sb.append("             B.password,                                                             \n");
-		sb.append("             B.name,                                                           \n");
-		sb.append("             B.dept_no,                                                          \n");
-		sb.append("             B.position_no,                                                            \n");
-		sb.append("             B.cell_phone,                                                        \n");
-		sb.append("             B.email,                                                             \n");
-		sb.append("             B.address,                                                             \n");
-		sb.append("             TO_CHAR(B.hire_date,'YYYYMMDD') hire_date,                                                         \n");
-		sb.append("             B.birth_day,                                                             \n");
-		sb.append("             B.holiday,                                                             \n");
-		sb.append("             B.img_code                                                             \n");
-		sb.append("      FROM (                                                                     \n");
-		sb.append("          SELECT ROWNUM rnum, A.*                                                \n");
-		sb.append("          FROM(                                                                  \n");
-		sb.append("              SELECT *                                                           \n");
-		sb.append("              FROM  employee                                                 \n");
-		//----------------------------------------------------------------------------------------------
-		//Where조건 
-		//----------------------------------------------------------------------------------------------		
-		sb.append(sbWhere.toString() );
-
-		sb.append("              ORDER BY hire_date DESC                                               \n");
-		sb.append("          )A                                                                     \n");
-		//sb.append("          WHERE ROWNUM <=(&PAGE_SIZE *(&PAGE_NUM-1)+&PAGE_SIZE)                  \n");
-		sb.append("          WHERE ROWNUM <=(? *(?-1)+?)                  \n");
-
-		sb.append("      )B                                                                         \n");
-		//sb.append("      WHERE b.rnum >=(&PAGE_SIZE *(&PAGE_NUM-1)+1)                               \n");
-		sb.append("      WHERE b.rnum >=(? *(?-1)+1)                               \n");
-		sb.append("      )T1                                                                        \n");
-		sb.append("      CROSS JOIN                                                                 \n");
-		sb.append("      --전체COUNT                                                                  \n");
-		sb.append("      (SELECT COUNT(*) total_cnt                                                 \n");
-		sb.append("       FROM  employee                                                           \n");
-		//----------------------------------------------------------------------------------------------
-		//Where조건 
-		//----------------------------------------------------------------------------------------------		
-		sb.append(sbWhere.toString() );
-		sb.append("      )T2                                                                        \n");
-		//param 처리
-		List<Object> listArg=new ArrayList<Object>();
-		
-		//검색조건+:7개 ?
-		if(null != search.getSearchDiv() && !"".equals(search.getSearchDiv())) {
-			listArg.add(search.getSearchWord());
-			
-			listArg.add(search.getPageSize());
-			listArg.add(search.getPageNum());
-			listArg.add(search.getPageSize());
-			listArg.add(search.getPageSize());
-			listArg.add(search.getPageNum());
-			
-			listArg.add(search.getSearchWord());
-		}else {
-			//&PAGE_SIZE *(&PAGE_NUM-1)+&PAGE_SIZE
-			//&PAGE_SIZE *(&PAGE_NUM
-			listArg.add(search.getPageSize());
-			listArg.add(search.getPageNum());
-			listArg.add(search.getPageSize());
-			listArg.add(search.getPageSize());
-			listArg.add(search.getPageNum());
-		}
-		LOG.debug("========================");
-		LOG.debug("=sql\n="+sb.toString());
-		LOG.debug("=param="+search);
-		LOG.debug("========================");	
-		
-		List<EmployeeVO> list=(List<EmployeeVO>)jdbcTemplate.query(sb.toString(), listArg.toArray(), rowMapper);
-		for(EmployeeVO vo: list) {
-			LOG.debug("=vo="+vo);
-		}
-		
 		
 		return list;
 	}
 	
 	public List<EmployeeVO> doSelectAll(EmployeeVO employee){
-		List<EmployeeVO> list=null;
-		StringBuilder sb=new StringBuilder();
-		sb.append("SELECT                      \n");
-		sb.append("    employee_id,            \n");
-		sb.append("    password,               \n");
-		sb.append("    name,                   \n");
-		sb.append("    dept_no,                \n");
-		sb.append("    position_no,            \n");
-		sb.append("    cell_phone,             \n");
-		sb.append("    email,                  \n");
-		sb.append("    address,                \n");
-		sb.append("    hire_date,              \n");
-		sb.append("    birth_day,              \n");
-		sb.append("    holiday,                \n");
-		sb.append("    img_code                \n");
-		sb.append("FROM                        \n");
-		sb.append("    employee                \n");
-		sb.append("WHERE employee_id like ?    \n");
-		LOG.debug("========================");
-		LOG.debug("=sql\n="+sb.toString());
-		LOG.debug("=param="+employee);
-		LOG.debug("========================");
+		LOG.debug("==================");
+		LOG.debug("doSelectAll");
+		LOG.debug("==================");
+       
+		String statement = NAMESPACE + ".doSelectAll";
+		LOG.debug("statement:" + statement);
+		LOG.debug("EmployeeVO:" + employee);
 		
-		list=this.jdbcTemplate.query(sb.toString(), 
-									new Object[] {"%"+employee.getEmployee_id()+"%"},
-									rowMapper);
+
+		List<EmployeeVO> list=this.sqlSessionTemplate.selectList(statement, employee);
+		
 		for(EmployeeVO vo:list) {
 			LOG.debug("====================================");
 			LOG.debug("=vo="+vo);
@@ -241,101 +158,54 @@ public class EmployeeDao {
 		return list;
 	}
 	
-	public int count(EmployeeVO employee) {
-		int cnt=0;
-		
-		StringBuilder  sb=new StringBuilder();
-		sb.append("SELECT COUNT(*) cnt        \n");
-		sb.append("FROM employee              \n");
-		sb.append("WHERE employee_id like ?   \n");
-		
-		LOG.debug("========================");
-		LOG.debug("=sql\n="+sb.toString());
-		LOG.debug("=param="+employee);
-		LOG.debug("========================");
-		
-		cnt=this.jdbcTemplate.queryForObject(sb.toString(), 
-											new Object[] {"%"+employee.getEmployee_id()+"%"},
-											Integer.class
-				);
-		LOG.debug("========================");
-		LOG.debug("=cnt="+cnt);
-		LOG.debug("========================");		
-		return cnt;
-	}
 	
 	public int doUpdate(EmployeeVO employee) {
-		int flag=0;
-		StringBuilder sb=new StringBuilder();
-		sb.append("UPDATE employee             \n");
-		sb.append("SET	password 	= ?,       \n");
-		sb.append("	dept_no 	= ?,           \n");
-		sb.append("	position_no = ?,           \n");
-		sb.append("	cell_phone 	= ?,           \n");
-		sb.append("	email 		= ?,           \n");
-		sb.append("	address 	= ?,           \n");
-		sb.append("	holiday 	= ?,           \n");
-		sb.append("	img_code 	= ?            \n");
-		sb.append("WHERE employee_id = ?       \n");
-		LOG.debug("========================");
-		LOG.debug("=sql\n="+sb.toString());
-		LOG.debug("=param="+employee);
-		LOG.debug("========================");	
+		LOG.debug("==================");
+		LOG.debug("doUpdate");
+		LOG.debug("==================");
+       
+		String statement = NAMESPACE + ".doUpdate";
+		LOG.debug("statement" + statement);
+		LOG.debug("EmployeeVO:" + employee);
 		
-		Object[] args= {	employee.getPassword(),
-							employee.getDept_no(),
-							employee.getPosition_no(),
-							employee.getCell_phone(),
-							employee.getEmail(),
-							employee.getAddress(),
-							employee.getHoliday(),
-							employee.getImg_code(),
-							employee.getEmployee_id()
-		};
+		int flag=this.sqlSessionTemplate.update(statement, employee);
+		LOG.debug("flag" + flag);
 		
-		flag=this.jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("=flag="+flag);	
 		return flag;
-		
 	}
 	
-	public EmployeeVO doSelectOne(String id) {
-		EmployeeVO outVO=null;
-		StringBuilder  sb=new StringBuilder();
-		
-		sb.append("SELECT                   \n");
-		sb.append("    employee_id,         \n");
-		sb.append("    password,            \n");
-		sb.append("    name,                \n");
-		sb.append("    dept_no,             \n");
-		sb.append("    position_no,         \n");
-		sb.append("    cell_phone,          \n");
-		sb.append("    email,               \n");
-		sb.append("    address,             \n");
-//		sb.append("         TO_CHAR(hire_date,'YYYY-MM-DD HH24MISS') AS hire_date \n");
-		sb.append("         TO_CHAR(hire_date,'YY/MM/DD ') AS hire_date, \n");
-		sb.append("    birth_day,           \n");
-		sb.append("    holiday,             \n");
-		sb.append("    img_code             \n");
-		sb.append("FROM                     \n");
-		sb.append("    employee             \n");
-		sb.append("WHERE employee_id = ?    \n");
-		
-		LOG.debug("========================");
-		LOG.debug("=sql\n="+sb.toString());
-		LOG.debug("=param="+id);
-		LOG.debug("========================");	
-		
-		Object args[] = {id};
-		outVO = (EmployeeVO) this.jdbcTemplate.queryForObject(sb.toString(), 
-    			                        args, 
-    			                        rowMapper);
-		
-		LOG.debug("========================");
-		LOG.debug("=outVO="+outVO);
-		LOG.debug("========================");	
-		
+	public EmployeeVO doSelectOne(EmployeeVO employee) {
+		LOG.debug("==================");
+	    LOG.debug("doSelectOne");
+	    LOG.debug("==================");
+	    
+	    String statement = NAMESPACE + ".doSelectOne";
+	    LOG.debug("statement:" + statement);
+	    LOG.debug("EmployeeVO:" + employee);
+	    
+	    EmployeeVO outVO=this.sqlSessionTemplate.selectOne(statement, employee);
+	    LOG.debug("outVO" + outVO);
+	    
 		return outVO;
+	}
+	
+	/**
+	 * 전체삭제
+	 * @return
+	 */
+	public int doDeleteAll() {
+		LOG.debug("==================");
+		LOG.debug("doDelete");
+		LOG.debug("==================");
+      
+		//.중요
+		String statement = NAMESPACE + ".doDeleteAll";
+		LOG.debug("statement" + statement);
+	      
+		int flag = sqlSessionTemplate.insert(statement);
+		LOG.debug("flag" + flag);
+      
+		return flag;
 	}
 	
 	/**
@@ -345,19 +215,17 @@ public class EmployeeDao {
 	 */
 
 	public int doDelete(EmployeeVO employee){
-		int flag = 0;
-		StringBuilder  sb=new StringBuilder();
-		sb.append("DELETE FROM employee       \n");
-		sb.append("WHERE employee_id = ?      \n");
+		LOG.debug("==================");
+		LOG.debug("doDelete");
+		LOG.debug("==================");
 		
-		LOG.debug("=====================================");
-		LOG.debug("=sql=\n"+sb.toString());
-		LOG.debug("=param="+employee);
-		LOG.debug("=====================================");
+		String statement = NAMESPACE + ".doDelete";
+	    LOG.debug("statement" + statement);
+	    LOG.debug("EmployeeVO:" + employee);
 		
-		Object[] args= {employee.getEmployee_id()};
-		flag=this.jdbcTemplate.update(sb.toString(),args);
-		
+	    int flag=sqlSessionTemplate.delete(statement, employee);
+	    LOG.debug("flag" + flag);
+	    
 		return flag;
 	}
 	
@@ -367,62 +235,19 @@ public class EmployeeDao {
 	 * @return
 	 */
 	public int doInsert(EmployeeVO employee) {
-		int flag=0;
-		Object[] args= {
-						employee.getEmployee_id(),
-						employee.getPassword(),
-						employee.getName(),
-						employee.getDept_no(),
-						employee.getPosition_no(),
-						employee.getCell_phone(),
-						employee.getEmail(),
-						employee.getAddress(),
-						employee.getHire_date(),
-						employee.getBirth_day(),
-						employee.getHoliday(),
-						employee.getImg_code()
-		};
-		
-		StringBuilder sb=new StringBuilder();
-		sb.append("INSERT INTO employee (       \n");
-		sb.append("    employee_id,             \n");
-		sb.append("    password,                \n");
-		sb.append("    name,                    \n");
-		sb.append("    dept_no,                 \n");
-		sb.append("    position_no,             \n");
-		sb.append("    cell_phone,              \n");
-		sb.append("    email,                   \n");
-		sb.append("    address,                 \n");
-		sb.append("    hire_date,                 \n");
-		sb.append("    birth_day,               \n");
-		sb.append("    holiday,                 \n");
-		sb.append("    img_code                 \n");
-		sb.append(") VALUES (                   \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?,                       \n");
-		sb.append("    ?                        \n");
-		sb.append(")                            \n");
-		LOG.debug("========================");
-		LOG.debug("=sql=\n"+sb.toString());
-		LOG.debug("=param=\n"+employee);
+		LOG.debug("==================");
+	    LOG.debug("doInsert");
+	    LOG.debug("==================");
 
-		LOG.debug("========================");		
-		
-		flag=this.jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("=flag="+flag);
+	    //.중요
+	    String statement = NAMESPACE + ".doInsert";
+	    LOG.debug("statement:" + statement);
+	    LOG.debug("EmployeeVO:" + employee);
+	    
+	    int flag=sqlSessionTemplate.delete(statement, employee);
 		
 		return flag;
-	 
 	}
-	
+
 	
 }

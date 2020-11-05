@@ -50,7 +50,7 @@ public class DocumentService {
 	}
 	
 	/**
-	 * 다건 검색
+	 * 전체 검색
 	 * @param documentVO
 	 * @return
 	 */

@@ -27,13 +27,12 @@ import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.employee.dao.EmployeeDao;
 import com.omg.employee.domain.EmployeeVO;
-import com.omg.employee.service.EmployeeService;
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+import com.omg.employee.service.EmployeeServiceImpl;
+@FixMethodOrder(MethodSorters.NAME_ASCENDING) // 메소드 수행 순서
 @WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)//스프랭 테스트 컨텍스트 프레임워크의 JUnit기능 확장
+@RunWith(SpringJUnit4ClassRunner.class) // 스프링 테스트 컨텍스트 프레임워크의 Junit 기능 확장 applicationContext 공유
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
-                                 "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"		
-})
+									"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
 public class TestEmployeeService {
 	final static Logger   LOG = LoggerFactory.getLogger(TestEmployeeService.class);
 	
@@ -44,7 +43,7 @@ public class TestEmployeeService {
     EmployeeDao employeeDao;
     
     @Autowired
-    EmployeeService employeeService;
+    EmployeeServiceImpl employeeService;
     
     EmployeeVO employee01;
     EmployeeVO employee02;
@@ -74,6 +73,7 @@ public class TestEmployeeService {
 		LOG.debug("=========================");
 	}
 	@Test
+	@Ignore
 	public void idCheck() {
 		LOG.debug("=========================");
 		LOG.debug("=idCheck()=");		
@@ -81,12 +81,11 @@ public class TestEmployeeService {
 		employeeService.idCheck(employee01);
 	}
 	@Test
-	@Ignore
 	public void doLogin() {
 		LOG.debug("=========================");
 		LOG.debug("=doLogin()=");		
 		LOG.debug("=========================");
-		employeeService.doLogin(employee01);
+		employeeService.doLogin(employee03);
 		
 	}
 	

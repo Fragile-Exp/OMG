@@ -102,7 +102,6 @@
             <h6 class="collapse-header">Other Pages:</h6>
 			<a class="collapse-item" href="404.html">404 Page</a>
 			<a id="blank" class="collapse-item" href="${hContext}/view/blank.do">Blank Page</a>
-			<a class="collapse-item" href="${hContext}/view/note.do">쪽지</a>
          </div>
        </div>
      </li>
@@ -123,7 +122,7 @@
         </a>
         <div id="adminSetting" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-			<a id="org" class="collapse-item" href="${hContext}/view/org.do">조직 관리</a>
+			<a id="org" class="collapse-item" href="${hContext}/org/org.do">조직 관리</a>
 			<div class="collapse-divider"></div>
          </div>
        </div>
