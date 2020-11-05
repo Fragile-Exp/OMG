@@ -24,12 +24,5 @@ public class viewController {
 		return "blank";
 	}
 	
-	
-	@RequestMapping(value="view/note.do",method=RequestMethod.GET)
-	public String note_view() {
-		LOG.debug("== user_view ==");
-		
-		return "note";
-	}
 
 }

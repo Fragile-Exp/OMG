@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.employee">
+	<!-- 동적검색 조건
+		10:이름
+		20:부서
+	 -->
+	<sql id="searchCondition">
+		<choose>
+			<when test="'10' == searchDiv">
+				 WHERE name like '%'|| #{searchWord} ||'%' 
+			</when>
+			
+			<when test="'20' == searchDiv">
+				 WHERE dept_no like '%'|| #{searchWord} ||'%' 
+			</when>
+		</choose>
+	</sql>
+	 
+
+	<!-- 목록조회 -->
+	<select id="doSelectList" parameterType="EmployeeVO" resultType="EmployeeVO">
+	SELECT T1.*,T2.*                                                           
+	FROM                                                                       
+	 (                                                                         
+	     SELECT B.rnum,                                                        
+	            B.employee_id,                                                 
+	            B.password,                                                    
+	            B.name,                                                        
+	            B.dept_no,                                                     
+	            B.position_no,                                                 
+	            B.cell_phone,                                                  
+	            B.email,                                                       
+	            B.address,                                                     
+	            TO_CHAR(B.hire_date,'YYYYMMDD') hire_date,                     
+	            B.birth_day,                                                   
+	            B.holiday,                                                     
+	            B.img_code                                                     
+	     FROM (                                                                
+	         SELECT ROWNUM rnum, A.*                                           
+	         FROM(                                                             
+	             SELECT *                                                      
+	             FROM  employee      
+				<include refid="searchCondition"/>
+	            ORDER BY hire_date DESC                                   
+	        )A                                                            
+			WHERE rownum <![CDATA[ <= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + #{pageSize})	      
+		)B                                              		
+			WHERE rnum <![CDATA[ >= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + 1 )	                                 
+		)T1                                                
+		CROSS JOIN                                         
+		--전체COUNT                                          
+		(SELECT COUNT(*) total_cnt                         
+		 FROM  employee    
+	<include refid="searchCondition"/>
+	)T2       
+	</select>
+	
+	
+	<!-- 목록조회 ALL -->
+	<select id="doSelectAll" parameterType="EmployeeVO" resultType="EmployeeVO">
+		SELECT                     
+		    employee_id,        
+		    password,           
+		    name,               
+		    dept_no,            
+		    position_no,        
+		    cell_phone,         
+		    email,              
+		    address,            
+		    TO_CHAR(hire_date,'YY/MM/DD ') AS hire_date,
+		    birth_day,          
+		    holiday,            
+		    img_code                     
+		FROM                       
+		    employee               
+		WHERE employee_id like '%' || #{employee_id,jdbcType=VARCHAR}|| '%' 
+	</select>
+	
+	<!-- 비밀번호 확인 -->
+	<select id="passwdConfirm" parameterType="EmployeeVO" resultType="int">
+		SELECT count(*) as cnt 
+		FROM employee       
+		WHERE employee_id= #{employee_id}
+		    AND password=#{password}
+	</select>
+
+	<!-- 아이디 확인 -->
+	<select id="idConfirm" parameterType="EmployeeVO" resultType="int">
+		SELECT count(*) as cnt      
+		FROM employee            
+		WHERE employee_id=#{employee_id}  
+	</select>
+	
+	<!-- 수정 -->
+	<update id="doUpdate" parameterType="EmployeeVO">
+		UPDATE employee            
+		SET	password 	= #{password},       
+			dept_no 	= #{dept_no},            
+			position_no = #{position_no},                 
+			cell_phone 	= #{cell_phone},  
+			email 		= #{email},           
+			address 	= #{address},                  
+			holiday 	= #{holiday},        
+			img_code 	= #{img_code}            
+		WHERE employee_id = #{employee_id}
+	</update>
+	
+	<!-- 단건조회 -->
+	<select id="doSelectOne" parameterType="EmployeeVO" resultType="EmployeeVO">
+		SELECT                  
+		    employee_id,        
+		    password,           
+		    name,               
+		    dept_no,            
+		    position_no,        
+		    cell_phone,         
+		    email,              
+		    address,            
+		    TO_CHAR(hire_date,'YY/MM/DD ') AS hire_date,
+		    birth_day,          
+		    holiday,            
+		    img_code            
+		FROM                    
+		    employee            
+		WHERE employee_id = #{employee_id}  
+	</select>
+	
+	<!-- 전체삭제 -->
+	<delete id="doDeleteAll" >
+   	<![CDATA[
+      	DELETE FROM employee
+      	]]>
+   	</delete>
+
+	<!-- 삭제 -->
+	<delete id="doDelete">
+		DELETE FROM employee      
+		WHERE employee_id = #{employee_id} 
+	</delete>
+
+	<!-- 등록 -->
+	<insert id="doInsert" parameterType="EmployeeVO">
+		INSERT INTO employee (     
+		    employee_id,           
+		    password,              
+		    name,                  
+		    dept_no,               
+		    position_no,           
+		    cell_phone,            
+		    email,                 
+		    address,               
+		    hire_date,             
+		    birth_day,             
+		    holiday,               
+		    img_code               
+		) VALUES (                 
+		    #{employee_id},         
+		    #{password},                     
+		    #{name},                      
+		    #{dept_no},                    
+		    #{position_no},                     
+		    #{cell_phone},                    
+		    #{email},                    
+		    #{address},                 
+		    #{hire_date},                   
+		    #{birth_day},                   
+		    #{holiday},                    
+		    #{img_code}                  
+		)       
+	</insert>
+</mapper>

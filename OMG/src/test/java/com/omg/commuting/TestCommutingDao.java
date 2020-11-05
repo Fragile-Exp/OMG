@@ -46,144 +46,120 @@ public class TestCommutingDao {
 	WebApplicationContext context;
 	
 	@Autowired
-	CommutingDaoImpl dao;
+	CommutingDaoImpl commutingDao;
 	
-	List<Commuting> attendlist;
+	List<Commuting> attendList;
 
 	
+	
+	
+	@Before
+	public void setUp() throws Exception {
+		LOG.debug("=setUp()=");
+	}
 	/**
 	 * update 근무시간
 	 * @throws Exception
 	 */
-	
-	
 	@Test
-	@Ignore
-	public void totalTest() throws Exception {
+	public void rollingTest() throws Exception {
 		
-		//doDeleteALL();
+		//1.조회/삭제
+		doSelectList();
+		doDelete();
 		
-		doInsert();
+		//2.초기 데이터 주입
+		doInit();
 		
-		doUpdateSelectOne();
+		//3. 출퇴근시간, 작업시간 업데이트
+		doSelectList();
+		doUpdate();
 		
-		//doUpdateWorkTime();
-		
-		//doSelectList();
-		
-	}
-	
-	@Test
-	public void doInit() {
-		int verify = dao.doInit();
-		assertThat(verify, is(10));
-	}
-	
-	
-	public void doUpdateWorkTime() throws Exception {
-		int verify = 0;
-		for(Commuting vo : attendlist) {
-			verify += dao.doUpdateWorkTime(vo);
-		}
-		
-		assertThat(verify, is(10));
-	}
-	
-	public void doSelectList() throws Exception {
-		Search search = new Search("10", "11000"); 
-		dao.doSelectList(search);
-	}
-	
-	/**
-	 * 출근 , 퇴근 기록 update 
-	 * @throws Exception
-	 */
-	public void doUpdateSelectOne() throws Exception {
-		
-		int verify = 0;
-		
-		for(Commuting cVO : attendlist) {
-			
-			cVO.setLeaveTime(StringUtil.formatDate("yyyyMMdd 180000"));
-			cVO.setPresentState(PresentState.퇴근);
-			cVO.setState(State.정상);
-			
-			verify = dao.doUpdate(cVO);
-			assertThat(verify, is(1));
-			
-			dao.doSelectOne(cVO);
-		}
+		//4. 확인
+		doSelectList();
+		doSelectOne();
 		
 	}
 	
 	/**
-	 * 출근전 사원 default 등록하기
-	 * @throws Exception
+	 * getAll
 	 */
-	public void doInsert() throws Exception {
-		
+	private void doSelectList() {
+		Search search = new Search("","");
+		attendList = commutingDao.doSelectList(search);
+	}
+	
+	/**
+	 * init data insert
+	 */
+	private void doInit() {
+		commutingDao.doInit();
+	}
+	
+	/**
+	 * delete All
+	 */
+	private void doDelete() {
 		int flag = 0;
-		for(Commuting vo : attendlist) {
-			LOG.debug(vo.toString());
-			flag += dao.doInsert(vo);
+		for(Commuting vo : attendList) {
+			flag += commutingDao.doDelete(vo);
 		}
-		assertThat(flag, is(10));
 		
+		assertThat(flag, is(attendList.size()));
+	}
+		
+	/**
+	 * update All
+	 */
+	private void doUpdate() {
+		int flag = 0;
+		for(Commuting vo : attendList) {
+			vo.setAttendTime(StringUtil.formatDate("yyyyMMdd 090000"));
+			vo.setLeaveTime(StringUtil.formatDate("yyyyMMdd 180000"));
+			vo.setPresentState(PresentState.퇴근);
+			vo.setState(State.조퇴);
+			flag += commutingDao.doUpdate(vo);
+			flag += commutingDao.doUpdateWorkTime(vo);
+		}
+		
+		assertThat(flag, is(attendList.size()*2));
 	}
 	
 	/**
-	 * 단건조회
+	 * selectOne
 	 * @throws Exception
 	 */
-	public void doSelectOne() throws Exception {
-		
-		for(Commuting vo : attendlist) {
-			Commuting inVO =(Commuting) dao.doSelectOne(vo);
+	private void doSelectOne() throws Exception {
+		for(Commuting vo : attendList) {
+			Commuting inVO = (Commuting) commutingDao.doSelectOne(vo);
+			checkCommuting(vo, inVO);
 		}
-		
-		LOG.debug("list : " + attendlist);	
 	}
 	
-	/**
-	 * 삭제
-	 * @throws Exception
-	 */
-	public void doDeleteALL() throws Exception {
-		for(DTO vo : attendlist) {
-			dao.doDelete(vo);
-		}
-		
+	private void checkCommuting(Commuting org, Commuting vs) throws Exception {
+		assertThat(org.getSeq(), is(vs.getSeq()));
+		assertThat(org.getEmployeeId(), is(vs.getEmployeeId()));
+		assertThat(org.getName(), is(vs.getName()));
+		assertThat(org.getDeptNo(), is(vs.getDeptNo()));
+		assertThat(org.getAttendTime(), is(vs.getAttendTime()));
+		assertThat(org.getLeaveTime(), is(vs.getLeaveTime()));
+		assertThat(org.getPresentState(), is(vs.getPresentState()));
+		assertThat(org.getState(), is(vs.getState()));
+		assertThat(org.getWorkTime(), is(vs.getWorkTime()));
+		assertThat(org.getRegDt(), is(vs.getRegDt()));
 	}
-
-	@Before
-	public void setUp() throws Exception {
-		attendlist = Arrays.asList(
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID01", "병운", "10000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID02", "성현", "11000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID03", "유비", "12000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID04", "정민", "13000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID05", "기태", "14000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID06", "광민", "10000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID07", "현수", "11000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID08", "성민", "12000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID09", "영민", "13000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd")),
-					new Commuting(StringUtil.formatDate("yyyy-MM-dd"), "ID10", "국민", "14000", StringUtil.formatDate("yyyyMMdd 090000"), StringUtil.formatDate(""), PresentState.대기중, State.정상, "", StringUtil.formatDate("yyyyMMdd"))
-				);
-	}
-
 	@After
 	public void tearDown() throws Exception {
-		LOG.debug("====================================");
 		LOG.debug("=tearDown()=");
-		LOG.debug("====================================");
 	}
 
 	@Test
+	@Ignore
 	public void beans() {
 		LOG.debug("====================================");
 		LOG.debug("=beans()=");
 		LOG.debug("=context=" + context);
-		LOG.debug("CommutingDaoImpl=" + dao);
+		LOG.debug("CommutingDaoImpl=" + commutingDao);
 		LOG.debug("====================================");
 	}
 
