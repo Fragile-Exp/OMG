@@ -14,5 +14,10 @@
 		<typeAlias type="com.omg.organization.domain.DeptVO" alias="DeptVO"/>
 		<typeAlias type="com.omg.organization.domain.PositionVO" alias="PositionVO"/>
 		<typeAlias type="com.omg.note.domain.NoteVO" alias="NoteVO"/>
+		
+		
+		<!-- document -->
+		<typeAlias type="com.omg.document.domain.DocumentVO" alias="DocumentVO"/>
+		
 	</typeAliases>
 </configuration>  

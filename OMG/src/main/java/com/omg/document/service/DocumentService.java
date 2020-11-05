@@ -58,5 +58,16 @@ public class DocumentService {
 		return documentDaoImpl.doSelectList();
 	}
 	
+	/**
+	 * 사번 검사
+	 * @param documentVO
+	 * @return
+	 */
+	
+	public List<DocumentVO> doempIdSelectList (DocumentVO documentVO){
+		
+		return documentDaoImpl.doempIdSelectList(documentVO);
+	}
+	
 	
 }
