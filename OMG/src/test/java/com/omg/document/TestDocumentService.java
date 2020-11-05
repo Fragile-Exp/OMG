@@ -1,6 +1,7 @@
 package com.omg.document;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
@@ -21,12 +22,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.omg.commuting.domain.Commuting;
+
 import com.omg.document.dao.DocumentDaoImpl;
 import com.omg.document.domain.DocumentVO;
 import com.omg.document.service.DocumentService;
-import com.omg.organization.domain.DeptVO;
-import com.omg.organization.service.DeptService;
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) // 메소드 수행 순서
 @WebAppConfiguration
@@ -74,7 +74,7 @@ public class TestDocumentService {
 		//삭제 
 		for(DocumentVO vo : list) {
 			flag =documentService.doDelete(vo);
-			
+			assertThat(flag, is(1));
 		}
 	
 		//입력
@@ -86,7 +86,7 @@ public class TestDocumentService {
 		}
 
 		
-		//사번을 통해 문서 검색 
+		//수정 데이터
 		DocumentVO param01 = list.get(0);
 		param01.setTitle(param01.getTitle()+"_U");
 		param01.setdDay("2020-11-20");
@@ -99,21 +99,23 @@ public class TestDocumentService {
 		
 		//단건검색
 		DocumentVO doPos = documentService.doSelectOne(param01);
-		LOG.debug("=doSelectOnevo="+doPos);
+		assertThat(doPos, is(notNullValue()));
+		LOG.debug("=vo="+doPos);
 		
 		
 		//전체 검색 
 		List<DocumentVO> listPos = (List<DocumentVO>) documentService.doSelectList();
-		
+		assertThat(listPos.size(), is(5));
 		for(DocumentVO vo : listPos ) {
 			LOG.debug("=vo="+vo);
 			
 		}
 		
 		
-		//사번으로 검색 
+		//사번을 통해 문서 검색 
 		param01.setEmployeeId("ID01");
 		List<DocumentVO> empId = (List<DocumentVO>) documentService.doempIdSelectList(param01);
+		assertThat(empId.size(), is(3));
 		for(DocumentVO vo : empId ) {
 			LOG.debug("=vo="+vo);
 			
@@ -122,5 +124,24 @@ public class TestDocumentService {
 	}
 	
 	
+	public void checkNote(DocumentVO orgNote, DocumentVO vsNote) {
+		assertThat(orgNote.getDocumentId(), is(vsNote.getDocumentId()));
+		assertThat(orgNote.getEmployeeId(), is(vsNote.getEmployeeId()));
+		assertThat(orgNote.getKind(), is(vsNote.getKind()));
+		assertThat(orgNote.getTitle(), is(vsNote.getTitle()));
+		assertThat(orgNote.getdDay(), is(vsNote.getdDay()));
+		assertThat(orgNote.getDocumentCont(), is(vsNote.getDocumentCont()));
+		assertThat(orgNote.getDocumentSet(), is(vsNote.getDocumentSet()));
+		assertThat(orgNote.getOkUser(), is(vsNote.getOkUser()));
+		
+	}
+	
+	
+	@Test
+	@Ignore
+	public void bean() {
+		LOG.debug("context : "+context);
+		LOG.debug("service : "+documentService);
+	}
 	
 }

@@ -1,5 +1,7 @@
 package com.omg.car.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,7 @@ public class CarService {
 	CarDaoImpl carDaoImpl;
 	
 	/**
-	 * 차 데이터 삽입 
+	 * 삽입 
 	 * @param documentVO
 	 * @return
 	 */
@@ -24,7 +26,7 @@ public class CarService {
 	}
 	
 	/**
-	 * 문서 삭제 
+	 * 삭제 
 	 * @param documentVO
 	 * @return
 	 */
@@ -33,16 +35,26 @@ public class CarService {
 	}
 	
 	/**
-	 * 문서 갱신
+	 * 갱신
 	 * @param documentVO
 	 * @return
 	 */
 	public int doUpdate(CarVO carVO) {
 		return carDaoImpl.doUpdate(carVO);
 	}
-	
+	/**
+	 * 단건 검색
+	 * @param carVO
+	 * @return
+	 */
 	public CarVO doSelectOne(CarVO carVO) {
 		return carDaoImpl.doSelectOne(carVO);
 	}
-	
+	/**
+	 * 전체 검색
+	 * @return
+	 */
+	public List<CarVO> doSelectList() {
+		return carDaoImpl.doSelectList();
+	}
 }
