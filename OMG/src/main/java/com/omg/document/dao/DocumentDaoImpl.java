@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,19 @@ import com.omg.document.domain.DocumentVO;
 
 
 
+
+
 @Repository("documentDao")
 public class DocumentDaoImpl {
 	
 	static final Logger LOG = LoggerFactory.getLogger(DocumentDaoImpl.class);
+	
 	@Autowired
     private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	SqlSessionTemplate sqlSessionTemplate;
+	private final String NAMESPACE ="com.omg.document";
 	
 	DataSource dataSource; 
 	
@@ -31,14 +39,14 @@ public class DocumentDaoImpl {
 		public DocumentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			DocumentVO outVO = new DocumentVO();
 
-		    outVO.setDocument_id(rs.getString("document_id"));     //문서고유번호  
-		    outVO.setEmployee_id(rs.getString("employee_id"));     //사번    
+		    outVO.setDocumentId(rs.getString("documentId"));     //문서고유번호  
+		    outVO.setEmployeeId(rs.getString("employeeId"));     //사번    
 		    outVO.setKind(rs.getInt("kind"));                      //문서종류  
 		    outVO.setTitle(rs.getString("title"));                 //문서제목  
-		    outVO.setD_day(rs.getString("d_day"));                 //처리기간  
-		    outVO.setDocument_cont(rs.getString("document_cont")); //문서내용  
-		    outVO.setDocument_set(rs.getInt("document_set"));      //문서상태  
-		    outVO.setOk_user(rs.getString("ok_user"));             //결재자사번 
+		    outVO.setdDay(rs.getString("dDay"));                 //처리기간  
+		    outVO.setDocumentCont(rs.getString("documentCont")); //문서내용  
+		    outVO.setDocumentSet(rs.getInt("documentSet"));      //문서상태  
+		    outVO.setOkUser(rs.getString("okUser"));             //결재자사번 
  		    
 		    return outVO;
 		}
@@ -49,172 +57,77 @@ public class DocumentDaoImpl {
 	    
 	//삽입 
 	public int doInsert(DocumentVO documentVO) {
-		int flag = 0;
+		LOG.debug("=doInsert=");
 		
-		StringBuilder sb = new StringBuilder();
+		String statement = NAMESPACE+".doInsert";
+		LOG.debug("=statement="+statement);
+		LOG.debug("=boardVO="+documentVO);
 		
-		Object[] args = {
-				documentVO.getDocument_id(),
-				documentVO.getEmployee_id(),
-				documentVO.getKind(),
-				documentVO.getTitle(),
-				documentVO.getD_day(),
-				documentVO.getDocument_cont(),
-				documentVO.getDocument_set(),
-				documentVO.getOk_user()
-				};
-		
-		sb.append(" INSERT INTO DOCUMENT (    \n");
-		sb.append("     document_id,          \n");
-		sb.append("     employee_id,          \n");
-		sb.append("     kind,                 \n");
-		sb.append("     title,                \n");
-		sb.append("     d_day,                \n");
-		sb.append("     document_cont,        \n");
-		sb.append("     document_set,         \n");
-		sb.append("     ok_user              \n");
-		sb.append(" ) VALUES (                \n");
-		sb.append("     ?,                    \n");
-		sb.append("     ?,                    \n");
-		sb.append("     ?,                    \n");
-		sb.append("     ?,                    \n");
-		sb.append("     ?,                    \n");
-		sb.append("     ?,                    \n");
-		sb.append("     ?,                    \n");
-		sb.append("     ?                     \n");
-		sb.append(" )                         \n");
-		
-		LOG.debug("==============================");
-		LOG.debug("=query : "+sb.toString());
-		LOG.debug("= Parameter: " + documentVO);
-		LOG.debug("==============================");
-		
-		flag = jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("flag: " + flag);
-		
+		int flag = sqlSessionTemplate.insert(statement, documentVO);
 		return flag;
+		
 	}
 
 	
 	public int doDelete(DocumentVO documentVO) {
-		int flag = 0;
+		LOG.debug("=doDelete=");
 		
-		StringBuilder sb = new StringBuilder();
+		String statement = NAMESPACE+".doDelete";
+		LOG.debug("=statement="+statement);
+		LOG.debug("=boardVO="+documentVO);
 		
-		sb.append(" DELETE FROM document  \n");
-		sb.append(" WHERE document_id = ? \n");
-		
-		LOG.debug("==============================");
-		LOG.debug("= Parameter: " + documentVO);
-		LOG.debug("==============================");
-		
-		Object[] args = { documentVO.getDocument_id() };
-		
-		flag = jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("flag: " + flag);
-		
+		int flag = sqlSessionTemplate.delete(statement, documentVO);
 		return flag;
+		
 	}
 
 
 	public int doUpdate(DocumentVO documentVO) {
-		int flag = 0;
+		LOG.debug("=doUpdate=");
 		
-		StringBuilder sb = new StringBuilder();
+		String statement = NAMESPACE+".doUpdate";
+		LOG.debug("=statement="+statement);
+		LOG.debug("=boardVO="+documentVO);
 		
-		Object[] args = {
-				documentVO.getDocument_id(),
-				documentVO.getEmployee_id(),
-				documentVO.getKind(),
-				documentVO.getTitle(),
-				documentVO.getD_day(),
-				documentVO.getDocument_cont(),
-				documentVO.getDocument_set(),
-				documentVO.getOk_user(),
-				documentVO.getDocument_id()
-			};
-		
-		sb.append(" UPDATE document        \n");
-		sb.append(" SET document_id = ?,   \n");
-		sb.append("     employee_id = ?,   \n");
-		sb.append("     kind = ?,          \n");
-		sb.append("     title = ?,  	   \n");
-		sb.append("     d_day = ?,         \n");
-		sb.append("     document_cont = ?, \n");
-		sb.append("     document_set = ?,  \n");
-		sb.append("     ok_user = ?        \n");
-		sb.append(" WHERE document_id = ?  \n");
-
-		
-		LOG.debug("==============================");
-		LOG.debug("= Parameter: " + documentVO);
-		LOG.debug("==============================");
-		
-		
-		
-		flag = jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("flag: " + flag);	
-		
+		int flag = sqlSessionTemplate.update(statement, documentVO);
 		return flag;
+		
 	}
 
 
 	public DocumentVO doSelectOne(DocumentVO documentVO) {
-		DocumentVO outVO = null;
+		LOG.debug("=doSelectOne=");
+		String statement = NAMESPACE+".doSelectOne";
+		LOG.debug("=statement="+statement);
+		LOG.debug("=boardVO="+documentVO);
 		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append(" SELECT document_id,   \n");
-		sb.append(" 	   employee_id,   \n");
-		sb.append(" 	   kind,   		  \n");
-		sb.append(" 	   title,   	  \n");
-		sb.append(" 	   TO_CHAR(d_day, 'YYYY-MM-DD') AS d_day,   \n");
-		sb.append(" 	   document_cont, \n");
-		sb.append(" 	   document_set,  \n");
-		sb.append(" 	   ok_user		  \n");
-		sb.append(" FROM document         \n");
-		sb.append(" WHERE document_id = ? \n");
-		
-		LOG.debug("==============================");
-		LOG.debug("= Parameter: " + documentVO);
-		LOG.debug("==============================");
-		
-		Object[] args = { documentVO.getDocument_id() };
-		outVO = (DocumentVO) jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
-		
-		LOG.debug("==============================");
-		LOG.debug("= outVO: " + outVO);
-		LOG.debug("==============================");
+		DocumentVO outVO = this.sqlSessionTemplate.selectOne(statement, documentVO);
+		LOG.debug("=outVO="+outVO);
 		
 		return outVO;
 	}
 
 	
 	public List<DocumentVO> doSelectList() {
+		LOG.debug("=doSelectList=");
+		String statement = NAMESPACE+".doSelectList";
+		LOG.debug("=statement="+statement);
 		
-		StringBuilder sb = new StringBuilder();
-	
-		sb.append(" SELECT document_id,   				\n");
-		sb.append(" 	   employee_id,   				\n");
-		sb.append(" 	   kind,   		  				\n");
-		sb.append(" 	   title,   	  				\n");
-		sb.append(" 	   TO_CHAR(d_day, 'YYYY-MM-DD') AS d_day,   \n");
-		sb.append(" 	   document_cont, 				\n");
-		sb.append(" 	   document_set,  				\n");
-		sb.append(" 	   ok_user		  				\n");
-		sb.append("FROM document	            		\n");
-		
-		LOG.debug("query : \n"+sb.toString());
-		
-		
-		List<DocumentVO> list = (List<DocumentVO>) jdbcTemplate.query(sb.toString(), rowMapper);
-		
-		for(DocumentVO vo:list) {
-			LOG.debug(" 조회 VO : "+ vo);
-		}
+		List<DocumentVO> list = this.sqlSessionTemplate.selectList(statement);
 		
 		return list;
 		
 	}
+	
+	public List<DocumentVO> doempIdSelectList(DocumentVO documentVO){
+		LOG.debug("=doempIdSelectList=");
+		String statement = NAMESPACE+".doempIdSelectList";
+		LOG.debug("=statement="+statement);
+		LOG.debug("=serach="+documentVO);
+		List<DocumentVO> list = this.sqlSessionTemplate.selectList(statement, documentVO);
+		
+		return list;
+	} 
+	
 
 }

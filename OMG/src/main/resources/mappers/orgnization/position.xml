@@ -15,7 +15,7 @@
 	
 	<!-- 단건 조회 -->
 	<select id="doSelectOne" parameterType="PositionVO" resultType="PositionVO">
-		SELECT position_no, position_nm, up_position 
+		SELECT position_no as positionNo, position_nm as positionNm, up_position as upPosition 
 		FROM position
 		WHERE position_no = #{positionNo}
 	</select>
@@ -30,7 +30,7 @@
 	
 	<!-- 목록 조회 -->
 	<select id="doSelectList" resultType="PositionVO"  >
-		SELECT position_no, position_nm, up_position 
+		SELECT position_no as positionNo, position_nm as positionNm, up_position as upPosition 
 		FROM position
 		START WITH up_position = 0
 		CONNECT BY prior

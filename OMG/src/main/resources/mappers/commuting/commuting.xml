@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.omg.commuting">
-
+	
+	<!-- com.omg.commuting.doInsert -->
 	<insert id="doInsert" parameterType="Commuting">
 		INSERT INTO commuting (            
 		    seq,                           
@@ -27,7 +28,7 @@
 		    TO_DATE(#{regDt},'yyyymmddHH24MISS')  
 		)                                  
 	</insert>
-	
+	<!-- com.omg.commuting.doInit -->
 	<insert id="doInit">
 		INSERT INTO commuting (seq,employee_id,name,dept_no,present_state,state,reg_dt) 
 		SELECT TO_CHAR(sysdate,'yyyy-MM-dd') as seq,                                    
@@ -39,14 +40,14 @@
 		       sysdate as reg_dt                                                        
 		FROM employee                                                                   
 	</insert>
-	
+	<!-- com.omg.commuting.doDelete -->
 	<delete id="doDelete" parameterType="Commuting">
 		DELETE FROM commuting 
 		WHERE                 
 		    seq = #{seq}           
 		AND    employee_id = #{employeeId}
 	</delete>
-	
+	<!-- com.omg.commuting.doUpdate -->
 	<update id="doUpdate" parameterType="Commuting">
 		UPDATE commuting               					
 		SET                            					
@@ -55,14 +56,12 @@
 		    attend_time = TO_DATE(#{attendTime},'yyyymmddHH24MISS'),
 		    leave_time = TO_DATE(#{leaveTime},'yyyymmddHH24MISS'), 
 		    present_state = #{presentStateIntValue},        					
-		    state = #{stateIntValue},                  				
-		    work_time = #{workTime},                              
-		    reg_dt = TO_DATE(#{regDt},'yyyymmddHH24MISS')      
+		    state = #{stateIntValue}                  				                              
 		WHERE                         					
 		       seq = #{seq}                					
 		AND    employee_id = #{employeeId}           				
 	</update>
-	
+	<!-- com.omg.commuting.doUpdateWorkTime -->
 	<update id="doUpdateWorkTime" parameterType="Commuting">
 		UPDATE commuting c                                                                                      		
 		SET work_time = (                                                                                         		
@@ -76,7 +75,7 @@
 		WHERE c.seq =#{seq}                                                                                            		
 		AND c.employee_id =#{employeeId}                                                                                      		
 	</update>
-	
+	<!-- com.omg.commuting.doSelectOne -->
 	<select id="doSelectOne" parameterType="Commuting" resultType="Commuting">
 		SELECT                                                                     
 		    seq,                                       								
@@ -92,13 +91,61 @@
 		    present_state as presentStateIntValue,                                                         
 		    state as stateIntValue,                                                                 
 		    work_time as workTime,                                                             
-		    reg_dt as regDt,                                                                
-		    rownum as num                                                            
+		    reg_dt as regDt                                                              
 		FROM                                                                       
 		    commuting c                                                            
 		WHERE c.seq= #{seq}                                                             
 		AND c.employee_id = #{employeeId}                                                       
 	</select>
 	
+	<sql id="searchCondition">
+		<choose>
+			<!-- my 근무 현황 -->
+			<when test="10 == searchDiv">
+				WHERE employee_id = #{searchWord}
+			</when>
+			<!-- 오늘 부서별-->
+			<when test="20 == searchDiv">
+				WHERE TO_CHAR(reg_dt,'yyyyMMdd') = TO_CHAR(sysdate,'yyyyMMdd')
+				AND dept_no = #{searchWord}
+			</when>
+			<!-- my 월별-->
+			<when test="10 == searchDiv">
+				WHERE TO_CHAR(reg_dt,'yyyyMM') = TO_CHAR(sysdate,'yyyyMM')
+				AND employee_id = #{searchWord}
+			</when>
+		</choose>
+	</sql>
+	<select id="doSelectList" parameterType="Search" resultType="Commuting">
+		SELECT C.*                                                                       
+		FROM                                                                             
+		  (                                                                              
+				SELECT B.rnum as num,                                                           
+					 B.seq as seq,                                                              
+					 B.employee_id as employeeId,                                                      
+					 B.name,                                                             
+					 B.dept_no as deptNo,                                                          
+					 DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.attend_time,'YYYYMMDD')
+						   ,TO_CHAR(B.attend_time,'HH24:MI')                             
+						   ,TO_CHAR(B.attend_time,'YYYY-MM-DD HH24:MI')) as attendTime,    
+					 DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.leave_time,'YYYYMMDD') 
+						   ,TO_CHAR(B.leave_time,'HH24:MI')                              
+						   ,TO_CHAR(B.leave_time,'YYYY-MM-DD HH24:MI')) as leaveTime,      
+					 B.present_state as presentStateIntValue,                                                    
+					 B.state as stateIntValue,                                                            
+					 B.work_time as workTime,                                                        
+					 B.reg_dt as regDt                       
+				FROM (                                                                   
+					  SELECT ROWNUM rnum, A.*                                                
+					  FROM(                                                                  
+						  SELECT *                                                           
+						  FROM  commuting                                                    
+			              <include refid="searchCondition"/>
+			              )A                                                                         
+			  		  WHERE ROWNUM <![CDATA[<=]]> (#{pageSize} *(#{pageNum}-1)+#{pageSize})                    						     
+					)B                                                                           
+				WHERE B.rnum <![CDATA[>=]]> (#{pageSize} *(#{pageNum}-1)+1)                                					 
+		 ) C                                                                                             
+	</select>
 	
 </mapper>

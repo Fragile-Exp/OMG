@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.document">
+	<!-- 문서 -->
+	
+	<!-- 등록 -->
+	<insert id="doInsert" parameterType="DocumentVO">
+		INSERT INTO DOCUMENT ( document_id, employee_id, kind, title, d_day, document_cont, document_set, ok_user) VALUES (#{documentId}, #{employeeId}, #{kind}, #{title}, #{dDay}, #{documentCont}, #{documentSet}, #{okUser})                        
+	</insert>
+	
+	<!-- 삭제 -->
+	<delete id="doDelete" parameterType="DocumentVO">
+		DELETE FROM document WHERE document_id = #{documentId}
+	</delete>
+	
+	<!-- 수정 -->
+	<update id="doUpdate" parameterType="DocumentVO">
+		UPDATE document SET document_id = #{documentId}, employee_id = #{employeeId}, kind = #{kind}, title = #{title}, d_day = #{dDay}, document_cont = #{documentCont}, document_set = #{documentSet}, ok_user = #{okUser} WHERE document_id = #{documentId} 
+	</update>
+	
+	<!-- 단건 검색-->
+	<select id="doSelectOne" parameterType="DocumentVO" resultType="DocumentVO">
+		SELECT document_id, employee_id, kind, title, TO_CHAR(d_day, 'YYYY-MM-DD') AS d_day, document_cont, document_set, ok_user FROM document WHERE document_id = #{documentId} 
+	</select>
+	
+	<!-- 전체 검색 -->
+	<select id="doSelectList" parameterType="DocumentVO" resultType="DocumentVO">
+		 SELECT document_id, employee_id, kind, title, TO_CHAR(d_day, 'YYYY-MM-DD') AS d_day, document_cont, document_set, ok_user FROM document	            		
+	</select>
+	
+	<!-- 사번 ID 기준 검색 -->
+	<select id="doempIdSelectList" parameterType="DocumentVO" resultType="DocumentVO">
+		SELECT document_id, employee_id, kind, title, TO_CHAR(d_day, 'YYYY-MM-DD') AS d_day, document_cont, document_set, ok_user FROM document WHERE employee_id = #{employeeId} 
+	</select>
+</mapper>

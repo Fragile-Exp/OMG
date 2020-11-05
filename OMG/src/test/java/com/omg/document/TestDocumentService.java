@@ -50,6 +50,8 @@ public class TestDocumentService {
 		LOG.debug(" === setUp === ");
 		list = Arrays.asList(
 						new DocumentVO("W_0001","ID01",1,"워드01","2020-11-19","문서설명내용",0,"ID99(관리자)"),
+						new DocumentVO("E_0002","ID01",1,"엑셀01","2020-11-19","문서설명내용",0,"ID99(관리자)"),
+						new DocumentVO("P_0003","ID01",1,"ppt01","2020-11-19","문서설명내용",0,"ID99(관리자)"),
 						new DocumentVO("E_0001","ID02",2,"엑셀01","2020-11-19","문서설명내용",1,"ID99(관리자)"),
 						new DocumentVO("P_0001","ID03",3,"ppt01","2020-11-19","문서설명내용",2,"ID99(관리자)")
 				);   
@@ -84,19 +86,20 @@ public class TestDocumentService {
 		}
 
 		
-		DocumentVO param = list.get(0);
-		param.setTitle(param.getTitle()+"_U");
-		param.setD_day("2020-11-20");
-		param.setDocument_cont(param.getDocument_cont()+"_U");
+		//사번을 통해 문서 검색 
+		DocumentVO param01 = list.get(0);
+		param01.setTitle(param01.getTitle()+"_U");
+		param01.setdDay("2020-11-20");
+		param01.setDocumentCont(param01.getDocumentCont()+"_U");
 		
 		//수정
-		LOG.debug("=param="+param);
-		flag = documentService.doUpdate(param);
+		LOG.debug("=param="+param01);
+		flag = documentService.doUpdate(param01);
 		assertThat(flag, is(1));
 		
 		//단건검색
-		DocumentVO doPos = documentService.doSelectOne(param);
-		checkDocumentVO(param, doPos);
+		DocumentVO doPos = documentService.doSelectOne(param01);
+		LOG.debug("=doSelectOnevo="+doPos);
 		
 		
 		//전체 검색 
@@ -107,21 +110,14 @@ public class TestDocumentService {
 			
 		}
 		
-	
-	}
-
-	
-	
-	
-	private void checkDocumentVO(DocumentVO orgVO, DocumentVO vsVO) {
-		assertThat(orgVO.getDocument_id(), is(vsVO.getDocument_id()));
-		assertThat(orgVO.getEmployee_id(), is(vsVO.getEmployee_id()));
-		assertThat(orgVO.getKind(), is(vsVO.getKind()));
-		assertThat(orgVO.getTitle(), is(vsVO.getTitle()));
-		assertThat(orgVO.getD_day(), is(vsVO.getD_day()));
-		assertThat(orgVO.getDocument_cont(), is(vsVO.getDocument_cont()));
-		assertThat(orgVO.getDocument_set(), is(vsVO.getDocument_set()));
-		assertThat(orgVO.getOk_user(), is(vsVO.getOk_user()));
+		
+		//사번으로 검색 
+		param01.setEmployeeId("ID01");
+		List<DocumentVO> empId = (List<DocumentVO>) documentService.doempIdSelectList(param01);
+		for(DocumentVO vo : empId ) {
+			LOG.debug("=vo="+vo);
+			
+		}
 		
 	}
 	

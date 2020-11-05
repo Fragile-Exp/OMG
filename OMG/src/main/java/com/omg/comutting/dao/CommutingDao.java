@@ -44,9 +44,24 @@ public interface CommutingDao {
 	 * 날짜별 , 부서별
 	 * @param search
 	 * @return List<Commuting>
+	 * 양광민
 	 */
 	public List<Commuting> doSelectList(Search search);
 	
+	/**
+	 * 아침 기본 사원 insert
+	 * @return 성공(1), 실패(0)
+	 * 양광민
+	 */
+	public int doInit();
+	
+	/**
+	 * 근무시간 update
+	 * @param dto
+	 * @return 성공(1), 실패(0)
+	 * 양광민
+	 */
+	public int doUpdateWorkTime(DTO dto);
 	
 	
 	
