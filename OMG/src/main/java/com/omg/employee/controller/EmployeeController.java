@@ -109,7 +109,7 @@ public class EmployeeController {
         LOG.debug("=employee="+employee);
         LOG.debug("==================");
         
-        EmployeeVO outVO=employeeService.doSelectOne(employee.getEmployee_id());
+        EmployeeVO outVO=employeeService.doSelectOne(employee);
         LOG.debug("==================");
         LOG.debug("=outVO="+outVO);
         LOG.debug("==================");

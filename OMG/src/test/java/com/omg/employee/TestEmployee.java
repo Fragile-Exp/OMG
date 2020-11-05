@@ -46,13 +46,29 @@ public class TestEmployee {
     EmployeeVO employee05;
     
     @Test
-    @Ignore
     public void doSelectList() {
+    	//1.all삭제
+		//2.3건 입력
+		//3.조회
+		//4.3건비교
     	
-    	//조회
-    	Search search=new Search("20","1",3,1);
-    	List<EmployeeVO> list=employeeDao.doSelectList(search);
-    	LOG.debug("list.size()="+list.size());
+    	//1.
+    	this.employeeDao.doDeleteAll();
+    	
+    	//2.
+    	int flag=employeeDao.doInsert(employee01);
+    	assertThat(flag, is(1));
+		flag=employeeDao.doInsert(employee02);
+		assertThat(flag, is(1));
+		flag=employeeDao.doInsert(employee03);
+		assertThat(flag, is(1));
+		
+		//3.
+		Search search=new Search("10","유비",3,1);
+		search.setDiv("20");
+		
+		List<EmployeeVO> list=employeeDao.doSelectList(search);
+		assertThat(list.size(), is(3));
     	
     }
     
@@ -62,77 +78,87 @@ public class TestEmployee {
     	LOG.debug("++++++++++++++++++++");
 		LOG.debug("++idConfirm()++");
 		LOG.debug("++++++++++++++++++++");
-    	int cnt=employeeDao.passwdConfirm(employee05);
-    	
+    	int cnt=employeeDao.passwdConfirm(employee01);
+    	//1(비밀번호 일치)/0(비밀번호 불일치)
     	LOG.debug("=비밀번호 확인="+cnt);
     }
     
     @Test
+    @Ignore
     public void idConfirm() throws ClassNotFoundException {
     	LOG.debug("++++++++++++++++++++");
 		LOG.debug("++idConfirm()++");
 		LOG.debug("++++++++++++++++++++");
-    	int cnt=employeeDao.idConfirm(employee01);
+    	int cnt=employeeDao.idConfirm(employee02);
     	
-    	
-    	LOG.debug("=flag="+cnt);
+    	//1(존재)/0(존재하지 않는 아이디)
+    	LOG.debug("=cnt="+cnt);
     }
     
     @Test
     @Ignore
     public void getAll() {
-    	//기존 데이터 삭제
-    	employeeDao.doDelete(employee01);
-    	employeeDao.doDelete(employee02);
-    	employeeDao.doDelete(employee03);
+    	//1.all삭제
+		//2.3건 입력
+		//3.조회
+		//4.3건비교
     	
-    	//데이터 입력
-    	employeeDao.doInsert(employee01);
-    	employeeDao.doInsert(employee02);
-    	employeeDao.doInsert(employee03);
+    	//1.
+    	this.employeeDao.doDeleteAll();
     	
-    	//전체 데이터 조회: 3건 확인
+    	//2.
+    	int flag=employeeDao.doInsert(employee01);
+    	assertThat(flag, is(1));
+		flag=employeeDao.doInsert(employee02);
+		assertThat(flag, is(1));
+		flag=employeeDao.doInsert(employee03);
+		assertThat(flag, is(1));
+    	
+		//전체 데이터 조회: 3건 확인
     	EmployeeVO cntEmployee=new EmployeeVO();
     	cntEmployee.setEmployee_id("ID");
     	
     	List<EmployeeVO> list=employeeDao.doSelectAll(cntEmployee);
     	assertThat(list.size(), is(3));
     	
-    	//입력데이터와 비교
-    	checkUser(employee01, list.get(0));
-    	checkUser(employee02, list.get(1));
-    	checkUser(employee03, list.get(2));
     }
     
     @Test 
     @Ignore
     public void doUpdate() {
-    	//기존 데이터 삭제
-    	employeeDao.doDelete(employee01);
+    	//1.삭제
+		//2.조회(seq 찾기)
+		//3.수정
+		//3.조회(seq 찾기)
+		//5.비교
     	
-    	//단건입력
+    	//1.
+    	employeeDao.doDeleteAll();
+    	
+    	//1.1
     	int flag=employeeDao.doInsert(employee01);
     	assertThat(flag, is(1));
+		
+    	//2.
+    	EmployeeVO searchEmployee=employeeDao.doSelectOne(employee01);
+    	searchEmployee.setPassword(searchEmployee.getPassword()+"_U");
+    	searchEmployee.setDept_no(999);
+    	searchEmployee.setPosition_no(999);
+    	searchEmployee.setCell_phone(999);
+    	searchEmployee.setEmail(searchEmployee.getEmail()+"_U");
+    	searchEmployee.setAddress(searchEmployee.getAddress()+"_U");
+    	searchEmployee.setHoliday(999);
+    	searchEmployee.setImg_code(searchEmployee.getImg_code()+"_U");
     	
-    	//수정
-    	employee01.setPassword(employee01.getPassword()+"_U");
-    	employee01.setDept_no(employee01.getDept_no()+000);
-    	employee01.setPosition_no(employee01.getPosition_no()+000);
-    	employee01.setCell_phone(employee01.getCell_phone()+000);
-    	employee01.setEmail(employee01.getEmail()+"_U");
-    	employee01.setAddress(employee01.getAddress()+"_U");
-    	employee01.setHoliday(employee01.getHoliday()+000);
-    	employee01.setImg_code(employee01.getImg_code()+000);
+    	//3.
+    	flag=employeeDao.doUpdate(searchEmployee);
+    	assertThat(flag, is(1));
     	
-    	flag=employeeDao.doUpdate(employee01);
-    	assertThat(1, is(1));
+    	//4.
+    	EmployeeVO vsEmployee=employeeDao.doSelectOne(searchEmployee);
     	
-    	//단건조회
-    	EmployeeVO vsEmployee=employeeDao.doSelectOne(employee01.getEmployee_id());
-    	
-    	//수정과 단건조회 비교
-    	checkUser(employee01, vsEmployee);
-    	
+    	//5.
+    	this.checkUser(searchEmployee, vsEmployee);
     }
     
     @Test
@@ -151,25 +177,25 @@ public class TestEmployee {
     	cntEmployee.setEmployee_id("ID");
     	
     	//등록건수조회
-    	int cnt=employeeDao.count(cntEmployee);
-    	assertThat(cnt, is(1));
+//    	int cnt=employeeDao.count(cntEmployee);
+//    	assertThat(cnt, is(1));
     	
     	flag=employeeDao.doInsert(employee02);
     	assertThat(flag, is(1));
     	
-    	cnt=employeeDao.count(cntEmployee);
-    	assertThat(cnt, is(2));
+//    	cnt=employeeDao.count(cntEmployee);
+//    	assertThat(cnt, is(2));
     	
     	flag=employeeDao.doInsert(employee03);
     	assertThat(flag, is(1));
     	
-    	cnt=employeeDao.count(cntEmployee);
-    	assertThat(cnt, is(3));
+//    	cnt=employeeDao.count(cntEmployee);
+//    	assertThat(cnt, is(3));
     	
     	//단건조회
-    	EmployeeVO vsUser01=employeeDao.doSelectOne(employee01.getEmployee_id());
-    	EmployeeVO vsUser02=employeeDao.doSelectOne(employee02.getEmployee_id());
-    	EmployeeVO vsUser03=employeeDao.doSelectOne(employee03.getEmployee_id());
+    	EmployeeVO vsUser01=employeeDao.doSelectOne(employee01);
+    	EmployeeVO vsUser02=employeeDao.doSelectOne(employee02);
+    	EmployeeVO vsUser03=employeeDao.doSelectOne(employee03);
     	//조회 데이터 검증
     	checkUser(employee01, vsUser01);
     	checkUser(employee02, vsUser02);
@@ -213,6 +239,29 @@ public class TestEmployee {
 	@After
 	public void tearDown() throws Exception {
 	}
-
+	
+	@Test
+	@Ignore
+	public void doInsert() {
+		int flag=employeeDao.doInsert(employee01);
+		assertThat(flag, is(1));
+	}
+	
+	@Test
+	@Ignore
+	public void doDelete() {
+		int flag=employeeDao.doDelete(employee01);
+		assertThat(flag, is(1));
+	}
+	
+	@Test
+	@Ignore
+	public void doSelectOne() {
+		EmployeeVO outVO=employeeDao.doSelectOne(employee01);
+		
+		checkUser(employee01, outVO);
+		
+		
+	}
 
 }

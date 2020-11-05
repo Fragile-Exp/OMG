@@ -35,17 +35,17 @@ public class EmployeeServiceImpl  {
 	public List<EmployeeVO> doSelectAll(EmployeeVO employee) {
 		return employeeDao.doSelectAll(employee);
 	}
-
-	public int count(EmployeeVO employee) {
-		return employeeDao.count(employee);
-	}
+//
+//	public int count(EmployeeVO employee) {
+//		return employeeDao.count(employee);
+//	}
 
 	public int doUpdate(EmployeeVO employee) {
 		return employeeDao.doUpdate(employee);
 	}
 
-	public EmployeeVO doSelectOne(String id) {
-		return employeeDao.doSelectOne(id);
+	public EmployeeVO doSelectOne(EmployeeVO employee) {
+		return employeeDao.doSelectOne(employee);
 	}
 
 	public int doDelete(EmployeeVO employee) {
