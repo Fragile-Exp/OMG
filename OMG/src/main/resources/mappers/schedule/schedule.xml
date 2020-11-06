@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="mappers.schedule.schedule">
+
+	<!-- 등록 -->
+	<select id="doInsert">
+		INSERT INTO schedule (
+			schedule_no, dept_no, employee_id, category_id,
+			time_status, title, content, start_dt, end_dt)
+		VALUES (
+			SCHEDULE_SEQ.nextval, #{deptNo}, #{employeeId}, #{categoryId},
+			#{timeStatus}, #{title}, #{content},
+			TO_DATE(#{startDt}, 'yyyy-MM-dd HH24:mi'),
+			TO_DATE(#{endDt}, 'yyyy-MM-dd HH24:mi')) 
+	</select>
+	
+	<!-- 삭제 -->
+	<delete id="doDelete">
+		DELETE FROM schedule WHERE schedule_no = #{scheduleNo}
+	</delete>
+	
+	<!-- 수정 -->
+	<update id="doUpdate">
+		UPDATE schedule
+		SET category_id = #{categoryId},
+			time_status = #{timeStatus},
+			title = #{title},
+			content = #{content},
+			start_dt = TO_DATE(#{startDt}, 'yyyy-MM-dd HH24:mi'),
+			end_dt = TO_DATE(#{endDt}, 'yyyy-MM-dd HH24:mi')
+		WHERE schedule_no = #{scheduleNo}
+	</update>
+	
+	<!-- 단건조회 -->
+	<select id="doSelectOne" resultType="ScheduleVO">
+		SELECT schedule_no, dept_no, employee_id, category_id,
+			   time_status, title, content,
+			   TO_CHAR(start_dt, 'yyyy-MM-dd HH24:mi') start_dt,
+			   TO_CHAR(end_dt, 'yyyy-MM-dd HH24:mi') end_dt
+		FROM schedule
+		WHERE schedule_no = #{scheduleNo}
+	</select>
+	
+	<!-- 다건조회 -->
+	<select id="doSelectList" resultType="ScheduleVO">
+		SELECT 
+			   schedule_no, dept_no, employee_id, category_id,
+			   time_status, title, content,
+			   TO_CHAR(start_dt, 'yyyy-MM-dd HH24:MI') start_dt,
+			   TO_CHAR(end_dt, 'yyyy-MM-dd HH24:MI') end_dt
+		FROM schedule
+		<if test="deptNo != 0">
+			WHERE dept_no = #{deptNo}
+		</if>
+		
+	</select>
+	
+</mapper>

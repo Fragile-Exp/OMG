@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="mappers.schedule.scheduleCat">
+
+	<!-- 등록 -->
+	<select id="doInsert">
+		INSERT INTO schedule_cat (category_id, category_nm)
+		VALUES (#{categoryId}, #{categoryNm})
+	</select>
+	
+	<!-- 삭제 -->
+	<delete id="doDelete">
+		DELETE FROM schedule_cat
+		WHERE category_id = #{categoryId}
+	</delete>
+	
+	<!-- 수정 -->
+	<update id="doUpdate">
+		UPDATE schedule_cat
+		SET category_nm = #{categoryNm}
+		WHERE category_id = #{categoryId}
+	</update>
+	
+	<!-- 단건조회 -->
+	<select id="doSelectOne" resultType="ScheduleCatVO">
+		SELECT category_id, category_nm
+		FROM schedule_cat
+		WHERE category_id = #{categoryId}
+	</select>
+	
+	<!-- 다건조회 -->
+	<select id="doSelectList" resultType="ScheduleCatVO">
+		SELECT /*+ INDEX_ASC(schedule_cat pk_schedule_cat) */
+			   category_id, category_nm
+		FROM schedule_cat
+	</select>
+	
+</mapper>

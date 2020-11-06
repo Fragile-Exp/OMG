@@ -6,13 +6,13 @@ import com.omg.schedule.domain.ScheduleCatVO;
 
 public interface ScheduleCatDao {
 
-    public int doInsert(ScheduleCatVO scheduleCatVO);
+    public int doInsert(ScheduleCatVO scheduleCat);
 
-    public int doDelete(int categoryId);
+    public int doDelete(ScheduleCatVO scheduleCat);
 
-    public int doUpdate(ScheduleCatVO scheduleCatVO);
+    public int doUpdate(ScheduleCatVO scheduleCat);
 
-    public ScheduleCatVO doSelectOne(int categoryId);
+    public ScheduleCatVO doSelectOne(ScheduleCatVO scheduleCat);
 
     public List<ScheduleCatVO> doSelectList();
 }

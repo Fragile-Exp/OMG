@@ -32,22 +32,12 @@ public class ScheduleControllerTests {
     public void setup() {
 	this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
     }
-    
+
     /**
-     * 리스트 테스트
-     * depNo = 0(전체검색)
+     * 일정 등록 테스트
      * @throws Exception
      * @author 박정민
-     * @Date 2020-11-03
      */
-    @Test
-    @Ignore
-    public void testList() throws Exception {
-	LOG.debug(mockMvc.perform(MockMvcRequestBuilders.get("/schedule/list")
-		.param("deptNo", "0")
-		).andReturn().getModelAndView().getModelMap());
-    }
-    
     @Test
     public void testInsert() throws Exception {
 	String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/schedule/insert")
@@ -62,6 +52,20 @@ public class ScheduleControllerTests {
 		).andReturn().getModelAndView().getViewName();
 	
 	LOG.debug(resultPage);
+    }
+    
+    /**
+     * 일정 목록화 테스트
+     * depNo = 0(전체검색)
+     * @throws Exception
+     * @author 박정민
+     */
+    @Test
+    @Ignore
+    public void testList() throws Exception {
+	LOG.debug(mockMvc.perform(MockMvcRequestBuilders.get("/schedule/list")
+		.param("deptNo", "0")
+		).andReturn().getModelAndView().getModelMap());
     }
     
 }
