@@ -17,12 +17,12 @@ public class BoardDaoImpl implements BoardDao
 {
 	final static Logger LOG = LoggerFactory.getLogger(BoardDaoImpl.class);
 	
+	
 	/** NAMESPACE */
 	private final String NAMESPACE = "com.omg.board";
 	
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
-	
 	public BoardDaoImpl() {}
 	
 	@Override
