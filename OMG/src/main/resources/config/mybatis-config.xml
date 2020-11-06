@@ -16,12 +16,12 @@
 		<typeAlias type="com.omg.organization.domain.PositionVO" alias="PositionVO"/>
 		<typeAlias type="com.omg.note.domain.NoteVO" alias="NoteVO"/>
 		<typeAlias type="com.omg.employee.domain.EmployeeVO" alias="EmployeeVO"/>
-		
-		
+		<typeAlias type="com.omg.schedule.domain.ScheduleVO" alias="ScheduleVO"/>
+		<typeAlias type="com.omg.schedule.domain.ScheduleCatVO" alias="ScheduleCatVO"/>
+
 		<!-- document -->
 		<typeAlias type="com.omg.document.domain.DocumentVO" alias="DocumentVO"/>
 		<typeAlias type="com.omg.car.domain.CarVO" alias="CarVO"/>
-		
 		
 	</typeAliases>
 </configuration>  

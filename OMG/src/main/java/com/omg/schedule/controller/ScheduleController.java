@@ -30,11 +30,13 @@ public class ScheduleController {
      * @author 박정민
      * @Date 2020-11-03
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list.do", method = RequestMethod.GET)
     public void list(@RequestParam("deptNo") int deptNo, Model model) {
 	log.debug("doSelectList.....");
+	ScheduleVO inVO = new ScheduleVO();
+	inVO.setDeptNo(deptNo);
 	
-	model.addAttribute("list", scheduleService.doSelectList(deptNo));
+	model.addAttribute("list", scheduleService.doSelectList(inVO));
     }
     
     /**
@@ -44,13 +46,13 @@ public class ScheduleController {
      * @author 박정민
      * @Date 2020-11-04
      */
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @RequestMapping(value = "/insert.do", method = RequestMethod.POST)
     public String insert(ScheduleVO inVO, RedirectAttributes rttr) {
 	log.debug("[Insert]ScheduleVO: " + inVO);
 	
 	scheduleService.doInsert(inVO);
 	
-	return "redirect:/schedule/list"; //생성 완료되면 일정관리 페이지로 리다이렉트
+	return "redirect:/schedule/list.do"; //생성 완료되면 일정관리 페이지로 리다이렉트
     }
     
     //입력 페이지를 보여주는 역할
@@ -64,11 +66,14 @@ public class ScheduleController {
      * @author 박정민
      * @Date 2020-11-04
      */
-    @RequestMapping(value = {"/get", "/update"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/get.do", "/update.do"}, method = RequestMethod.GET)
     public void get(@RequestParam("scheduleNo") int scheduleNo, Model model) {
 	log.debug("doSelectOne or doUpdate.....");
 	
-	model.addAttribute("schedule", scheduleService.doSelectOne(scheduleNo));
+	ScheduleVO inVO = new ScheduleVO();
+	inVO.setScheduleNo(scheduleNo);
+	
+	model.addAttribute("schedule", scheduleService.doSelectOne(inVO));
     }
     
     /**
@@ -78,7 +83,7 @@ public class ScheduleController {
      * @author 박정민
      * @Date 2020-11-04
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update.do", method = RequestMethod.POST)
     public String update(ScheduleVO inVO, RedirectAttributes rttr) {
 	log.debug("[Update]ScheduleVO: " + inVO);
 	
@@ -86,7 +91,7 @@ public class ScheduleController {
 	    rttr.addFlashAttribute("result", "success");
 	}
 	
-	return "redirect:/schedule/list";
+	return "redirect:/schedule/list.do";
     }
     
     /**
@@ -96,15 +101,18 @@ public class ScheduleController {
      * @author 박정민
      * @Date 2020-11-04
      */
-    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    @RequestMapping(value = "/remove.do", method = RequestMethod.POST)
     public String remove(@RequestParam("scheduleNo") int scheduleNo, RedirectAttributes rttr) {
 	log.debug("[Delete]scheduleNo: " + scheduleNo);
 	
-	if(scheduleService.doDelete(scheduleNo) == 1) {
+	ScheduleVO inVO = new ScheduleVO();
+	inVO.setScheduleNo(scheduleNo);
+	
+	if(scheduleService.doDelete(inVO) == 1) {
 	    rttr.addFlashAttribute("result", "success");
 	}
 	
-	return "redirect:/schedule/list";
+	return "redirect:/schedule/list.do";
     }
     
 }

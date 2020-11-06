@@ -27,40 +27,40 @@ public class ScheduleServiceImpl implements ScheduleService {
      * 일정추가
      */
     @Override
-    public int doInsert(ScheduleVO scheduleVO) {
-	return scheduleDao.doInsert(scheduleVO);
+    public int doInsert(ScheduleVO schedule) {
+	return scheduleDao.doInsert(schedule);
     }
 
     /**
      * 일정삭제
      */
     @Override
-    public int doDelete(int scheduleNo) {
-	return scheduleDao.doDelete(scheduleNo);
+    public int doDelete(ScheduleVO schedule) {
+	return scheduleDao.doDelete(schedule);
     }
 
     /**
      * 일정수정
      */
     @Override
-    public int doUpdate(ScheduleVO scheduleVO) {
-	return scheduleDao.doUpdate(scheduleVO);
+    public int doUpdate(ScheduleVO schedule) {
+	return scheduleDao.doUpdate(schedule);
     }
 
     /**
      * 일정선택
      */
     @Override
-    public ScheduleVO doSelectOne(int scheduleNo) {
-	return scheduleDao.doSelectOne(scheduleNo);
+    public ScheduleVO doSelectOne(ScheduleVO schedule) {
+	return scheduleDao.doSelectOne(schedule);
     }
 
     /**
      * 일정 리스트화
      */
     @Override
-    public List<ScheduleVO> doSelectList(int deptNo) {
-	return scheduleDao.doSelectList(deptNo);
+    public List<ScheduleVO> doSelectList(ScheduleVO schedule) {
+	return scheduleDao.doSelectList(schedule);
     }
 
 }
