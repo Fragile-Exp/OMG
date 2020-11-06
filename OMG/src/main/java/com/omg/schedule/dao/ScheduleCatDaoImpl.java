@@ -1,16 +1,11 @@
 package com.omg.schedule.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-import javax.sql.DataSource;
-
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.omg.schedule.domain.ScheduleCatVO;
@@ -18,168 +13,105 @@ import com.omg.schedule.domain.ScheduleCatVO;
 @Repository("scheduleCatDao")
 public class ScheduleCatDaoImpl implements ScheduleCatDao {
     
-    final static Logger LOG = LoggerFactory.getLogger(ScheduleCatDaoImpl.class);
+    private final Logger LOG = LoggerFactory.getLogger(ScheduleCatDaoImpl.class);
+    private final String NAMESPACE = "mappers.schedule.scheduleCat";
+
+    @Autowired
+    private SqlSessionTemplate sqlSessionTemplate;
     
     public ScheduleCatDaoImpl() {}
     
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    
-    DataSource dataSource;
-    
-    RowMapper rowMapper = new RowMapper<ScheduleCatVO>() {
-	@Override
-	public ScheduleCatVO mapRow(ResultSet rs, int rowNum) throws SQLException{
-	    ScheduleCatVO outVO = new ScheduleCatVO();
-	    
-	    outVO.setCategoryId(rs.getInt("category_id"));
-	    outVO.setCategoryNm(rs.getString("category_nm"));
-	    
-	    return outVO;
-	}
-    };
-    
     /**
-     * 카테고리 등록
-     * @param schedulCatVO
+     * 등록
+     * @param scheduleCat
      * @return flag
      * @author 박정민
-     * @Date 2020-10-30
      */
     @Override
-    public int doInsert(ScheduleCatVO scheduleCatVO) {
-	int flag = 0;
-	Object[] args = {
-		scheduleCatVO.getCategoryId(),
-		scheduleCatVO.getCategoryNm()
-	};
-	StringBuilder sb = new StringBuilder();
+    public int doInsert(ScheduleCatVO scheduleCat) {
+	LOG.debug("doInsert.....");
 	
-	sb.append(" INSERT INTO schedule_cat ( \n");
-	sb.append("     category_id,           \n");
-	sb.append("     category_nm            \n");
-	sb.append(" ) VALUES (                 \n");
-	sb.append("     ?,                     \n");
-	sb.append("     ?                      \n");
-	sb.append(" )                          \n");
+	String statement = NAMESPACE + ".doInsert";
 	
-	LOG.debug("==============================");
-	LOG.debug("= Parameter: " + scheduleCatVO);
-	LOG.debug("==============================");
-	
-	flag = jdbcTemplate.update(sb.toString(), args);
-	LOG.debug("flag: " + flag);
+	int flag = sqlSessionTemplate.insert(statement, scheduleCat);
+	LOG.debug("[doInsert]flag: " + flag);
 	
 	return flag;
     }
     
     /**
-     * 카테고리 삭제
-     * @param categoryId
+     * 삭제
+     * @param scheduleCat
      * @return flag
      * @author 박정민
-     * @Date 2020-10-30
      */
     @Override
-    public int doDelete(int categoryId) {
-	int flag = 0;
-	StringBuilder sb = new StringBuilder();
-
-	sb.append(" DELETE FROM schedule_cat \n");
-	sb.append(" WHERE category_id = ?    \n");
+    public int doDelete(ScheduleCatVO scheduleCat) {
+	LOG.debug("doDelete.....");
 	
-	LOG.debug("==============================");
-	LOG.debug("= Parameter: " + categoryId);
-	LOG.debug("==============================");
+	String statement = NAMESPACE + ".doDelete";
 	
-	flag = jdbcTemplate.update(sb.toString(), categoryId);
-	LOG.debug("flag: " + flag);
+	int flag = sqlSessionTemplate.delete(statement, scheduleCat);
+	LOG.debug("[doDelete]flag: " + flag);
 	
 	return flag;
     }
     
     /**
-     * 카테고리 수정
-     * @param scheduleCatVO
+     * 수정
+     * @param scheduleCat
      * @return flag
      * @author 박정민
-     * @Date 2020-10-30
      */
     @Override
-    public int doUpdate(ScheduleCatVO scheduleCatVO) {
-	int flag = 0;
-	Object[] args = {
-		scheduleCatVO.getCategoryNm(),
-		scheduleCatVO.getCategoryId()
-	};
-	StringBuilder sb = new StringBuilder();
+    public int doUpdate(ScheduleCatVO scheduleCat) {
+	LOG.debug("doUpdate.....");
 	
-	sb.append(" UPDATE schedule_cat   \n");
-	sb.append(" SET category_nm = ?   \n");
-	sb.append(" WHERE category_id = ? \n");
+	String statement = NAMESPACE + ".doUpdate";
 	
-	LOG.debug("==============================");
-	LOG.debug("= Parameter: " + scheduleCatVO);
-	LOG.debug("==============================");
-	
-	flag = jdbcTemplate.update(sb.toString(), args);
+	int flag = sqlSessionTemplate.delete(statement, scheduleCat);
+	LOG.debug("[doUpdate]flag: " + flag);
 	
 	return flag;
     }
     
     /**
-     * 카테고리 선택
-     * @param categoryId
+     * 단건조회
+     * @param scheduleCat
      * @return outVO
      * @author 박정민
-     * @Date 2020-10-30
      */
     @Override
-    public ScheduleCatVO doSelectOne(int categoryId) {
-	ScheduleCatVO outVO = null;
-	Object[] args = {categoryId};		
-	StringBuilder sb = new StringBuilder();
+    public ScheduleCatVO doSelectOne(ScheduleCatVO scheduleCat) {
+	LOG.debug("doSelectOne.....");
 	
-	sb.append(" SELECT category_id,   \n");
-	sb.append("        category_nm    \n");
-	sb.append(" FROM schedule_cat     \n");
-	sb.append(" WHERE category_id = ? \n");
+	String statement = NAMESPACE + ".doSelectOne";
 	
-	LOG.debug("==============================");
-	LOG.debug("= Parameter: " + categoryId);
-	LOG.debug("==============================");
+	ScheduleCatVO outVO = sqlSessionTemplate.selectOne(statement, scheduleCat);
 	
-	outVO = (ScheduleCatVO) jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
-	
-	LOG.debug("==============================");
-	LOG.debug("= outVO: " + outVO);
-	LOG.debug("==============================");
+	LOG.debug("=========================");
+	LOG.debug("= [one]outVO: " + outVO);
+	LOG.debug("=========================");
 
 	return outVO;
     }
 
     /**
-     * 카테고리 리스트
+     * 다건조회
      * @return list
      * @author 박정민
-     * @Date 2020-10-30
      */
     @Override
     public List<ScheduleCatVO> doSelectList() {
-	List<ScheduleCatVO> list = null;
-	StringBuilder sb = new StringBuilder();
+	LOG.debug("doSelectList.....");
 	
-	sb.append(" SELECT category_id, \n");
-	sb.append("        category_nm  \n");
-	sb.append(" FROM schedule_cat   \n");
-
-	list = jdbcTemplate.query(sb.toString(), rowMapper);
+	String statement = NAMESPACE + ".doSelectList";
 	
-	LOG.debug("==============================");
-	for(ScheduleCatVO vo : list) {
-	    LOG.debug("= VO: " + vo);
-	}
-	LOG.debug("==============================");
+	List<ScheduleCatVO> list = sqlSessionTemplate.selectList(statement);
+	
+	LOG.debug("=========================");
+	list.forEach(outVO -> LOG.debug("= [list]outVO: " + outVO));
+	LOG.debug("=========================");
 	
 	return list;
     }

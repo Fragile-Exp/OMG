@@ -1,5 +1,8 @@
 package com.omg.comments;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,10 +51,10 @@ public class TestCommentsDao
 		LOG.debug("=setUp()=");
 		LOG.debug("=============================");
 		list = Arrays.asList(
-				 new CommentsVO(22,1,0,"1번게시글의댓글","","SAMGYOBI","","SAMGYOBI"),
-				 new CommentsVO(23,1,1,"1번게시글의댓글의대댓글","","SAMGYOBI","","SAMGYOBI"),
-				 new CommentsVO(24,2,0,"2번게시글의댓글","","SAMGYOBI","","SAMGYOBI"),
-				 new CommentsVO(25,2,3,"2번게시글의댓글의대댓글","","SAMGYOBI","","SAMGYOBI")
+				 new CommentsVO(26,1,0,"1번게시글의댓글","","SAMGYOBI","","SAMGYOBI"),
+				 new CommentsVO(27,1,1,"1번게시글의댓글의대댓글","","SAMGYOBI","","SAMGYOBI"),
+				 new CommentsVO(28,2,0,"2번게시글의댓글","","SAMGYOBI","","SAMGYOBI"),
+				 new CommentsVO(29,2,3,"2번게시글의댓글의대댓글","","SAMGYOBI","","SAMGYOBI")
 				);
 	}
 
@@ -72,14 +75,14 @@ public class TestCommentsDao
 		
 		int flag = 0;
 		
-//		//등록
-//		for(CommentsVO vo : list)
-//		{
-//			LOG.debug("test()[doInsert]");
-//			flag = commentsDao.doInsert(vo);
-//			assertThat(flag, is(1));
-//		}
-		
+		//등록
+		for(CommentsVO vo : list)
+		{
+			LOG.debug("test()[doInsert]");
+			flag = commentsDao.doInsert(vo);
+			assertThat(flag, is(1));
+		}
+//		
 //		//삭제
 //		for(CommentsVO vo : list)
 //		{
@@ -95,13 +98,11 @@ public class TestCommentsDao
 //		CommentsVO param02 = list.get(1);
 //		CommentsVO param03 = list.get(2);
 //		CommentsVO param04 = list.get(3);
-//		CommentsVO param05 = list.get(4);
 //		
 //		param01.setContents(param01.getContents()+"_U");
 //		param02.setContents(param02.getContents()+"_U");
 //		param03.setContents(param03.getContents()+"_U");
 //		param04.setContents(param04.getContents()+"_U");
-//		param05.setContents(param05.getContents()+"_U");
 //		
 //		for(CommentsVO vo : list)
 //		{
@@ -112,7 +113,7 @@ public class TestCommentsDao
 		//목록조회
 		LOG.debug("test()[doSelectList]");
 		Search search = new Search("", "", 10, 1);
-		List<CommentsVO> BoList = commentsDao.doSelectList(search);
+		List<CommentsVO> coList = commentsDao.doSelectList(search);
 		LOG.debug("list.size() : "+list.size());
 		
 //		//단건조회

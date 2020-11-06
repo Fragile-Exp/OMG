@@ -27,32 +27,32 @@ public class ScheduleCatServiceImpl implements ScheduleCatService {
      * 카테고리 추가
      */
     @Override
-    public int doInsert(ScheduleCatVO scheduleCatVO) {
-	return scheduleCatDao.doInsert(scheduleCatVO);
+    public int doInsert(ScheduleCatVO scheduleCat) {
+	return scheduleCatDao.doInsert(scheduleCat);
     }
 
     /**
      * 카테고리 삭제
      */
     @Override
-    public int doDelete(int categoryId) {
-	return scheduleCatDao.doDelete(categoryId);
+    public int doDelete(ScheduleCatVO scheduleCat) {
+	return scheduleCatDao.doDelete(scheduleCat);
     }
 
     /**
      * 카테고리 수정
      */
     @Override
-    public int doUpdate(ScheduleCatVO scheduleCatVO) {
-	return scheduleCatDao.doUpdate(scheduleCatVO);
+    public int doUpdate(ScheduleCatVO scheduleCat) {
+	return scheduleCatDao.doUpdate(scheduleCat);
     }
 
     /**
      * 카테고리 선택
      */
     @Override
-    public ScheduleCatVO doSelectOne(int categoryId) {
-	return scheduleCatDao.doSelectOne(categoryId);
+    public ScheduleCatVO doSelectOne(ScheduleCatVO scheduleCat) {
+	return scheduleCatDao.doSelectOne(scheduleCat);
     }
 
     /**

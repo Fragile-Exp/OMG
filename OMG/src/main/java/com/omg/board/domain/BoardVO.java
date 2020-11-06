@@ -9,7 +9,7 @@ public class BoardVO extends DTO
 	private String div;
 	private String title;
 	private String contents;
-	private int    read_cnt;
+	private int    readCnt;
 	private int	   filecode;
 	private String regDt;
 	private String regId;
@@ -18,7 +18,7 @@ public class BoardVO extends DTO
 	
 	public BoardVO() {}
 
-	public BoardVO(int boardSeq, String div, String title, String contents, int read_cnt, int filecode, String regDt,
+	public BoardVO(int boardSeq, String div, String title, String contents, int readCnt, int filecode, String regDt,
 			String regId, String modDt, String modId) 
 	{
 		super();
@@ -26,7 +26,7 @@ public class BoardVO extends DTO
 		this.div = div;
 		this.title = title;
 		this.contents = contents;
-		this.read_cnt = read_cnt;
+		this.readCnt = readCnt;
 		this.filecode = filecode;
 		this.regDt = regDt;
 		this.regId = regId;
@@ -76,14 +76,14 @@ public class BoardVO extends DTO
 		this.contents = contents;
 	}
 
-	public int getRead_cnt() 
+	public int getReadCnt() 
 	{
-		return read_cnt;
+		return readCnt;
 	}
 
-	public void setRead_cnt(int read_cnt) 
+	public void setReadCnt(int readCnt) 
 	{
-		this.read_cnt = read_cnt;
+		this.readCnt = readCnt;
 	}
 
 	public int getFilecode() 
@@ -140,7 +140,7 @@ public class BoardVO extends DTO
 	public String toString() 
 	{
 		return "BoardVO [boardSeq=" + boardSeq + ", div=" + div + ", title=" + title + ", contents=" + contents
-				+ ", read_cnt=" + read_cnt + ", filecode=" + filecode + ", regDt=" + regDt + ", regId=" + regId
+				+ ", readCnt=" + readCnt + ", filecode=" + filecode + ", regDt=" + regDt + ", regId=" + regId
 				+ ", modDt=" + modDt + ", modId=" + modId + ", toString()=" + super.toString() + "]";
 	}
 

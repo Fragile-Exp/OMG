@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.comments">
+	<sql id="searchCondition">
+		<choose>
+			<when test=" '10' == searchDiv">
+				WHERE contents like '%'|| #{searchWord} ||'%'	
+			</when>
+			<when test=" '20' == searchDiv">
+				WHERE reg_id like '%'|| #{searchWord} ||'%' or mod_id like '%'|| #{searchWord} ||'%'
+			</when>
+		</choose>
+	</sql>
+	
+	<!-- com.omg.comments.doInsert -->
+	<insert id="doInsert" parameterType="CommentsVO">
+		INSERT INTO comments (                      
+								comment_num,           
+								board_seq,             
+								up_num,                
+								contents,              
+								reg_dt,                
+								reg_id,                
+								mod_dt,                
+								mod_id                 
+							  ) VALUES (               
+							  	COMMENTS_SEQ.NEXTVAL,  
+							  	#{boardSeq},                     
+							  	#{upNum},                     
+							  	#{contents},                     
+							  	SYSDATE,               
+							  	#{regId},                     
+							  	SYSDATE,               
+							  	#{modId}                      
+							  )                        
+	</insert>
+	
+	<!-- com.omg.comments.doDelete -->
+	<delete id="doDelete" parameterType="CommentsVO">
+		DELETE FROM comments   
+		WHERE comment_num = #{commentNum}  
+	</delete>
+	
+	<!-- com.omg.comments.doUpdate -->
+	<update id="doUpdate" parameterType="CommentsVO">
+		UPDATE comments             
+		SET    board_seq = #{boardSeq},         
+			   up_num 	 = #{upNum},       
+			   contents	 = #{contents},       
+			   mod_dt 	 = SYSDATE, 
+			   mod_id 	 = #{modId}      
+		WHERE comment_num = #{commentNum}      
+	</update>
+	
+	<!-- com.omg.comments.doSelectOne -->
+	<select id="doSelectOne" parameterType="CommentsVO" resultType="CommentsVO">
+		SELECT                                                  
+				comment_num,                                       
+				board_seq,                                         
+				up_num,                                            
+				contents,                                          
+				TO_CHAR(reg_dt, 'YYYY-MM-DD HH24MISS') AS reg_dt,  
+				reg_id,                                            
+				TO_CHAR(reg_dt, 'YYYY-MM-DD HH24MISS') AS reg_dt,  
+				mod_id,                                            
+				1 AS rnum,                                         
+				1 AS total_cnt                                     
+		FROM comments                                      
+		WHERE comment_num = #{commentNum}                             
+	</select>
+	
+	<!-- com.omg.comments.doSelectList -->
+	<select id="doSelectList" parameterType="CommentsVO" resultType="CommentsVO">
+		SELECT T1.*,T2.*                                                                      
+		FROM                                                                                  
+		(                                                                                     
+		    SELECT B.rnum,                                                                    
+		           B.comment_num,                                                             
+		           B.board_seq,                                                               
+		           B.up_num,                                                                  
+		           B.contents,                                                                
+		           DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')            
+		                                             ,TO_CHAR(B.reg_dt,'HH24:MI')             
+		                                             ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) reg_dt, 
+		           B.reg_id,                                                                  
+		           DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.mod_dt,'YYYYMMDD')            
+		                                             ,TO_CHAR(B.mod_dt,'HH24:MI')             
+		                                             ,TO_CHAR(B.mod_dt,'YYYY-MM-DD')) mod_dt, 
+				   B.mod_id                                                                      
+		    FROM                                                                              
+		    (                                                                                 
+		        SELECT ROWNUM rnum, A.*                                                       
+		        FROM                                                                          
+		        (                                                                             
+		            SELECT *                                                                  
+		            FROM Comments                                                             
+		            --WHERE 조건
+		            <include refid="searchCondition" />                                                                
+					ORDER BY reg_dt DESC                                                      
+		        ) A                                                                           
+		        WHERE ROWNUM <![CDATA[ <= ]]> (#{pageSize} * (#{pageNum}-1)+ #{pageSize})                                                                     
+		    )B                                                                                
+		    WHERE b.rnum <![CDATA[ >= ]]> (#{pageSize} * (#{pageNum}-1) + 1)                                                                                 
+		) T1                                                                                  
+		CROSS JOIN                                                                            
+		(                                                                                     
+		    SELECT COUNT(*) total_cnt                                                         
+		    FROM Comments                                                                     
+		    --WHERE 조건
+		    <include refid="searchCondition" />                                                                        
+		) T2
+	</select>
+	
+</mapper>

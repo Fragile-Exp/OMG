@@ -2,6 +2,7 @@ package com.omg.schedule;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ import com.omg.schedule.domain.ScheduleCatVO;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
 				   "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
 public class ScheduleDaoCatTests {
-    Logger log = LoggerFactory.getLogger(ScheduleDaoCatTests.class);
+    private final Logger LOG = LoggerFactory.getLogger(ScheduleDaoCatTests.class);
     
     @Autowired
     WebApplicationContext ctx;
@@ -31,65 +32,29 @@ public class ScheduleDaoCatTests {
     @Qualifier("scheduleCatDao")
     private ScheduleCatDao dao;
     
-    /**
-     * 등록 테스트
-     * 테스트완료 2020-11-02
-     * @author 박정민
-     */
-    @Test
-    @Ignore
-    public void testInsert() {
-	ScheduleCatVO inVO = new ScheduleCatVO();
-	inVO.setCategoryId(40);
-	inVO.setCategoryNm("팀4");
+    private ScheduleCatVO inVO;
+    
+    @Before
+    public void setup() throws Exception {
+	LOG.debug("setup.....");
 	
-	int flag = dao.doInsert(inVO);
-	
-	log.debug("flag: " + flag);
+	inVO = new ScheduleCatVO();
+	inVO.setCategoryId(0);
+	inVO.setCategoryNm("테스트 팀");
     }
     
-    /**
-     * 삭제 테스트
-     * 테스트완료 2020-11-02
-     * @author 박정민
-     */
     @Test
-    @Ignore
-    public void testDelete() {
-	int categoryId = 40;
-	int flag = dao.doDelete(categoryId);
+    public void totalTest() {
+	dao.doInsert(inVO); //등록
 	
-	log.debug("flag: " + flag);
+	dao.doSelectOne(inVO); //단건조회
+	inVO.setCategoryNm("수정된 테스트 팀");
+	dao.doUpdate(inVO); //수정
+	
+	dao.doSelectList(); //다건조회
+	
+	dao.doDelete(inVO); //삭제
     }
     
-    /**
-     * 수정 및 단건검색 테스트
-     * 테스트완료 2020-11-02
-     * @author 박정민
-     */
-    @Test
-    @Ignore
-    public void testUpdateAndSelectOne() {
-	int categoryId = 30;
-	ScheduleCatVO inVO = dao.doSelectOne(categoryId);
-	inVO.setCategoryNm("3팀");
-	
-	int flag = dao.doUpdate(inVO);
-	
-	log.debug("flag: " + flag);
-    }
     
-    /**
-     * 리스트 테스트
-     * 테스트완료 2020-11-02
-     * @author 박정민
-     */
-    @Test
-    public void testSelectList() {
-	List<ScheduleCatVO> list = dao.doSelectList();
-	
-	for(ScheduleCatVO vo : list) {
-	    log.debug("vo: " + vo);
-	}
-    }
 }

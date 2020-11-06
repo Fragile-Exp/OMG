@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.board">
+	
+	<sql id="searchCondition">
+		<choose>
+			<when test=" '10' == searchDiv">
+				WHERE title like '%'|| #{searchWord} ||'%'
+			</when>
+			<when test=" '20' == searchDiv">
+				WHERE contents like '%'|| #{searchWord} ||'%'
+			</when>
+		</choose>
+	</sql>
+
+	<!-- com.omg.board.doInsert -->
+	<insert id="doInsert" parameterType="BoardVO">
+		INSERT INTO board (         
+						    board_seq,              
+						    div,                    
+						    title,                  
+						    contents,               
+						    read_cnt,               
+						    file_code,              
+						    reg_dt,                 
+						    reg_id,                 
+						    mod_dt,                 
+						    mod_id                  
+						  ) VALUES (                  
+						    BOARD_SEQ.NEXTVAL,      
+						    #{div},                      
+						    #{title},                      
+						    #{contents},                      
+						    #{readCnt},                      
+						    ATTACHMENT_SEQ.NEXTVAL, 
+						    SYSDATE,                
+						    #{regId},                      
+						    SYSDATE,                
+						    #{modId}                       
+						  )                           
+	</insert>
+	
+	<!-- com.omg.board.doDelete -->
+	<delete id="doDelete" parameterType="BoardVO">
+		DELETE FROM board   
+		WHERE board_seq = #{boardSeq} 	
+	</delete>
+	
+	<!-- com.omg.board.doUpdate -->
+	<update id="doUpdate" parameterType="BoardVO">
+		UPDATE board          
+		SET div = #{div},           
+		    title = #{title},       
+		    contents = #{contents},     
+		    read_cnt = #{readCnt},     
+		    file_code = #{filecode},    
+		    mod_dt = SYSDATE, 
+		    mod_id = #{modId}        
+		WHERE board_seq = #{boardSeq}   
+	</update>
+	
+	<!-- com.omg.board.doSelectOne -->
+	<select id="doSelectOne" parameterType="BoardVO" resultType="BoardVO">
+		SELECT                                                 
+		    board_seq,                                         
+		    div,                                               
+		    title,                                             
+		    contents,                                          
+		    read_cnt,                                          
+		    file_code,                                         
+		    TO_CHAR(reg_dt,'YYYY-MM-DD HH24MISS') AS reg_dt,   
+		    reg_id,                                            
+		    TO_CHAR(mod_dt,'YYYY-MM-DD HH24MISS') AS mod_dt,   
+		    mod_id,                                            
+		    1 AS rnum,                                         
+		    1 AS total_cnt                                     
+		FROM board                                             
+		WHERE board_seq = #{boardSeq}                                    	
+	</select>
+	
+	<!-- com.omg.board.doSelectList -->
+	<select id="doSelectList" parameterType="BoardVO" resultType="BoardVO">
+		SELECT T1.*,T2.*                                                                      
+		FROM                                                                                  
+		(                                                                                     
+		    SELECT B.rnum,                                                                    
+		           B.board_seq,                                                               
+		           B.div,                                                                     
+		           B.title,                                                                   
+		           B.contents,                                                                
+		           B.read_cnt,                                                                
+		           B.file_code,                                                               
+		           DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')            
+		                                             ,TO_CHAR(B.reg_dt,'HH24:MI')             
+		                                             ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) reg_dt, 
+		           B.reg_id,                                                                  
+		           DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.mod_dt,'YYYYMMDD')            
+		                                             ,TO_CHAR(B.mod_dt,'HH24:MI')             
+		                                             ,TO_CHAR(B.mod_dt,'YYYY-MM-DD')) mod_dt, 
+				   B.mod_id                                                                      
+		    FROM                                                                              
+		    (                                                                                 
+		        SELECT ROWNUM rnum, A.*                                                       
+		        FROM                                                                          
+		        (                                                                             
+		            SELECT *                                                                  
+		            FROM board                                                                
+		            --WHERE 조건
+		            <include refid="searchCondition" />              
+		            ORDER BY reg_dt DESC                                                      
+		        ) A                                                                           
+		        WHERE ROWNUM <![CDATA[ <= ]]> (#{pageSize} * (#{pageNum}-1)+ #{pageSize})                                                                    
+		    )B                                                                                
+		    WHERE b.rnum <![CDATA[ >= ]]> (#{pageSize} * (#{pageNum}-1) + 1)                                                                                 
+		) T1                                                                                  
+		CROSS JOIN                                                                            
+		(                                                                                     
+		    SELECT COUNT(*) total_cnt                                                         
+		    FROM board                                                                        
+		    --WHERE 조건
+			<include refid="searchCondition" />                                                                        
+		) T2	                                                                                  		
+	</select>
+	
+</mapper>

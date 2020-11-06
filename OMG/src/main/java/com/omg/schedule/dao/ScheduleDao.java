@@ -6,14 +6,14 @@ import com.omg.schedule.domain.ScheduleVO;
 
 public interface ScheduleDao {
 
-    public int doInsert(ScheduleVO scheduleVO);
+    public int doInsert(ScheduleVO schedule);
     
-    public int doDelete(int scheduleNo);
+    public int doDelete(ScheduleVO schedule);
     
-    public int doUpdate(ScheduleVO scheduleVO);
+    public int doUpdate(ScheduleVO schedule);
     
-    public ScheduleVO doSelectOne(int scheduleNo);
+    public ScheduleVO doSelectOne(ScheduleVO schedule);
     
-    public List<ScheduleVO> doSelectList(int deptNo);
+    public List<ScheduleVO> doSelectList(ScheduleVO schedule);
 
 }
