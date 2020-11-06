@@ -1,15 +1,12 @@
 package com.omg.note.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.omg.note.domain.NoteVO;
@@ -122,7 +119,7 @@ public class NoteDaoImpl {
 	 * @param NoteVO
 	 * @return List<NoteVO>
 	 */
-	public List<NoteVO> doSelectList(NoteVO note) {
+	public List<NoteVO> doSelectList(HashMap<String, Object> search) {
 		LOG.debug("== doSelectList ==");
 
 		// mybatis 쿼리 매핑
@@ -130,7 +127,7 @@ public class NoteDaoImpl {
 		LOG.debug("statement : "+statement );
 		
 		// 쿼리 실행
-		List<NoteVO> list = sqlSessionTemplate.selectList(statement,note);
+		List<NoteVO> list = sqlSessionTemplate.selectList(statement,search);
 		
 		for(NoteVO vo:list) {
 			LOG.debug(" 조회 VO : "+ vo);

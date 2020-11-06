@@ -30,7 +30,7 @@
 	
 	<!-- 목록 조회 -->
 	<select id="doSelectList" resultType="DeptVO"  >
-		SELECT dept_no as deptNo, dept_nm as deptNm, up_dept as upDept, level 
+		SELECT dept_no as deptNo, dept_nm as deptNm, up_dept as upDept, level, MAX(level) OVER() as totalCnt
 		FROM dept
 		START WITH up_dept = 0
 		CONNECT BY prior

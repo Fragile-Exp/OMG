@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.After;
@@ -24,6 +25,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.omg.cmn.Message;
+import com.omg.cmn.Search;
 import com.omg.note.domain.NoteVO;
 import com.omg.note.service.NoteService;
 import com.omg.organization.domain.DeptVO;
@@ -102,8 +104,12 @@ public class TestNoteService {
 		NoteVO inVO = new NoteVO();
 		inVO.setNoteDiv(1);
 		inVO.setEmployeeId("admin");
-		List<NoteVO> noteList = service.doSelectList(inVO);
-		assertThat(noteList.size(), is(5));
+		Search searchVO = new Search("10", "ID02");
+		HashMap<String, Object> search = new HashMap<String, Object>();
+		search.put("noteVO", inVO);
+		search.put("searchVO", searchVO);
+		List<NoteVO> noteList = service.doSelectList(search);
+		assertThat(noteList.size(), is(2));
 		
 		
 		for(NoteVO vo:list) {

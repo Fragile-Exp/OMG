@@ -43,16 +43,16 @@
 										<span class="icon text-white-50"> <i class="fas fa-trash"></i></span>
 										<span class="text">삭제</span>
 									</a>
-									<a href="${hContext}/view/org_mod.do" class="btn btn-info btn-icon-split btn-sm">
+									<a href="${hContext}/org/org_mod.do" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-check"></i></span>
 										<span class="text">수정</span>
 									</a>
-									<a href="${hContext}/view/org_reg.do" class="btn btn-info btn-icon-split btn-sm">
+									<a href="${hContext}/org/org_reg.do" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-arrow-right"></i></span>
 										<span class="text">추가</span>
 									</a>
 								</div>
-								<div class="card-body">
+								<div id="mainBody" class="card-body">
 									<!-- collapse 로 만듬 개힘들었는데.. 
 									<ul class="navbar-nav" id="dept_position">
 										<li class="nav-item active"><a class="nav-link collapsed"
@@ -123,13 +123,83 @@
 	</div>
 	<!-- //wrap -->
 	
-		<script type="text/javascript">
+	<script type="text/javascript">
+	
 	$(document).ready(function(){
 		$("#setting").attr("class","nav-link");
 		$("#setting").attr("aria-expanded","true");
 		$("#adminSetting").attr("class","collapse show");
 		$("#org").attr("class","collapse-item active");
+		drawDeptList();
 		});
+
+	function drawDeptList(){
+
+		$.ajax({
+            type:"GET",
+            url:"${hContext}/org/doSelectListDept.do",
+            dataType:"html",
+            async: true, 
+         success: function(data){
+           var parseData = JSON.parse(data);
+			//table에 있던 기존 데이터 삭제
+			$("#mainBody").empty();
+			var html = "";
+			var maxLevel = 0;
+
+			//Data가 없으면
+           if(parseData.length>0){
+               maxLevel = parseData[0].totalCnt;
+               var currLevel = 0;
+			  $.each(parseData, function(i, value) {
+				  if(value.level < maxLevel){
+					  if(value.level == currLevel){
+						  html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" />'+value.deptNm+'<br />';
+						  } else if( value.level == (currLevel-1)){
+							  html += '</div>';
+							  html += '</details>';
+							  html += '</div>';
+							  html += '<details class="text-primary">';
+							  html += '<summary>';
+							  html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" />'+value.deptNm+'';
+							  html += '</summary>';
+							  html += '<div class="bg-white px-4">';
+							  currLevel = value.level;
+							  } else{
+								  	html += '<details class="text-primary">';
+									html += '<summary>';
+									html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" />'+value.deptNm+'';
+									html += '</summary>';
+									html += '<div class="bg-white px-4">';
+									currLevel = value.level;
+						  	  }
+					} else {
+						html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" />'+value.deptNm+'<br />';
+						currLevel = value.level;
+					}
+
+					for(var i=1; i<currLevel;i++){
+						html += '</div>';
+						html += '</details>';
+						}
+			  });
+					  
+		      }else{
+		    	  html += "<span class='label label-default'>";
+				  html += "부서 정보가 없습니다.";
+				  html += "</span>";
+			  }
+		                  
+			  //mainBody 동적으로 html추가
+		      $("#mainBody").append(html);
+		      
+         },
+         error:function(xhr,status,error){
+             alert("error:"+error);
+         }
+        }); 
+		
+		}
 	
 	</script>
 	

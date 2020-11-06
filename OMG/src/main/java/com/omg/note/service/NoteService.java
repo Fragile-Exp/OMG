@@ -1,5 +1,6 @@
 package com.omg.note.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,10 +102,10 @@ public class NoteService {
 	 * @param NoteVO
 	 * @return List<NoteVO>
 	 */
-	public List<NoteVO> doSelectList(NoteVO note) {
+	public List<NoteVO> doSelectList(HashMap<String, Object> search) {
 		// 아직 생각나는 로직 없음.
 		// 검색 조건 추가하면 생각 나려나..
-		return dao.doSelectList(note);
+		return dao.doSelectList(search);
 	}
 	
 	
