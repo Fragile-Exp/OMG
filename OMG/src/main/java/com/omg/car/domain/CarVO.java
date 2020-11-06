@@ -3,38 +3,23 @@ package com.omg.car.domain;
 import com.omg.cmn.DTO;
 
 public class CarVO extends DTO  {
-	private String car_num       ; // 차량번호 pk
+	private String carNum       ; // 차량번호 pk
 	private String kind          ; // 차량종류 
-	private String car_use       ; // 차량연료
-	private String employee_id   ; // 사번    fk
-	private int    car_set       ; // 차량상태 
-    private String rent_day      ; // 대여기간
+	private String carUse       ; // 차량연료
+	private String employeeId   ; // 사번    fk
+	private int    carSet       ; // 차량상태 
+    private String rentDay      ; // 대여기간
     private String reason        ; // 대여사유
 
-
-    public CarVO() {}
-
-
-	public CarVO(String car_num, String kind, String car_use, String employee_id, int car_set, String rent_day,
-			String reason) {
-		super();
-		this.car_num = car_num;
-		this.kind = kind;
-		this.car_use = car_use;
-		this.employee_id = employee_id;
-		this.car_set = car_set;
-		this.rent_day = rent_day;
-		this.reason = reason;
+	public CarVO() {}
+	
+    public String getCarNum() {
+		return carNum;
 	}
 
 
-	public String getCar_num() {
-		return car_num;
-	}
-
-
-	public void setCar_num(String car_num) {
-		this.car_num = car_num;
+	public void setCarNum(String carNum) {
+		this.carNum = carNum;
 	}
 
 
@@ -48,43 +33,43 @@ public class CarVO extends DTO  {
 	}
 
 
-	public String getCar_use() {
-		return car_use;
+	public String getCarUse() {
+		return carUse;
 	}
 
 
-	public void setCar_use(String car_use) {
-		this.car_use = car_use;
+	public void setCarUse(String carUse) {
+		this.carUse = carUse;
 	}
 
 
-	public String getEmployee_id() {
-		return employee_id;
+	public String getEmployeeId() {
+		return employeeId;
 	}
 
 
-	public void setEmployee_id(String employee_id) {
-		this.employee_id = employee_id;
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
 	}
 
 
-	public int getCar_set() {
-		return car_set;
+	public int getCarSet() {
+		return carSet;
 	}
 
 
-	public void setCar_set(int car_set) {
-		this.car_set = car_set;
+	public void setCarSet(int carSet) {
+		this.carSet = carSet;
 	}
 
 
-	public String getRent_day() {
-		return rent_day;
+	public String getRentDay() {
+		return rentDay;
 	}
 
 
-	public void setRent_day(String rent_day) {
-		this.rent_day = rent_day;
+	public void setRentDay(String rentDay) {
+		this.rentDay = rentDay;
 	}
 
 
@@ -97,14 +82,29 @@ public class CarVO extends DTO  {
 		this.reason = reason;
 	}
 
+	public CarVO(String carNum, String kind, String carUse, String employeeId, int carSet, String rentDay,
+			String reason) {
+		super();
+		this.carNum = carNum;
+		this.kind = kind;
+		this.carUse = carUse;
+		this.employeeId = employeeId;
+		this.carSet = carSet;
+		this.rentDay = rentDay;
+		this.reason = reason;
+	}
 
 	@Override
 	public String toString() {
-		return "CarVO [car_num=" + car_num + ", kind=" + kind + ", car_use=" + car_use + ", employee_id=" + employee_id
-				+ ", car_set=" + car_set + ", rent_day=" + rent_day + ", reason=" + reason + ", toString()="
+		return "CarVO [carNum=" + carNum + ", kind=" + kind + ", carUse=" + carUse + ", employeeId=" + employeeId
+				+ ", carSet=" + carSet + ", rentDay=" + rentDay + ", reason=" + reason + ", toString()="
 				+ super.toString() + "]";
 	}
-    
+
+
+	
+
+
 
 
 }

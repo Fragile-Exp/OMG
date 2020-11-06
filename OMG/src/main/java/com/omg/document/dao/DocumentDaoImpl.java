@@ -16,20 +16,15 @@ import org.springframework.stereotype.Repository;
 
 import com.omg.document.domain.DocumentVO;
 
-
-
-
-
 @Repository("documentDao")
 public class DocumentDaoImpl {
 	
 	static final Logger LOG = LoggerFactory.getLogger(DocumentDaoImpl.class);
 	
-	@Autowired
-    private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
+	
 	private final String NAMESPACE ="com.omg.document";
 	
 	DataSource dataSource; 

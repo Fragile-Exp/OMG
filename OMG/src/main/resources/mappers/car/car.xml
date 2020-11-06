@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.car">
+	<!-- 차 -->
+
+	<!-- 등록 -->
+	<insert id="doInsert" parameterType="CarVO">
+		INSERT INTO car (car_num, kind, car_use, employee_id, car_set, rent_day, reason) VALUES (#{carNum}, #{kind}, #{carUse}, #{employeeId}, #{carSet}, #{rentDay}, #{reason})                        
+	</insert>
+	
+	<!-- 삭제 -->
+	<delete id="doDelete" parameterType="CarVO">
+		DELETE FROM car WHERE car_num = #{carNum}
+	</delete>
+	
+	<!-- 수정 -->
+	<update id="doUpdate" parameterType="CarVO">
+		UPDATE car SET   car_num = #{carNum}, kind = #{kind}, car_use = #{carUse}, employee_id =#{employeeId}, car_set = #{carSet}, rent_day = #{rentDay}, reason = #{reason} WHERE car_num = #{carNum}    
+	</update>
+	
+	<!-- 단건 검색-->
+	<select id="doSelectOne" parameterType="CarVO" resultType="CarVO">
+		SELECT car_num, kind, car_use, employee_id, car_set, TO_CHAR(rent_day, 'YYYY-MM-DD') AS  rentDay, reason FROM car WHERE car_num = #{carNum}     
+	</select>
+	
+	<!-- 전체 검색 -->
+	<select id="doSelectList" parameterType="CarVO" resultType="CarVO">
+		SELECT car_num, kind, car_use, employee_id, car_set, TO_CHAR(rent_day, 'YYYY-MM-DD') AS  rentDay, reason FROM car              
+	</select>
+	
+	
+</mapper>
