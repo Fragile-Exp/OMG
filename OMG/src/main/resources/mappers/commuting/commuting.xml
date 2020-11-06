@@ -53,7 +53,10 @@
 		SET                            					
 		    name = #{name},                					
 		    dept_no = #{deptNo},               					
-		    attend_time = TO_DATE(#{attendTime},'yyyymmddHH24MISS'),
+		    attend_time = (CASE
+		    				WHEN attend_time is null THEN TO_DATE(#{attendTime},'yyyymmddHH24MISS')
+		    				ELSE attend_time
+		    				END),
 		    leave_time = TO_DATE(#{leaveTime},'yyyymmddHH24MISS'), 
 		    present_state = #{presentStateIntValue},        					
 		    state = #{stateIntValue}                  				                              
@@ -65,12 +68,7 @@
 	<update id="doUpdateWorkTime" parameterType="Commuting">
 		UPDATE commuting c                                                                                      		
 		SET work_time = (                                                                                         		
-		              TO_CHAR( TRUNC(((c.leave_time - c.attend_time) - TRUNC(c.leave_time - c.attend_time)) * 24-1))   	
-		              || '시간' ||                                                                                 		
-		              TO_CHAR(FLOOR(((((c.leave_time - c.attend_time) -TRUNC(c.leave_time - c.attend_time)) * 24)       
-		                      - TRUNC(((c.leave_time - c.attend_time)-TRUNC(c.leave_time - c.attend_time)) * 24)) * 60) 
-		                      )                                                                                   		
-		              || '분'                                                                                      		
+		               ROUND(((c.leave_time-c.attend_time)*24),1)                                                                                  		
 		            )                                                                                             		
 		WHERE c.seq =#{seq}                                                                                            		
 		AND c.employee_id =#{employeeId}                                                                                      		
@@ -134,7 +132,8 @@
 					 B.present_state as presentStateIntValue,                                                    
 					 B.state as stateIntValue,                                                            
 					 B.work_time as workTime,                                                        
-					 B.reg_dt as regDt                       
+					 B.reg_dt as regDt,
+					 SUM(B.work_time) OVER(ORDER BY B.rnum) as totalCnt                      
 				FROM (                                                                   
 					  SELECT ROWNUM rnum, A.*                                                
 					  FROM(                                                                  

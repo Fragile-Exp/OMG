@@ -21,9 +21,9 @@ public class CommutingServiceImpl implements CommutingService {
 
 	final Logger LOG = LoggerFactory.getLogger(CommutingServiceImpl.class);
 	
-	final static int MIN_TIME_FOR_ATTEND = 9;
-	final static int QUITTING_TIME = 18;
-	final static int CURRENT_TIME = Integer.valueOf((StringUtil.formatDate("HH")));
+	final static int MIN_HOUR_FOR_ATTEND = 9;
+	final static int QUITTING_HOUR = 18;
+	final static int CUTTENT_HOUR = Integer.valueOf((StringUtil.formatDate("HH")));
 	
 	@Autowired
 	CommutingDao commutingDao;
@@ -60,8 +60,10 @@ public class CommutingServiceImpl implements CommutingService {
 		LOG.debug("-doUpdateAttendTime()");
 		Commuting inVO = (Commuting) dto;
 		
-		if(MIN_TIME_FOR_ATTEND < CURRENT_TIME
-				&&CURRENT_TIME < QUITTING_TIME ) {
+		LOG.debug("-CURRENT_TIME : " + CUTTENT_HOUR);
+		
+		if(MIN_HOUR_FOR_ATTEND < CUTTENT_HOUR
+				&&CUTTENT_HOUR < QUITTING_HOUR ) {
 			
 			inVO.setPresentState(PresentState.근무중);
 			inVO.setState(State.지각);
@@ -71,7 +73,8 @@ public class CommutingServiceImpl implements CommutingService {
 			inVO.setState(State.정상);
 		}
 		
-		inVO.setAttendTime(StringUtil.formatDate("yyyyMMdd HHmmss"));
+		inVO.setAttendTime(StringUtil.formatDate("yyyyMMdd 085000"));
+		inVO.setLeaveTime("");
 		
 		LOG.debug("-inVO :\n"+inVO);
 		
@@ -89,8 +92,10 @@ public class CommutingServiceImpl implements CommutingService {
 		
 		Commuting inVO = (Commuting) dto;
 		
-		if(MIN_TIME_FOR_ATTEND < CURRENT_TIME
-				&&CURRENT_TIME < QUITTING_TIME ) {
+		LOG.debug("-CURRENT_TIME : " + CUTTENT_HOUR);
+		
+		if(MIN_HOUR_FOR_ATTEND < CUTTENT_HOUR
+				&&CUTTENT_HOUR < QUITTING_HOUR ) {
 			
 			inVO.setPresentState(PresentState.퇴근);
 			
@@ -105,7 +110,7 @@ public class CommutingServiceImpl implements CommutingService {
 			inVO.setState(State.정상);
 		}
 		
-		inVO.setLeaveTime(StringUtil.formatDate("yyyyMMdd HHmmss"));
+		inVO.setLeaveTime(StringUtil.formatDate("yyyyMMdd 155000"));
 		
 		LOG.debug("-inVO :\n"+inVO);
 		
