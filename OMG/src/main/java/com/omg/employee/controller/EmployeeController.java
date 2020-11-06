@@ -17,14 +17,14 @@ import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
 import com.omg.employee.domain.EmployeeVO;
-import com.omg.employee.service.EmployeeServiceImpl;
+import com.omg.employee.service.EmployeeService;
 
 @Controller
 public class EmployeeController {
 	final Logger LOG=LoggerFactory.getLogger(EmployeeController.class);
 	
 	@Autowired
-	EmployeeServiceImpl employeeService;
+	EmployeeService employeeService;
 	
 	public EmployeeController() {}
 	

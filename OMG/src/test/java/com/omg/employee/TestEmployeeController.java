@@ -36,7 +36,7 @@ import com.google.gson.Gson;
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.employee.domain.EmployeeVO;
-import com.omg.employee.service.EmployeeServiceImpl;
+import com.omg.employee.service.EmployeeService;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)//스프랭 테스트 컨텍스트 프레임워크의 JUnit기능 확장
@@ -52,7 +52,7 @@ public class TestEmployeeController {
 	List<EmployeeVO> employees;
 	
 	@Autowired
-	EmployeeServiceImpl employeeService;
+	EmployeeService employeeService;
 	
 	//브라우저 대신 Mock
 	MockMvc  mockMvc;

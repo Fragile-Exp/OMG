@@ -10,56 +10,65 @@ import org.springframework.stereotype.Service;
 import com.omg.cmn.Search;
 import com.omg.employee.dao.EmployeeDao;
 import com.omg.employee.domain.EmployeeVO;
-
 @Service("employeeServiceImpl")
-public class EmployeeServiceImpl  {
-	final Logger LOG=LoggerFactory.getLogger(EmployeeServiceImpl.class);
+public class EmployeServiceImpl implements EmployeeService {
+	final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private EmployeeDao employeeDao;
+	EmployeeDao employeeDao;
 	
-	public EmployeeServiceImpl() {}
-	
+	@Override
 	public int passwdConfirm(EmployeeVO employee) {
 		return employeeDao.passwdConfirm(employee);
 	}
 
+	@Override
 	public int idConfirm(EmployeeVO employee) {
 		return employeeDao.idConfirm(employee);
 	}
 
+	@Override
 	public List<EmployeeVO> doSelectList(Search search) {
 		return employeeDao.doSelectList(search);
 	}
 
+	@Override
 	public List<EmployeeVO> doSelectAll(EmployeeVO employee) {
 		return employeeDao.doSelectAll(employee);
 	}
-//
-//	public int count(EmployeeVO employee) {
-//		return employeeDao.count(employee);
-//	}
 
+	@Override
 	public int doUpdate(EmployeeVO employee) {
 		return employeeDao.doUpdate(employee);
 	}
 
+	@Override
 	public EmployeeVO doSelectOne(EmployeeVO employee) {
 		return employeeDao.doSelectOne(employee);
 	}
 
+	@Override
+	public int doDeleteAll() {
+		return employeeDao.doDeleteAll();
+	}
+
+	@Override
 	public int doDelete(EmployeeVO employee) {
 		return employeeDao.doDelete(employee);
 	}
 
+	@Override
 	public int doInsert(EmployeeVO employee) {
 		return employeeDao.doInsert(employee);
 	}
+	
+
 	/**
 	 * 로그인시 아이디 존재 여부
 	 * @param employee
 	 * @return 1(존재하지 않는 아이디),0(존재하는 아이디) 
 	 */
+	@Override
 	public int idCheck(EmployeeVO employee) {
 		int flag=0;
 		int idFlag=employeeDao.idConfirm(employee);
@@ -76,6 +85,7 @@ public class EmployeeServiceImpl  {
 	 * @param employee
 	 * @return
 	 */
+	@Override
 	public int doLogin(EmployeeVO employee) {
 		int flag=0;
 
@@ -98,5 +108,4 @@ public class EmployeeServiceImpl  {
 		
 		return flag;
 	}
-
 }

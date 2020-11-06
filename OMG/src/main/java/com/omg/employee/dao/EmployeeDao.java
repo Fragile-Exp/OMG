@@ -18,11 +18,12 @@ import org.springframework.stereotype.Repository;
 import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
 import com.omg.employee.domain.EmployeeVO;
+import com.omg.employee.service.EmployeeService;
 
 import org.springframework.jdbc.core.RowMapper;
 
 @Repository("employeeDao")
-public class EmployeeDao   {
+public class EmployeeDao  {
 	final static Logger LOG=LoggerFactory.getLogger(EmployeeDao.class);
 	
 	private final String NAMESPACE="com.omg.employee";
