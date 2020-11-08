@@ -32,12 +32,12 @@ public class DocumentController {
 	}
 	
 
-	@RequestMapping(value="document/document_rge.do", method = RequestMethod.GET )
+	@RequestMapping(value="document/document_reg.do", method = RequestMethod.GET )
 	public String document_reg(){
 		LOG.debug("===========================");
-		LOG.debug("=document_rge.do=");
+		LOG.debug("=document_reg.do=");
 		LOG.debug("===========================");
-		return "document/document_rge";
+		return "document/document_reg";
 	}
 }
 	

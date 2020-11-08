@@ -9,9 +9,8 @@
 
 <style>
 	.card { width: 120%;}	
-	.card-table-thead > th {border-bottom : 3px solid #444444; padding: 10px;}
-	.card-table-tbody > td {border-bottom : 1px solid #444444; padding:10px;}
 	.btn-box {float:right;}
+
 </style>
 
 <body id="page-top">
@@ -34,10 +33,10 @@
 
 					<!-- Page Heading -->
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
-					  <h1 class="h3 mb-0 text-gray-800">문서 등록</h1>
+					  <h1 class="h3 mb-0 text-gray-800">문서 등록 페이지</h1>
 					  <div class="btn-box">
-					  	<a href="#" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-invoice fa-sm text-white-50"></i>등록 페이지</a>
-					  	<a href="#" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-trash fa-sm text-white-50"></i> 삭제</a>
+					  	<a href="#" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-invoice fa-sm text-white-50"></i>등록</a>
+					  	<a href="#" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-trash fa-sm text-white-50"></i>취소</a>
 					  </div>
 					</div>
 					
@@ -51,7 +50,7 @@
 					    <div class="card shadow mb-4">
 					      <!-- Card Header - Dropdown -->
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-					        <h6 class="m-0 font-weight-bold text-primary">등록 결재 목록</h6>
+					        <h6 class="m-0 font-weight-bold text-primary">문서 등록</h6>
 					        <div class="dropdown no-arrow">
 					          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -68,32 +67,79 @@
 					      <!-- Card Body -->
 					      <div class="card-body">
 					        <div class="chart-area">
-					        	<table class="card-table" >
-					        		<thead>
-						        		<tr class="card-table-thead">
-						        			<th width="15%" class="text-center"  >문서 제목</th>	
-						        			<th width="10%">문서 종류</th>
-						        			<th width="10%">문서번호 </th>
-						        			<th width="10%">처리기간</th>
-						        			<th width="3%">상태</th>
-						        			<th width="3%">선택</th>
-						        		</tr>
-					        		</thead>
-					        		
-					        		<tbody>
-						        		<!-- to do : for문을 사용해서 여러 데이터 출력-->
-						        		<!-- to do : javascript 사용해서 라인 클릭시 페이지 이동-->
-						        		<tr class="card-table-tbody">
-						        			<td>문서제목 데이터</td>
-						        			<td>문서 종류 데이터</td>
-						        			<td>문서 번호 데이터</td>
-						        			<td>처리기간 데이터</td>
-						        			<td>상태 </td>
-						        			<td><input type="checkbox"></td>
-						        		</tr>
-					        		</tbody>	
-					        	
-					        	</table>
+					      		<!-- to do : 값들 name/id 부여 -->
+					      		<!-- 제목  -->
+					      		<div>
+						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
+						      			<div class="title-header bg-primary text-white btn-sm" style="text-align:center;" >
+						      				제목
+						      			</div>
+						      		</div>
+						      		<div class="title-body" style="display: inline-block;">
+						      			<input class="title-input" type="text" style=" width :900px;">
+						      		</div>
+					        	</div>
+					        	<!-- //제목  -->
+					        	<!-- 종류 / 기간   -->
+					        	<div>
+						        	<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
+						      			<div class="kind-header bg-primary text-white btn-sm" style="text-align:center;" >
+						      				종류
+						      			</div>
+						      		</div>
+						      		<div class="kind-body" style="display: inline-block;">
+						      			<!-- to do : for문 사용해서 문서 종류 데이터 입력   -->
+						      			<select class="kind-body-select" style="width:400px;">
+							      			<option >----------</option>
+							      			<option >휴가</option>
+							      			<option >차량</option>
+							      		</select>
+						      		</div>
+						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
+						      			<div class="dDay-header bg-primary text-white btn-sm" style="text-align:center;" >
+						      				기간
+						      			</div>
+						      		</div>
+						      		<div class="dDay-body" style="display: inline-block;">
+						      			<input type="date" style="width:400px;">
+						      		</div>
+						      	</div>
+						      	<!--// 종류 / 기간   -->
+						      	<!-- 파일 등록  -->
+						      	<div>
+						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
+						      			<div class="file-header bg-primary text-white btn-sm" style="text-align:center;" >
+						      				파일 
+						      			</div>
+						      		</div>
+						      		<!-- to do : 파일 등록 모양 만들기  -->
+						      		<div class="file-body" style="display: inline-block;">
+						      			<input class="file-input" multiple="multiple"   type="file"style=" width :300px;">
+						      		</div>
+					        	</div>
+					        	<!--// 파일 등록 -->
+					        	<!-- 결재자 -->
+					        	<div>
+						        	<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
+						      			<div class="approval-header bg-primary text-white btn-sm" style="text-align:center;" >
+						      				종류
+						      			</div>
+						      		</div>
+						      		<div class="approval-body" style="display: inline-block;">
+						      			<!-- to do : for문 사용해서 사원 입력하기  -->
+						      			<select class="approval-body-select" style="width:400px;">
+							      			<option >----------</option>
+							      			<option >인사팀 부장 홍길동</option>
+							      			<option >총무팀 팀장 철수</option>
+							      		</select>
+						      		</div>
+						      	</div>
+					        	<div class="card-body-label" style="width:7%; margin-bottom:10px;">
+						      			<div class="cont-header bg-primary text-white btn-sm" style="text-align:center;" >
+						      				문서 내용
+						      			</div>
+						      	</div>
+						      	<input class="cont-body" type="text" style="width:900px; height:100px;">
 					        </div>
 					      </div>
 					    </div>
