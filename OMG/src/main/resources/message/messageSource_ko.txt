@@ -1,0 +1,4 @@
+#common
+message.common.message={0} 하시겠습니까?
+message.common.message.valid={0}을(를) 입력하세요.
+message.common.message.confirm ={0} 되었습니다.
