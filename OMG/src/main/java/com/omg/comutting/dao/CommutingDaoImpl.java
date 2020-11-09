@@ -53,7 +53,7 @@ public class CommutingDaoImpl implements CommutingDao {
 		LOG.debug(">statement>" + statement);
 		LOG.debug(">param>" + inVO);
 		
-		int verify = this.sqlSessionTemplate.insert(statement, inVO);
+		int verify = this.sqlSessionTemplate.delete(statement, inVO);
 
 		LOG.debug("=verify=" + verify);
 		LOG.debug("====================================");
