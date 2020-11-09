@@ -80,6 +80,21 @@ public class TestEmployeeController {
 	}
 	
 	@Test
+	public void idConfirm() {
+		LOG.debug("++++++++++++++++++++");
+		LOG.debug("++idConfirm()++");
+		LOG.debug("++++++++++++++++++++");
+		
+		EmployeeVO employee01=employees.get(4);
+    	int cnt=employeeService.idConfirm(employee01);
+    	
+    	//1(존재)/0(존재하지 않는 아이디)
+    	LOG.debug("=cnt="+cnt);
+		
+	}
+	
+	@Test
+	@Ignore
 	public void doSelectList() throws Exception {
 		Search search=new Search("","",10,1);
 		
