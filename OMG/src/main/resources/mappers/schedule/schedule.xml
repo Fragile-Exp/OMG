@@ -35,21 +35,31 @@
 	
 	<!-- 단건조회 -->
 	<select id="doSelectOne" resultType="ScheduleVO">
-		SELECT schedule_no, dept_no, employee_id, category_id,
-			   time_status, title, content,
-			   TO_CHAR(start_dt, 'yyyy-MM-dd HH24:mi') start_dt,
-			   TO_CHAR(end_dt, 'yyyy-MM-dd HH24:mi') end_dt
+		SELECT schedule_no scheduleNo,
+			   dept_no deptNo,
+			   employee_id employeeId,
+			   category_id categoryId,
+			   time_status timeStatus,
+			   title,
+			   content,
+			   TO_CHAR(start_dt, 'yyyy-MM-dd HH24:mi') startDt,
+			   TO_CHAR(end_dt, 'yyyy-MM-dd HH24:mi') endDt
 		FROM schedule
 		WHERE schedule_no = #{scheduleNo}
 	</select>
 	
 	<!-- 다건조회 -->
 	<select id="doSelectList" resultType="ScheduleVO">
-		SELECT 
-			   schedule_no, dept_no, employee_id, category_id,
-			   time_status, title, content,
-			   TO_CHAR(start_dt, 'yyyy-MM-dd HH24:MI') start_dt,
-			   TO_CHAR(end_dt, 'yyyy-MM-dd HH24:MI') end_dt
+		SELECT /*+ INDEX_ASC (schedule pk_schedule) */
+			   schedule_no scheduleNo,
+			   dept_no deptNo,
+			   employee_id employeeId,
+			   category_id categoryId,
+			   time_status timeStatus,
+			   title,
+			   content,
+			   TO_CHAR(start_dt, 'yyyy-MM-dd HH24:MI') startDt,
+			   TO_CHAR(end_dt, 'yyyy-MM-dd HH24:MI') endDt
 		FROM schedule
 		<if test="deptNo != 0">
 			WHERE dept_no = #{deptNo}
