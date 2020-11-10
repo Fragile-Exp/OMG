@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -33,7 +34,6 @@ import com.omg.cmn.Search;
 import com.omg.commuting.domain.Commuting;
 import com.omg.commuting.service.CommutingService;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
@@ -68,6 +68,7 @@ public class TestCommutingController {
 		
 	}
 	
+	@Test
 	@Ignore
 	public void doInit() throws Exception {
 		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.get("/commuting/doInit.do");
@@ -109,6 +110,59 @@ public class TestCommutingController {
 		LOG.debug("=message=" + message);
 			
 	}
+	
+	@Test
+	@Ignore
+	public void doUpdateAttendTime() throws Exception {
+		makeList();
+		Commuting attend = attends.get(0);
+		
+		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/commuting/doUpdateAttendTime.do")
+				.param("seq", attend.getSeq())
+				.param("employeeId", attend.getEmployeeId());
+		
+		ResultActions resultActions = mockMvc.perform(createMessage)
+				.andExpect(status().is2xxSuccessful());
+		
+		String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
+
+		LOG.debug("=result=" + result);
+
+		Gson gson = new Gson();
+		Message message = gson.fromJson(result, Message.class);
+		assertThat(message.getMsgId(), is(1+""));
+		
+		makeList();
+	}
+	
+	@Test
+	@Ignore
+	public void doUpdateLeaveTime() throws Exception {
+		makeList();
+		Commuting attend = attends.get(0);
+		
+		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/commuting/doUpdateLeaveTime.do")
+				.param("seq", attend.getSeq())
+				.param("employeeId", attend.getEmployeeId())
+				.param("attendTime", attend.getAttendTime())
+				.param("presentState", attend.getPresentState()+"")
+				.param("state", attend.getState()+"");
+				
+		ResultActions resultActions = mockMvc.perform(createMessage)
+				.andExpect(status().is2xxSuccessful());
+		
+		String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
+
+		LOG.debug("=result=" + result);
+
+		Gson gson = new Gson();
+		Message message = gson.fromJson(result, Message.class);
+		assertThat(message.getMsgId(), is(1+""));
+		
+		makeList();
+	}
+	
+	
 	
 	@After
 	public void tearDown() throws Exception {
