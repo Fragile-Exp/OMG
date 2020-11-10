@@ -2,6 +2,7 @@ package com.omg.schedule.dao;
 
 import java.util.List;
 
+import com.omg.cmn.Criteria;
 import com.omg.schedule.domain.ScheduleVO;
 
 public interface ScheduleDao {
@@ -14,6 +15,8 @@ public interface ScheduleDao {
     
     public ScheduleVO doSelectOne(ScheduleVO schedule);
     
-    public List<ScheduleVO> doSelectList(ScheduleVO schedule);
+    public List<ScheduleVO> doSelectList(Criteria cri);
+    
+    public  int getTotalCount(Criteria cri);
 
 }

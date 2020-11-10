@@ -3,72 +3,127 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mappers.schedule.schedule">
+	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr"> <!-- getTypeArr메서드 -->
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'E'.toString()">
+							employeeId like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
 
 	<!-- 등록 -->
 	<select id="doInsert">
 		INSERT INTO schedule (
-		schedule_no, dept_no, employee_id, category_id,
-		time_status, title, content, start_dt, end_dt)
+			schedule_no,
+			dept_no,
+			employee_id,
+			category_id,
+			time_status,
+			title,
+			content,
+			start_dt,
+			end_dt
+		)
 		VALUES (
-		SCHEDULE_SEQ.nextval, #{deptNo}, #{employeeId}, #{categoryId},
-		#{timeStatus}, #{title}, #{content},
-		TO_DATE(#{startDt}, 'yyyy-MM-dd HH24:mi'),
-		TO_DATE(#{endDt}, 'yyyy-MM-dd HH24:mi'))
+			SCHEDULE_SEQ.nextval,
+			#{deptNo},
+			#{employeeId},
+			#{categoryId},
+			#{timeStatus},
+			#{title},
+			#{content},
+			TO_DATE(#{startDt}, 'yyyy-MM-dd HH24:mi'),
+			TO_DATE(#{endDt}, 'yyyy-MM-dd HH24:mi')
+		)
 	</select>
 
 	<!-- 삭제 -->
 	<delete id="doDelete">
-		DELETE FROM schedule WHERE schedule_no =
-		#{scheduleNo}
+		DELETE FROM schedule
+		WHERE schedule_no = #{scheduleNo}
 	</delete>
 
 	<!-- 수정 -->
 	<update id="doUpdate">
 		UPDATE schedule
 		SET category_id = #{categoryId},
-		time_status = #{timeStatus},
-		title = #{title},
-		content = #{content},
-		start_dt = TO_DATE(#{startDt}, 'yyyy-MM-dd HH24:mi'),
-		end_dt = TO_DATE(#{endDt}, 'yyyy-MM-dd HH24:mi')
-		WHERE schedule_no =
-		#{scheduleNo}
+			time_status = #{timeStatus},
+			title = #{title},
+			content = #{content},
+			start_dt = TO_DATE(#{startDt}, 'yyyy-MM-dd HH24:mi'),
+			end_dt = TO_DATE(#{endDt}, 'yyyy-MM-dd HH24:mi')
+		WHERE schedule_no =	#{scheduleNo}
 	</update>
 
 	<!-- 단건조회 -->
 	<select id="doSelectOne" resultType="ScheduleVO">
 		SELECT schedule_no
-		scheduleNo,
-		dept_no deptNo,
-		employee_id employeeId,
-		category_id categoryId,
-		time_status timeStatus,
-		title,
-		content,
-		TO_CHAR(start_dt, 'yyyy-MM-dd HH24:mi') startDt,
-		TO_CHAR(end_dt, 'yyyy-MM-dd HH24:mi') endDt
+			   scheduleNo,
+			   dept_no deptNo,
+			   employee_id employeeId,
+			   category_id categoryId,
+			   time_status timeStatus,
+			   title,
+			   content,
+			   TO_CHAR(start_dt, 'yyyy-MM-dd HH24:mi') startDt,
+			   TO_CHAR(end_dt, 'yyyy-MM-dd HH24:mi') endDt
 		FROM schedule
-		WHERE schedule_no =
-		#{scheduleNo}
+		WHERE schedule_no =	#{scheduleNo}
 	</select>
 
 	<!-- 다건조회 -->
 	<select id="doSelectList" resultType="ScheduleVO">
-		SELECT /*+ INDEX_ASC (schedule pk_schedule) */
-		schedule_no scheduleNo,
-		dept_no deptNo,
-		employee_id employeeId,
-		category_id categoryId,
-		time_status timeStatus,
-		title,
-		content,
-		TO_CHAR(start_dt, 'yyyy-MM-dd HH24:MI') startDt,
-		TO_CHAR(end_dt, 'yyyy-MM-dd HH24:MI') endDt
+		<![CDATA[
+		SELECT scheduleNo,
+			   deptNo,
+			   employeeId,
+			   categoryId,
+			   timeStatus,
+			   title,
+			   content,
+			   startDt,
+			   endDt
+		FROM(SELECT /*+ INDEX_ASC (schedule pk_schedule) */
+					rownum rn,
+			   		schedule_no scheduleNo,
+			   		dept_no deptNo,
+			   		employee_id employeeId,
+			   		category_id categoryId,
+			   		time_status timeStatus,
+			   		title,
+			   		content,
+			   		TO_CHAR(start_dt, 'yyyy-MM-dd HH24:MI') startDt,
+			   		TO_CHAR(end_dt, 'yyyy-MM-dd HH24:MI') endDt
+			 FROM schedule
+			 WHERE
+		]]>	 
+			 <!-- 검색기준 -->
+			 <include refid="criteria"></include>
+		<![CDATA[
+			 rownum <= #{pageNum} * #{amount}
+			 )
+		WHERE rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT count(*)
 		FROM schedule
-		<if test="deptNo != 0">
-			WHERE dept_no = #{deptNo}
-		</if>
-
+		WHERE <include refid="criteria"></include> <!-- 검색기준 -->
+			  schedule_no > 0
 	</select>
 
 </mapper>

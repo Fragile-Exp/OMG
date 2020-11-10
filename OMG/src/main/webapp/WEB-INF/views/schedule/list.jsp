@@ -1,110 +1,201 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <style>
-        #menu {
-            margin:0;
-            background-color: aquamarine; 
-            padding: 10px;
-            float: left;    
-        }
-        #schedule {
-            float: center;
-        }
-        #calendar {
-            width: 300px;
-            
-        }
-    </style>
-</head>
-<body>
-    <div id="wrap">
-        <!-- menu -->
-        <div id="menu">
-            <h3>일정추가</h3>
-            <form id="scheduleInsert" action="/schedule/insert.do" method="post">
-                <div class="form-group">
-                    <label>제목</label>
-                    <input type="text" id="scheduleNm" class="form-control" placeholder="제목">
-                </div>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-                <div class="form-group">
-                    <label>시작일</label>
-                    <input type="date" id="startDay" class="form-control">
-                    <select id="startHour">
-                        <option value="00">00</option>
-                    </select>시
-                    <select id="startMinute">
-                        <option value="00">00</option>
-                    </select>분
-                </div>
 
-                <div>
-                    <label>종료일</label>
-                    <input type="date" id="endDay" class="form-control">
-                    <select id="endHour">
-                        <option value="00">00</option>
-                    </select>시
-                    <select id="endMinute">
-                        <option value="00">00</option>
-                    </select>분
-                </div>
 
-                <div>
-                    <textarea id="content" class="form-control" placeholder="내용"></textarea>
-                </div>
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Board Tables</h1>
+<p class="mb-4">
+	DataTables is a third party plugin that is used to generate the demo
+	table below. For more information about DataTables, please visit the <a
+		target="_blank" href="https://datatables.net">official DataTables
+		documentation</a>.
+</p>
+<div class="card shadow mb-4">
+	<div class="card-header py-3">
+		<h6 class="m-0 font-weight bold text-primary">일정 관리</h6>
+		<button id="insertBtn" type="button" class="btn btn-xs pull-right">일정 추가</button>
+	</div>
+	
+	<div class="card-body">
+		<div class="table-responsive">
+			<!-- table -->
+			<table class="table table-bordered" id="dateTable" width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th>#번호</th>
+						<th>제목</th>
+						<th>시작일</th>
+						<th>종료일</th>
+						<th>부서</th>
+						<th>작성자</th>
+						<th>일정종류</th>
+					</tr>
+				</thead>
+				<c:forEach items="${list}" var="schedule">
+					<tr>
+						<td><c:out value="${schedule.scheduleNo}"/></td>
+						<td>
+							<a class="move" href="<c:out value='${schedule.scheduleNo}'/>">
+								<c:out value="${schedule.title}"/>
+							</a>
+						</td>
+						<td><c:out value="${schedule.startDt}"/></td>
+						<td><c:out value="${schedule.endDt}"/></td>
+						<td><c:out value="${schedule.deptNo}"/></td>
+						<td><c:out value="${schedule.employeeId}"/></td>
+						<td><c:out value="${schedule.categoryId}"/></td>
+					</tr>
+				</c:forEach>
+			</table>
+			<!-- /table -->
+			
+			<!-- criteria -->
+			<div class="row">
+				<div class="col-lg-12">
+					<form id="searchForm" action="/schedule/list.do" method="get">
+						<select name="type">
+							<option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : ''}"/>>--</option>
+							<option value="T" <c:out value="${pageMaker.cri.type eq 'T' ? 'selected' : ''}"/>>제목</option>
+							<option value="C" <c:out value="${pageMaker.cri.type eq 'C' ? 'selected' : ''}"/>>내용</option>
+							<option value="E" <c:out value="${pageMaker.cri.type eq 'E' ? 'selected' : ''}"/>>사번</option>
+							<option value="TC" <c:out value="${pageMaker.cri.type eq 'TC' ? 'selected' : ''}"/>>제목 or 내용</option>
+							<option value="TE" <c:out value="${pageMaker.cri.type eq 'TE' ? 'selected' : ''}"/>>제목 or 사번</option>
+							<option value="TCE" <c:out value="${pageMaker.cri.type eq 'TCE' ? 'selected' : ''}"/>>제목 or 내용 or 사번</option>
+						</select>
+						
+						<input type="text" name="keyword" value="${pageMaker.cri.keyword}">
+						<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+						<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+						
+						<button class="btn btn-default">Search</button>
+					</form>
+				</div>
+			</div>
+			<!-- /criteria -->
+			
+			<!-- paging -->
+			<div class="pull-right">
+				<ul class="pagination">
+					<c:if test="${pageMaker.prev}">
+						<li class="paginate_button previous">
+							<a href="#">Previous</a>
+						</li>
+					</c:if>
+					
+					<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+						<li class="paginate_button">
+							<a href="#">${num}</a>
+						</li>
+					</c:forEach>
+					
+					<c:if test="${pageMaker.next}">
+						<li class="paginate_button next">
+							<a href="#">Next</a>
+						</li>
+					</c:if>
+				</ul>
+			</div>
+			<!-- /paging -->
+				
+			<!-- hidden -->
+			<form id="actionForm" action="/schedule/list.do" method="get">
+				<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}"/>
+				<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
+				<input type="hidden" name="type" value="${pageMaker.cri.type}"/>
+				<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
+			</form>
+			
+			<!-- Modal추가 -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+					
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">알림</h4>
+							<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
+						</div>
+						
+						<div class="modal-body">처리가 완료되었습니다.</div>
+						
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-default">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /modal -->
+			
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	var result = '<c:out value="${result}"/>';
 
-                <button type="button" id="insertSchedule" class="btn btn-default form-control">저장</button>
-            </form>
-        </div>
+	//모달 처리
+	checkModal(result);
 
-        <!-- schedule -->
-        <div id="schedule">
-            <div id="scheduleTop" class="form-group">
-                <button id="prev" type="btn btn-default" onclick="clickPrev()">prev</button>
-                <label id="yearMonth">0000년 00월</label>
-                <button id="next" type="btn btn-default" onclick="clickNext()">next</button>
-                <button id="gotoToday" type="btn btn-default" onclick="clickToday()">Today</button>
-            </div>
-            <div id="scheduleBottom">
-                <table id="calendar" class="table table-bordered">
-                    <colgroup>
-                        <col width="14.2%">
-                        <col width="14.2%">
-                        <col width="14.2%">
-                        <col width="14.2%">
-                        <col width="14.2%">
-                        <col width="14.2%">
-                        <col width="14.2%">
-                    </colgroup>
-                    <thead>
-                        <th style="color: red;">일</th>
-                        <th>월</th>
-                        <th>화</th>
-                        <th>수</th>
-                        <th>목</th>
-                        <th>금</th>
-                        <th style="color: blue;">토</th>
-                    </thead>
-                    <tbody id="tbody">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    ${list.title}
-    <script src="/resources/js/schedule/schedule.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            today();
-            inputStartDay();
-            inputHourAndMinute();
-            getYearMonth();
-        });
-    </script>
-</body>
-</html>
+	history.replaceState({},null,null);
+
+	function checkModal(result) {
+		if(result == '' || history.state){
+			return;
+		}
+
+		if(parseInt(result) > 0) {
+			$(".modal-body").html("게시글 " + parseInt(result) + " 번이 등록되었습니다.");
+		}
+
+		$("#myModal").modal("show");
+	}
+
+	$("#regBtn").on("click", function(){
+		self.location = "/board/register";
+	});
+
+	//페이징 이벤트처리
+	var actionForm = $("#actionForm");
+
+	$(".paginate_button a").on("click", function(e) {
+		e.preventDefault();			
+		console.log('click');			
+		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		actionForm.submit();
+	});
+
+	//게시물 조회를 위한 이벤트 처리
+	$(".move").on("click", function(e) {
+		e.preventDefault();
+		actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'> ");
+		actionForm.attr("action", "/board/get");
+		actionForm.submit();
+	});
+
+	//검색버튼의 이벤트 처리
+	var searchForm = $("#searchForm");
+
+	$("#searchForm button").on("click", function(e) {
+		if(!searchForm.find("option:selected").val()) {
+			alert("검색종류를 선택하세요");
+			return false;
+		}
+
+		if(!searchForm.find("input[name='keyword']").val()) {
+			alert("키워드를 입력하세요");
+			return false;
+		}
+
+		//페이지 번호 1로 처리
+		searchForm.find("input[name='pageNum']").val("1");
+		e.preventDefault();
+
+		searchForm.submit();
+	});
+	
+	
+});
+</script>
