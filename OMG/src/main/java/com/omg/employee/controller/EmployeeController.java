@@ -28,6 +28,12 @@ public class EmployeeController {
 	
 	public EmployeeController() {}
 	
+	@RequestMapping(value="employee/employee_reg.do",method=RequestMethod.GET)
+	public String employee_view() {
+		LOG.debug("== employee_view ==");
+		
+		return "employee/employee_reg";
+	}
 	
 	@RequestMapping(value="employee/doSelectList.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"
@@ -123,6 +129,38 @@ public class EmployeeController {
         return json;
 	}
 	
+	@RequestMapping(value="employee/idConfirm.do",method = RequestMethod.GET
+			,produces = "application/json;charset=UTF-8"
+			)
+	@ResponseBody
+	public String idConfirm(EmployeeVO employee) {
+		LOG.debug("==================");
+        LOG.debug("=employee="+employee);
+        LOG.debug("==================");
+        
+        int flag=this.employeeService.idConfirm(employee);
+        LOG.debug("==================");
+        LOG.debug("=flag="+flag);
+        LOG.debug("=================="); 
+        
+        //메시지 처리
+        Message  message=new Message();
+        message.setMsgId(flag+"");
+        
+        if(flag ==1 ) {
+        	message.setMsgContents(employee.getEmployee_id()+"존재하는 아이디 입니다.\n다른 아이디를 사용하세요");
+        }else {
+        	message.setMsgContents(employee.getEmployee_id()+"존재하지 않는 아이디 입니다.\n사용 가능합니다.");
+        }
+        Gson gson=new Gson();
+        String json = gson.toJson(message);
+        LOG.debug("==================");
+        LOG.debug("=json="+json);
+        LOG.debug("==================");         
+        
+		return json;
+        
+	}
 	
 	@RequestMapping(value="employee/doDelete.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"
@@ -189,4 +227,6 @@ public class EmployeeController {
         
 		return json;
 	}
+	
+	
 }

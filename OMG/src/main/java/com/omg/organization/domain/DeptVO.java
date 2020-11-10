@@ -11,6 +11,8 @@ public class DeptVO extends DTO {
 	private int upDept;
 	/** Level(단계) */
 	private int level;
+	/** 확인 */
+	private int isNotLeaf;
 	
 	public DeptVO(){}
 
@@ -20,6 +22,17 @@ public class DeptVO extends DTO {
 		this.deptNo = deptNo;
 		this.deptNm = deptNm;
 		this.upDept = upDept;
+	}
+	
+	
+
+
+	public int getIsNotLeaf() {
+		return isNotLeaf;
+	}
+
+	public void setIsNotLeaf(int isNotLeaf) {
+		this.isNotLeaf = isNotLeaf;
 	}
 
 	public int getDeptNo() {
@@ -57,7 +70,9 @@ public class DeptVO extends DTO {
 	@Override
 	public String toString() {
 		return "DeptVO [deptNo=" + deptNo + ", deptNm=" + deptNm + ", upDept=" + upDept + ", level=" + level
-				+ ", toString()=" + super.toString() + "]";
+				+ ", isNotLeaf=" + isNotLeaf + ", toString()=" + super.toString() + "]";
 	}
+
+
 	
 }
