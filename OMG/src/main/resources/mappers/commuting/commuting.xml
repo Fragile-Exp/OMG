@@ -51,8 +51,6 @@
 	<update id="doUpdate" parameterType="Commuting">
 		UPDATE commuting               					
 		SET                            					
-		    name = #{name},                					
-		    dept_no = #{deptNo},               					
 		    attend_time = (CASE
 		    				WHEN attend_time is null THEN TO_DATE(#{attendTime},'yyyymmddHH24MISS')
 		    				ELSE attend_time
