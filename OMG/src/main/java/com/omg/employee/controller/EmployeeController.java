@@ -28,6 +28,7 @@ public class EmployeeController {
 	
 	public EmployeeController() {}
 	
+	//사원 추가
 	@RequestMapping(value="employee/employee_reg.do",method=RequestMethod.GET)
 	public String employee_view() {
 		LOG.debug("== employee_view ==");
@@ -35,6 +36,7 @@ public class EmployeeController {
 		return "employee/employee_reg";
 	}
 	
+	//로그인 화면
 	@RequestMapping(value="employee/login.do",method=RequestMethod.GET)
 	public String login_view() {
 		LOG.debug("== login_view ==");
@@ -42,6 +44,13 @@ public class EmployeeController {
 		return "employee/login";
 	}
 	
+	//사원목록
+	@RequestMapping(value="employee/employee_list.do",method=RequestMethod.GET)
+	public String employee_list() {
+		LOG.debug("== employee_list ==");
+		
+		return "employee/employee_list";
+	}
 	
 	
 	
@@ -49,7 +58,7 @@ public class EmployeeController {
 			,produces = "application/json;charset=UTF-8"
 			)
 	@ResponseBody
-	public String doSelectList(HttpServletRequest req,Search search) {
+	public List<EmployeeVO> doSelectList(HttpServletRequest req,Search search) {
 		LOG.debug("1==================");
         LOG.debug("=search="+search);
         LOG.debug("==================");
@@ -81,7 +90,7 @@ public class EmployeeController {
         LOG.debug("==================");   		
 		
 		
-		return json;
+		return list;
 	}
 	
 	@RequestMapping(value="employee/doUpdate.do",method = RequestMethod.GET
