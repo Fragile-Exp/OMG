@@ -83,7 +83,7 @@ public class EmployeServiceImpl implements EmployeeService {
 	/**
 	 * 로그인
 	 * @param employee
-	 * @return
+	 * @return 1(로그인 성공)/0(로그인 실패)
 	 */
 	@Override
 	public int doLogin(EmployeeVO employee) {

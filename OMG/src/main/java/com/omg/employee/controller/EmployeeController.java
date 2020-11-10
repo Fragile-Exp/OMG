@@ -35,6 +35,16 @@ public class EmployeeController {
 		return "employee/employee_reg";
 	}
 	
+	@RequestMapping(value="employee/login.do",method=RequestMethod.GET)
+	public String login_view() {
+		LOG.debug("== login_view ==");
+		
+		return "employee/login";
+	}
+	
+	
+	
+	
 	@RequestMapping(value="employee/doSelectList.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"
 			)
@@ -128,6 +138,39 @@ public class EmployeeController {
          
         return json;
 	}
+	
+	@RequestMapping(value="employee/doLogin.do",method = RequestMethod.GET
+			,produces = "application/json;charset=UTF-8"
+			)
+	@ResponseBody
+	public String doLogin(EmployeeVO employee) {
+		LOG.debug("==================");
+        LOG.debug("=employee="+employee);
+        LOG.debug("==================");
+        
+        int flag=this.employeeService.doLogin(employee);
+        LOG.debug("==================");
+        LOG.debug("=flag="+flag);
+        LOG.debug("=================="); 
+        
+        //메시지 처리
+        Message  message=new Message();
+        message.setMsgId(flag+"");
+        
+        if(flag ==1 ) {
+        	message.setMsgContents(employee.getEmployee_id()+"로그인에 성공하셨습니다.");
+        }else {
+        	message.setMsgContents(employee.getEmployee_id()+"로그인에 실패하셨습니다.");
+        }
+        Gson gson=new Gson();
+        String json = gson.toJson(message);
+        LOG.debug("==================");
+        LOG.debug("=json="+json);
+        LOG.debug("==================");         
+        
+		return json;
+	}
+	
 	
 	@RequestMapping(value="employee/idConfirm.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"

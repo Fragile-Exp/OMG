@@ -216,6 +216,12 @@
 		HOLIDAY
 		IMG_CODE */
 
+
+		//아이디(사원번호) 필수 체크
+		if($("#employee_id").val()==false || $("#employee_id").val() ==""){
+			alert("아이디(사원번호)를 확인하세요.");
+			return ;
+		}		
 		//name 필수 체크
 		if($("#name").val()==false || $("#name").val() ==""){
 			alert("이름을 확인하세요.");
@@ -272,7 +278,7 @@
 	           "hire_date":$("#hire_date").val(),
 	           "birth_day":$("#birth_day").val(),
 	           "holiday":$("#holiday").val(),
-	           "img_code":$("#img_code").val()
+	           "img_code":1
           }, 
         success: function(data){
           var jData = JSON.parse(data);
