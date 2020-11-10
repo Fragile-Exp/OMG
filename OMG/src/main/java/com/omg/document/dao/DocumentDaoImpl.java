@@ -120,7 +120,7 @@ public class DocumentDaoImpl {
 		LOG.debug("=statement="+statement);
 		LOG.debug("=serach="+documentVO);
 		List<DocumentVO> list = this.sqlSessionTemplate.selectList(statement, documentVO);
-		
+		LOG.debug("=list="+list);
 		return list;
 	} 
 	
