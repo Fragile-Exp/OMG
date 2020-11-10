@@ -29,10 +29,13 @@
 						<div class="col-lg-2">
 							<div class="card mb-4 py-3 border-left-primary">
 								<div class="card-body">
-									<div class="list-group-flush">
-										<a href="#" class="list-group-item"> 부서 </a> <a href="#"
-											class="list-group-item"> 직급 </a>
-									</div>
+									<form action="${hContext}/org/org.do" name="move_frm" method="get">
+										<div class="list-group-flush">
+											<input type="hidden" id="moveDiv" name="moveDiv" />
+											<a href="#" onclick="javascript:changeOrg('dept'); return false;" class="list-group-item"> 부서 </a>
+											<a href="#" onclick="javascript:changeOrg('position'); return false;" class="list-group-item"> 직급 </a>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -47,41 +50,15 @@
 										<span class="icon text-white-50"> <i class="fas fa-check"></i></span>
 										<span class="text">수정</span>
 									</a>
-									<a href="${hContext}/org/org_reg.do" class="btn btn-info btn-icon-split btn-sm">
+									<form action="${hContext}/org/org_reg.do" name="reg_frm" method="get" style="display:inline" >
+									<input type="hidden" id="orgDiv" name="orgDiv" value="dept" >
+									<button type="submit" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-arrow-right"></i></span>
 										<span class="text">추가</span>
-									</a>
+									</button>
+									</form>
 								</div>
 								<div id="mainBody" class="card-body">
-									<!-- collapse 로 만듬 개힘들었는데.. 
-									<ul class="navbar-nav" id="dept_position">
-										<li class="nav-item active"><a class="nav-link collapsed"
-											href="#" data-toggle="collapse" data-target="#dept"
-											aria-expanded="false" aria-controls="dept"> <span>OMG</span>
-										</a>
-											<div id="dept" class="collapse" aria-labelledby="deptList"
-												data-parent="#dept_position">
-												<div class="bg-white py-2 px-4 collapse-inner rounded">
-													<a class="collapse-item collapsed" href="#" id="dept_a"
-														data-toggle="collapse" data-target="#dept_2"
-														aria-expanded="false" aria-controls="dept_2">전략기획본부</a><br />
-													<div id="dept_2" class="collapse"
-														aria-labelledby="deptList_2" data-parent="#dept_a">
-														<div class="bg-white px-4 py-2 collapse-inner rounded">
-															<a class="collapse-item" href="#">전략1팀</a><br />
-															<a class="collapse-item" href="#">전략2팀</a><br />
-															<a class="collapse-item" href="#">기획1팀</a><br />
-															<a class="collapse-item" href="#">기획2팀</a><br />
-														</div>
-													</div>
-													<a class="collapse-item" href="#">경영지원본부</a><br />
-													<a class="collapse-item" href="#">기술개발본부</a><br />
-													<a class="collapse-item" href="#">영업본부</a><br />
-
-												</div>
-											</div></li>
-									</ul>
-									-->
 									<details class="text-primary">
 										<summary><input type="checkbox" name="dept" value="10000" /> OMG </summary>
 										<div class="bg-white px-4">
@@ -130,9 +107,65 @@
 		$("#setting").attr("aria-expanded","true");
 		$("#adminSetting").attr("class","collapse show");
 		$("#org").attr("class","collapse-item active");
-		drawDeptList();
+		drawCheck("${moveDiv}");
 		});
 
+	
+	function changeOrg(div){
+		var frm = document.move_frm;
+		frm.moveDiv.value = div;
+		frm.submit();
+	}
+		
+
+	function drawCheck(div){
+		$("#orgDiv").val(div);
+		
+		if(div == "dept"){
+			drawDeptList();
+		} else {
+			drawPositionList();
+		}
+	}
+
+	function drawPositionList(){
+		$.ajax({
+            type:"GET",
+            url:"${hContext}/org/doSelectListPosition.do",
+            dataType:"html",
+            async: true, 
+         success: function(data){
+           var parseData = JSON.parse(data);
+			//table에 있던 기존 데이터 삭제
+			$("#mainBody").empty();
+			var html = "";
+			var maxLevel = 0;
+
+			//Data가 없으면
+           if(parseData.length>0){
+               html += '<div class="text-primary">';
+        	   $.each(parseData, function(i, value) {
+        		   html += '<input type="checkbox" name="position" value="'+value.positionNo+'" /> '+value.positionNm+'';
+        		   html += '<br/>';
+        	   });
+        	   html += '</div>';
+		      }else{
+		    	  html += "<span class='label label-default'>";
+				  html += "직급 정보가 없습니다.";
+				  html += "</span>";
+			  }
+			  
+		                  
+			  //mainBody 동적으로 html추가
+		      $("#mainBody").append(html);
+		      
+         },
+         error:function(xhr,status,error){
+             alert("error:"+error);
+         }
+        }); 
+	}
+	
 	function drawDeptList(){
 
 		$.ajax({
@@ -152,38 +185,29 @@
                maxLevel = parseData[0].totalCnt;
                var currLevel = 0;
 			  $.each(parseData, function(i, value) {
-				  if(value.level < maxLevel){
-					  if(value.level == currLevel){
-						  html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" />'+value.deptNm+'<br />';
-						  } else if( value.level == (currLevel-1)){
-							  html += '</div>';
-							  html += '</details>';
-							  html += '</div>';
-							  html += '<details class="text-primary">';
-							  html += '<summary>';
-							  html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" />'+value.deptNm+'';
-							  html += '</summary>';
-							  html += '<div class="bg-white px-4">';
-							  currLevel = value.level;
-							  } else{
-								  	html += '<details class="text-primary">';
-									html += '<summary>';
-									html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" />'+value.deptNm+'';
-									html += '</summary>';
-									html += '<div class="bg-white px-4">';
-									currLevel = value.level;
-						  	  }
-					} else {
-						html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" />'+value.deptNm+'<br />';
-						currLevel = value.level;
-					}
+				  if(value.level <= (currLevel -1)){
+					  for(var i=0;i<(currLevel-value.level);i++){
+					  html += '</div>';
+					  html += '</details>';
+					  }
+					  }
+				  if( 0 == value.isNotLeaf){
+					  html += '<details class="text-primary">';
+					  html += '<summary>';
+					  html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" /> '+value.deptNm+'';
+					  html += '</summary>';
+					  html += '<div class="bg-white px-4">';
+					  } else{
+						  html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" /> '+value.deptNm+'<br />';
+					  	}
+				 
+				  	currLevel = value.level;
 
-					for(var i=1; i<currLevel;i++){
-						html += '</div>';
-						html += '</details>';
-						}
 			  });
-					  
+			  	for(var i=1; i<currLevel;i++){
+					html += '</div>';
+					html += '</details>';
+					}  
 		      }else{
 		    	  html += "<span class='label label-default'>";
 				  html += "부서 정보가 없습니다.";

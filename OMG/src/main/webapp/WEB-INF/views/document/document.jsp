@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +37,7 @@
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
 					  <h1 class="h3 mb-0 text-gray-800">문서 등록</h1>
 					  <div class="btn-box">
-					  	<a href="#" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-invoice fa-sm text-white-50"></i>등록 페이지</a>
+					  	<a href="http://localhost:8080/cmn/document/document_reg.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-invoice fa-sm text-white-50"></i>등록 페이지</a>
 					  	<a href="#" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-trash fa-sm text-white-50"></i> 삭제</a>
 					  </div>
 					</div>
@@ -52,6 +53,7 @@
 					      <!-- Card Header - Dropdown -->
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					        <h6 class="m-0 font-weight-bold text-primary">등록 결재 목록</h6>
+					        <div>${IdAll}</div>
 					        <div class="dropdown no-arrow">
 					          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -80,6 +82,7 @@
 						        		</tr>
 					        		</thead>
 					        		
+					        		
 					        		<tbody>
 						        		<!-- to do : for문을 사용해서 여러 데이터 출력-->
 						        		<!-- to do : javascript 사용해서 라인 클릭시 페이지 이동-->
@@ -89,10 +92,14 @@
 						        			<td>문서 번호 데이터</td>
 						        			<td>처리기간 데이터</td>
 						        			<td>상태 </td>
-						        			<td><input type="checkbox"></td>
+						        			<td>
+						        				<a href="http://localhost:8080/cmn/document/document_info.do" class="btn btn-sm btn-primary shadow-sm">
+						        					<i class="fas fa-arrow-right fa-sm text-white-50"></i>
+						        				</a>
+						        			</td>
 						        		</tr>
 					        		</tbody>	
-					        	
+					        		
 					        	</table>
 					        </div>
 					      </div>

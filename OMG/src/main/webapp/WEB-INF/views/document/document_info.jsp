@@ -21,7 +21,7 @@
 	<!-- //side_bar -->
 		<!-- Content Wrapper -->
     	<div id="content-wrapper" class="d-flex flex-column">
-
+				
 	      	<!-- Main Content -->
 	      	<div id="content">
 	      		<!-- top_bar -->
@@ -35,8 +35,8 @@
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
 					  <h1 class="h3 mb-0 text-gray-800">문서 등록 페이지</h1>
 					  <div class="btn-box">
-					  	<a href="#" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>등록</a>
-					  	<a href="#" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
+					  	<a href="http://localhost:8080/cmn/document/document.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>수정</a>
+					  	<a href="http://localhost:8080/cmn/document/document.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
 					  </div>
 					</div>
 					
@@ -50,7 +50,7 @@
 					    <div class="card shadow mb-4">
 					      <!-- Card Header - Dropdown -->
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-					        <h6 class="m-0 font-weight-bold text-primary">문서 등록</h6>
+					        <h6 class="m-0 font-weight-bold text-primary">문서 등록</h6>	
 					        <div class="dropdown no-arrow">
 					          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -71,12 +71,12 @@
 					      		<!-- 제목  -->
 					      		<div>
 						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
-						      			<div class="title-header bg-primary text-white btn-sm" style="text-align:center;" >
+						      			<div class="title-header bg-primary text-white btn-sm" style="text-align:center;"  >
 						      				제목
 						      			</div>
 						      		</div>
 						      		<div class="title-body" style="display: inline-block;">
-						      			<input class="title-input" type="text" style=" width :900px;">
+						      			<input class="title-input" type="text" style=" width :900px;" value="${title}">
 						      		</div>
 					        	</div>
 					        	<!-- //제목  -->
@@ -90,7 +90,8 @@
 						      		<div class="kind-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 문서 종류 데이터 입력   -->
 						      			<select class="kind-body-select" style="width:400px;">
-							      			<option >----------</option>
+							      			<!-- to do : if문 사용해서 데이터 동일 이면 option에 selected 추가  -->
+							      			<option >${kind}</option>
 							      			<option >휴가</option>
 							      			<option >차량</option>
 							      		</select>
@@ -101,7 +102,8 @@
 						      			</div>
 						      		</div>
 						      		<div class="dDay-body" style="display: inline-block;">
-						      			<input type="date" style="width:400px;">
+						      			<!-- to do : value값 데이터 가져와서 입력 -->
+						      			<input type="date" style="width:400px;" value="${dDay}" >
 						      		</div>
 						      	</div>
 						      	<!--// 종류 / 기간   -->
@@ -122,15 +124,13 @@
 					        	<div>
 						        	<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
 						      			<div class="approval-header bg-primary text-white btn-sm" style="text-align:center;" >
-						      				종류
+						      				승인자
 						      			</div>
 						      		</div>
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select class="approval-body-select" style="width:400px;">
-							      			<option >----------</option>
-							      			<option >인사팀 부장 홍길동</option>
-							      			<option >총무팀 팀장 철수</option>
+						      			<select class="approval-body-select" style="width:400px;" disabled>
+							      			<option selected>${okUser}</option>
 							      		</select>
 						      		</div>
 						      	</div>
@@ -139,7 +139,8 @@
 						      				문서 내용
 						      			</div>
 						      	</div>
-						      	<input class="cont-body" type="text" style="width:900px; height:100px;">
+						      	<!-- to do : 데이터 값 가져오기  -->
+						      	<input class="cont-body" type="text" style="width:900px; height:100px;" value="${cont}">
 					        </div>
 					      </div>
 					    </div>
