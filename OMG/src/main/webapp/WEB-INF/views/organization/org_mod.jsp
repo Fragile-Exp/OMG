@@ -29,10 +29,13 @@
 						<div class="col-lg-2">
 							<div class="card mb-4 py-3 border-left-primary">
 								<div class="card-body">
-									<div class="list-group-flush">
-										<a href="#" class="list-group-item"> 부서 </a> <a href="#"
-											class="list-group-item"> 직급 </a>
-									</div>
+									<form action="${hContext}/org/org.do" name="move_frm" method="get">
+										<div class="list-group-flush">
+											<input type="hidden" id="moveDiv" name="moveDiv" />
+											<a href="#" onclick="javascript:changeOrg('dept'); return false;" class="list-group-item"> 부서 </a>
+											<a href="#" onclick="javascript:changeOrg('position'); return false;" class="list-group-item"> 직급 </a>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -43,43 +46,68 @@
 										<span class="icon text-white-50"> <i class="fas fa-arrow-left"></i></span>
 										<span class="text">취소</span>
 									</a>
-									<a href="#" class="btn btn-info btn-icon-split btn-sm">
+									<a id="updateBtn" href="#" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-check"></i></span>
 										<span class="text">수정</span>
 									</a>
 								</div>
 								<div class="card-body">
-									<div class="row">
-										<div class="col-lg-4"></div>
-										<div class="col-lg-1">
-											<label for="dept" >상위 부서</label>
+									<%-- <form action="${hContext}/org/doInsert.do" name="save_frm" method="post"> --%>
+									<input type="hidden" id="orgDiv" name="orgDiv" value="${orgDiv}" />
+										<c:choose>
+											<c:when test="${orgDiv eq 'dept' }">
+												<c:set var="orgName" value="부서" />
+												<c:set var="upOrg" value="${vo.upDept}" />
+												<c:set var="orgNo" value="${vo.deptNo}" />
+												<c:set var="orgNm" value="${vo.deptNm}" />
+											</c:when>
+											<c:when test="${orgDiv eq 'position' }" >
+												<c:set var="orgName" value="직급" />
+												<c:set var="upOrg" value="${vo.upPosition}" />
+												<c:set var="orgNo" value="${vo.positionNo}" />
+												<c:set var="orgNm" value="${vo.positionNm}" />
+											</c:when>
+										</c:choose>
+										<h3>${orgName} 등록</h3>
+										<hr/>
+										<div class="row">
+											<div class="col-lg-4"></div>
+											<div class="col-lg-1">
+												<label>상위 ${orgName}</label>
+											</div>
+											
+											<div class="col-lg-3">
+												<select class="form-control" id="upOrg" >
+												<c:forEach var="vo" items="${orgList}">
+													<c:if test="${orgDiv eq 'dept' }">
+														<option value="${vo.deptNo }" <c:if test="${upOrg eq vo.deptNo }">selected="selected"</c:if> >${vo.deptNm} (${vo.deptNo})</option>
+													</c:if>
+													<c:if test="${orgDiv eq 'position' }">
+														<option value="${vo.positionNo }" <c:if test="${upOrg eq vo.positionNo }">selected="selected"</c:if> >${vo.positionNm} (${vo.positionNo})</option>
+													</c:if>
+												</c:forEach>
+												</select>
+											</div>
 										</div>
-										<div class="col-lg-3">
-											<select class="form-control" id="dept" >
-											<option value="1">부서1</option>
-											<option value="2">부서2</option>
-											<option value="3">부서3</option>
-											</select>
+										<div class="row py-4">
+											<div class="col-lg-4"></div>
+											<div class="col-lg-1">
+												<label>${orgName} 코드</label>
+											</div>
+											<div class="col-lg-3">
+												<input type="text" class="form-control" id="orgNo" value='<c:out value="${orgNo}" />' />
+											</div>
 										</div>
-									</div>
-									<div class="row py-4">
-										<div class="col-lg-4"></div>
-										<div class="col-lg-1">
-											<label for="dept_no" >부서 코드</label>
+										<div class="row">
+											<div class="col-lg-4"></div>
+											<div class="col-lg-1">
+												<label>${orgName} 명</label>
+											</div>
+											<div class="col-lg-3">
+												<input type="text" class="form-control" id="orgNm" value='<c:out value="${orgNm}" />' />
+											</div>
 										</div>
-										<div class="col-lg-3">
-											<input type="text" class="form-control" id="dept_no" />
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-4"></div>
-										<div class="col-lg-1">
-											<label for="dept_no" >부서 명</label>
-										</div>
-										<div class="col-lg-3">
-											<input type="text" class="form-control" id="dept_nm" />
-										</div>
-									</div>
+									<!-- </form> -->
 								</div>
 							</div>
 						</div>
@@ -100,12 +128,60 @@
 	</div>
 	<!-- //wrap -->
 	
-		<script type="text/javascript">
+	<script type="text/javascript">
 	$(document).ready(function(){
 		$("#setting").attr("class","nav-link");
 		$("#setting").attr("aria-expanded","true");
 		$("#adminSetting").attr("class","collapse show");
 		$("#org").attr("class","collapse-item active");
+		});
+
+	function changeOrg(div){
+		var frm = document.move_frm;
+		frm.moveDiv.value = div;
+		frm.submit();
+	}
+
+	$("#updateBtn").on("click",function(){
+		console.log("saveBtn");
+		var orgDiv = "${orgDiv}";
+		
+		if(null == $("#orgNo").val() || $("#orgNo").val() == "" ){
+			alert("코드번호를 확인하세요.");
+			return;
+			}
+
+		if(null == $("#orgNm").val() || $("#orgNm").val() == "" ){
+			alert("명칭을 확인하세요.");
+			return;
+			}
+
+		if(false == confirm("수정 하시겠습니까?")) return;
+
+/* 		var frm = document.save_frm;
+		frm.submit(); */
+
+		$.ajax({
+            type:"POST",
+            url:"${hContext}/org/doUpdate.do",
+            dataType:"html",
+            async: true,
+            data:{
+                "orgDiv" : orgDiv,
+                "upOrg" : $("#upOrg").val(),
+                "orgNo" : $("#orgNo").val(),
+                "orgNm" : $("#orgNm").val()
+                },
+         success: function(data){
+           var parseData = JSON.parse(data);
+           alert(parseData.msgContents);
+           changeOrg(orgDiv);
+		},
+         error:function(xhr,status,error){
+             alert("error:"+error);
+         }
+        }); 
+
 		});
 	
 	</script>
