@@ -178,4 +178,22 @@ public class CommutingDaoImpl implements CommutingDao {
 		LOG.debug("====================================");
 		return verify;
 	}
+	
+	public List<Commuting> doSelectMyList(DTO dto) {
+		LOG.debug("====================================");
+		LOG.debug("=DAO=");
+		LOG.debug("=doSelectMyList=");
+		
+		Commuting inVO = (Commuting) dto;
+		String statement = NAMESPACE +".doSelectMyList";
+		
+		LOG.debug("=selectlist.param=" + inVO);
+		LOG.debug("=statement=" + statement);
+		List<Commuting> cList = this.sqlSessionTemplate.selectList(statement, inVO);
+
+		LOG.debug("=cList=" + cList);
+
+		LOG.debug("====================================");
+		return cList;
+	}
 }

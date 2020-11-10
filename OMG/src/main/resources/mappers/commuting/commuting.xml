@@ -106,7 +106,7 @@
 				AND dept_no = #{searchWord}
 			</when>
 			<!-- my 월별-->
-			<when test="10 == searchDiv">
+			<when test="30 == searchDiv">
 				WHERE TO_CHAR(reg_dt,'yyyyMM') = TO_CHAR(sysdate,'yyyyMM')
 				AND employee_id = #{searchWord}
 			</when>
@@ -145,4 +145,27 @@
 		 ) C                                                                                             
 	</select>
 	
+	<select id="doSelectMyList" parameterType="Commuting" resultType="Commuting">
+		SELECT                                                                     
+		    seq,                                       								
+		    employee_id as employeeId,                                                           
+		    name,                                                                  
+		    dept_no as deptNo,                                                               
+		    DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(attend_time,'YYYYMMDD')     
+						   ,TO_CHAR(attend_time,'HH24:MI')                         
+						   ,TO_CHAR(attend_time,'YYYY-MM-DD HH24:MI')) as attendTime,
+			DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(leave_time,'YYYYMMDD')      
+						   ,TO_CHAR(leave_time,'HH24:MI')                          
+						   ,TO_CHAR(leave_time,'YYYY-MM-DD HH24:MI'))  as leaveTime, 
+		    present_state as presentStateIntValue,                                                         
+		    state as stateIntValue,                                                                 
+		    work_time as workTime,                                                             
+		    reg_dt as regDt,
+		    SUM(work_time) OVER(ORDER BY seq) as totalCnt   
+		FROM                                                                       
+		    commuting c                                                            
+		WHERE employee_id = #{employeeId}
+		AND SUBSTR(#{seq},1,7) = TO_CHAR(reg_dt,'yyyy-MM')                                      
+	</select>
 </mapper>
+ 

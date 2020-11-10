@@ -162,7 +162,23 @@ public class TestCommutingController {
 		makeList();
 	}
 	
-	
+	@Test
+	public void doSelectList() throws Exception {
+		Search search = new Search("","",10,1);
+		
+		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.get("/commuting/doSelectList.do")
+				.param("searchDiv", search.getSearchDiv())
+				.param("searchWord", search.getSearchWord())
+				.param("pageSize", search.getPageSize()+"")
+				.param("pageNum", search.getPageNum()+"");
+		
+		ResultActions resultActions = mockMvc.perform(createMessage)
+				.andExpect(status().is2xxSuccessful());
+		
+		String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
+
+		LOG.debug("=result=" + result);
+	}
 	
 	@After
 	public void tearDown() throws Exception {
