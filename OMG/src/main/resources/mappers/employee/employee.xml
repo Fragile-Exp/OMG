@@ -50,7 +50,7 @@
 		)T1                                                
 		CROSS JOIN                                         
 		--전체COUNT                                          
-		(SELECT COUNT(*) total_cnt                         
+		(SELECT COUNT(*) totalCnt                         
 		 FROM  employee    
 	<include refid="searchCondition"/>
 	)T2       
