@@ -49,6 +49,14 @@ public interface CommutingDao {
 	public List<Commuting> doSelectList(Search search);
 	
 	/**
+	 * 내 근무현황
+	 * @param search
+	 * @return List<Commuting>
+	 * 양광민
+	 */
+	public List<Commuting> doSelectMyList(DTO dto);
+	
+	/**
 	 * 아침 기본 사원 insert
 	 * @return 성공(1), 실패(0)
 	 * 양광민

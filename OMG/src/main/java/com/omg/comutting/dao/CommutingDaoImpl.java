@@ -179,6 +179,7 @@ public class CommutingDaoImpl implements CommutingDao {
 		return verify;
 	}
 	
+	@Override
 	public List<Commuting> doSelectMyList(DTO dto) {
 		LOG.debug("====================================");
 		LOG.debug("=DAO=");
