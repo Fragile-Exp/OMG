@@ -184,7 +184,6 @@
            if(null != jData && jData.msgId=="1"){
              alert(jData.msgContents);
              //다시조회
-             // doSelectList(1);
            	 //존재하는 아이디이므로 초기화
              $("#employee_id").val("");
            }else{
@@ -285,7 +284,7 @@
           if(null != jData && jData.msgId=="1"){
             alert(jData.msgContents);
             //다시조회
-            doSelectList(1);
+            //doSelectList(1);
           }else{
             alert(jData.msgId+"|"+jData.msgContents);
           }

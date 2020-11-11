@@ -1,11 +1,13 @@
 package com.omg.board.controller;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,18 +27,38 @@ public class BoardController
 	@Autowired
 	BoardService boardService;
 	
-	@RequestMapping(value="Board/doInsert.do", method = RequestMethod.POST
+	@RequestMapping(value="board/board_main.do",method=RequestMethod.GET)
+	public String board_main() 
+	{
+		LOG.debug("* http://localhost:8080/cmn/board/board_main.do *");
+		
+		
+		return "board/board_main";
+	}
+	
+	@RequestMapping(value="board/boardInsert.do",method=RequestMethod.GET)
+	public String boardInsert(Model model, String div) 
+	{
+		LOG.debug("* http://localhost:8080/cmn/board/board_write.do *");
+		
+		model.addAttribute("boardDiv", div);
+		
+		
+		return "board/board_write";
+	}
+	
+	@RequestMapping(value="board/doInsert.do", method = RequestMethod.POST
 			   								,produces = "application/json;charset=UTF-8"
 				   )
 	@ResponseBody
-	public String doInsert(BoardVO board)
+	public String doInsert(BoardVO boardVO)
 	{
 		LOG.debug("===========================");
 		LOG.debug("=doInsert()=");
-		LOG.debug("=board : "+board);
+		LOG.debug("=boardVO : "+boardVO);
 		LOG.debug("===========================");
 		
-		int flag = this.boardService.doInsert(board);
+		int flag = this.boardService.doInsert(boardVO);
 		LOG.debug("===========================");
 		LOG.debug("=flag : "+flag);
 		LOG.debug("===========================");
@@ -64,7 +86,7 @@ public class BoardController
 		
 	}
 	
-	@RequestMapping(value="Board/doDelete.do", method = RequestMethod.POST
+	@RequestMapping(value="board/doDelete.do", method = RequestMethod.POST
 											 ,produces = "application/json;charset=UTF-8"
 				   )
 	@ResponseBody
@@ -139,44 +161,39 @@ public class BoardController
 		return json;
 	}
 	
-	@RequestMapping(value="board/doSelectOne.do", method = RequestMethod.GET
-											   ,produces = "application/json;charset=UTF-8"
-				   )
-	@ResponseBody
-	public BoardVO doSelectOne(BoardVO board)
+	@RequestMapping(value="board/doSelectOne.do", method = RequestMethod.GET)
+	public String doSelectOne(BoardVO boardVO, Locale locale,Model model)
 	{
 		LOG.debug("===========================");
 		LOG.debug("=doSelectOne()=");
-		LOG.debug("=board : "+board);
+		LOG.debug("=boardVO : "+boardVO);
 		LOG.debug("===========================");
 		
-		BoardVO outVO = (BoardVO) this.boardService.doSelectOne(board);
+		if(0 == boardVO.getBoardSeq()) {
+			throw new IllegalArgumentException("게시글 seq를 확인하세요");
+		}
+		
+		BoardVO outVO = (BoardVO) this.boardService.doSelectOne(boardVO);
 
-		Gson gson = new Gson();
-		String json = gson.toJson(outVO);
+		model.addAttribute("vo", outVO);
 		
-		LOG.debug("===========================");
-		LOG.debug("=json : "+json);
-		LOG.debug("===========================");
+		String returnUrl = "board/board_mng";
 		
-		return outVO;
+		return returnUrl;
 	}
 	
-	@RequestMapping(value="board/doSelectList.do", method = RequestMethod.GET
-			   									, produces = "application/json;charset=UTF-8"
-				   )
-	@ResponseBody
-	public String doSelectList(Search search)
+	@RequestMapping(value="board/doSelectList.do", method = RequestMethod.GET)
+	public String doSelectList(Search search,Model model)
 	{
 		LOG.debug("===========================");
-		LOG.debug("=doSelectOne()=");
+		LOG.debug("=doSelectList()=");
 		LOG.debug("=search : "+search);
 		LOG.debug("===========================");
 		
 		//페이지 num 기본값 처리
 		if(search.getPageNum()==0)
 		{
-			search.setPageNum(1);;
+			search.setPageNum(1);
 		}
 		
 		//페이지 사이즈 기본값 처리
@@ -185,24 +202,41 @@ public class BoardController
 			search.setPageSize(10);
 		}
 		
+		//게시구분 초기화 : 공지사항(10), 자유게시판(20)
+		if(search.getDiv() == null) 
+		{
+			search.setDiv("10");
+		}
+		
 		//검색구분
 		search.setSearchDiv(StringUtil.nvl(search.getSearchDiv(), ""));
 		
 		//검색어
 		search.setSearchWord(StringUtil.nvl(search.getSearchWord(), ""));
 		
-		LOG.debug("===========================");
-		LOG.debug("=null 처리 이후 search : "+search);
-		LOG.debug("===========================");
+		//board_list 화면으로 param 전달
+		model.addAttribute("vo", search);
 		
-		List<BoardVO> list = this.boardService.doSelectList(search);
+		List<BoardVO> boardList = this.boardService.doSelectList(search);
+		model.addAttribute("list", boardList);
 		
-		Gson gson = new Gson();
-		String json = gson.toJson(list);
-		LOG.debug("===========================");
-		LOG.debug("=json="+json);
-		LOG.debug("===========================");
+		//총글수
+		int totalCnt = 0;
 		
-		return json;
+		if(boardList.size()>0)
+		{
+			BoardVO totalVO = boardList.get(0);
+			totalCnt = totalVO.getTotalCnt();
+		}
+		model.addAttribute("totalCnt", totalCnt);
+		
+		for(BoardVO vo : boardList) {
+			LOG.debug(vo.toString());
+		}
+		
+		//View 화면
+		String view = "board/board_main";
+		LOG.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		return view;
 	}
 }

@@ -45,7 +45,7 @@ public class TestCommutingController {
 	/**LOG*/
 	final Logger LOG = LoggerFactory.getLogger(TestCommutingController.class);
 	
-	@Autowired //í…ŒìŠ¤íŠ¸ ì»¨íƒìŠ¤íŠ¸ í”„ë ˆì„ì›Œí¬ëŠ” ì¼ì¹˜í•˜ëŠ” ì»¨í…ìŠ¤íŠ¸ë¥¼ ì°¾ì•„ DIí•´ ì¤€ë‹¤.
+	@Autowired //?…Œ?Š¤?Š¸ ì»¨íƒ?Š¤?Š¸ ?”„? ˆ?„?›Œ?¬?Š” ?¼ì¹˜í•˜?Š” ì»¨í…?Š¤?Š¸ë¥? ì°¾ì•„ DI?•´ ì¤??‹¤.
 	WebApplicationContext webApplicationContext;
 	
 	@Autowired

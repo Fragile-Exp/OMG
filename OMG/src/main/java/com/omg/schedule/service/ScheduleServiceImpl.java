@@ -25,7 +25,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleServiceImpl() {}
     
     /**
-     * ì¼ì •ì¶”ê°€
+     * ?¼? •ì¶”ê?
      */
     @Override
     public int doInsert(ScheduleVO schedule) {
@@ -33,7 +33,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * ì¼ì •ì‚­ì œ
+     * ?¼? •?‚­? œ
      */
     @Override
     public int doDelete(ScheduleVO schedule) {
@@ -41,7 +41,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * ì¼ì •ìˆ˜ì •
+     * ?¼? •?ˆ˜? •
      */
     @Override
     public int doUpdate(ScheduleVO schedule) {
@@ -49,7 +49,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * ì¼ì •ì„ íƒ
+     * ?¼? •?„ ?ƒ
      */
     @Override
     public ScheduleVO doSelectOne(ScheduleVO schedule) {
@@ -57,7 +57,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * ì¼ì • ë¦¬ìŠ¤íŠ¸í™”
+     * ?¼? • ë¦¬ìŠ¤?Š¸?™”
      */
     @Override
     public List<ScheduleVO> doSelectList(Criteria cri) {
