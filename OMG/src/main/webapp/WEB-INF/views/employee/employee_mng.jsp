@@ -237,7 +237,10 @@
 	//수정
 	$("#doUpdate").on("click",function(){
 		//alert("doUpdate");
-
+		//비밀번호필수 체크 #다음값 조심하기!_edit 붙이기
+		
+		
+		
 		});
 	
 	//삭제
