@@ -45,8 +45,8 @@ public class NoteService {
 	public Message doInsert(NoteVO note) {
 		// 키값 가져오기
 		// 테스트 동안 sequence 막기
-//		int key = dao.bringKey();
-//		note.setNoteNo(key);
+		int key = dao.bringKey();
+		note.setNoteNo(key);
 		Message message = new Message();
 		// 보낸 메시지함 저장
 		note.setEmployeeId(note.getSenderId());
@@ -83,7 +83,7 @@ public class NoteService {
 	 * @return NoteVO
 	 */
 	public NoteVO doSelectOne(NoteVO note) {
-		if(note.getRead()==0) {
+		if(note.getRead()==0 && note.getNoteDiv()>1) {
 			note.setRead(1);
 			dao.doUpdateRead(note);
 			// 보낸 메시지 함도 업데이트 처리
@@ -102,10 +102,10 @@ public class NoteService {
 	 * @param NoteVO
 	 * @return List<NoteVO>
 	 */
-	public List<NoteVO> doSelectList(HashMap<String, Object> search) {
+	public List<NoteVO> doSelectList(HashMap<String, Object> map) {
 		// 아직 생각나는 로직 없음.
 		// 검색 조건 추가하면 생각 나려나..
-		return dao.doSelectList(search);
+		return dao.doSelectList(map);
 	}
 	
 	

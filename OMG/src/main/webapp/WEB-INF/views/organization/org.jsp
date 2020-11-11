@@ -137,9 +137,7 @@
 		    	  html += "<span class='label label-default'>";
 				  html += "직급 정보가 없습니다.";
 				  html += "</span>";
-			  }
-			  
-		                  
+			  }        
 			  //mainBody 동적으로 html추가
 		      $("#mainBody").append(html);
 		      

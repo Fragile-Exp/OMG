@@ -116,7 +116,7 @@
 			    WHERE b.rnum <![CDATA[>=]]> (#{searchVO.pageSize} *(#{searchVO.pageNum}-1)+1)
 				)T1                                                                   
 			NATURAL JOIN                                                                
-				(SELECT COUNT(*) total_cnt                                            
+				(SELECT COUNT(*) totalCnt                                            
 				FROM  note
 				WHERE note_div = #{noteVO.noteDiv}
 				AND employee_id = #{noteVO.employeeId}
