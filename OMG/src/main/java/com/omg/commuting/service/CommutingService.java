@@ -56,5 +56,11 @@ public interface CommutingService {
 	 */
 	public List<Commuting> doSelectList(Search search);
 	
+	/**
+	 * 내 근무 환형
+	 * @param dto
+	 * @return
+	 */
+	public List<Commuting> doSelectMyList(DTO dto);
 	
 }

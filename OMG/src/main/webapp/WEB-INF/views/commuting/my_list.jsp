@@ -5,6 +5,12 @@
 <head>
 <meta charset="utf-8">
 <title>OMG</title>
+<style type="text/css">
+	.btn-info {
+		
+	}
+</style>
+
 </head>
 <body id="page-top">
 	<!-- wrap -->
@@ -25,30 +31,30 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-4 text-gray-800">내 출석</h1>
+					<h1 class="h3 mb-4 text-gray-800">내 출석기록</h1>
 					
-					<label for="start">월 선택</label> 
-					<input type="month"id="start" name="start" min="2020-11" value="2021-11">
+					
 						
 					<div class="row">
-						<div class="col-lg-2">
-							<div class="card shadow mb-4 py-3 border-left-primary">
-								<div class="card-body">
-									<div class="list-group-flush">
-										<a href="#" class="list-group-item"> 보낸 쪽지함 </a> <a href="#"
-											class="list-group-item"> 받은 쪽지함 </a> <a href="#"
-											class="list-group-item"> 휴지통 </a>
-									</div>
-								</div>
-							</div>
-						</div>
+						
 
 
 						<div class="col-lg-10">
+							
 							<div class="card shadow mb-4">
+							
+								<div class="card-header py-3"> 
+									<label for="start">월 선택</label> 
+									<form action="/cmn/commuting/my_list.do" method="get" name="searchFrm">
+										<input type="month"  min="2020-11" id="month" name="month" value="${month}" >	
+										<button class="btn btn-info btn-sm" >Search</button>
+									</form>
+								</div>
+								
+								
 								<div class="card-body">
 									<div class="table-responsive">
-										<table id="noteList"
+										<table id="myAttendList"
 											class="table table-striped table-bordered table-hover table-condensed">
 											<thead>
 												<tr>
@@ -118,6 +124,7 @@
 			$("#collapsePages").attr("class", "collapse show");
 			$("#blank").attr("class", "collapse-item active");
 		});
+
 	</script>
 </body>
 </html>

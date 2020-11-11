@@ -51,8 +51,10 @@ public class TestCommutingController {
 	@Autowired
 	CommutingService commutingService; 
 	
+	
 	MockMvc mockMvc;
 	
+	//테스트 데이터
 	List<Commuting> attends;
 	
 	private void makeList() {
@@ -163,6 +165,7 @@ public class TestCommutingController {
 	}
 	
 	@Test
+	@Ignore
 	public void doSelectList() throws Exception {
 		Search search = new Search("","",10,1);
 		
@@ -171,6 +174,22 @@ public class TestCommutingController {
 				.param("searchWord", search.getSearchWord())
 				.param("pageSize", search.getPageSize()+"")
 				.param("pageNum", search.getPageNum()+"");
+		
+		ResultActions resultActions = mockMvc.perform(createMessage)
+				.andExpect(status().is2xxSuccessful());
+		
+		String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
+
+		LOG.debug("=result=" + result);
+	}
+	
+	@Test
+	public void doSelectMyList() throws Exception {
+		makeList();
+		Commuting attend = attends.get(0);
+		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.get("/commuting/doSelectMyList.do")
+				.param("employeeId", attend.getEmployeeId())
+				.param("seq", attend.getSeq());
 		
 		ResultActions resultActions = mockMvc.perform(createMessage)
 				.andExpect(status().is2xxSuccessful());
