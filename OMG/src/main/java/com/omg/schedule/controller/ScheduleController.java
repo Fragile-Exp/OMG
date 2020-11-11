@@ -31,13 +31,18 @@ public class ScheduleController {
      * @param rttr
      * @author 박정민
      */
-    @RequestMapping(value = "/insert.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/register.do", method = RequestMethod.POST)
     public String insert(ScheduleVO inVO, RedirectAttributes rttr) {
 	log.debug("[Insert]ScheduleVO: " + inVO);
 
 	service.doInsert(inVO);
 
 	return "redirect:/schedule/list.do"; // 생성 완료되면 일정관리 페이지로 리다이렉트
+    }
+    
+    @RequestMapping(value = "/register.do", method = RequestMethod.GET)
+    public void insert() {
+    	
     }
 
     /**
