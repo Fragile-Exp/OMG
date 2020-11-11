@@ -44,7 +44,6 @@
 						    		  	<option value="100">100</option>
 					    		 	</select>	    		
 					    		  	<select class="form-control input-sm" name="searchDiv" id="searchDiv">
-						    		    <option value="">전체</option>
 						    		  	<option value="10">이름</option>
 						    		  	<option value="20">부서</option>
 					    		  	</select>  
@@ -82,6 +81,7 @@
 					    
 					    <!-- 입력 버튼 -->
                         <div class="card-body">
+                        	
 			    		  	<input type="button" class="btn btn-info btn-sm" id="doUpdate" value="수정"  />
 			    		  	<input type="button" class="btn btn-info btn-sm" id="doDelete" value="삭제"  />
 				    	</div>
@@ -200,23 +200,7 @@
 								<input type="text" class="form-control" id="holiday_edit" placeholder="휴가일" />
 							</div>
 						</div>
-			    	
-			    	
-			    </div>
-					    
-					    
-					    
-					    
-					    
-					    <div>
-					    
-					    <div class="card-footer py-2">
-					    	<form action="" method="get" name="user_frm"  class="form-inline  col-lg-12 col-md-12 text-right">
-				    	    </form>	
-					   	
-					    
-					    </div>
-                    </div>
+			   		</div>
                 </div>
                 <!-- /.container-fluid -->
                 
@@ -249,6 +233,51 @@
 		$("#blank").attr("class","collapse-item active");
 		doSelectList(1);
 		});
+
+	//수정
+	$("#doUpdate").on("click",function(){
+		//alert("doUpdate");
+
+		});
+	
+	//삭제
+	//employeeDelete
+	$("#doDelete").on("click",function(){
+		//alert("doDelete");
+		if($("#employee_id_edit").val()==false || $("#employee_id_edit").val() ==""){
+			alert("아이디(사원번호)를 확인하세요.");
+			return ;
+		}
+		if(confirm("삭제 하시겠습니까?") ==false)return;
+
+		//ajax
+        $.ajax({
+           type:"GET",
+           url:"${hContext}/employee/doDelete.do",
+           dataType:"html",
+           data:{
+           "employee_id":$("#employee_id_edit").val().trim()
+          }, 
+        success: function(data){
+          var jData = JSON.parse(data);
+          if(null != jData && jData.msgId=="1"){
+            //alert(jData.msgContents);
+            //다시조회
+            doSelectList(1);
+          }else{
+            alert(jData.msgId+"|"+jData.msgContents);
+          }
+        },
+        complete:function(data){
+         
+        },
+        error:function(xhr,status,error){
+            alert("error:"+error);
+        }
+       }); 
+       //--ajax 
+		
+		});	
 
 	//사원 grid 선택
 	$("#employeeTable>tbody").on("click","tr",function(e){
@@ -284,12 +313,13 @@
         	$("#holiday_edit").val(parseData.holiday);
           
            //아이디 enable
-           //$("#u_id").prop("disabled", true);
+           $("#employee_id_edit").prop("disabled", true);
+           $("#name_edit").prop("disabled", true);
+           $("#hire_date_edit").prop("disabled", true);
+           $("#birth_day_edit").prop("disabled", true);
 			  //버튼제어
-           $("#doDelete").prop("disabled", false);
+           //$("#doDelete").prop("disabled", false);
            $("#doUpdate").prop("disabled", false);
-           $("#doInsert").prop("disabled", true);
-           	          	  	
            
          },
          complete:function(data){
@@ -303,10 +333,7 @@
 		
 		});
 
-	
-	
-	
-
+	//사원목록 조회
     function doSelectList(page){
     	var pageTotal = 1;
     	pageTotal=$.ajax({
@@ -398,6 +425,8 @@
         	doSelectList(num);
         }); 
 	}
+
+   
 
 	
 	
