@@ -95,6 +95,7 @@ public class TestEmployeeController {
 	}
 	
 	@Test
+	@Ignore
 	public void doSelectList() throws Exception {
 		Search search=new Search("20","OMG",10,1);
 		
