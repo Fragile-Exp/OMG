@@ -124,8 +124,8 @@
 		    birth_day,          
 		    holiday,            
 		    img_code            
-		FROM                    
-		    employee            
+		FROM
+		    employee
 		WHERE employee_id = #{employee_id}  
 	</select>
 	
