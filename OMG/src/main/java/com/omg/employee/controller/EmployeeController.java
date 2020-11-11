@@ -66,15 +66,24 @@ public class EmployeeController {
 	@RequestMapping(value="employee/doSelectOne.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"
 			)
+	@ResponseBody
 	public String doSelectOne(EmployeeVO employee,Model model) {
 		
 		LOG.debug("=doSelectOne=");	
 		LOG.debug("=param="+employee);
 		  
         EmployeeVO outVO=this.employeeService.doSelectOne(employee);
-        model.addAttribute("vo",outVO);
+        LOG.debug("==================");
+        LOG.debug("=outVO="+outVO);
+        LOG.debug("==================");
         
-        return "employee/employee_mod";
+        Gson gson=new Gson();
+        String json = gson.toJson(outVO);
+        LOG.debug("==================");
+        LOG.debug("=json="+json);
+        LOG.debug("==================");
+         
+        return json;
 	}
 	
 	

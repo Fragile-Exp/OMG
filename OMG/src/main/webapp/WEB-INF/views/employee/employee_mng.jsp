@@ -99,7 +99,7 @@
 								<label for="name" >이름</label>
 							</div>
 							<div class="col-lg-9">
-								<input type="text" class="form-control" id="name" placeholder="이름" />
+								<input type="text" class="form-control" id="name_edit" placeholder="이름" />
 							</div>
 						</div>
 						<div class="row py-2">
@@ -107,7 +107,7 @@
 								<label for="password" >비밀번호</label>
 							</div>
 							<div class="col-lg-9">
-								<input type="text" class="form-control" id="password" placeholder="비밀번호" />
+								<input type="text" class="form-control" id="password_edit" placeholder="비밀번호" />
 							</div>
 						</div>
 						<div class="row py-2">
@@ -115,12 +115,20 @@
 								<label for="dept_no" >부서명</label>
 							</div>
 							<div class="col-lg-9">
-								<select class="form-control input-sm" name="dept_no"  id="dept_no">
-					    		  	<option value="">선택하세요</option>
+								<select class="form-control input-sm" name="dept_no_edit"  id="dept_no_edit">
+					    		  	<option value="10000">OMG</option>
 					    		  	<option value="11000">전략기획본부</option>
 					    		  	<option value="12000">경영관리본부</option>
 					    		  	<option value="13000">기술개발본부</option>
+					    		  	<option value="13100">연구소</option>
+					    		  	<option value="13110">제1연구소</option>
+					    		  	<option value="13120">제2연구소</option>
+					    		  	<option value="13200">기술부문</option>
+					    		  	<option value="13210">기술 1팀</option>
+					    		  	<option value="13210">기술 1팀</option>
+					    		  	<option value="13220">기술 2팀</option>
 					    		  	<option value="14000">영업본부</option>
+					    		  	<option value="14100">아시아영업부</option>
 					    		</select>
 							</div>
 						</div>
@@ -129,7 +137,7 @@
 								<label for="position_no" >직급</label>
 							</div>
 							<div class="col-lg-9">
-								<select class="form-control input-sm" name="position_no"  id="position_no">
+								<select class="form-control input-sm" name="position_no_edit"  id="position_no_edit">
 									<option value="">선택하세요</option>
 									<option value="10000">사장</option>
 									<option value="11000">부사장</option>
@@ -149,7 +157,7 @@
 								<label for="cell_phone" >핸드폰</label>
 							</div>
 							<div class="col-lg-9">
-								<input type="text" class="form-control" id="cell_phone" placeholder="핸드폰 EX)01012341234" />
+								<input type="text" class="form-control" id="cell_phone_edit" placeholder="핸드폰 EX)01012341234" />
 							</div>
 						</div>
 						<div class="row py-2">
@@ -157,7 +165,7 @@
 								<label for="email" >이메일</label>
 							</div>
 							<div class="col-lg-9">
-								<input type="text" class="form-control" id="email" placeholder="이메일 EX)omg@omg.com" />
+								<input type="text" class="form-control" id="email_edit" placeholder="이메일 EX)omg@omg.com" />
 							</div>
 						</div>
 						<div class="row py-2">
@@ -165,7 +173,7 @@
 								<label for="address" >주소</label>
 							</div>
 							<div class="col-lg-9">
-								<input type="text" class="form-control" id="address" placeholder="주소" />
+								<input type="text" class="form-control" id="address_edit" placeholder="주소" />
 							</div>
 						</div>
 						<div class="row py-2">
@@ -173,7 +181,7 @@
 								<label for="hire_date" >입사일 EX)20/11/19</label>
 							</div>
 							<div class="col-lg-9">
-								<input type="text" class="form-control" id="hire_date" placeholder="입사일 EX)20/11/19" />
+								<input type="text" class="form-control" id="hire_date_edit" placeholder="입사일 EX)20/11/19" />
 							</div>
 						</div>
 						<div class="row py-2">
@@ -181,7 +189,7 @@
 								<label for="birth_day" >생년월일 EX)20/11/19</label>
 							</div>
 							<div class="col-lg-9">
-								<input type="text" class="form-control" id="birth_day" placeholder="생년월일 EX)20/11/19" />
+								<input type="text" class="form-control" id="birth_day_edit" placeholder="생년월일 EX)20/11/19" />
 							</div>
 						</div>
 						<div class="row py-2">
@@ -189,7 +197,7 @@
 								<label for="holiday" >휴가일</label>
 							</div>
 							<div class="col-lg-9">
-								<input type="text" class="form-control" id="holiday" placeholder="휴가일" />
+								<input type="text" class="form-control" id="holiday_edit" placeholder="휴가일" />
 							</div>
 						</div>
 			    	
@@ -245,9 +253,54 @@
 	//사원 grid 선택
 	$("#employeeTable>tbody").on("click","tr",function(e){
 		var tds=$(this).children();
-		var eId=tds.eq(0).text();
-		console.log("선택한 열의 아이디:"+eId);
+		var employeeId=tds.eq(0).text();
+		console.log("선택한 열의 아이디:"+employeeId);
 
+
+		$.ajax({
+            type:"GET",
+            url:"${hContext}/employee/doSelectOne.do",
+            dataType:"html",
+            data:{
+            "employee_id":employeeId
+           }, 
+         success: function(data){
+	        console.log("data:"+data);    
+	          
+			var parseData = JSON.parse(data);
+			console.log("parseData:"+parseData.length);
+          	//data:{"employee_id":"success","password":"ddd","name":"ddd","dept_no":11000,"position_no":10000,"cell_phone":10,"email":"casd","address":"123","hire_date":"20/11/19 ","birth_day":"20/11/19","holiday":1,"img_code":"1","num":0,"totalCnt":0}
+          	
+           	$("#employee_id_edit").val(parseData.employee_id);
+           	$("#name_edit").val(parseData.name);
+           	$("#password_edit").val(parseData.password);
+           	$("#dept_no_edit").val(parseData.dept_no);
+           	$("#position_no_edit").val(parseData.position_no);
+           	$("#cell_phone_edit").val(parseData.cell_phone);
+           	$("#email_edit").val(parseData.email);
+           	$("#address_edit").val(parseData.address);
+           	$("#hire_date_edit").val(parseData.hire_date);
+        	$("#birth_day_edit").val(parseData.birth_day);
+        	$("#holiday_edit").val(parseData.holiday);
+          
+           //아이디 enable
+           //$("#u_id").prop("disabled", true);
+			  //버튼제어
+           $("#doDelete").prop("disabled", false);
+           $("#doUpdate").prop("disabled", false);
+           $("#doInsert").prop("disabled", true);
+           	          	  	
+           
+         },
+         complete:function(data){
+          
+         },
+         error:function(xhr,status,error){
+             alert("error:"+error);
+         }
+        }); 
+//--ajax  	
+		
 		});
 
 	
