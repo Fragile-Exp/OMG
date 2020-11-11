@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.omg.cmn.Criteria;
 import com.omg.schedule.domain.ScheduleVO;
 
 @Repository("scheduleDao")
@@ -103,12 +104,13 @@ public class ScheduleDaoImpl implements ScheduleDao {
      * @author 박정민 
      */
     @Override
-    public List<ScheduleVO> doSelectList(ScheduleVO schedule) {
+    public List<ScheduleVO> doSelectList(Criteria cri) {
 	LOG.debug("doSelectList.....");
 	
 	String statement = NAMESPACE + ".doSelectList";
 	
-	List<ScheduleVO> list = sqlSessionTemplate.selectList(statement, schedule);
+	List<ScheduleVO> list = sqlSessionTemplate.selectList(statement, cri);
+	LOG.debug("cri: " + cri);
 	
 	LOG.debug("=========================");
 	list.forEach(outVO -> LOG.debug("= [list]outVO: " + outVO));
@@ -116,5 +118,18 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	
 	return list;
     }
+
+    @Override
+    public int getTotalCount(Criteria cri) {
+	LOG.debug("getTotalCount.....");
+	
+	String statement = NAMESPACE + ".getTotalCount";
+	int total = sqlSessionTemplate.selectOne(statement, cri);
+	LOG.debug("total: " + total);
+	
+	return total;
+    }
+
+    
 
 }

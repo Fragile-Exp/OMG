@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.omg.cmn.Criteria;
 import com.omg.schedule.domain.ScheduleVO;
 import com.omg.schedule.service.ScheduleService;
 
@@ -30,6 +31,7 @@ public class ScheduleServiceTests {
     private ScheduleService service;
     
     private ScheduleVO inVO;
+    private Criteria cri;
     
     @Before
     public void setup() throws Exception {
@@ -55,7 +57,9 @@ public class ScheduleServiceTests {
 	service.doUpdate(inVO);	//수정
 	
 	inVO.setDeptNo(0);
-	service.doSelectList(inVO); //다건조회
+	cri.setAmount(10);
+	cri.setPageNum(1);
+	service.doSelectList(cri); //다건조회
     }
 
 }

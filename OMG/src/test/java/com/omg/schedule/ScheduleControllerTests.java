@@ -41,6 +41,7 @@ public class ScheduleControllerTests {
      * @author 박정민
      */
     @Test
+    @Ignore
     public void testInsert() throws Exception {
 	String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/schedule/insert.do")
 		.param("deptNo", "10")
@@ -79,6 +80,7 @@ public class ScheduleControllerTests {
      * @author 박정민
      */
     @Test
+    @Ignore
     public void testUpdate() throws Exception {
 	String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/schedule/update.do")
 		.param("categoryId", "10")
@@ -100,6 +102,7 @@ public class ScheduleControllerTests {
      * @author 박정민
      */
     @Test
+    @Ignore
     public void testSelectOne() throws Exception {
 	LOG.debug(mockMvc.perform(MockMvcRequestBuilders.get("/schedule/get.do")
 		.param("scheduleNo", "47")
@@ -115,7 +118,8 @@ public class ScheduleControllerTests {
     @Test
     public void testList() throws Exception {
 	LOG.debug(mockMvc.perform(MockMvcRequestBuilders.get("/schedule/list.do")
-		.param("deptNo", "0")
+		.param("pageNum", "1")
+		.param("amount", "10")
 		).andReturn().getModelAndView().getModelMap());
     }
 

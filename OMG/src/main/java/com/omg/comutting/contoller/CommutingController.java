@@ -183,14 +183,21 @@ public class CommutingController {
 	}
 	
 	@RequestMapping(value="commuting/doSelectList.do", method = RequestMethod.GET)
-	@ResponseBody
-	public String doSelectList(Search search, Locale locale, Model model) {
+	public String doSelectList(Search search, Model model) {
 		LOG.debug("***************************");
 		LOG.debug("=controller.doSelectList=");
 		LOG.debug("***************************");
 		
 		LOG.debug(">param>" + search);
 		model.addAttribute("vo", search);
+		
+		if(search.getPageNum()==0) {
+			search.setPageNum(1);
+		}
+		
+		if(search.getPageSize()==0) {
+			search.setPageSize(10);
+		}
 		
 		List<Commuting> cList = this.commutingService.doSelectList(search);
 		model.addAttribute("list",cList);
@@ -199,7 +206,7 @@ public class CommutingController {
 			LOG.debug(vo.toString());
 		}
 		
-		String view ="";
+		String view ="commuting/my_attend";
 		return view;
 	}
 	

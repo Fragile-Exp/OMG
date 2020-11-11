@@ -37,23 +37,25 @@ public class DocumentController {
 	@Autowired
 	MessageSource messageSource;
 	
-	
+	String url = "http://localhost:8080/cmn";
 	//--view--
 	
 	//--등록 문서 목록 page
 	@RequestMapping(value="document/document.do", method = RequestMethod.GET )
 	public String document_view(DocumentVO documentVO, Model  model){
+		model.addAttribute("url", url);
 		
 		documentVO.setEmployeeId("ID01");
 		
-		List<DocumentVO> IdAll = documentService.doempIdSelectList(documentVO);
+		List<DocumentVO> IdSeleteList = documentService.doempIdSelectList(documentVO);
+		model.addAttribute("IdSeleteList", IdSeleteList);
+		model.addAttribute("IdSeleteSize", IdSeleteList.size());
 		
-		model.addAttribute("IdAll", IdAll);
-		LOG.debug("=IdAll="+IdAll);
+		LOG.debug("=IdSeleteList="+IdSeleteList);
 		
 		
-		String view = "document/document";
-		return view;
+		
+		return  "document/document";
 	}
 	
 	//--문서 등록 page
@@ -120,7 +122,7 @@ public class DocumentController {
         DocumentVO outVO =documentService.doSelectOne(documentVO);
         
         LOG.debug("==================");
-        LOG.debug("=outVO="+outVO);
+        LOG.debug("=doSelectOne="+outVO);
         LOG.debug("==================");
         
         Gson gson=new Gson();
@@ -143,7 +145,7 @@ public class DocumentController {
         List<DocumentVO> outVO =documentService.doSelectList();
         
         LOG.debug("==================");
-        LOG.debug("=outVO="+outVO);
+        LOG.debug("=doSelectList="+outVO);
         LOG.debug("==================");
         
         Gson gson=new Gson();
@@ -166,7 +168,7 @@ public class DocumentController {
         List<DocumentVO> outVO =documentService.doempIdSelectList(documentVO);
         
         LOG.debug("==================");
-        LOG.debug("=outVO="+outVO);
+        LOG.debug("=doempIdSelectList="+outVO);
         LOG.debug("==================");
         
         Gson gson=new Gson();
@@ -221,7 +223,7 @@ public class DocumentController {
         //documentVO.setDocumentId("E_0001");
         int flag =documentService.doDelete(documentVO);
         
-        LOG.debug("=doInsert="+flag);
+        LOG.debug("=doDelete="+flag);
         Message  message=new Message();
         message.setMsgId(flag+"");
         
@@ -269,6 +271,10 @@ public class DocumentController {
         
         return json;
 	}
+
+
+
+	
 }
 	
 

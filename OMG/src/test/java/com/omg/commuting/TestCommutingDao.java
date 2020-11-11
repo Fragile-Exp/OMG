@@ -77,15 +77,19 @@ public class TestCommutingDao {
 		
 		//4. 확인
 		doSelectList();
-		doSelectOne();
-		
+		doSelectMyList();
+	}
+	
+	private void doSelectMyList() {
+		Commuting vo = attendList.get(0);
+		commutingDao.doSelectMyList(vo);
 	}
 	
 	/**
 	 * getAll
 	 */
 	private void doSelectList() {
-		Search search = new Search("","");
+		Search search = new Search("","",30,1);
 		attendList = commutingDao.doSelectList(search);
 	}
 	

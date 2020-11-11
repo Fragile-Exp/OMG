@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.omg.cmn.Criteria;
 import com.omg.schedule.dao.ScheduleDao;
 import com.omg.schedule.domain.ScheduleVO;
 
@@ -59,8 +60,13 @@ public class ScheduleServiceImpl implements ScheduleService {
      * 일정 리스트화
      */
     @Override
-    public List<ScheduleVO> doSelectList(ScheduleVO schedule) {
-	return scheduleDao.doSelectList(schedule);
+    public List<ScheduleVO> doSelectList(Criteria cri) {
+	return scheduleDao.doSelectList(cri);
+    }
+
+    @Override
+    public int getTotalCount(Criteria cri) {
+	return scheduleDao.getTotalCount(cri);
     }
 
 }
