@@ -43,7 +43,7 @@
 						<div class="col-lg-10">
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
-									<a href="javascript:history.back();" class="btn btn-info btn-icon-split btn-sm">
+									<a id="backBtn" href="#" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-arrow-left"></i></span>
 										<span class="text">뒤로가기</span>
 									</a>
@@ -106,6 +106,10 @@
 		frm.noteDiv.value = div;
 		frm.submit();
 	}
+
+	$("#backBtn").on("click",function(){
+		moveNote("${noteVO.noteDiv}");
+	});
 	</script>
 </body>
 </html>

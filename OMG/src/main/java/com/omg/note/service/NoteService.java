@@ -83,15 +83,19 @@ public class NoteService {
 	 * @return NoteVO
 	 */
 	public NoteVO doSelectOne(NoteVO note) {
-		if(note.getRead()==0 && note.getNoteDiv()>1) {
-			note.setRead(1);
-			dao.doUpdateRead(note);
+		if(note.getRead()==0 && note.getNoteDiv()==2) {
+			NoteVO inVO = new NoteVO();
+			inVO.setRead(1);
+			inVO.setNoteDiv(note.getNoteDiv());
+			inVO.setNoteNo(note.getNoteNo());
+			inVO.setEmployeeId(note.getEmployeeId());
+			dao.doUpdateRead(inVO);
 			// 보낸 메시지 함도 업데이트 처리
-			note.setEmployeeId(note.getSenderId());
+			inVO.setEmployeeId(note.getSenderId());
 			// 싱글톤이라 임시로 이름도 비교
-			note.setEmployeeNm(note.getSenderNm());
-			note.setNoteDiv(1);
-			dao.doUpdateRead(note);
+			inVO.setEmployeeNm(note.getSenderNm());
+			inVO.setNoteDiv(1);
+			dao.doUpdateRead(inVO);
 		}
 		
 		return dao.doSelectOne(note);

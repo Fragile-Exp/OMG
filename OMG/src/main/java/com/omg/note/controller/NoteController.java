@@ -115,7 +115,7 @@ public class NoteController {
 		
 		// 출력 크기
 		if(search.getPageSize()==0) {
-			search.setPageSize(30);
+			search.setPageSize(10);
 		}
 		
 		//검색구분

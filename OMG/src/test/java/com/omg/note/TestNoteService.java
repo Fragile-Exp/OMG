@@ -118,11 +118,11 @@ public class TestNoteService {
 		//assertThat(noteList.size(), is(2));
 		
 		
-		for(NoteVO vo:list) {
-			NoteVO outVO = service.doSelectOne(vo);
-			assertThat(outVO,is(notNullValue()));
-			checkNote(vo,outVO);
-		}
+//		for(NoteVO vo:list) {
+//			NoteVO outVO = service.doSelectOne(vo);
+//			assertThat(outVO,is(notNullValue()));
+//			checkNote(vo,outVO);
+//		}
 		
 		
 	}

@@ -73,6 +73,9 @@
 					<when test="'20' == searchVO.searchDiv">
 						AND receive_nm like #{searchVO.searchWord}||'%'
 					</when>
+					<when test="'30' == searchVO.searchDiv">
+						AND contents like '%'||#{searchVO.searchWord}||'%'
+					</when>
 				</choose>
 			</when>
 			<when test="2 == noteVO.noteDiv">
@@ -82,6 +85,9 @@
 					</when>
 					<when test="'20' == searchVO.searchDiv">
 						AND sender_nm like #{searchVO.searchWord}||'%'
+					</when>
+					<when test="'30' == searchVO.searchDiv">
+						AND contents like '%'||#{searchVO.searchWord}||'%'
 					</when>
 				</choose>
 			</when>
@@ -128,7 +134,7 @@
 	
 	
 	
-	<select id="bringKey" resultType="int" >
+	<select id="bringKey" resultType="java.lang.Integer" >
 		SELECT note_seq.nextval FROM dual
 	</select>
 	
