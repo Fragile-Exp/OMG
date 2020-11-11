@@ -12,6 +12,16 @@
 			</when>
 		</choose>
 	</sql>
+	
+	<!-- readCnt증가 -->
+	<update id="readCount" parameterType="BoardVO">
+		UPDATE BOARD
+		SET READ_CNT= (SELECT NVL(MAX(read_cnt),0)+1
+					   FROM board
+					   WHERE board_seq= #{boardSeq} )
+		WHERE board_seq= #{boardSeq}
+		                  	
+	</update>
 
 	<!-- com.omg.board.doInsert -->
 	<insert id="doInsert" parameterType="BoardVO">
@@ -35,8 +45,8 @@
 						    ATTACHMENT_SEQ.NEXTVAL, 
 						    SYSDATE,                
 						    #{regId},                      
-						    SYSDATE,                
-						    #{regId}                       
+						    null,                
+						    null                       
 						  )                           
 	</insert>
 	
@@ -52,8 +62,8 @@
 		SET div = #{div},           
 		    title = #{title},       
 		    contents = #{contents},     
-		    read_cnt = #{readCnt},     
-		    file_code = #{filecode},    
+<!-- 		    read_cnt = #{readCnt},     
+		    file_code = #{filecode}, -->    
 		    mod_dt = SYSDATE, 
 		    mod_id = #{modId}        
 		WHERE board_seq = #{boardSeq}   

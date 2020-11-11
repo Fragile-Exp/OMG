@@ -18,6 +18,8 @@ import com.omg.board.service.BoardService;
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
+import com.omg.code.dao.CodeDaoImpl;
+import com.omg.code.domain.Code;
 
 @Controller
 public class BoardController 
@@ -26,6 +28,9 @@ public class BoardController
 	
 	@Autowired
 	BoardService boardService;
+	
+	@Autowired
+	CodeDaoImpl codeDaoImpl;
 	
 	@RequestMapping(value="board/board_main.do",method=RequestMethod.GET)
 	public String board_main() 
@@ -233,6 +238,15 @@ public class BoardController
 		for(BoardVO vo : boardList) {
 			LOG.debug(vo.toString());
 		}
+		
+		//code : PAGE_SIZE,BOARD_CONDITION
+		String codeArray = "PAGE_SIZE,BOARD_CONDITION";
+		List<Code> list = codeDaoImpl.doSelectList(codeArray);
+		
+		List<Code> pageSizeList = StringUtil.getCodeSearch(list, "PAGE_SIZE");
+		List<Code> boardConditionList = StringUtil.getCodeSearch(list, "BOARD_CONDITION");
+		model.addAttribute("PAGE_SIZE", pageSizeList);
+		model.addAttribute("BOARD_CONDITION", boardConditionList);
 		
 		//View 화면
 		String view = "board/board_main";

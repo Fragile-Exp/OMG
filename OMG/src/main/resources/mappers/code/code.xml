@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.ehr.code">
+
+	<select id="doSelectList" resultType="Code">
+		SELECT mst_code AS mstCode,
+		      det_code  AS detCode,
+		      det_nm    AS detNm
+		FROM com_code
+		WHERE use_yn = 1
+		AND mst_code IN
+		  <foreach item="code" index="index" collection="codeList"
+      				open="(" separator="," close=")">
+        			#{code}
+          </foreach>
+		ORDER BY mst_code, seq
+	</select>
+</mapper>

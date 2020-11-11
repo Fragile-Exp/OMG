@@ -24,6 +24,9 @@
 		<!-- conments -->
 		<typeAlias type="com.omg.comments.domain.CommentsVO" alias="CommentsVO"/>
 		
+		<!-- code -->
+		<typeAlias type="com.omg.code.domain.Code" alias="Code" />
+		
 		<!-- document -->
 		<typeAlias type="com.omg.document.domain.DocumentVO" alias="DocumentVO"/>
 		<typeAlias type="com.omg.car.domain.CarVO" alias="CarVO"/>
