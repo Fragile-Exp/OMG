@@ -12,7 +12,7 @@
 			</when>
 			
 			<when test="'20' == searchDiv">
-				 WHERE dept_no like '%'|| #{searchWord} ||'%' 
+				WHERE dept_nm like '%'|| #{searchWord} ||'%'  
 			</when>
 		</choose>
 	</sql>
@@ -27,8 +27,10 @@
 	            B.employee_id,                                                 
 	            B.password,                                                    
 	            B.name,                                                        
-	            B.dept_no,                                                     
-	            B.position_no,                                                 
+	            B.dept_no,  
+	            (select dept_nm from dept where dept_no = B.dept_no)as dept_nm,                                                   
+	            B.position_no,         
+	            (select position_nm from position where position_no = B.position_no)as position_nm,                                  
 	            B.cell_phone,                                                  
 	            B.email,                                                       
 	            B.address,                                                     
@@ -40,20 +42,20 @@
 	         SELECT ROWNUM rnum, A.*                                           
 	         FROM(                                                             
 	             SELECT *                                                      
-	             FROM  employee      
+	             FROM  employee_view      
 				<include refid="searchCondition"/>
 	            ORDER BY hire_date DESC                                   
 	        )A                                                            
-			WHERE rownum <![CDATA[ <= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + #{pageSize})	      
+			WHERE rownum <![CDATA[ <= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + #{pageSize})	  
 		)B                                              		
-			WHERE rnum <![CDATA[ >= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + 1 )	                                 
+			WHERE rnum <![CDATA[ >= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + 1 )	                                       
 		)T1                                                
 		CROSS JOIN                                         
 		--전체COUNT                                          
 		(SELECT COUNT(*) totalCnt                         
-		 FROM  employee    
+		 FROM  employee_view    
 	<include refid="searchCondition"/>
-	)T2       
+	)T2        
 	</select>
 	
 	

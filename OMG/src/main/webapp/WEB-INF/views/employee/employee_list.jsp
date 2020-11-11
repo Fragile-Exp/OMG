@@ -28,11 +28,7 @@
 	      		
 	      		
 	      		<form action=""></form>
-	      		<!-- pagenation -->
-				<div class="text-center">
-					<div id="page-selection" class="text-center page"></div>
-				</div>
-			    <!--// pagenation -->
+	      		
 	      		<!-- Begin Page Content -->
                 <div class="container-fluid">
 
@@ -75,20 +71,17 @@
                                             <th>주소</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>이름</th>
-                                            <th>부서</th>
-                                            <th>직급</th>
-                                            <th>핸드폰</th>
-                                            <th>이메일</th>
-                                            <th>주소</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody></tbody>
+                                    <tbody>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
+                        
+                        <!-- pagenation -->
+				<div class="text-center">
+					<div id="page-selection" class="text-center page"></div>
+				</div>
+			    <!--// pagenation -->
                     </div>
 
                 </div>
@@ -143,23 +136,23 @@
          success: function(data){
            var parseData = JSON.parse(data);
        	  //table에 있던 기존 데이터 삭제
-       	  $("#userTable>tbody").empty();
+       	  $("#dataTable>tbody").empty();
            var html = "";
 
            //Data가 없으면   
            
        	  var totalCount = 0;
-       	  
            if(parseData.length>0){
                totalCount = parseData[0].totalCnt;//33/10->3,3
                pageTotal  = (totalCount/$("#pageSize").val());
                pageTotal  = Math.ceil(pageTotal); //3.3 -> 4
                <!-- 문자: 왼쪽, 숫자: 오른쪽, 같은면: 가운데 --> 
 				  $.each(parseData, function(i, value) {
+						
 					  html += "<tr>";
 					  html += "<td>"+value.name+"</td>";
-					  html += "<td>"+value.dept_no+"</td>";
-					  html += "<td>"+value.position_no+"</td>";
+					  html += "<td>"+value.dept_nm+"</td>";
+					  html += "<td>"+value.position_nm+"</td>";
 					  html += "<td>"+value.cell_phone+"</td>";
 					  html += "<td>"+value.email+"</td>";
 					  html += "<td>"+value.address+"</td>";
@@ -174,7 +167,7 @@
 			  }
 		                  
 			  //table>tbody 동적으로 html추가
-		      $("#userTable>tbody").append(html);	
+		      $("#dataTable>tbody").append(html);	
 		      //페이징
 			  renderingPage(pageTotal,page);  
            	  //등록부분 초기화
@@ -190,6 +183,7 @@
         }); 
 		//--ajax
         }
+    
     //pagign 처리
     function renderingPage(pageTotal,page){
 		//이전에 연결된 이벤트 핸들러를 요소에서 제거합니다.
