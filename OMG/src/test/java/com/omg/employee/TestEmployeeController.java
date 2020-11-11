@@ -80,7 +80,6 @@ public class TestEmployeeController {
 	}
 	
 	@Test
-	@Ignore
 	public void idConfirm() {
 		LOG.debug("++++++++++++++++++++");
 		LOG.debug("++idConfirm()++");
@@ -97,7 +96,7 @@ public class TestEmployeeController {
 	@Test
 	@Ignore
 	public void doSelectList() throws Exception {
-		Search search=new Search("20","OMG",10,1);
+		Search search=new Search("","",10,1);
 		
 		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.get("/employee/doSelectList.do")
 				.param("searchDiv", search.getSearchDiv())
