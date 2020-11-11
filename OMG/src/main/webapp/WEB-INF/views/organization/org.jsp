@@ -42,45 +42,28 @@
 						<div class="col-lg-10">
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
-									<a href="#" class="btn btn-info btn-icon-split btn-sm">
+									<a id="deleteBtn" href="#" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-trash"></i></span>
 										<span class="text">삭제</span>
 									</a>
-									<a href="${hContext}/org/org_mod.do" class="btn btn-info btn-icon-split btn-sm">
+									<button id="updateBtn" type="button" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-check"></i></span>
 										<span class="text">수정</span>
-									</a>
+									</button>
 									<form action="${hContext}/org/org_reg.do" name="reg_frm" method="get" style="display:inline" >
-									<input type="hidden" id="orgDiv" name="orgDiv" value="dept" >
+									<input type="hidden" id="orgDiv" name="orgDiv" value="dept" />
 									<button type="submit" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-arrow-right"></i></span>
 										<span class="text">추가</span>
 									</button>
 									</form>
 								</div>
-								<div id="mainBody" class="card-body">
-									<details class="text-primary">
-										<summary><input type="checkbox" name="dept" value="10000" /> OMG </summary>
-										<div class="bg-white px-4">
-											<details>
-												<summary><input type="checkbox" name="dept" value="11000" /> 전략기획본부</summary>
-												<div class="bg-white px-4 py-2">
-													<input type="checkbox" name="dept" value="11100" /> 전략1팀<br />
-													<input type="checkbox" name="dept" value="11200" /> 전략2팀<br />
-												</div>
-											</details>
-										</div>
-										<div class="bg-white px-4">
-											<details>
-												<summary><input type="checkbox" name="dept" value="12000" /> 경영지원본부</summary>
-												<div class="bg-white px-4 py-2">
-													<input type="checkbox" name="dept" value="12100" /> 경영1팀<br />
-													<input type="checkbox" name="dept" value="12200" /> 경영2팀<br />
-												</div>
-											</details>
-										</div>
-									</details>
-								</div>
+								<form action="" name="org_frm" method="get" >
+								<input type="hidden" id="org_div" name="org_div" value="dept" />
+									<div id="mainBody" class="card-body">
+										
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -120,6 +103,7 @@
 
 	function drawCheck(div){
 		$("#orgDiv").val(div);
+		$("#org_div").val(div);
 		
 		if(div == "dept"){
 			drawDeptList();
@@ -145,7 +129,7 @@
            if(parseData.length>0){
                html += '<div class="text-primary">';
         	   $.each(parseData, function(i, value) {
-        		   html += '<input type="checkbox" name="position" value="'+value.positionNo+'" /> '+value.positionNm+'';
+        		   html += '<input type="checkbox" name="org" value="'+value.positionNo+'" /> '+value.positionNm+'';
         		   html += '<br/>';
         	   });
         	   html += '</div>';
@@ -165,6 +149,57 @@
          }
         }); 
 	}
+
+	
+	$("#updateBtn").on("click",function(){
+		//console.log($("input:checkbox[name=org]:checked").length);
+		var size = $("input:checkbox[name=org]:checked").length;
+		if(size != 1) {
+			alert("하나만 선택해 주세요.");
+			return;
+		}
+		
+		var frm = document.org_frm;
+		frm.action="${hContext}/org/org_mod.do";
+		frm.submit();	
+	})
+	
+	$("#deleteBtn").on("click",function(){
+		var size = $("input:checkbox[name=org]:checked").length;
+		if(size < 1) {
+			alert("하나이상 선택해 주세요.");
+			return;
+		}
+		var lists = [];
+		$("input:checkbox[name=org]:checked").each(function(i){
+			lists.push($(this).val());
+			});
+		console.log(lists);
+
+		if(false == confirm("    * 주의 *\n하위 부서(직급)까지 전부 사라질 수 있습니다.\n그래도 삭제 하시겠습니까?")) return;
+		
+		jQuery.ajaxSettings.traditional = true;
+		$.ajax({
+            type:"GET",
+            url:"${hContext}/org/doDelete.do",
+            dataType:"html",
+            async: true,
+            data:{
+                "orgDiv" : $("#orgDiv").val(),
+                "orgNo" : lists
+                },
+         success: function(data){
+           var parseData = JSON.parse(data);
+           alert(parseData.msgContents);
+           changeOrg($("#orgDiv").val());
+		},
+         error:function(xhr,status,error){
+             alert("error:"+error);
+         }
+        }); 
+	})
+	
+	
 	
 	function drawDeptList(){
 
@@ -194,11 +229,11 @@
 				  if( 0 == value.isNotLeaf){
 					  html += '<details class="text-primary">';
 					  html += '<summary>';
-					  html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" /> '+value.deptNm+'';
+					  html += '<input type="checkbox" name="org" value="'+value.deptNo+'" /> '+value.deptNm+'';
 					  html += '</summary>';
 					  html += '<div class="bg-white px-4">';
 					  } else{
-						  html += '<input type="checkbox" name="dept" value="'+value.deptNo+'" /> '+value.deptNm+'<br />';
+						  html += '<input type="checkbox" name="org" value="'+value.deptNo+'" /> '+value.deptNm+'<br />';
 					  	}
 				 
 				  	currLevel = value.level;

@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -33,7 +34,6 @@ import com.omg.cmn.Search;
 import com.omg.commuting.domain.Commuting;
 import com.omg.commuting.service.CommutingService;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
@@ -45,7 +45,7 @@ public class TestCommutingController {
 	/**LOG*/
 	final Logger LOG = LoggerFactory.getLogger(TestCommutingController.class);
 	
-	@Autowired //í…ŒìŠ¤íŠ¸ ì»¨íƒìŠ¤íŠ¸ í”„ë ˆì„ì›Œí¬ëŠ” ì¼ì¹˜í•˜ëŠ” ì»¨í…ìŠ¤íŠ¸ë¥¼ ì°¾ì•„ DIí•´ ì¤€ë‹¤.
+	@Autowired //?…Œ?Š¤?Š¸ ì»¨íƒ?Š¤?Š¸ ?”„? ˆ?„?›Œ?¬?Š” ?¼ì¹˜í•˜?Š” ì»¨í…?Š¤?Š¸ë¥? ì°¾ì•„ DI?•´ ì¤??‹¤.
 	WebApplicationContext webApplicationContext;
 	
 	@Autowired
@@ -68,6 +68,7 @@ public class TestCommutingController {
 		
 	}
 	
+	@Test
 	@Ignore
 	public void doInit() throws Exception {
 		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.get("/commuting/doInit.do");
@@ -108,6 +109,75 @@ public class TestCommutingController {
 		Message message = gson.fromJson(result, Message.class);
 		LOG.debug("=message=" + message);
 			
+	}
+	
+	@Test
+	@Ignore
+	public void doUpdateAttendTime() throws Exception {
+		makeList();
+		Commuting attend = attends.get(0);
+		
+		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/commuting/doUpdateAttendTime.do")
+				.param("seq", attend.getSeq())
+				.param("employeeId", attend.getEmployeeId());
+		
+		ResultActions resultActions = mockMvc.perform(createMessage)
+				.andExpect(status().is2xxSuccessful());
+		
+		String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
+
+		LOG.debug("=result=" + result);
+
+		Gson gson = new Gson();
+		Message message = gson.fromJson(result, Message.class);
+		assertThat(message.getMsgId(), is(1+""));
+		
+		makeList();
+	}
+	
+	@Test
+	@Ignore
+	public void doUpdateLeaveTime() throws Exception {
+		makeList();
+		Commuting attend = attends.get(0);
+		
+		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/commuting/doUpdateLeaveTime.do")
+				.param("seq", attend.getSeq())
+				.param("employeeId", attend.getEmployeeId())
+				.param("attendTime", attend.getAttendTime())
+				.param("presentState", attend.getPresentState()+"")
+				.param("state", attend.getState()+"");
+				
+		ResultActions resultActions = mockMvc.perform(createMessage)
+				.andExpect(status().is2xxSuccessful());
+		
+		String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
+
+		LOG.debug("=result=" + result);
+
+		Gson gson = new Gson();
+		Message message = gson.fromJson(result, Message.class);
+		assertThat(message.getMsgId(), is(1+""));
+		
+		makeList();
+	}
+	
+	@Test
+	public void doSelectList() throws Exception {
+		Search search = new Search("","",10,1);
+		
+		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.get("/commuting/doSelectList.do")
+				.param("searchDiv", search.getSearchDiv())
+				.param("searchWord", search.getSearchWord())
+				.param("pageSize", search.getPageSize()+"")
+				.param("pageNum", search.getPageNum()+"");
+		
+		ResultActions resultActions = mockMvc.perform(createMessage)
+				.andExpect(status().is2xxSuccessful());
+		
+		String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
+
+		LOG.debug("=result=" + result);
 	}
 	
 	@After

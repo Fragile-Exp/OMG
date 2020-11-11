@@ -5,10 +5,10 @@
 	<sql id="searchCondition">
 		<choose>
 			<when test=" '10' == searchDiv">
-				WHERE title like '%'|| #{searchWord} ||'%'
+				AND title like '%'|| #{searchWord} ||'%'
 			</when>
 			<when test=" '20' == searchDiv">
-				WHERE contents like '%'|| #{searchWord} ||'%'
+				AND contents like '%'|| #{searchWord} ||'%'
 			</when>
 		</choose>
 	</sql>
@@ -36,7 +36,7 @@
 						    SYSDATE,                
 						    #{regId},                      
 						    SYSDATE,                
-						    #{modId}                       
+						    #{regId}                       
 						  )                           
 	</insert>
 	
@@ -62,50 +62,50 @@
 	<!-- com.omg.board.doSelectOne -->
 	<select id="doSelectOne" parameterType="BoardVO" resultType="BoardVO">
 		SELECT                                                 
-		    board_seq,                                         
+		    board_seq as boardSeq,                                         
 		    div,                                               
 		    title,                                             
 		    contents,                                          
-		    read_cnt,                                          
-		    file_code,                                         
-		    TO_CHAR(reg_dt,'YYYY-MM-DD HH24MISS') AS reg_dt,   
-		    reg_id,                                            
-		    TO_CHAR(mod_dt,'YYYY-MM-DD HH24MISS') AS mod_dt,   
-		    mod_id,                                            
+		    read_cnt as readCnt,                                          
+		    file_code as fileCode,                                         
+		    TO_CHAR(reg_dt,'YYYY-MM-DD HH24MISS') AS regDt,   
+		    reg_id as regId,                                            
+		    TO_CHAR(mod_dt,'YYYY-MM-DD HH24MISS') AS modDt,   
+		    mod_id as modId,                                            
 		    1 AS rnum,                                         
-		    1 AS total_cnt                                     
+		    1 AS totalCnt                                     
 		FROM board                                             
 		WHERE board_seq = #{boardSeq}                                    	
 	</select>
 	
 	<!-- com.omg.board.doSelectList -->
-	<select id="doSelectList" parameterType="BoardVO" resultType="BoardVO">
+	<select id="doSelectList" parameterType="Search" resultType="BoardVO">
 		SELECT T1.*,T2.*                                                                      
 		FROM                                                                                  
 		(                                                                                     
-		    SELECT B.rnum,                                                                    
-		           B.board_seq,                                                               
+		    SELECT B.rnum as num,                                                                    
+		           B.board_seq as boardSeq,                                                               
 		           B.div,                                                                     
 		           B.title,                                                                   
 		           B.contents,                                                                
-		           B.read_cnt,                                                                
-		           B.file_code,                                                               
+		           B.read_cnt as readCnt,                                                                
+		           B.file_code as fileCode,                                                               
 		           DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')            
 		                                             ,TO_CHAR(B.reg_dt,'HH24:MI')             
-		                                             ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) reg_dt, 
-		           B.reg_id,                                                                  
+		                                             ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) regDt, 
+		           B.reg_id as regId,                                                                  
 		           DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.mod_dt,'YYYYMMDD')            
 		                                             ,TO_CHAR(B.mod_dt,'HH24:MI')             
-		                                             ,TO_CHAR(B.mod_dt,'YYYY-MM-DD')) mod_dt, 
-				   B.mod_id                                                                      
+		                                             ,TO_CHAR(B.mod_dt,'YYYY-MM-DD')) modDt, 
+				   B.mod_id as modId                                                                      
 		    FROM                                                                              
 		    (                                                                                 
 		        SELECT ROWNUM rnum, A.*                                                       
 		        FROM                                                                          
 		        (                                                                             
 		            SELECT *                                                                  
-		            FROM board                                                                
-		            --WHERE 조건
+		            FROM board
+		            WHERE div = #{div}                                                              
 		            <include refid="searchCondition" />              
 		            ORDER BY reg_dt DESC                                                      
 		        ) A                                                                           
@@ -115,9 +115,9 @@
 		) T1                                                                                  
 		CROSS JOIN                                                                            
 		(                                                                                     
-		    SELECT COUNT(*) total_cnt                                                         
-		    FROM board                                                                        
-		    --WHERE 조건
+		    SELECT COUNT(*) totalCnt                                                        
+		    FROM board
+		    WHERE div = #{div}                                                                        
 			<include refid="searchCondition" />                                                                        
 		) T2	                                                                                  		
 	</select>

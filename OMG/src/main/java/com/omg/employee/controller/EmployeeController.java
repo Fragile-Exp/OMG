@@ -3,11 +3,13 @@ package com.omg.employee.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +30,7 @@ public class EmployeeController {
 	
 	public EmployeeController() {}
 	
+	//사원 추가
 	@RequestMapping(value="employee/employee_reg.do",method=RequestMethod.GET)
 	public String employee_view() {
 		LOG.debug("== employee_view ==");
@@ -35,11 +38,43 @@ public class EmployeeController {
 		return "employee/employee_reg";
 	}
 	
+	//로그인 화면
 	@RequestMapping(value="employee/login.do",method=RequestMethod.GET)
 	public String login_view() {
 		LOG.debug("== login_view ==");
 		
 		return "employee/login";
+	}
+	
+	//사원목록
+	@RequestMapping(value="employee/employee_list.do",method=RequestMethod.GET)
+	public String employee_list() {
+		LOG.debug("== employee_list ==");
+		
+		return "employee/employee_list";
+	}
+	
+	//관리자모드 사원 수정
+	@RequestMapping(value="employee/employee_mng.do",method=RequestMethod.GET)
+	public String employee_mng() {
+		LOG.debug("== employee_mng ==");
+		
+		return "employee/employee_mng";
+	}
+	
+	
+	@RequestMapping(value="employee/doSelectOne.do",method = RequestMethod.GET
+			,produces = "application/json;charset=UTF-8"
+			)
+	public String doSelectOne(EmployeeVO employee,Model model) {
+		
+		LOG.debug("=doSelectOne=");	
+		LOG.debug("=param="+employee);
+		  
+        EmployeeVO outVO=this.employeeService.doSelectOne(employee);
+        model.addAttribute("vo",outVO);
+        
+        return "employee/employee_mod";
 	}
 	
 	
@@ -49,7 +84,7 @@ public class EmployeeController {
 			,produces = "application/json;charset=UTF-8"
 			)
 	@ResponseBody
-	public String doSelectList(HttpServletRequest req,Search search) {
+	public List<EmployeeVO> doSelectList(HttpServletRequest req,Search search) {
 		LOG.debug("1==================");
         LOG.debug("=search="+search);
         LOG.debug("==================");
@@ -81,7 +116,7 @@ public class EmployeeController {
         LOG.debug("==================");   		
 		
 		
-		return json;
+		return list;
 	}
 	
 	@RequestMapping(value="employee/doUpdate.do",method = RequestMethod.GET
@@ -115,30 +150,7 @@ public class EmployeeController {
 		return json;
 	}
 	
-	
-	@RequestMapping(value="employee/doSelectOne.do",method = RequestMethod.GET
-			,produces = "application/json;charset=UTF-8"
-			)
-	@ResponseBody
-	public String doSelectOne(EmployeeVO employee) {
-		LOG.debug("==================");
-        LOG.debug("=employee="+employee);
-        LOG.debug("==================");
-        
-        EmployeeVO outVO=employeeService.doSelectOne(employee);
-        LOG.debug("==================");
-        LOG.debug("=outVO="+outVO);
-        LOG.debug("==================");
-        
-        Gson gson=new Gson();
-        String json = gson.toJson(outVO);
-        LOG.debug("==================");
-        LOG.debug("=json="+json);
-        LOG.debug("==================");
-         
-        return json;
-	}
-	
+
 	@RequestMapping(value="employee/doLogin.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"
 			)
@@ -168,6 +180,16 @@ public class EmployeeController {
         LOG.debug("=json="+json);
         LOG.debug("==================");         
         
+        //세션처리
+        EmployeeVO sessionEmployee=this.employeeService.doSelectOne(employee);
+        LOG.debug("==================");
+        LOG.debug("=sessionEmployee="+sessionEmployee);
+        LOG.debug("==================");  
+        
+        //HttpSession session=req.getSession();
+        
+        
+        
 		return json;
 	}
 	
@@ -177,6 +199,7 @@ public class EmployeeController {
 			)
 	@ResponseBody
 	public String idConfirm(EmployeeVO employee) {
+		LOG.debug("=idConfirm***********");
 		LOG.debug("==================");
         LOG.debug("=employee="+employee);
         LOG.debug("==================");

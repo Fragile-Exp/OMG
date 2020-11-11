@@ -30,7 +30,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-//ë©”ì†Œë“œ ìˆ˜í–‰ ìˆœì„œ:
+//ë©”ì†Œ?“œ ?ˆ˜?–‰ ?ˆœ?„œ:
 
 import com.google.gson.Gson;
 import com.omg.cmn.Message;
@@ -39,7 +39,7 @@ import com.omg.employee.domain.EmployeeVO;
 import com.omg.employee.service.EmployeeService;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)//ìŠ¤í”„ë­ í…ŒìŠ¤íŠ¸ ì»¨í…ìŠ¤íŠ¸ í”„ë ˆì„ì›Œí¬ì˜ JUnitê¸°ëŠ¥ í™•ì¥
+@RunWith(SpringJUnit4ClassRunner.class)//?Š¤?”„?­ ?…Œ?Š¤?Š¸ ì»¨í…?Š¤?Š¸ ?”„? ˆ?„?›Œ?¬?˜ JUnitê¸°ëŠ¥ ?™•?¥
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
                                "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"		
 })
@@ -54,7 +54,7 @@ public class TestEmployeeController {
 	@Autowired
 	EmployeeService employeeService;
 	
-	//ë¸Œë¼ìš°ì € ëŒ€ì‹  Mock
+	//ë¸Œë¼?š°?? ???‹  Mock
 	MockMvc  mockMvc;
 	
 	@Before
@@ -62,11 +62,11 @@ public class TestEmployeeController {
 		LOG.debug("=========================");
 		LOG.debug("=setUp()=");
 		employees=Arrays.asList(
-				new EmployeeVO("ID01","123456","ìœ ë¹„_01",1,1,123456789,"casse2045@naver.com","ì„œìš¸","20/10/28","201029",15,"1"),
-				new EmployeeVO("ID02","123456","ìœ ë¹„_02",1,1,123456789,"casse2045@naver.com","ì„œìš¸","20/10/28","201029",15,"1"),
-				new EmployeeVO("ID03","123456","ìœ ë¹„_03",1,1,123456789,"casse2045@naver.com","ì„œìš¸","20/10/28","201029",15,"1"),
-				new EmployeeVO("ID04","123456","ìœ ë¹„_04",1,1,123456789,"casse2045@naver.com","ì„œìš¸","20/10/28","201029",15,"1"),
-				new EmployeeVO("ID05","123456","ìœ ë¹„_05",1,1,123456789,"casse2045@naver.com","ì„œìš¸","20/10/28","201029",15,"1")
+				new EmployeeVO("ID01","123456","?œ ë¹?_01",1,1,123456789,"casse2045@naver.com","?„œ?š¸","20/10/28","201029",15,"1"),
+				new EmployeeVO("ID02","123456","?œ ë¹?_02",1,1,123456789,"casse2045@naver.com","?„œ?š¸","20/10/28","201029",15,"1"),
+				new EmployeeVO("ID03","123456","?œ ë¹?_03",1,1,123456789,"casse2045@naver.com","?„œ?š¸","20/10/28","201029",15,"1"),
+				new EmployeeVO("ID04","123456","?œ ë¹?_04",1,1,123456789,"casse2045@naver.com","?„œ?š¸","20/10/28","201029",15,"1"),
+				new EmployeeVO("ID05","123456","?œ ë¹?_05",1,1,123456789,"casse2045@naver.com","?„œ?š¸","20/10/28","201029",15,"1")
 				);
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		LOG.debug("=mockMvc="+mockMvc);
@@ -80,6 +80,7 @@ public class TestEmployeeController {
 	}
 	
 	@Test
+	@Ignore
 	public void idConfirm() {
 		LOG.debug("++++++++++++++++++++");
 		LOG.debug("++idConfirm()++");
@@ -88,7 +89,7 @@ public class TestEmployeeController {
 		EmployeeVO employee01=employees.get(4);
     	int cnt=employeeService.idConfirm(employee01);
     	
-    	//1(ì¡´ì¬)/0(ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì•„ì´ë””)
+    	//1(ì¡´ì¬)/0(ì¡´ì¬?•˜ì§? ?•Š?Š” ?•„?´?””)
     	LOG.debug("=cnt="+cnt);
 		
 	}
@@ -96,7 +97,7 @@ public class TestEmployeeController {
 	@Test
 	@Ignore
 	public void doSelectList() throws Exception {
-		Search search=new Search("","",10,1);
+		Search search=new Search("20","OMG",10,1);
 		
 		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.get("/employee/doSelectList.do")
 				.param("searchDiv", search.getSearchDiv())
@@ -119,16 +120,16 @@ public class TestEmployeeController {
 	@Test
 	@Ignore
 	public void doUpdate() throws Exception {
-		//ë°ì´í„° ì‚­ì œ
+		//?°?´?„° ?‚­? œ
 		for(EmployeeVO vo:employees) {
 			doDelete(vo);
 		}
 		
-		//ë‹¨ê±´ ì…ë ¥
+		//?‹¨ê±? ?…? ¥
 		int flag=doInsert(employees.get(0));
 		assertThat(flag, is(1));
 		
-		//ë°ì´í„° ìˆ˜ì •
+		//?°?´?„° ?ˆ˜? •
 		EmployeeVO employee01=employees.get(0);
 		employee01.setEmployee_id(employee01.getEmployee_id());
 		employee01.setPassword(employee01.getPassword()+"_U");
@@ -151,18 +152,18 @@ public class TestEmployeeController {
 	@Test
 	@Ignore
 	public void addAndGet() throws Exception{
-		//ë°ì´í„° ì‚­ì œ
+		//?°?´?„° ?‚­? œ
 		for(EmployeeVO vo:employees) {
 			doDelete(vo);
 		}
 		
-		//ë°ì´í„° ì…ë ¥
+		//?°?´?„° ?…? ¥
 		for(EmployeeVO vo:employees) { 
 			int flag=doInsert(vo);
 			assertThat(flag, is(1)); 
 		}
 		
-		//ê¸°ì¡´ ë°ì´í„°ì™€ ë¹„êµ
+		//ê¸°ì¡´ ?°?´?„°?? ë¹„êµ
 		for(EmployeeVO vo: employees) {
 			EmployeeVO vsEmployee=doSelectOne(vo);
 			checkUser(vo, vsEmployee);
@@ -189,7 +190,7 @@ public class TestEmployeeController {
 										 			;
 	    ResultActions resultActions = this.mockMvc.perform(createMessage)
 	            .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
-	            .andExpect(status().is2xxSuccessful()).andExpect(jsonPath("$.msgId", is("1")))// ë°ì´í„° êº¼ë‚´ë³´ê¸°
+	            .andExpect(status().is2xxSuccessful()).andExpect(jsonPath("$.msgId", is("1")))// ?°?´?„° êº¼ë‚´ë³´ê¸°
 	      ;
 	    String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
 

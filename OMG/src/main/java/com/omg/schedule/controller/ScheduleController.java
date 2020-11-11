@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.omg.cmn.Criteria;
+import com.omg.cmn.PageDTO;
 import com.omg.schedule.domain.ScheduleVO;
 import com.omg.schedule.service.ScheduleService;
 
@@ -20,30 +22,40 @@ public class ScheduleController {
     Logger log = LoggerFactory.getLogger(ScheduleController.class);
 
     @Autowired
-    private ScheduleService scheduleService;
+    private ScheduleService service;
 
     /**
-     * ì¼ì • ì¶”ê°€
+     * ?¼? • ì¶”ê?
      * 
      * @param inVO
      * @param rttr
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
-    @RequestMapping(value = "/insert.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/register.do", method = RequestMethod.POST)
     public String insert(ScheduleVO inVO, RedirectAttributes rttr) {
 	log.debug("[Insert]ScheduleVO: " + inVO);
 
-	scheduleService.doInsert(inVO);
+	service.doInsert(inVO);
 
-	return "redirect:/schedule/list.do"; // ìƒì„± ì™„ë£Œë˜ë©´ ì¼ì •ê´€ë¦¬ í˜ì´ì§€ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
+	return "redirect:/schedule/list.do"; // ?ƒ?„± ?™„ë£Œë˜ë©? ?¼? •ê´?ë¦? ?˜?´ì§?ë¡? ë¦¬ë‹¤?´? ‰?Š¸
+    }
+    
+    @RequestMapping(value = "/register.do", method = RequestMethod.GET)
+    public void insert() {
+    	
+    }
+    
+    @RequestMapping(value = "/register.do", method = RequestMethod.GET)
+    public void insert() {
+    	
     }
 
     /**
-     * ì¼ì • ì‚­ì œ
+     * ?¼? • ?‚­? œ
      * 
      * @param scheduleNo
      * @param rttr
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
     public String remove(@RequestParam("scheduleNo") int scheduleNo, RedirectAttributes rttr) {
@@ -52,7 +64,7 @@ public class ScheduleController {
 	ScheduleVO inVO = new ScheduleVO();
 	inVO.setScheduleNo(scheduleNo);
 
-	if (scheduleService.doDelete(inVO) == 1) {
+	if (service.doDelete(inVO) == 1) {
 	    rttr.addFlashAttribute("result", "success");
 	}
 
@@ -60,17 +72,17 @@ public class ScheduleController {
     }
 
     /**
-     * ì¼ì • ìˆ˜ì •
+     * ?¼? • ?ˆ˜? •
      * 
      * @param inVO
      * @param rttr
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @RequestMapping(value = "/update.do", method = RequestMethod.POST)
     public String update(ScheduleVO inVO, RedirectAttributes rttr) {
 	log.debug("[Update]ScheduleVO: " + inVO);
 
-	if (scheduleService.doUpdate(inVO) == 1) {
+	if (service.doUpdate(inVO) == 1) {
 	    rttr.addFlashAttribute("result", "success");
 	}
 
@@ -78,11 +90,11 @@ public class ScheduleController {
     }
 
     /**
-     * ì¼ì • ì„ íƒ
+     * ?¼? • ?„ ?ƒ
      * 
      * @param scheduleNo
      * @param model
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @RequestMapping(value = { "/get.do", "/update.do" }, method = RequestMethod.GET)
     public void get(@RequestParam("scheduleNo") int scheduleNo, Model model) {
@@ -91,23 +103,25 @@ public class ScheduleController {
 	ScheduleVO inVO = new ScheduleVO();
 	inVO.setScheduleNo(scheduleNo);
 
-	model.addAttribute("schedule", scheduleService.doSelectOne(inVO));
+	model.addAttribute("schedule", service.doSelectOne(inVO));
     }
 
     /**
-     * ì¼ì • ê²€ìƒ‰ 
-     * deptNo: 0(ì „ì²´ê²€ìƒ‰) or ë¶€ì„œë³„ê²€ìƒ‰
+     * ?¼? • ê²??ƒ‰ 
+     * deptNo: 0(? „ì²´ê??ƒ‰) or ë¶??„œë³„ê??ƒ‰
      * 
      * @param deptNo
      * @param model
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @RequestMapping(value = "/list.do", method = RequestMethod.GET)
-    public void list(@RequestParam("deptNo") int deptNo, Model model) {
-	log.debug("doSelectList.....");
-	ScheduleVO inVO = new ScheduleVO();
-	inVO.setDeptNo(deptNo);
+    public void list(Criteria cri, Model model) {
+	log.debug("doSelectList: " + cri);
+	
+	model.addAttribute("list", service.doSelectList(cri));
+	
+	int total = service.getTotalCount(cri);
 
-	model.addAttribute("list", scheduleService.doSelectList(inVO));
+	model.addAttribute("pageMaker", new PageDTO(cri, total));
     }
 }

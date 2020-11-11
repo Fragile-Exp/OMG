@@ -12,7 +12,7 @@
 			</when>
 			
 			<when test="'20' == searchDiv">
-				 WHERE dept_no like '%'|| #{searchWord} ||'%' 
+				 WHERE dept_nm like '%'|| #{searchWord} ||'%' 
 			</when>
 		</choose>
 	</sql>
@@ -27,8 +27,10 @@
 	            B.employee_id,                                                 
 	            B.password,                                                    
 	            B.name,                                                        
-	            B.dept_no,                                                     
-	            B.position_no,                                                 
+	            B.dept_no,
+	            B.dept_nm,                                                     
+	            B.position_no,                
+	            B.position_nm,                                 
 	            B.cell_phone,                                                  
 	            B.email,                                                       
 	            B.address,                                                     
@@ -40,7 +42,7 @@
 	         SELECT ROWNUM rnum, A.*                                           
 	         FROM(                                                             
 	             SELECT *                                                      
-	             FROM  employee      
+	             FROM  employee_view      
 				<include refid="searchCondition"/>
 	            ORDER BY hire_date DESC                                   
 	        )A                                                            
@@ -50,11 +52,12 @@
 		)T1                                                
 		CROSS JOIN                                         
 		--전체COUNT                                          
-		(SELECT COUNT(*) total_cnt                         
-		 FROM  employee    
+		(SELECT COUNT(*) totalCnt                         
+		 FROM  employee_view    
 	<include refid="searchCondition"/>
 	)T2       
 	</select>
+	
 	
 	
 	<!-- 목록조회 ALL -->
@@ -121,8 +124,8 @@
 		    birth_day,          
 		    holiday,            
 		    img_code            
-		FROM                    
-		    employee            
+		FROM
+		    employee
 		WHERE employee_id = #{employee_id}  
 	</select>
 	

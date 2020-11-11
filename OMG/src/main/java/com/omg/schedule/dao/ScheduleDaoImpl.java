@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.omg.cmn.Criteria;
 import com.omg.schedule.domain.ScheduleVO;
 
 @Repository("scheduleDao")
@@ -22,10 +23,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
     public ScheduleDaoImpl() {}
 
     /**
-     * ë“±ë¡
+     * ?“±ë¡?
      * @param schedule
      * @return flag
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @Override
     public int doInsert(ScheduleVO schedule) {
@@ -40,10 +41,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     /**
-     * ì‚­ì œ
+     * ?‚­? œ
      * @param schedule
      * @return flag
-     * @author ë°•ì •ë¯¼ 
+     * @author ë°•ì •ë¯? 
      */
     @Override
     public int doDelete(ScheduleVO schedule) {
@@ -58,10 +59,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     /**
-     * ìˆ˜ì •
+     * ?ˆ˜? •
      * @param schedule
      * @return flag
-     * @author ë°•ì •ë¯¼ 
+     * @author ë°•ì •ë¯? 
      */
     @Override
     public int doUpdate(ScheduleVO schedule) {
@@ -76,10 +77,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     /**
-     * ë‹¨ê±´ì¡°íšŒ
+     * ?‹¨ê±´ì¡°?šŒ
      * @param schedule
      * @return outVO
-     * @author ë°•ì •ë¯¼ 
+     * @author ë°•ì •ë¯? 
      */
     @Override
     public ScheduleVO doSelectOne(ScheduleVO schedule) {
@@ -97,18 +98,19 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     /**
-     * ë‹¤ê±´ì¡°íšŒ
+     * ?‹¤ê±´ì¡°?šŒ
      * @param schedule
      * @return list
-     * @author ë°•ì •ë¯¼ 
+     * @author ë°•ì •ë¯? 
      */
     @Override
-    public List<ScheduleVO> doSelectList(ScheduleVO schedule) {
+    public List<ScheduleVO> doSelectList(Criteria cri) {
 	LOG.debug("doSelectList.....");
 	
 	String statement = NAMESPACE + ".doSelectList";
 	
-	List<ScheduleVO> list = sqlSessionTemplate.selectList(statement, schedule);
+	List<ScheduleVO> list = sqlSessionTemplate.selectList(statement, cri);
+	LOG.debug("cri: " + cri);
 	
 	LOG.debug("=========================");
 	list.forEach(outVO -> LOG.debug("= [list]outVO: " + outVO));
@@ -116,5 +118,18 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	
 	return list;
     }
+
+    @Override
+    public int getTotalCount(Criteria cri) {
+	LOG.debug("getTotalCount.....");
+	
+	String statement = NAMESPACE + ".getTotalCount";
+	int total = sqlSessionTemplate.selectOne(statement, cri);
+	LOG.debug("total: " + total);
+	
+	return total;
+    }
+
+    
 
 }

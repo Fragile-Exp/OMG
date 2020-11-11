@@ -167,7 +167,7 @@
          success: function(data){
            var parseData = JSON.parse(data);
            alert(parseData.msgContents);
-           changeOrg($("#moveDiv").val());
+           changeOrg(orgDiv);
 		},
          error:function(xhr,status,error){
              alert("error:"+error);

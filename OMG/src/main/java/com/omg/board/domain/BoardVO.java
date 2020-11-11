@@ -91,7 +91,7 @@ public class BoardVO extends DTO
 		return filecode;
 	}
 
-	public void setFilecode(int file_code) 
+	public void setFilecode(int filecode) 
 	{
 		this.filecode = filecode;
 	}
