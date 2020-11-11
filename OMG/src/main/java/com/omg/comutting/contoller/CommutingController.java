@@ -27,6 +27,7 @@ import com.omg.employee.domain.EmployeeVO;
 
 
 @Controller
+@RequestMapping(value="/commuting/*")
 public class CommutingController {
 	
 	final String  CURRENT_MONTH = StringUtil.formatDate("yyyy-MM");
@@ -190,12 +191,12 @@ public class CommutingController {
 		return returnUrl;
 	}
 	
-	@RequestMapping(value="commuting/my_list.do", method = RequestMethod.GET)
-	public void doSelectMyList(@RequestParam(value = "month" ,defaultValue = "2020-11")  String month, Model model, HttpServletRequest req) {
+	@RequestMapping(value="/my_attendence.do", method = RequestMethod.GET)
+	public void doSelectMyList(
+			@RequestParam(value = "month" ,defaultValue = "2020-11")  String month, Model model, HttpServletRequest req) {
 		LOG.debug("***************************");
 		LOG.debug("=controller.doSelectMyList=");
 		LOG.debug("***************************");
-		
 		//1. 세션 GET
 //		HttpSession session = req.getSession();
 //		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("user");
@@ -209,8 +210,6 @@ public class CommutingController {
 		searchVO.setEmployeeId("d22");
 		model.addAttribute("month",month);
 		model.addAttribute("list",commutingService.doSelectMyList(searchVO));
-		
-		
 	}
 	
 	

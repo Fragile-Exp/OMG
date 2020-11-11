@@ -32,7 +32,7 @@ import com.omg.commuting.domain.State;
 import com.omg.comutting.dao.CommutingDaoImpl;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)//?Š¤?”„?­ ?…Œ?Š¤?Š¸ ì»¨í…?Š¤?Š¸ ?”„? ˆ?„?›Œ?¬?˜ JUnitê¸°ëŠ¥ ?™•?¥
+@RunWith(SpringJUnit4ClassRunner.class)//?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ì»¨í…?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ JUnitê¸°ëŠ¥ ?ï¿½ï¿½?ï¿½ï¿½
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
                                  "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"		
 })
@@ -58,24 +58,24 @@ public class TestCommutingDao {
 		LOG.debug("=setUp()=");
 	}
 	/**
-	 * update ê·¼ë¬´?‹œê°?
+	 * update ê·¼ë¬´?ï¿½ï¿½ï¿½?
 	 * @throws Exception
 	 */
 	@Test
 	public void rollingTest() throws Exception {
 		
-		//1.ì¡°íšŒ/?‚­? œ
+		//1.ì¡°íšŒ/?ï¿½ï¿½?ï¿½ï¿½
 		doSelectList();
 		doDelete();
 		
-		//2.ì´ˆê¸° ?°?´?„° ì£¼ì…
+		//2.ì´ˆê¸° ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ì£¼ì…
 		doInit();
 		
-		//3. ì¶œí‡´ê·¼ì‹œê°?, ?‘?—…?‹œê°? ?—…?°?´?Š¸
+		//3. ì¶œí‡´ê·¼ì‹œï¿½?, ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
 		doSelectList();
 		doUpdate();
 		
-		//4. ?™•?¸
+		//4. ?ï¿½ï¿½?ï¿½ï¿½
 		doSelectList();
 		doSelectMyList();
 	}
@@ -120,7 +120,6 @@ public class TestCommutingDao {
 		for(Commuting vo : attendList) {
 			vo.setAttendTime(StringUtil.formatDate("yyyyMMdd 090000"));
 			vo.setLeaveTime(StringUtil.formatDate("yyyyMMdd 180000"));
-			vo.setPresentState(PresentState.?‡´ê·?);
 			vo.setState(State.ì¡°í‡´);
 			flag += commutingDao.doUpdate(vo);
 			flag += commutingDao.doUpdateWorkTime(vo);

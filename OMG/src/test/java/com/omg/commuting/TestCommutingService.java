@@ -48,7 +48,7 @@ public class TestCommutingService {
 	}
 	
 	private void makeList() {
-		Search search = new Search("", "",200,1);
+		Search search = new Search("", "",300,1);
 		attendList = commutingService.doSelectList(search);
 	}
 	
@@ -63,23 +63,19 @@ public class TestCommutingService {
 //			commutingService.doDelete(vo);
 //		}
 		
-		//commutingService.doInit();
+		commutingService.doInit();
 		
 		makeList();
 		
 		for(Commuting vo : attendList) {
-			if(vo.getSeq().equals("2020-11-14")) {
 				commutingService.doUpdateAttendTime(vo);
-			}
 			
 		}
 		
 		makeList();
 		
 		for(Commuting vo : attendList) {
-			if(vo.getSeq().equals("2020-11-14")) {
 				commutingService.doUpdateLeaveTime(vo);
-			}
 		}
 		
 		makeList();

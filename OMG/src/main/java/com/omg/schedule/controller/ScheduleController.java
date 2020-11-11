@@ -20,113 +20,6 @@ import com.omg.schedule.service.ScheduleService;
 @RequestMapping("/schedule/*")
 public class ScheduleController {
 
-<<<<<<< Updated upstream
-    Logger log = LoggerFactory.getLogger(ScheduleController.class);
-
-    @Autowired
-    private ScheduleService service;
-
-    /**
-     * ?¼? • ì¶”ê?
-     * 
-     * @param inVO
-     * @param rttr
-     * @author ë°•ì •ë¯?
-     */
-    @RequestMapping(value = "/register.do", method = RequestMethod.POST)
-    public String insert(ScheduleVO inVO, RedirectAttributes rttr) {
-	log.debug("[Insert]ScheduleVO: " + inVO);
-
-	service.doInsert(inVO);
-
-	return "redirect:/schedule/list.do"; // ?ƒ?„± ?™„ë£Œë˜ë©? ?¼? •ê´?ë¦? ?Ž˜?´ì§?ë¡? ë¦¬ë‹¤?´? ‰?Š¸
-    }
-    
-    @RequestMapping(value = "/register.do", method = RequestMethod.GET)
-    public void insert() {
-    	
-    }
-    
-    @RequestMapping(value = "/register.do", method = RequestMethod.GET)
-    public void insert() {
-    	
-    }
-
-    /**
-     * ?¼? • ?‚­? œ
-     * 
-     * @param scheduleNo
-     * @param rttr
-     * @author ë°•ì •ë¯?
-     */
-    @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
-    public String remove(@RequestParam("scheduleNo") int scheduleNo, RedirectAttributes rttr) {
-	log.debug("[Delete]scheduleNo: " + scheduleNo);
-
-	ScheduleVO inVO = new ScheduleVO();
-	inVO.setScheduleNo(scheduleNo);
-
-	if (service.doDelete(inVO) == 1) {
-	    rttr.addFlashAttribute("result", "success");
-	}
-
-	return "redirect:/schedule/list.do";
-    }
-
-    /**
-     * ?¼? • ?ˆ˜? •
-     * 
-     * @param inVO
-     * @param rttr
-     * @author ë°•ì •ë¯?
-     */
-    @RequestMapping(value = "/update.do", method = RequestMethod.POST)
-    public String update(ScheduleVO inVO, RedirectAttributes rttr) {
-	log.debug("[Update]ScheduleVO: " + inVO);
-
-	if (service.doUpdate(inVO) == 1) {
-	    rttr.addFlashAttribute("result", "success");
-	}
-
-	return "redirect:/schedule/list.do";
-    }
-
-    /**
-     * ?¼? • ?„ ?ƒ
-     * 
-     * @param scheduleNo
-     * @param model
-     * @author ë°•ì •ë¯?
-     */
-    @RequestMapping(value = { "/get.do", "/update.do" }, method = RequestMethod.GET)
-    public void get(@RequestParam("scheduleNo") int scheduleNo, Model model) {
-	log.debug("doSelectOne or doUpdate.....");
-
-	ScheduleVO inVO = new ScheduleVO();
-	inVO.setScheduleNo(scheduleNo);
-
-	model.addAttribute("schedule", service.doSelectOne(inVO));
-    }
-
-    /**
-     * ?¼? • ê²??ƒ‰ 
-     * deptNo: 0(? „ì²´ê??ƒ‰) or ë¶??„œë³„ê??ƒ‰
-     * 
-     * @param deptNo
-     * @param model
-     * @author ë°•ì •ë¯?
-     */
-    @RequestMapping(value = "/list.do", method = RequestMethod.GET)
-    public void list(Criteria cri, Model model) {
-	log.debug("doSelectList: " + cri);
-	
-	model.addAttribute("list", service.doSelectList(cri));
-	
-	int total = service.getTotalCount(cri);
-
-	model.addAttribute("pageMaker", new PageDTO(cri, total));
-    }
-=======
 	Logger log = LoggerFactory.getLogger(ScheduleController.class);
 
 	@Autowired
@@ -236,5 +129,4 @@ public class ScheduleController {
 
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}
->>>>>>> Stashed changes
 }
