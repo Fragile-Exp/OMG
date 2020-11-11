@@ -35,10 +35,10 @@ public class ScheduleControllerTests {
     }
 
     /**
-     * ì¼ì • ë“±ë¡ í…ŒìŠ¤íŠ¸
+     * ?¼? • ?“±ë¡? ?…Œ?Š¤?Š¸
      * 
      * @throws Exception
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @Test
     @Ignore
@@ -48,8 +48,8 @@ public class ScheduleControllerTests {
 		.param("employeeId", "Test_User")
 		.param("categoryId", "10")
 		.param("timeStatus", "0")
-		.param("title", "í…ŒìŠ¤íŠ¸ ì œëª©")
-		.param("content", "í…ŒìŠ¤íŠ¸ ë‚´ìš©")
+		.param("title", "?…Œ?Š¤?Š¸ ? œëª?")
+		.param("content", "?…Œ?Š¤?Š¸ ?‚´?š©")
 		.param("startDt", "2020-01-01 00:00")
 		.param("endDt", "2020-01-01 00:00")
 		).andReturn().getModelAndView().getViewName();
@@ -58,10 +58,10 @@ public class ScheduleControllerTests {
     }
 
     /**
-     * ì¼ì • ì‚­ì œ í…ŒìŠ¤íŠ¸
+     * ?¼? • ?‚­? œ ?…Œ?Š¤?Š¸
      * 
      * @throws Exception
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @Test
     @Ignore
@@ -74,10 +74,10 @@ public class ScheduleControllerTests {
     }
 
     /**
-     * ì¼ì • ìˆ˜ì • í…ŒìŠ¤íŠ¸
+     * ?¼? • ?ˆ˜? • ?…Œ?Š¤?Š¸
      * 
      * @throws Exception
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @Test
     @Ignore
@@ -85,8 +85,8 @@ public class ScheduleControllerTests {
 	String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/schedule/update.do")
 		.param("categoryId", "10")
 		.param("timeStatus", "0")
-		.param("title", "í…ŒìŠ¤íŠ¸ ì œëª©")
-		.param("content", "í…ŒìŠ¤íŠ¸ ë‚´ìš©")
+		.param("title", "?…Œ?Š¤?Š¸ ? œëª?")
+		.param("content", "?…Œ?Š¤?Š¸ ?‚´?š©")
 		.param("startDt", "2020-11-09")
 		.param("endDt", "2020-11-09")
 		.param("scheduleNo", "47")
@@ -96,10 +96,10 @@ public class ScheduleControllerTests {
     }
 
     /**
-     * ì¼ì • ì„ íƒ í…ŒìŠ¤íŠ¸
+     * ?¼? • ?„ ?ƒ ?…Œ?Š¤?Š¸
      * 
      * @throws Exception
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @Test
     @Ignore
@@ -110,10 +110,10 @@ public class ScheduleControllerTests {
     }
 
     /**
-     * ì¼ì • ëª©ë¡í™” í…ŒìŠ¤íŠ¸ depNo = 0(ì „ì²´ê²€ìƒ‰)
+     * ?¼? • ëª©ë¡?™” ?…Œ?Š¤?Š¸ depNo = 0(? „ì²´ê??ƒ‰)
      * 
      * @throws Exception
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @Test
     public void testList() throws Exception {

@@ -25,11 +25,11 @@ public class ScheduleController {
     private ScheduleService service;
 
     /**
-     * ì¼ì • ì¶”ê°€
+     * ?¼? • ì¶”ê?
      * 
      * @param inVO
      * @param rttr
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @RequestMapping(value = "/register.do", method = RequestMethod.POST)
     public String insert(ScheduleVO inVO, RedirectAttributes rttr) {
@@ -37,7 +37,12 @@ public class ScheduleController {
 
 	service.doInsert(inVO);
 
-	return "redirect:/schedule/list.do"; // ìƒì„± ì™„ë£Œë˜ë©´ ì¼ì •ê´€ë¦¬ í˜ì´ì§€ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
+	return "redirect:/schedule/list.do"; // ?ƒ?„± ?™„ë£Œë˜ë©? ?¼? •ê´?ë¦? ?˜?´ì§?ë¡? ë¦¬ë‹¤?´? ‰?Š¸
+    }
+    
+    @RequestMapping(value = "/register.do", method = RequestMethod.GET)
+    public void insert() {
+    	
     }
     
     @RequestMapping(value = "/register.do", method = RequestMethod.GET)
@@ -46,11 +51,11 @@ public class ScheduleController {
     }
 
     /**
-     * ì¼ì • ì‚­ì œ
+     * ?¼? • ?‚­? œ
      * 
      * @param scheduleNo
      * @param rttr
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
     public String remove(@RequestParam("scheduleNo") int scheduleNo, RedirectAttributes rttr) {
@@ -67,11 +72,11 @@ public class ScheduleController {
     }
 
     /**
-     * ì¼ì • ìˆ˜ì •
+     * ?¼? • ?ˆ˜? •
      * 
      * @param inVO
      * @param rttr
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @RequestMapping(value = "/update.do", method = RequestMethod.POST)
     public String update(ScheduleVO inVO, RedirectAttributes rttr) {
@@ -85,11 +90,11 @@ public class ScheduleController {
     }
 
     /**
-     * ì¼ì • ì„ íƒ
+     * ?¼? • ?„ ?ƒ
      * 
      * @param scheduleNo
      * @param model
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @RequestMapping(value = { "/get.do", "/update.do" }, method = RequestMethod.GET)
     public void get(@RequestParam("scheduleNo") int scheduleNo, Model model) {
@@ -102,12 +107,12 @@ public class ScheduleController {
     }
 
     /**
-     * ì¼ì • ê²€ìƒ‰ 
-     * deptNo: 0(ì „ì²´ê²€ìƒ‰) or ë¶€ì„œë³„ê²€ìƒ‰
+     * ?¼? • ê²??ƒ‰ 
+     * deptNo: 0(? „ì²´ê??ƒ‰) or ë¶??„œë³„ê??ƒ‰
      * 
      * @param deptNo
      * @param model
-     * @author ë°•ì •ë¯¼
+     * @author ë°•ì •ë¯?
      */
     @RequestMapping(value = "/list.do", method = RequestMethod.GET)
     public void list(Criteria cri, Model model) {
