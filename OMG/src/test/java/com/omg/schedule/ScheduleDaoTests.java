@@ -1,10 +1,12 @@
 package com.omg.schedule;
 
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.omg.cmn.Criteria;
 import com.omg.schedule.dao.ScheduleDao;
 import com.omg.schedule.domain.ScheduleVO;
 
@@ -20,7 +23,7 @@ import com.omg.schedule.domain.ScheduleVO;
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/root-context.xml",
 				    "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" })
 public class ScheduleDaoTests {
-    private final Logger LOG = LoggerFactory.getLogger(ScheduleDaoTests.class);
+    private final Logger LOG = Logger.getLogger(ScheduleDaoTests.class);
 
     @Autowired
     WebApplicationContext ctx;
@@ -30,6 +33,7 @@ public class ScheduleDaoTests {
     private ScheduleDao dao;
 
     private ScheduleVO inVO;
+    private Criteria cri;
 
     @Before
     public void setup() throws Exception {
@@ -47,6 +51,7 @@ public class ScheduleDaoTests {
     }
 
     @Test
+    @Ignore
     public void totalTest() {
 	dao.doInsert(inVO); //등록
 	
@@ -55,7 +60,18 @@ public class ScheduleDaoTests {
 	dao.doUpdate(inVO);	//수정
 	
 	inVO.setDeptNo(0);
-	dao.doSelectList(inVO); //다건조회
+	dao.doSelectList(cri); //다건조회
+    }
+    
+    @Test
+    public void testPaging() {
+	Criteria cri = new Criteria();
+	//10개씩 1페이지
+	cri.setPageNum(1);
+	cri.setAmount(10);
+	
+	List<ScheduleVO> list = dao.doSelectList(cri);
+	list.forEach(schedule -> LOG.debug(schedule));
     }
 
 }

@@ -37,26 +37,28 @@ public class DocumentController {
 	@Autowired
 	MessageSource messageSource;
 	
-	
+	String url = "http://localhost:8080/cmn";
 	//--view--
 	
-	//--ë“±ë¡ ë¬¸ì„œ ëª©ë¡ page
+	//--?“±ë¡? ë¬¸ì„œ ëª©ë¡ page
 	@RequestMapping(value="document/document.do", method = RequestMethod.GET )
 	public String document_view(DocumentVO documentVO, Model  model){
+		model.addAttribute("url", url);
 		
 		documentVO.setEmployeeId("ID01");
 		
-		List<DocumentVO> IdAll = documentService.doempIdSelectList(documentVO);
+		List<DocumentVO> IdSeleteList = documentService.doempIdSelectList(documentVO);
+		model.addAttribute("IdSeleteList", IdSeleteList);
+		model.addAttribute("IdSeleteSize", IdSeleteList.size());
 		
-		model.addAttribute("IdAll", IdAll);
-		LOG.debug("=IdAll="+IdAll);
+		LOG.debug("=IdSeleteList="+IdSeleteList);
 		
 		
-		String view = "document/document";
-		return view;
+		
+		return  "document/document";
 	}
 	
-	//--ë¬¸ì„œ ë“±ë¡ page
+	//--ë¬¸ì„œ ?“±ë¡? page
 	@RequestMapping(value="document/document_reg.do", method = RequestMethod.GET )
 	public String document_reg(){
 		LOG.debug("===========================");
@@ -65,7 +67,7 @@ public class DocumentController {
 		return "document/document_reg";
 	}
 	
-	//--ë¬¸ì„œ ìƒì„¸ ì •ë³´ page
+	//--ë¬¸ì„œ ?ƒ?„¸ ? •ë³? page
 	@RequestMapping(value="document/document_info.do", method = RequestMethod.GET )
 	public String document_info(DocumentVO documentVO, Model  model){
 		
@@ -88,16 +90,16 @@ public class DocumentController {
 		model.addAttribute("cont", (voList.getDocumentCont()));
 		
 		
-		// .get -> 0 ì´ë©´ if(){ .set}
-		// .set(pkê°’)(StringUtil.nvl( .get(pkê°’),""))
+		// .get -> 0 ?´ë©? if(){ .set}
+		// .set(pkê°?)(StringUtil.nvl( .get(pkê°?),""))
 		//
 		//model.addAttribute("",VO)
-		//ì„œë¹„ìŠ¤ í˜¸ì¶œ 
+		//?„œë¹„ìŠ¤ ?˜¸ì¶? 
 		//List<VO> document = this.Service.doSeleteOne(VO);
-		//ê°’ ì„¤ì • 
-		//model.addAttribute("nameëª…", ë°ì´í„°  ) <í™”ë©´ìœ¼ë¡œ ë°ã…ì´í„° ë³´ë‚´ê¸°> 
+		//ê°? ?„¤? • 
+		//model.addAttribute("nameëª?", ?°?´?„°  ) <?™”ë©´ìœ¼ë¡? ?°?…?´?„° ë³´ë‚´ê¸?> 
 		
-		//jsp file ì—ì„œëŠ” ${model nameëª… ì…ë ¥ }
+		//jsp file ?—?„œ?Š” ${model nameëª? ?…? ¥ }
 		
 		String view = "document/document_info";
 		
@@ -108,7 +110,7 @@ public class DocumentController {
 	
 	//--ê¸°ëŠ¥----------------------------------------------------------------------------- 
 	
-	//--ë‹¨ê±´ ê²€ìƒ‰
+	//--?‹¨ê±? ê²??ƒ‰
 	@RequestMapping(value="document/doSelectOne.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doSelectOne(DocumentVO documentVO) {
@@ -120,7 +122,7 @@ public class DocumentController {
         DocumentVO outVO =documentService.doSelectOne(documentVO);
         
         LOG.debug("==================");
-        LOG.debug("=outVO="+outVO);
+        LOG.debug("=doSelectOne="+outVO);
         LOG.debug("==================");
         
         Gson gson=new Gson();
@@ -131,7 +133,7 @@ public class DocumentController {
          
         return json;
 	}
-	//-- ì „ì²´ ê²€ìƒ‰
+	//-- ? „ì²? ê²??ƒ‰
 	@RequestMapping(value="document/doSelectList.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doSelectList(DocumentVO documentVO) {
@@ -143,7 +145,7 @@ public class DocumentController {
         List<DocumentVO> outVO =documentService.doSelectList();
         
         LOG.debug("==================");
-        LOG.debug("=outVO="+outVO);
+        LOG.debug("=doSelectList="+outVO);
         LOG.debug("==================");
         
         Gson gson=new Gson();
@@ -154,7 +156,7 @@ public class DocumentController {
          
         return json;
 	}
-	//-- ì‚¬ë²ˆ ê¸°ì¤€ ê²€ìƒ‰
+	//-- ?‚¬ë²? ê¸°ì? ê²??ƒ‰
 	@RequestMapping(value="document/doempIdSelectList.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doempIdSelectList(DocumentVO documentVO) {
@@ -166,7 +168,7 @@ public class DocumentController {
         List<DocumentVO> outVO =documentService.doempIdSelectList(documentVO);
         
         LOG.debug("==================");
-        LOG.debug("=outVO="+outVO);
+        LOG.debug("=doempIdSelectList="+outVO);
         LOG.debug("==================");
         
         Gson gson=new Gson();
@@ -180,7 +182,7 @@ public class DocumentController {
 	
 	
 	
-	//-- ë“±ë¡
+	//-- ?“±ë¡?
 	@RequestMapping(value="document/doInsert.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doInsert(DocumentVO documentVO) {
@@ -196,9 +198,9 @@ public class DocumentController {
         message.setMsgId(flag+"");
         
         if(flag ==1 ) {
-        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°€ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
+        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°? ?“±ë¡ë˜?—ˆ?Šµ?‹ˆ?‹¤.");
         }else {
-        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°€ ë“±ë¡ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤.");
+        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°? ?“±ë¡ì‹¤?Œ¨?˜?—ˆ?Šµ?‹ˆ?‹¤.");
         }
         
         Gson gson=new Gson();
@@ -210,7 +212,7 @@ public class DocumentController {
         return json;
 	}
 	
-	//-- ì‚­ì œ
+	//-- ?‚­? œ
 	@RequestMapping(value="document/doDelete.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doDelete(DocumentVO documentVO) {
@@ -221,14 +223,14 @@ public class DocumentController {
         //documentVO.setDocumentId("E_0001");
         int flag =documentService.doDelete(documentVO);
         
-        LOG.debug("=doInsert="+flag);
+        LOG.debug("=doDelete="+flag);
         Message  message=new Message();
         message.setMsgId(flag+"");
         
         if(flag ==1 ) {
-        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°€ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
+        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°? ?‚­? œ?˜?—ˆ?Šµ?‹ˆ?‹¤.");
         }else {
-        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°€ ì‚­ì œ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤.");
+        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°? ?‚­? œ ?‹¤?Œ¨?˜?—ˆ?Šµ?‹ˆ?‹¤.");
         }
         
         Gson gson=new Gson();
@@ -240,7 +242,7 @@ public class DocumentController {
         return json;
 	}
 	
-	//-- ìˆ˜ì • 
+	//-- ?ˆ˜? • 
 	@RequestMapping(value="document/doUpdate.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doUpdate(DocumentVO documentVO) {
@@ -256,9 +258,9 @@ public class DocumentController {
         message.setMsgId(flag+"");
         
         if(flag ==1 ) {
-        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°€ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
+        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°? ?ˆ˜? •?˜?—ˆ?Šµ?‹ˆ?‹¤.");
         }else {
-        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°€ ìˆ˜ì • ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤.");
+        	message.setMsgContents(documentVO.getTitle()+"ë¬¸ì„œê°? ?ˆ˜? • ?‹¤?Œ¨?˜?—ˆ?Šµ?‹ˆ?‹¤.");
         }
         
         Gson gson=new Gson();
@@ -269,6 +271,10 @@ public class DocumentController {
         
         return json;
 	}
+
+
+
+	
 }
 	
 

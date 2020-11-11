@@ -35,13 +35,13 @@ public class DocumentDaoImpl {
 			DocumentVO outVO = new DocumentVO();
 
 		    outVO.setDocumentId(rs.getString("documentId"));     //ë¬¸ì„œê³ ìœ ë²ˆí˜¸  
-		    outVO.setEmployeeId(rs.getString("employeeId"));     //ì‚¬ë²ˆ    
+		    outVO.setEmployeeId(rs.getString("employeeId"));     //?‚¬ë²?    
 		    outVO.setKind(rs.getInt("kind"));                      //ë¬¸ì„œì¢…ë¥˜  
-		    outVO.setTitle(rs.getString("title"));                 //ë¬¸ì„œì œëª©  
+		    outVO.setTitle(rs.getString("title"));                 //ë¬¸ì„œ? œëª?  
 		    outVO.setdDay(rs.getString("dDay"));                 //ì²˜ë¦¬ê¸°ê°„  
-		    outVO.setDocumentCont(rs.getString("documentCont")); //ë¬¸ì„œë‚´ìš©  
-		    outVO.setDocumentSet(rs.getInt("documentSet"));      //ë¬¸ì„œìƒíƒœ  
-		    outVO.setOkUser(rs.getString("okUser"));             //ê²°ì¬ìì‚¬ë²ˆ 
+		    outVO.setDocumentCont(rs.getString("documentCont")); //ë¬¸ì„œ?‚´?š©  
+		    outVO.setDocumentSet(rs.getInt("documentSet"));      //ë¬¸ì„œ?ƒ?ƒœ  
+		    outVO.setOkUser(rs.getString("okUser"));             //ê²°ì¬??‚¬ë²? 
  		    
 		    return outVO;
 		}
@@ -50,7 +50,7 @@ public class DocumentDaoImpl {
 	public DocumentDaoImpl() {}
 	   
 	    
-	//ì‚½ì… 
+	//?‚½?… 
 	public int doInsert(DocumentVO documentVO) {
 		LOG.debug("=doInsert=");
 		
@@ -124,5 +124,6 @@ public class DocumentDaoImpl {
 		return list;
 	} 
 	
+
 
 }

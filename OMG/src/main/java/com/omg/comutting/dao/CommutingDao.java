@@ -9,65 +9,73 @@ import com.omg.commuting.domain.Commuting;
 public interface CommutingDao {
 	
 	/**
-	 * ë¡œê·¸ì¸ì‹œ ê¸°ë³¸ row ìƒì„±
+	 * ë¡œê·¸?¸?‹œ ê¸°ë³¸ row ?ƒ?„±
 	 * @param dto
 	 * @return
-	 * @author ì–‘ê´‘ë¯¼
+	 * @author ?–‘ê´‘ë??
 	 */
 	public int doInsert(DTO dto);
 	
 	/**
-	 * ì¶œê·¼,í‡´ê·¼ ë“±ë¡
+	 * ì¶œê·¼,?‡´ê·? ?“±ë¡?
 	 * @param dto
-	 * @return ì„±ê³µ(1), ì‹¤íŒ¨(0)
-	 * @author ì–‘ê´‘ë¯¼
+	 * @return ?„±ê³?(1), ?‹¤?Œ¨(0)
+	 * @author ?–‘ê´‘ë??
 	 */
 	public int doUpdate(DTO dto);
 	
 	/**
-	 * row ì‚­ì œ
+	 * row ?‚­? œ
 	 * @param dto
-	 * @return ì„±ê³µ(1), ì‹¤íŒ¨(0)
-	 * @author ì–‘ê´‘ë¯¼
+	 * @return ?„±ê³?(1), ?‹¤?Œ¨(0)
+	 * @author ?–‘ê´‘ë??
 	 */
 	public int doDelete(DTO dto);
 	
 	/**
-	 * ê¸ˆì¼ ë³¸ì¸ ì‹œê°„ select
+	 * ê¸ˆì¼ ë³¸ì¸ ?‹œê°? select
 	 * @param dto
 	 * @return DTO
-	 * @author ì–‘ê´‘ë¯¼
+	 * @author ?–‘ê´‘ë??
 	 */
 	public DTO doSelectOne(DTO dto);
 	
 	/**
-	 * ë‚ ì§œë³„ , ë¶€ì„œë³„
+	 * ?‚ ì§œë³„ , ë¶??„œë³?
 	 * @param search
 	 * @return List<Commuting>
-	 * ì–‘ê´‘ë¯¼
+	 * ?–‘ê´‘ë??
 	 */
 	public List<Commuting> doSelectList(Search search);
 	
 	/**
-	 * ë‚´ ê·¼ë¬´í˜„í™©
+	 * ³» ±Ù¹«ÇöÈ²
 	 * @param search
 	 * @return List<Commuting>
-	 * ì–‘ê´‘ë¯¼
+	 * ¾ç±¤¹Î
 	 */
 	public List<Commuting> doSelectMyList(DTO dto);
 	
 	/**
-	 * ì•„ì¹¨ ê¸°ë³¸ ì‚¬ì› insert
-	 * @return ì„±ê³µ(1), ì‹¤íŒ¨(0)
-	 * ì–‘ê´‘ë¯¼
+	 * ?‚´ ê·¼ë¬´?˜„?™©
+	 * @param search
+	 * @return List<Commuting>
+	 * ?–‘ê´‘ë??
+	 */
+	public List<Commuting> doSelectMyList(DTO dto);
+	
+	/**
+	 * ?•„ì¹? ê¸°ë³¸ ?‚¬?› insert
+	 * @return ?„±ê³?(1), ?‹¤?Œ¨(0)
+	 * ?–‘ê´‘ë??
 	 */
 	public int doInit();
 	
 	/**
-	 * ê·¼ë¬´ì‹œê°„ update
+	 * ê·¼ë¬´?‹œê°? update
 	 * @param dto
-	 * @return ì„±ê³µ(1), ì‹¤íŒ¨(0)
-	 * ì–‘ê´‘ë¯¼
+	 * @return ?„±ê³?(1), ?‹¤?Œ¨(0)
+	 * ?–‘ê´‘ë??
 	 */
 	public int doUpdateWorkTime(DTO dto);
 	

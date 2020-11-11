@@ -15,7 +15,7 @@ public class DocumentService {
 	DocumentDaoImpl documentDaoImpl;
 	
 	/**
-	 * ë¬¸ì„œ ì‚½ìž… 
+	 * ë¬¸ì„œ ?‚½?ž… 
 	 * @param documentVO
 	 * @return
 	 */
@@ -24,7 +24,7 @@ public class DocumentService {
 	}
 	
 	/**
-	 * ë¬¸ì„œ ì‚­ì œ 
+	 * ë¬¸ì„œ ?‚­? œ 
 	 * @param documentVO
 	 * @return
 	 */
@@ -41,7 +41,7 @@ public class DocumentService {
 		return documentDaoImpl.doUpdate(documentVO);
 	}
 	/**
-	 * ë‹¨ê±´ ê²€ìƒ‰ 
+	 * ?‹¨ê±? ê²??ƒ‰ 
 	 * @param documentVO
 	 * @return
 	 */
@@ -50,7 +50,7 @@ public class DocumentService {
 	}
 	
 	/**
-	 * ì „ì²´ ê²€ìƒ‰
+	 * ? „ì²? ê²??ƒ‰
 	 * @param documentVO
 	 * @return
 	 */
@@ -59,7 +59,7 @@ public class DocumentService {
 	}
 	
 	/**
-	 * ì‚¬ë²ˆ ê²€ì‚¬
+	 * ?‚¬ë²? ê²??‚¬
 	 * @param documentVO
 	 * @return
 	 */
@@ -69,5 +69,6 @@ public class DocumentService {
 		return documentDaoImpl.doempIdSelectList(documentVO);
 	}
 	
+
 	
 }

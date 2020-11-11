@@ -31,7 +31,14 @@
 	<!-- com.omg.commuting.doInit -->
 	<insert id="doInit">
 		INSERT INTO commuting (seq,employee_id,name,dept_no,present_state,state,reg_dt) 
-		SELECT TO_CHAR(sysdate,'yyyy-MM-dd') as seq,                                    
+		--SELECT TO_CHAR(sysdate,'yyyy-MM-dd') as seq,  
+		--SELECT '2020-11-19' as seq, 
+		--SELECT '2020-11-13' as seq, 
+		SELECT '2020-11-14' as seq, 
+		--SELECT '2020-11-15' as seq, 
+		--SELECT '2020-11-16' as seq, 
+		--SELECT '2020-11-17' as seq, 
+		--SELECT '2020-11-18' as seq,                                    
 		       employee_id,                                                             
 		       name,                                                                    
 		       dept_no,                                                                 
@@ -121,12 +128,8 @@
 					 B.employee_id as employeeId,                                                      
 					 B.name,                                                             
 					 B.dept_no as deptNo,                                                          
-					 DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.attend_time,'YYYYMMDD')
-						   ,TO_CHAR(B.attend_time,'HH24:MI')                             
-						   ,TO_CHAR(B.attend_time,'YYYY-MM-DD HH24:MI')) as attendTime,    
-					 DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.leave_time,'YYYYMMDD') 
-						   ,TO_CHAR(B.leave_time,'HH24:MI')                              
-						   ,TO_CHAR(B.leave_time,'YYYY-MM-DD HH24:MI')) as leaveTime,      
+					TO_CHAR(B.attend_time,'HH24:MI') as attendTime,
+					TO_CHAR(B.leave_time,'HH24:MI') as leaveTime,    
 					 B.present_state as presentStateIntValue,                                                    
 					 B.state as stateIntValue,                                                            
 					 B.work_time as workTime,                                                        
@@ -151,12 +154,8 @@
 		    employee_id as employeeId,                                                           
 		    name,                                                                  
 		    dept_no as deptNo,                                                               
-		    DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(attend_time,'YYYYMMDD')     
-						   ,TO_CHAR(attend_time,'HH24:MI')                         
-						   ,TO_CHAR(attend_time,'YYYY-MM-DD HH24:MI')) as attendTime,
-			DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(leave_time,'YYYYMMDD')      
-						   ,TO_CHAR(leave_time,'HH24:MI')                          
-						   ,TO_CHAR(leave_time,'YYYY-MM-DD HH24:MI'))  as leaveTime, 
+			TO_CHAR(attend_time,'HH24:MI') as attendTime,
+			TO_CHAR(leave_time,'HH24:MI') as leaveTime,
 		    present_state as presentStateIntValue,                                                         
 		    state as stateIntValue,                                                                 
 		    work_time as workTime,                                                             
@@ -165,7 +164,7 @@
 		FROM                                                                       
 		    commuting c                                                            
 		WHERE employee_id = #{employeeId}
-		AND SUBSTR(#{seq},1,7) = TO_CHAR(reg_dt,'yyyy-MM')                                      
+		AND seq like #{seq} ||'%'                                      
 	</select>
 </mapper>
  
