@@ -40,13 +40,12 @@
 							<div class="card shadow mb-4">
 							
 								<div class="card-header py-3s"> 
-									
 									<label for="start">월 선택</label> 
 									<form action="${hContext}/commuting/my_attendence.do" method="get" name="searchFrm">
 										<input type="month"  min="2020-11" id="month" name="month" value="${month}" >	
 										<input type="submit" class="btn btn-info btn-sm" value="Search"> 
 									</form>
-									<form action="${hContext}/commuting/doUpdateAttendTime.do" method="get" name="searchFrm">
+									<form action="${hContext}/commuting/doUpdateAttendTime.do" method="get" name="atttendFrm">
 										<input type="submit" class="btn btn-info btn-sm" value="출근등록"> 
 									</form>
 									

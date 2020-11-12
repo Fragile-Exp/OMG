@@ -110,7 +110,7 @@ public class CommutingServiceImpl implements CommutingService {
 			inVO.setState(State.정상);
 		}
 		
-		inVO.setLeaveTime(StringUtil.formatDate("yyyyMMdd HHmmss"));
+		inVO.setLeaveTime(StringUtil.formatDate("yyyyMMdd 180000"));
 		
 		LOG.debug("-inVO :\n"+inVO);
 		
