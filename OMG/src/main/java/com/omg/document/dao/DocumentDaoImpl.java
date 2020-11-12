@@ -88,7 +88,17 @@ public class DocumentDaoImpl {
 		return flag;
 		
 	}
-
+	
+	
+	public int doempIdcheck(DocumentVO documentVO) {
+		LOG.debug("=doempIdcheck=");
+		
+		String statement = NAMESPACE+".doempIdcheck";
+		
+		int flag = sqlSessionTemplate.selectOne(statement, documentVO);
+		return flag;
+		
+	}
 
 	public DocumentVO doSelectOne(DocumentVO documentVO) {
 		LOG.debug("=doSelectOne=");

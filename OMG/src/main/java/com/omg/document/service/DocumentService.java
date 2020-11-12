@@ -69,6 +69,9 @@ public class DocumentService {
 		return documentDaoImpl.doempIdSelectList(documentVO);
 	}
 	
+	public int doempIdcheck(DocumentVO documentVO) {
+		return documentDaoImpl.doempIdcheck(documentVO);
+	}
 
 	
 }
