@@ -202,8 +202,8 @@ public class CommutingController {
 		LOG.debug("=controller.my_attendence.do=");
 		LOG.debug("***************************");
 		//1. 세션 GET
-//		HttpSession session = req.getSession();
-//		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("user");
+		HttpSession session = req.getSession();
+		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("user");
 		Commuting searchVO = new Commuting();
 		
 		LOG.debug(">param>" + month);
@@ -218,7 +218,7 @@ public class CommutingController {
 	
 	@RequestMapping(value="/dept_attendence.do" , method = RequestMethod.GET)
 	public void doSelectDeptList(
-			@RequestParam(value = "deptNo" ,defaultValue = "") String deptNo, Model model, HttpServletRequest req) {
+			@RequestParam(value = "deptNo" ,defaultValue = "10000") String deptNo, Model model, HttpServletRequest req) {
 		LOG.debug("***************************");
 		LOG.debug("=controller.dept_attendence.do=");
 		LOG.debug("***************************");
@@ -226,10 +226,18 @@ public class CommutingController {
 		HttpSession session = req.getSession();
 		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("user");
 		
+		Search search = new Search();
+
+		if(null ==deptNo || deptNo.equals("10000")) {
+			search.setSearchDiv("");
+		}else {
+			search.setSearchDiv("20");
+			search.setSearchWord(deptNo);
+		}
+		
 		LOG.debug(">param>" + deptNo);
 		LOG.debug(">sessionVO>" + sessionVO);
-		deptNo = StringUtil.nvl(deptNo, "");
-		Search search = new Search("", deptNo, 100, 1);
+		
 		
 		model.addAttribute("deptList",deptService.doSelectList());
 		model.addAttribute("list",commutingService.doSelectList(search));

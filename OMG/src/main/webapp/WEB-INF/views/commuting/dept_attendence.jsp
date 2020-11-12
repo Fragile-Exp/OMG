@@ -41,16 +41,18 @@
 							
 								<div class="card-header py-3"> 
 									<label for="start">부서</label> 
-									<div class="col-lg-4">
-										<form action="${hContext}/commuting/dept_attendence.do" method="get" name="searchFrm">
-											<select class="form-control" id="deptNo" >
-												<c:forEach var="vo" items="${deptList}">
-													<option value="${vo.deptNo }">${vo.deptNm} (${vo.deptNo})</option>
-												</c:forEach>
-											</select>
-										</form>
-										<button type="submit" class="btn btn-info btn-sm" value="Search" form="searchFrm">
-									</div>
+									<form action="${hContext}/commuting/dept_attendence.do" method="get" name="searchFrm">
+											<div  style="width:20%; display:inline-block;">										
+												<select class="form-control" id="deptNo" >
+													<c:forEach var="vo" items="${deptList}">
+														<option value="${vo.deptNo}">${vo.deptNm} (${vo.deptNo})</option>
+													</c:forEach>
+												</select>
+											</div>
+											<div style="width:30px;   display:inline-block;">
+												<input  type="submit" class="btn btn-info btn-sm" value="Search"/>
+											</div >
+									</form>
 								</div>
 								
 								
