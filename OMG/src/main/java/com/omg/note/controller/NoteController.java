@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
+import com.omg.employee.domain.EmployeeVO;
 import com.omg.note.domain.NoteVO;
 import com.omg.note.service.NoteService;
 
@@ -100,15 +101,31 @@ public class NoteController {
 		return json;
 	}
 	
+	@RequestMapping(value = "note/doInsert.do", method = RequestMethod.POST
+			,produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doInsert(NoteVO note) {
+		LOG.debug("== doInsert ==");
+		
+		// 쪽지 등록
+		Message message = noteService.doInsert(note);
+		
+		Gson gson = new Gson();
+        String json = gson.toJson(message);
+        LOG.debug("json = "+json);
+		
+		return json;
+	}
 	
-	@RequestMapping(value = "org/doSelectList.do", method = RequestMethod.GET
+	
+	@RequestMapping(value = "note/doSelectList.do", method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doSelectList(HttpServletRequest req, Search search, NoteVO note) {
 		LOG.debug("== doSelectList ==");
 		// 세션 처리가 됐을 시
-//		EmployeeVO empVO = (EmployeeVO) req.getSession().getAttribute("user");
-		note.setEmployeeId("admin");
+		EmployeeVO empVO = (EmployeeVO) req.getSession().getAttribute("employee");
+		note.setEmployeeId(empVO.getEmployee_id());
 		// 쪽지함 초기값
 		if(note.getNoteDiv()==0) {
 			note.setNoteDiv(2);

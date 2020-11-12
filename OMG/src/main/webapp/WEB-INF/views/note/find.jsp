@@ -21,9 +21,12 @@
 <body>
 <div class="container">
 	<div class="card shadow mb-4" >
-		<div class="card-body">
+		<div class="card-body py-2">
+		<input type="hidden" id="id" value="" />
+		<input type="hidden" id="div" value="" />
+		<input type="hidden" id="nm" value="" />
 			<div class="row">
-				<div>
+				<div class=" px-4 ">
 					<h3>사원 찾기</h3>
 				</div>
 				<div class="col-lg-11 col-md-11 col-sm-11">
@@ -34,19 +37,29 @@
 				<input type="button" class="btn btn-sm btn-primary" onclick="" name="searchBtn" id="searchBtn" value="검색" />
 			</div>
 			<div class="py-1"></div>
-			<div style="height: 200px; border:1px solid;">
-				<div id="empList" class="list-group" >
-					
-				</div>
+			<div style="height: 200px; border:1px solid; overflow: auto;">
+				<ul id="empList" class="list-group" >
+
+				</ul>
+			</div>
+			<div class="py-2" align="right">
+				<input type="button" class="btn btn-sm btn-primary" id="empRecBtn" value="받는 사람에 추가" />
+				<input type="button" class="btn btn-sm btn-primary" id="empRefBtn" value="참조에 추가" />
 			</div>
 			<hr />
-		</div>
-		<div class="px-4 py-2">
-			<div>
-				<h3>부서</h3>
-			</div>
-			<div id="mainBody" style="height: 300px">
-	
+		
+			<div class="px-4 py-2">
+				<div>
+					<h3>부서</h3>
+				</div>
+				<div id="mainBody" style="height: 400px">
+		
+				</div>
+				<div align="right">
+					<input type="button" class="btn btn-sm btn-primary" id="deptRecBtn" value="받는 사람에 추가" />
+					<input type="button" class="btn btn-sm btn-primary" id="deptRefBtn" value="참조에 추가" />
+				</div>
+				<hr />
 			</div>
 		</div>
 	</div>
@@ -55,6 +68,68 @@
 	$(document).ready(function(){
 		drawDeptList();
 		});
+
+	// 사용자 받는 사람 추가
+	$("#empRecBtn").on("click",function(){
+		opener.document.getElementById("receiveDiv").value = 1;
+		opener.document.getElementById("receiveId").value = $("#id").val();
+		opener.document.getElementById("receiveNm").value = $("#nm").val();
+		window.close();
+		
+		});
+	
+	// 사용자 참조 추가
+	$("#empRefBtn").on("click",function(){
+		opener.document.getElementById("receiveRefDiv").value = 1;
+		opener.document.getElementById("receiveRef").value = $("#id").val();
+		opener.document.getElementById("receiveRefNm").value = $("#nm").val();
+		window.close();
+		
+		});
+
+	// 부서 받는 사람 추가
+	$("#deptRecBtn").on("click",function(){
+		var size = $("input:checkbox[name=dept]:checked").length;
+		if(size > 1) {
+			alert("하나만 선택해 주세요.");
+			return;
+		}
+		opener.document.getElementById("receiveDiv").value = 2;
+		opener.document.getElementById("receiveId").value = $("input:checkbox[name=dept]:checked").val();
+		opener.document.getElementById("receiveNm").value = $("input:checkbox[name=dept]:checked").attr("id");
+		window.close();
+		
+		});
+
+	// 부서 참조 추가
+	$("#deptRefBtn").on("click",function(){
+		var size = $("input:checkbox[name=dept]:checked").length;
+		if(size > 1) {
+			alert("하나만 선택해 주세요.");
+			return;
+		}
+		opener.document.getElementById("receiveRefDiv").value = 2;                                               
+		opener.document.getElementById("receiveRef").value = $("input:checkbox[name=dept]:checked").val();     
+		opener.document.getElementById("receiveRefNm").value = $("input:checkbox[name=dept]:checked").attr("id");
+		window.close();
+		
+		});
+
+	//검색 Enter Event처리
+	$("#searchWord").keypress(function(event) {
+		//alert("#searchWord"+key.keyCode)
+		if(event.keyCode==13){
+			$("#searchBtn").trigger("click");
+		}
+	});
+
+	$(document).on("click","#empList>a",function(){
+		console.log($(this).attr("value"));
+		console.log($(this).text());
+		$("#id").val($(this).attr("value"));
+		$("#div").val("1");
+		$("#nm").val($(this).text());
+		})
 
 	function drawDeptList(){
 
@@ -84,11 +159,11 @@
 				  if( 0 == value.isNotLeaf){
 					  html += '<details class="text-primary">';
 					  html += '<summary>';
-					  html += '<input type="checkbox" name="org" value="'+value.deptNo+'" /> '+value.deptNm+'';
+					  html += '<input type="checkbox" name="dept" id="'+value.deptNm+'" value="'+value.deptNo+'" /> '+value.deptNm+'';
 					  html += '</summary>';
 					  html += '<div class="bg-white px-4">';
 					  } else{
-						  html += '<input type="checkbox" name="org" value="'+value.deptNo+'" /> '+value.deptNm+'<br />';
+						  html += '<input type="checkbox" name="dept" id="'+value.deptNm+'" value="'+value.deptNo+'" /> '+value.deptNm+'<br />';
 					  	}
 				 
 				  	currLevel = value.level;

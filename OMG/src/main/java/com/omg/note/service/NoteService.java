@@ -65,7 +65,7 @@ public class NoteService {
 			
 			// 참조 처리
 			// 참조가 null 이 아니고, 수신자와 값이 같지 않을 때
-			if((null != note.getReceiveRef()) && (note.getReceiveRef().equals(note.getReceiveId()))) {
+			if((null != note.getReceiveRef()) && !(note.getReceiveRef().equals(note.getReceiveId()))) {
 				// 참조된 사용자, 부서에 전달
 				flag = sendNote(note, note.getReceiveRefDiv(), note.getReceiveRef(), note.getReceiveRefNm());
 			}
@@ -88,7 +88,7 @@ public class NoteService {
 	 * @param Nm
 	 * @return flag
 	 */
-	public int sendNote(NoteVO note, int div, String id, String Nm) {
+	public int sendNote(NoteVO note, int div, String id, String nm) {
 		int flag = 0;
 		
 		// 받은 메시지함 저장
@@ -97,7 +97,7 @@ public class NoteService {
 		if(div==1) {
 			// 받는이가 사용자일 경우
 			note.setEmployeeId(id);
-			note.setEmployeeNm(Nm);
+			note.setEmployeeNm(nm);
 			flag = dao.doInsert(note);
 		} else {
 			// 받는이가 부서일 경우
@@ -105,7 +105,9 @@ public class NoteService {
 			// 해당 부서 사용자 목록 조회
 			Search search = new Search();
 			search.setSearchDiv("20");
-			search.setSearchWord(id);
+			search.setSearchWord(nm);
+			search.setPageNum(1);
+			search.setPageSize(255);
 			
 			List<EmployeeVO> empList = empDao.doSelectList(search);
 			
@@ -132,7 +134,7 @@ public class NoteService {
 			inVO.setRead(1);
 			inVO.setNoteDiv(note.getNoteDiv());
 			inVO.setNoteNo(note.getNoteNo());
-//			inVO.setEmployeeId(note.getEmployeeId());
+			inVO.setEmployeeId(note.getEmployeeId());
 			dao.doUpdateRead(inVO);
 			// 보낸 메시지 함도 업데이트 처리
 			inVO.setEmployeeId(note.getSenderId());

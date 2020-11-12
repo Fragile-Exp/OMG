@@ -72,7 +72,7 @@
 										<h6><span class="label label-default">받는 사람 : ${noteVO.receiveId }</span></h6>
 									</div>
 									<div>
-										<h6><span class="label label-default"> 참조 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${noteVO.receiveRef }</span></h6>
+										<h6><span class="label label-default"> 참조 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${noteVO.receiveRefNm }</span></h6>
 									</div>
 									
            							<hr class="sidebar-divider">

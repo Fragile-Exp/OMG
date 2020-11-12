@@ -51,9 +51,9 @@
 										<span class="icon text-white-50"> <i class="fas fa-trash"></i></span>
 										<span class="text">삭제</span>
 									</a>
-									<a href="${hContext}/note/note_reply.do" class="btn btn-info btn-icon-split btn-sm">
+									<a href="#" id="insertBtn" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-arrow-right"></i></span>
-										<span class="text">답장하기</span>
+										<span class="text">전송</span>
 									</a>
 								</div>
 								<div class="card-body">
@@ -63,29 +63,28 @@
 												<label for="receive_id" >받는 사람</label>
 											</div>
 											<div class="col-lg-9">
-												<input type="hidden" id="receive_div" name="receive_div" />
-												<input type="hidden" id="receive_id" name="receive_id" />
-												<input type="text" class="form-control" id="receive_nm" name="receive_nm" placeholder="받는 사람" />
+												<input type="hidden" id="receiveDiv" name="receiveDiv" />
+												<input type="text" class="form-control" id="receiveNm" name="receiveNm" readonly="readonly" placeholder="받는 사람 (검색 사용)" />
+												<input type="hidden" id="receiveId" name="receiveId" />
 											</div>
-											<input type="button" onclick="window.open('${hContext}/note/find.do','사원/부서 찾기','width=1000, height=800');" class="btn btn-info btn-sm" value="찾기" id="search">
+											<input type="button" onclick="window.open('${hContext}/note/find.do','사원/부서 찾기','width=1000, height=900');" class="btn btn-info btn-sm" value="검색" id="search">
 										</div>
 										<div class="row py-2">
 											<div class="col-lg-2 text-center">
 												<label for="receive_ref" >참조</label>
 											</div>
 											<div class="col-lg-9">
-												<input type="hidden" id="receive_ref_div" name="receive_ref_div" />
-												<input type="text" class="form-control" id="receive_ref" placeholder="참조" />
-												<input type="hidden" id="receive_ref_nm" name="receive_ref_nm" />
+												<input type="hidden" id="receiveRefDiv" name="receiveRefDiv" value="0" />
+												<input type="text" class="form-control" id="receiveRefNm" name="receiveRefNm" readonly="readonly" placeholder="참조 (검색 사용)" />
+												<input type="hidden" id="receiveRef" name="receiveRef" value="" />
 											</div>
-											<input type="button" class="btn btn-info btn-sm" value="찾기" id="search">
 										</div>
 										<div class="row">
 											<div class="col-lg-2 text-center">
-												<label for="receive_ref" >제목</label>
+												<label for="title" >제목</label>
 											</div>
 											<div class="col-lg-10">
-												<input type="text" class="form-control" id="receive_ref" placeholder="제목" />
+												<input type="text" class="form-control" id="title" name="title" placeholder="제목" />
 											</div>
 										</div>
 										<div class="row py-2">
@@ -125,6 +124,58 @@
 	$("#backBtn").on("click",function(){
 		moveNote("${noteVO.noteDiv}");
 	});
+
+	$("#insertBtn").on("click",function(){
+		console.log("전송");
+		var receiveId = $("#receiveId").val(); 
+		if( null == receiveId || receiveId.length == 0 ){
+			alert("받는 사람(부서) 를 지정해 주세요.");
+			return;
+			}
+		var title = $("#title").val();
+		if( null == title || title.length == 0 ){
+			alert("제목을 입력 해 주세요.");
+			return;
+			}
+		var receiveRef = $("#receiveRef").val();
+		if( receiveId==receiveRef ){
+			alert("받는 사람(부서) 와 참조를 다르게 지정해 주세요");
+			return;
+			}
+		
+		$.ajax({
+            type:"POST",
+            url:"${hContext}/note/doInsert.do",
+            dataType:"html",
+            async: true,
+            data:{
+                "senderId" : "${sessionScope.employee.employee_id}",
+                "senderNm" : "${sessionScope.employee.name}",
+                "receiveDiv" : $("#receiveDiv").val(),
+				"receiveId" : $("#receiveId").val(),
+				"receiveNm" : $("#receiveNm").val(),
+				"receiveRefDiv" : $("#receiveRefDiv").val(),
+				"receiveRef" : $("#receiveRef").val(),
+				"receiveRefNm" : $("#receiveRefNm").val(),
+				"title" : $("#title").val(),
+				"contents" : $("#contents").val(),
+				"upNote" : "0",
+                "noteDiv" : "1"
+                },
+         success: function(data){
+           var parseData = JSON.parse(data);
+           alert(parseData.msgContents);
+           if(parseData.msgId==1){
+        	   moveNote(1);
+           }
+		},
+         error:function(xhr,status,error){
+             alert("error:"+error);
+         }
+        }); 
+
+	})
+		
 	</script>
 </body>
 </html>
