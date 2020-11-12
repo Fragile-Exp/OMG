@@ -270,7 +270,7 @@ public class OrgController {
 		
 		model.addAttribute("orgList",orgList);
 		
-		return "organization/org_mod";
+		return "organization/org_mod"; 
 	}
 	
 

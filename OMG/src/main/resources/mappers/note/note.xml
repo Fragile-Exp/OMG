@@ -11,15 +11,18 @@
 	<!-- 등록 -->
 	<insert id="doInsert" parameterType="NoteVO"> 
 		INSERT INTO note (note_no, note_div, sender_id, sender_nm, receive_div, receive_id,
-						  receive_ref, receive_nm, employee_id, employee_nm, title, contents, up_note)
+						  receive_ref_div, receive_ref, receive_ref_nm, receive_nm, employee_id,
+						  employee_nm, title, contents, up_note)
 		VALUES (#{noteNo}, #{noteDiv}, #{senderId}, #{senderNm}, #{receiveDiv}, #{receiveId},
-				#{receiveRef,jdbcType=VARCHAR}, #{receiveNm}, #{employeeId}, #{employeeNm}, #{title}, #{contents}, #{upNote} )                 
+				#{receiveRefDiv,jdbcType=INTEGER}, #{receiveRef,jdbcType=VARCHAR},#{receiveRefNm,jdbcType=VARCHAR},
+				#{receiveNm}, #{employeeId}, #{employeeNm}, #{title}, #{contents}, #{upNote} )                 
 	</insert>
 	
 	<!-- 단건 조회 -->
 	<select id="doSelectOne" parameterType="NoteVO" resultType="NoteVO" >
 		SELECT note_no as noteNo, note_div as noteDiv, sender_id as senderId, sender_nm as senderNm, receive_div as receiveDiv,
-				receive_id as receiveId, receive_ref as receiveRef, receive_nm as receiveNm, employee_id as employeeId, employee_nm as employeeNm,
+				receive_id as receiveId, receive_ref_div as receiveRefDiv, receive_ref as receiveRef, receive_ref_nm as receiveRefNm,
+				receive_nm as receiveNm, employee_id as employeeId, employee_nm as employeeNm,
 				title, contents, up_note as upNote, read,      	  	     											
         		--등록일이 당일이면:HH24MI 그렇치 않으면: YYYY-MM-DD   
         		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(send_dt,'YYYYMMDD'),
@@ -99,7 +102,8 @@
 		SELECT T1.*,T2.*                                                           
 			FROM                                                                        
 				(SELECT B.note_no as noteNo, B.note_div as noteDiv, B.sender_id as senderId, B.sender_nm as senderNm, B.receive_div as receiveDiv,
-						B.receive_id as receiveId, B.receive_ref as receiveRef, B.receive_nm as receiveNm, B.employee_id as employeeId, B.employee_nm as employeeNm,
+						B.receive_id as receiveId, B.receive_ref_div as receiveRefDiv, B.receive_ref as receiveRef, B.receive_ref_nm as receiveRefNm,
+						B.receive_nm as receiveNm, B.employee_id as employeeId, B.employee_nm as employeeNm,
 						B.title, B.contents, B.up_note, B.read,      	  	     											
 		        		--등록일이 당일이면:HH24MI 그렇치 않으면: YYYY-MM-DD
 		        		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.send_dt,'YYYYMMDD'),
@@ -130,8 +134,6 @@
 				<include refid="searchCondition" />
 				)T2  
 	</select>
-	
-	
 	
 	
 	<select id="bringKey" resultType="java.lang.Integer" >

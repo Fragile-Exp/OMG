@@ -28,6 +28,12 @@ public class NoteController {
 	@Autowired
 	NoteService noteService;
 	
+	@RequestMapping(value="note/find.do",method = RequestMethod.GET)
+	public String findPage() {
+		LOG.debug("== findPage ==");
+		
+		return "note/find";
+	}
 	
 	@RequestMapping(value="note/note.do",method=RequestMethod.GET)
 	public String note_view(Model model,String noteDiv) {
@@ -128,7 +134,7 @@ public class NoteController {
         map.put("noteVO", note);
         map.put("searchVO", search);
         
-        LOG.debug("map = "+map);
+        LOG.debug("map = "+map); 
         
         List<NoteVO> list = noteService.doSelectList(map);
 		

@@ -111,7 +111,7 @@ LOG.debug("== doInsert ==");
 		
 		for(PositionVO vo:list) {
 			LOG.debug(" 조회 VO : "+ vo);
-		}
+		} 
 		
 		return list;
 	}

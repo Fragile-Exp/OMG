@@ -73,6 +73,7 @@
                                 </form>
                             </div>
                         </div>
+                        
                         <!-- pagenation -->
 						<div  class="text-center">
 							<div id="page-selection" class="text-center page"></div>
@@ -227,10 +228,6 @@
     
     <script type="text/javascript">
 	$(document).ready(function(){
-		$("#Pages").attr("class","nav-link");
-		$("#Pages").attr("aria-expanded","true");
-		$("#collapsePages").attr("class","collapse show");
-		$("#blank").attr("class","collapse-item active");
 		doSelectList(1);
 		});
 
@@ -238,6 +235,96 @@
 	$("#doUpdate").on("click",function(){
 		//alert("doUpdate");
 		//비밀번호필수 체크 #다음값 조심하기!_edit 붙이기
+		
+		if($("#employee_id_edit").val()==false || $("#employee_id_edit").val() ==""){
+			alert("아이디(사원번호)를 확인하세요.");
+			return ;
+		}
+		
+		//비밀번호필수 체크
+		if($("#passwd").val()==false || $("#passwd").val() ==""){
+			alert("비밀번호를 확인하세요.");
+			return ;
+		}
+
+		//dept_no_edit 체크
+		if($("#dept_no_edit").val()==false || $("#dept_no_edit").val() ==""){
+			alert("부서를 확인하세요.");
+			return ;
+		}
+
+		//position_no_edit 체크
+		if($("#position_no_edit").val()==false || $("#position_no_edit").val() ==""){
+			alert("직급을 확인하세요.");
+			return ;
+		}
+		
+		//cell_phone_edit 체크
+		if($("#cell_phone_edit").val()==false || $("#cell_phone_edit").val() ==""){
+			alert("휴대전화 번호를 확인하세요.");
+			return ;
+		}
+		
+		//email_edit 체크
+		if($("#email_edit").val()==false || $("#email_edit").val() ==""){
+			alert("이메일을 확인하세요.");
+			return ;
+		}
+
+		//address_edit 체크
+		if($("#address_edit").val()==false || $("#address_edit").val() ==""){
+			alert("주소를 확인하세요.");
+			return ;
+		}
+
+		//holiday_edit 체크
+		if($("#holiday_edit").val()==false || $("#holiday_edit").val() ==""){
+			alert("휴가일을 확인하세요.");
+			return ;
+		}
+
+		if(confirm("수정 하시겠습니까?") ==false)return;
+
+		//ajax
+        $.ajax({
+           type:"GET",
+           url:"${hContext}/employee/doUpdate.do",
+           dataType:"html",
+           data:{
+	           "employee_id":$("#employee_id_edit").val(),
+	           "password":$("#password_edit").val(),
+	           "name":$("#name_edit").val(),
+	           "dept_no":$("#dept_no_edit").val(),
+	           "position_no":$("#position_no_edit").val(),
+	           "cell_phone":$("#cell_phone_edit").val(),
+	           "email":$("#email_edit").val(),
+	           "address":$("#address_edit").val(),
+	           "hire_date":$("#hire_date_edit").val(),
+	           "birth_day":$("#birth_day_edit").val(),
+	           "holiday":$("#holiday_edit").val(),
+	           "img_code":1
+          }, 
+        success: function(data){
+          var jData = JSON.parse(data);
+          if(null != jData && jData.msgId=="1"){
+            alert(jData.msgContents);
+            //다시조회
+            doSelectList(1);
+          }else{
+            alert(jData.msgId+"|"+jData.msgContents);
+          }
+        },
+        complete:function(data){
+         
+        },
+        error:function(xhr,status,error){
+            alert("error:"+error);
+        }
+       }); 
+       //--ajax 
+		
+		
+
 		
 		
 		
@@ -259,12 +346,12 @@
            url:"${hContext}/employee/doDelete.do",
            dataType:"html",
            data:{
-           "employee_id":$("#employee_id_edit").val().trim()
+           "employee_id":$("#employee_id_edit").val()
           }, 
         success: function(data){
           var jData = JSON.parse(data);
           if(null != jData && jData.msgId=="1"){
-            //alert(jData.msgContents);
+            alert(jData.msgContents);
             //다시조회
             doSelectList(1);
           }else{
@@ -321,7 +408,7 @@
            $("#hire_date_edit").prop("disabled", true);
            $("#birth_day_edit").prop("disabled", true);
 			  //버튼제어
-           //$("#doDelete").prop("disabled", false);
+           $("#doDelete").prop("disabled", false);
            $("#doUpdate").prop("disabled", false);
            
          },
@@ -336,6 +423,27 @@
 		
 		});
 
+	//등록부분 초기화
+	function doInit(){
+		$("#employee_id_edit").val("");
+		$("#name_edit").val("");
+		$("#password_edit").val("");
+		$("#dept_no_edit").val("");
+		$("#position_no_edit").val("");
+		$("#cell_phone_edit").val("");
+		$("#email_edit").val("");
+		$("#address_edit").val("");
+		$("#hire_date_edit").val("");
+		$("#birth_day_edit").val("");
+		$("#holiday_edit").val("");
+
+		$("#doDelete").prop("disabled", false);
+        $("#doUpdate").prop("disabled", false);
+		
+	}
+	
+	
+	
 	//사원목록 조회
     function doSelectList(page){
     	var pageTotal = 1;
@@ -391,7 +499,7 @@
 		      //페이징
 			  renderingPage(pageTotal,page);  
            	  //등록부분 초기화
-		      //doInit();
+		      doInit();
 		      
          },
          complete:function(data){

@@ -1,18 +1,26 @@
 package com.omg.employee.controller;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
+import javax.annotation.Resource;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.omg.cmn.Message;
@@ -21,9 +29,18 @@ import com.omg.cmn.StringUtil;
 import com.omg.employee.domain.EmployeeVO;
 import com.omg.employee.service.EmployeeService;
 
+
 @Controller
 public class EmployeeController {
 	final Logger LOG=LoggerFactory.getLogger(EmployeeController.class);
+	
+	/*
+	 * @Resource(name = "uploadPath") private String uploadPath;
+	 */
+	
+	@Autowired 
+	private JavaMailSenderImpl mailSenderImpl;
+	 
 	
 	@Autowired
 	EmployeeService employeeService;
@@ -62,6 +79,83 @@ public class EmployeeController {
 		return "employee/employee_mng";
 	}
 	
+	
+	//비밀번호 찾기
+	@RequestMapping(value="employee/forgot_password.do",method=RequestMethod.GET)
+	public String forgot_password() {
+		LOG.debug("== forgot_password ==");
+		
+		return "employee/forgot_password";
+	}
+	
+	//마이페이지
+	@RequestMapping(value="employee/mypage.do",method=RequestMethod.GET)
+	public String mypage() {
+		LOG.debug("== mypage ==");
+		
+		return "employee/mypage";
+	}
+	
+	/*
+	 * //uploadController 생성
+	 * 
+	 * @RequestMapping(value = "/uploadForm", method = RequestMethod.GET) public
+	 * void uploadForm() throws Exception { }
+	 * 
+	 * @RequestMapping(value = "/uploadForm", method = RequestMethod.POST) public
+	 * String uploadForm(MultipartFile file, Model model) throws Exception {
+	 * 
+	 * LOG.debug("originalName: " + file.getOriginalFilename()); LOG.debug("size: "
+	 * + file.getSize()); LOG.debug("contentType: " + file.getContentType());
+	 * 
+	 * String savedName = uploadFile(file.getOriginalFilename(), file.getBytes());
+	 * 
+	 * model.addAttribute("savedName", savedName);
+	 * 
+	 * return "uploadResult"; }
+	 * 
+	 * private String uploadFile(String originalName, byte[] fileData) throws
+	 * Exception {
+	 * 
+	 * UUID uid = UUID.randomUUID(); String savedName = uid.toString() + "_" +
+	 * originalName; File target = new File(uploadPath, savedName);
+	 * FileCopyUtils.copy(fileData, target); return savedName; }
+	 */
+	
+	 
+	
+	
+	
+	  //사원 비밀번호 메일로 보내기
+	  @RequestMapping(value="employee/sendMail.do",method=RequestMethod.GET) 
+	  @ResponseBody
+	  public String sendMail(EmployeeVO employee,HttpServletRequest request) {
+		  LOG.debug("=sendMail=");
+		  LOG.debug("=employee="+employee);
+		  
+		  EmployeeVO outVO=employeeService.doSelectOne(employee);
+		  LOG.debug("=outVO="+outVO);
+		  
+		  try {
+			  MimeMessage message=mailSenderImpl.createMimeMessage();
+			  MimeMessageHelper messageHelper=new MimeMessageHelper(message,true,"UTF-8");
+			  
+			  messageHelper.setFrom("casse2045@naver.com");
+			  messageHelper.setTo(outVO.getEmail());
+			  messageHelper.setSubject(outVO.getName()+"님 사원 비밀번호 찾기");
+			  messageHelper.setText(outVO.getName()+"님의 비밀번호는 "+outVO.getPassword()+"입니다.");
+			  
+			  mailSenderImpl.send(message);
+			  
+		  }catch(Exception e) {
+			  e.getMessage();
+		  }
+		 		  
+		  return "result";
+	  
+	  }
+	 
+	 
 	
 	@RequestMapping(value="employee/doSelectOne.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"
@@ -160,11 +254,11 @@ public class EmployeeController {
 	}
 	
 
-	@RequestMapping(value="employee/doLogin.do",method = RequestMethod.GET
+	@RequestMapping(value="employee/doLogin.do",method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8"
 			)
 	@ResponseBody
-	public String doLogin(EmployeeVO employee) {
+	public String doLogin(EmployeeVO employee,HttpServletRequest request) {
 		LOG.debug("==================");
         LOG.debug("=employee="+employee);
         LOG.debug("==================");
@@ -195,8 +289,12 @@ public class EmployeeController {
         LOG.debug("=sessionEmployee="+sessionEmployee);
         LOG.debug("==================");  
         
-        //HttpSession session=req.getSession();
+        HttpSession session=request.getSession();
+        session.setAttribute("employee", sessionEmployee);
         
+        LOG.debug("==================");
+        LOG.debug("=session="+session.getAttribute("employee"));
+        LOG.debug("==================");  
         
         
 		return json;
@@ -223,9 +321,9 @@ public class EmployeeController {
         message.setMsgId(flag+"");
         
         if(flag ==1 ) {
-        	message.setMsgContents(employee.getEmployee_id()+"존재하는 아이디 입니다.\n다른 아이디를 사용하세요");
+        	message.setMsgContents(employee.getEmployee_id()+"존재하는 아이디 입니다.");
         }else {
-        	message.setMsgContents(employee.getEmployee_id()+"존재하지 않는 아이디 입니다.\n사용 가능합니다.");
+        	message.setMsgContents(employee.getEmployee_id()+"존재하지 않는 아이디 입니다.");
         }
         Gson gson=new Gson();
         String json = gson.toJson(message);
@@ -251,9 +349,8 @@ public class EmployeeController {
         LOG.debug("=flag="+flag);
         LOG.debug("=================="); 
         
-        //메시지 처리
-        Message  message=new Message();
-        message.setMsgId(flag+"");
+        Message message=new Message();
+        message.setMsgId(String.valueOf(flag));
         
         if(flag ==1 ) {
         	message.setMsgContents(employee.getName()+" 님이 삭제 되었습니다.");
@@ -261,13 +358,12 @@ public class EmployeeController {
         	message.setMsgContents(employee.getName()+" 님 삭제 실패.");
         }
         
-        Gson gson=new Gson();
+        Gson   gson=new Gson();
         String json = gson.toJson(message);
-        LOG.debug("==================");
+        LOG.debug("3==================");
         LOG.debug("=json="+json);
-        LOG.debug("==================");         
-        
-		return json;
+        LOG.debug("==================");		
+		return json;    
 	}
 	
 	

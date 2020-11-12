@@ -108,12 +108,7 @@
     <script src="${hContext}/resources/js/jquery.bootpag.min.js"></script>
     
     <script type="text/javascript">
-	$(document).ready(function(){
-		$("#Pages").attr("class","nav-link");
-		$("#Pages").attr("aria-expanded","true");
-		$("#collapsePages").attr("class","collapse show");
-		$("#blank").attr("class","collapse-item active");
-		});
+	
 	$(document).ready(function() {
 		//alert("javascript");
         //화면이 로딩 되면서 데이터 조회

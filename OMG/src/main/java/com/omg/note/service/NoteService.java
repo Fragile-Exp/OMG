@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.omg.cmn.Message;
+import com.omg.cmn.Search;
+import com.omg.employee.dao.EmployeeDao;
+import com.omg.employee.domain.EmployeeVO;
 import com.omg.note.dao.NoteDaoImpl;
 import com.omg.note.domain.NoteVO;
 
@@ -15,6 +18,9 @@ public class NoteService {
 
 	@Autowired
 	NoteDaoImpl dao;
+	
+	@Autowired
+	EmployeeDao empDao;
 	
 	/**
 	 * 쪽지 삭제
@@ -54,19 +60,16 @@ public class NoteService {
 		int flag = dao.doInsert(note);
 		
 		if(flag == 1) {
-			// 받은 메시지함 저장
-			note.setNoteDiv(2);
-			if(note.getReceiveDiv()==1) {
-				// 받는이가 사용자일 경우
-				note.setEmployeeId(note.getReceiveId());
-				note.setEmployeeNm(note.getReceiveNm());
-				flag = dao.doInsert(note);
-			} else {
-				// 받는이가 부서일 경우
-				// 해당 부서 사용자 목록 조회 후 부서 사용자에게 전부 전달
-			}
+			// 사용자 부서에 전송
+			flag = sendNote(note, note.getNoteDiv(), note.getReceiveId(), note.getReceiveNm());
+			
 			// 참조 처리
-			// 참조된 사용자, 부서에 전달
+			// 참조가 null 이 아니고, 수신자와 값이 같지 않을 때
+			if((null != note.getReceiveRef()) && (note.getReceiveRef().equals(note.getReceiveId()))) {
+				// 참조된 사용자, 부서에 전달
+				flag = sendNote(note, note.getReceiveRefDiv(), note.getReceiveRef(), note.getReceiveRefNm());
+			}
+			
 			message.setMsgId(flag+"");
 			message.setMsgContents("쪽지를 전송하였습니다.");
 		} else {
@@ -75,6 +78,47 @@ public class NoteService {
 		}
 		
 		return message;
+	}
+	
+	/**
+	 * 사용자 & 부서에게 쪽지 전송 메소드
+	 * @param note
+	 * @param div
+	 * @param id
+	 * @param Nm
+	 * @return flag
+	 */
+	public int sendNote(NoteVO note, int div, String id, String Nm) {
+		int flag = 0;
+		
+		// 받은 메시지함 저장
+		note.setNoteDiv(2);
+		
+		if(div==1) {
+			// 받는이가 사용자일 경우
+			note.setEmployeeId(id);
+			note.setEmployeeNm(Nm);
+			flag = dao.doInsert(note);
+		} else {
+			// 받는이가 부서일 경우
+
+			// 해당 부서 사용자 목록 조회
+			Search search = new Search();
+			search.setSearchDiv("20");
+			search.setSearchWord(id);
+			
+			List<EmployeeVO> empList = empDao.doSelectList(search);
+			
+			// 부서 사용자에게 전부 전송.
+			for(EmployeeVO vo : empList) {
+				note.setEmployeeId(vo.getEmployee_id());
+				note.setEmployeeNm(vo.getName());
+				flag += dao.doInsert(note);
+			}
+			
+		}
+		
+		return flag;
 	}
 	
 	/**
@@ -88,7 +132,7 @@ public class NoteService {
 			inVO.setRead(1);
 			inVO.setNoteDiv(note.getNoteDiv());
 			inVO.setNoteNo(note.getNoteNo());
-			inVO.setEmployeeId(note.getEmployeeId());
+//			inVO.setEmployeeId(note.getEmployeeId());
 			dao.doUpdateRead(inVO);
 			// 보낸 메시지 함도 업데이트 처리
 			inVO.setEmployeeId(note.getSenderId());

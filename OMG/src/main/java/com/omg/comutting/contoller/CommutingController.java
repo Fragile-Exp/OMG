@@ -23,6 +23,7 @@ import com.omg.cmn.StringUtil;
 import com.omg.commuting.domain.Commuting;
 import com.omg.commuting.service.CommutingService;
 import com.omg.employee.domain.EmployeeVO;
+import com.omg.organization.service.DeptService;
 
 
 
@@ -40,11 +41,14 @@ public class CommutingController {
 	@Autowired
 	MessageSource messageSource;
 	
+	@Autowired
+	DeptService deptService;
+	
 	public CommutingController() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@RequestMapping(value="commuting/doInit.do", method = RequestMethod.GET)
+	@RequestMapping(value="doInit.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Message doInit(Locale locale) {
 		LOG.debug("***************************");
@@ -70,7 +74,7 @@ public class CommutingController {
 		return message;
 	}
 	
-	@RequestMapping(value="commuting/doDelete.do", method = RequestMethod.POST)
+	@RequestMapping(value="doDelete.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Message doDelete(Commuting inVO, Locale locale) {
 		LOG.debug("***************************");
@@ -103,7 +107,7 @@ public class CommutingController {
 	}
 	
 
-	@RequestMapping(value="commuting/doUpdateAttendTime.do", method = RequestMethod.POST)
+	@RequestMapping(value="doUpdateAttendTime.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Message doUpdateAttendTime(Commuting inVO, Locale locale) {
 		LOG.debug("***************************");
@@ -137,7 +141,7 @@ public class CommutingController {
 		
 	}
 	
-	@RequestMapping(value="commuting/doUpdateLeaveTime.do", method = RequestMethod.POST)
+	@RequestMapping(value="doUpdateLeaveTime.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Message doUpdateLeaveTime(Commuting inVO, Locale locale) {
 		LOG.debug("***************************");
@@ -171,7 +175,7 @@ public class CommutingController {
 		
 	}
 	
-	@RequestMapping(value="commuting/doSelectOne.do", method = RequestMethod.GET)
+	@RequestMapping(value="doSelectOne.do", method = RequestMethod.GET)
 	@ResponseBody
 	public String doSelectOne(Commuting inVO,Model model) {
 		LOG.debug("***************************");
@@ -195,11 +199,11 @@ public class CommutingController {
 	public void doSelectMyList(
 			@RequestParam(value = "month" ,defaultValue = "2020-11")  String month, Model model, HttpServletRequest req) {
 		LOG.debug("***************************");
-		LOG.debug("=controller.doSelectMyList=");
+		LOG.debug("=controller.my_attendence.do=");
 		LOG.debug("***************************");
 		//1. 세션 GET
-//		HttpSession session = req.getSession();
-//		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("user");
+		HttpSession session = req.getSession();
+		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("user");
 		Commuting searchVO = new Commuting();
 		
 		LOG.debug(">param>" + month);
@@ -210,6 +214,33 @@ public class CommutingController {
 		searchVO.setEmployeeId("d22");
 		model.addAttribute("month",month);
 		model.addAttribute("list",commutingService.doSelectMyList(searchVO));
+	}
+	
+	@RequestMapping(value="/dept_attendence.do" , method = RequestMethod.GET)
+	public void doSelectDeptList(
+			@RequestParam(value = "deptNo" ,defaultValue = "10000") String deptNo, Model model, HttpServletRequest req) {
+		LOG.debug("***************************");
+		LOG.debug("=controller.dept_attendence.do=");
+		LOG.debug("***************************");
+		
+		HttpSession session = req.getSession();
+		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("user");
+		
+		Search search = new Search();
+
+		if(null ==deptNo || deptNo.equals("10000")) {
+			search.setSearchDiv("");
+		}else {
+			search.setSearchDiv("20");
+			search.setSearchWord(deptNo);
+		}
+		
+		LOG.debug(">param>" + deptNo);
+		LOG.debug(">sessionVO>" + sessionVO);
+		
+		
+		model.addAttribute("deptList",deptService.doSelectList());
+		model.addAttribute("list",commutingService.doSelectList(search));
 	}
 	
 	

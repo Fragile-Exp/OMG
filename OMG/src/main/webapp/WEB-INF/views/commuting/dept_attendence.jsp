@@ -31,24 +31,28 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-4 text-gray-800">내 출결관리</h1>
+					<h1 class="h3 mb-4 text-gray-800">부서별 출결관리</h1>
 					
 					<div class="row">
 
 						<div class="col-lg-10">
 							
-							<div class="card shadow mb-4">
+							<div class="card shadow mb-4 column">
 							
-								<div class="card-header py-3s"> 
-									<label for="start">월 선택</label> 
-									<form action="${hContext}/commuting/my_attendence.do" method="get" name="searchFrm">
-										<input type="month"  min="2020-11" id="month" name="month" value="${month}" >	
-										<input type="submit" class="btn btn-info btn-sm" value="Search"> 
+								<div class="card-header py-3"> 
+									<label for="start">부서</label> 
+									<form action="${hContext}/commuting/dept_attendence.do" method="get" name="searchFrm">
+											<div  style="width:20%; display:inline-block;">										
+												<select class="form-control" id="deptNo" >
+													<c:forEach var="vo" items="${deptList}">
+														<option value="${vo.deptNo}">${vo.deptNm} (${vo.deptNo})</option>
+													</c:forEach>
+												</select>
+											</div>
+											<div style="width:30px;   display:inline-block;">
+												<input  type="submit" class="btn btn-info btn-sm" value="Search"/>
+											</div >
 									</form>
-									<form action="${hContext}/commuting/doUpdateAttendTime.do" method="get" name="atttendFrm">
-										<input type="submit" class="btn btn-info btn-sm" value="출근등록"> 
-									</form>
-									
 								</div>
 								
 								
@@ -66,8 +70,6 @@
 													<th class="text-center" width="12%">퇴근 시간</th>
 													<th class="text-center" width="10%">현재 출결</th>
 													<th class="text-center" width="10%">출결 상태</th>
-													<th class="text-center" width="12%">근무 시간</th>
-													<th class="text-center" width="13%">누적근무시간</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -83,8 +85,6 @@
 																<td class="text-center">${vo.leaveTime}</td>
 																<td class="text-center">${vo.presentState}</td>
 																<td class="text-center">${vo.state}</td>
-																<td class="text-center">${vo.workTime}시간</td>
-																<td class="text-right">${vo.totalCnt}시간</td>
 															</tr>
 														</c:forEach>
 													</c:when>
@@ -105,27 +105,28 @@
 
 				</div>
 				<!-- // page Content -->
+				
 				<!-- Modal추가 -->
-							<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-									
-										<div class="modal-header">
-											<h4 class="modal-title" id="myModalLabel">알림</h4>
-											<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
-										</div>
-										 
-										<div class="modal-body">처리가 완료되었습니다.</div>
-										
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-											<button type="button" class="btn btn-default">Save changes</button>
-										</div>
-									</div>
-								</div>
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+						
+							<div class="modal-header">
+								<h4 class="modal-title" id="myModalLabel">알림</h4>
+								<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
 							</div>
-							<!-- /modal -->
+							 
+							<div class="modal-body">처리가 완료되었습니다.</div>
+							
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+								<button type="button" class="btn btn-default">Save changes</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /modal -->
 				
 			</div>
 			<!-- //Main Content -->

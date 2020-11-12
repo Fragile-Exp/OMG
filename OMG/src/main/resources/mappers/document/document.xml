@@ -33,6 +33,10 @@
 		SELECT document_id AS documentId, employee_id AS employeeId,kind AS kind, title AS title, TO_CHAR(d_day, 'YYYY-MM-DD') AS dDay, document_cont AS documentCont, document_set AS documentSet, ok_user AS okUser FROM document WHERE employee_id = #{employeeId} 
 	</select>
 	
+	<select id="doempIdcheck" parameterType="DocumentVO" resultType="int">
+		SELECT COUNT(employee_id) AS employeeId FROM document WHERE employee_id = #{employeeId}
+	</select>
+	
 	
 	
 </mapper>

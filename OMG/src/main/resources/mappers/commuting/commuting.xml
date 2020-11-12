@@ -102,13 +102,17 @@
 			</when>
 			<!-- 오늘 부서별-->
 			<when test="20 == searchDiv">
-				WHERE TO_CHAR(reg_dt,'yyyyMMdd') = TO_CHAR(sysdate,'yyyyMMdd')
+				WHERE TO_CHAR(attend_time,'yyyyMMdd') = TO_CHAR(sysdate,'yyyyMMdd')
 				AND dept_no = #{searchWord}
 			</when>
 			<!-- my 월별-->
 			<when test="30 == searchDiv">
 				WHERE TO_CHAR(reg_dt,'yyyyMM') = TO_CHAR(sysdate,'yyyyMM')
 				AND employee_id = #{searchWord}
+			</when>
+			<!-- seq-->
+			<when test="40 == searchDiv">
+				WHERE seq = #{searchWord}
 			</when>
 		</choose>
 	</sql>
