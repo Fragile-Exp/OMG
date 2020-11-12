@@ -165,7 +165,7 @@
          success: function(data){
            var parseData = JSON.parse(data);
            alert(parseData.msgContents);
-           if(parseData.msgId==1){
+           if(parseData.msgId>=1){
         	   moveNote(1);
            }
 		},

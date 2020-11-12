@@ -211,11 +211,11 @@ public class OrgController {
 			if(orgDiv.equals("dept")) {
 				DeptVO outVO = new DeptVO();
 				outVO.setDeptNo(Integer.parseInt(vo));
-				flag = deptService.doDelete(outVO);
+				flag += deptService.doDelete(outVO);
 			}else if(orgDiv.equals("position")) {
 				PositionVO outVO = new PositionVO();
 				outVO.setPositionNo(Integer.parseInt(vo));
-				flag = positionService.doDelete(outVO);
+				flag += positionService.doDelete(outVO);
 			}
 		}
 		

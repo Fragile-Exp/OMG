@@ -29,13 +29,22 @@ public class NoteController {
 	@Autowired
 	NoteService noteService;
 	
+	/**
+	 * 사원/부서 찾기 팝업 띄우기
+	 * @return
+	 */
 	@RequestMapping(value="note/find.do",method = RequestMethod.GET)
 	public String findPage() {
 		LOG.debug("== findPage ==");
 		
 		return "note/find";
 	}
-	
+	/**
+	 * 쪽지 페이지 이동
+	 * @param model
+	 * @param noteDiv
+	 * @return
+	 */
 	@RequestMapping(value="note/note.do",method=RequestMethod.GET)
 	public String note_view(Model model,String noteDiv) {
 		LOG.debug("== note_view ==");
@@ -47,6 +56,10 @@ public class NoteController {
 		return "note/note";
 	}
 	
+	/**
+	 * 쪽지 보내기 페이지 이동
+	 * @return
+	 */
 	@RequestMapping(value="note/note_reg.do",method=RequestMethod.GET)
 	public String note_reg() {
 		LOG.debug("== note_reg ==");
@@ -54,6 +67,10 @@ public class NoteController {
 		return "note/note_reg";
 	}
 	
+	/**
+	 * 답글 보내기 페이지 이동
+	 * @return
+	 */
 	@RequestMapping(value="note/note_reply.do",method=RequestMethod.GET)
 	public String note_reply() {
 		LOG.debug("== note_reply ==");
@@ -61,6 +78,12 @@ public class NoteController {
 		return "redirect:note_reg.do";
 	}
 	
+	/**
+	 * 쪽지 읽기 페이지 이동
+	 * @param note
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="note/note_info.do",method=RequestMethod.GET)
 	public String note_info(NoteVO note, Model model) {
 		LOG.debug("== note_info ==");
@@ -72,6 +95,11 @@ public class NoteController {
 		return "note/note_info";
 	}
 	
+	/**
+	 * 쪽지 삭제 이벤트
+	 * @param req
+	 * @return
+	 */
 	@RequestMapping(value="note/doDelete.do", method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -101,6 +129,11 @@ public class NoteController {
 		return json;
 	}
 	
+	/**
+	 * 쪽지 등록 이벤트
+	 * @param note
+	 * @return
+	 */
 	@RequestMapping(value = "note/doInsert.do", method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -118,6 +151,13 @@ public class NoteController {
 	}
 	
 	
+	/**
+	 * 쪽지 목록 가져오기
+	 * @param req
+	 * @param search
+	 * @param note
+	 * @return
+	 */
 	@RequestMapping(value = "note/doSelectList.do", method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
