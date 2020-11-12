@@ -62,11 +62,15 @@ public class TestDocumentController {
 	public void setUp() throws Exception {
 		LOG.debug(" === setUp === ");
 		list = Arrays.asList(
-						new DocumentVO("W_0001","ID01",1,"워드01","2020-11-19","문서설명내용",0,"ID99(관리자)"),
-						new DocumentVO("E_0002","ID01",1,"엑셀01","2020-11-19","문서설명내용",0,"ID99(관리자)"),
-						new DocumentVO("P_0003","ID01",1,"ppt01","2020-11-19","문서설명내용",0,"ID99(관리자)"),
-						new DocumentVO("E_0001","ID02",2,"엑셀01","2020-11-19","문서설명내용",1,"ID99(관리자)"),
-						new DocumentVO("P_0001","ID03",3,"ppt01","2020-11-19","문서설명내용",2,"ID99(관리자)")
+				new DocumentVO("W_0001","ID01",1,"워드01","2020-11-19","문서설명내용",0,"ID99(관리자)"),
+				new DocumentVO("E_0002","ID01",1,"엑셀01","2020-11-19","문서설명내용",0,"ID99(관리자)"),
+				new DocumentVO("E_0003","ID01",1,"엑셀02","2020-11-19","문서설명내용",0,"ID99(관리자)"),
+				new DocumentVO("E_0004","ID01",1,"엑셀03","2020-11-19","문서설명내용",0,"ID99(관리자)"),
+				new DocumentVO("E_0005","ID01",1,"엑셀04","2020-11-19","문서설명내용",0,"ID99(관리자)"),
+				new DocumentVO("E_0006","ID01",1,"엑셀05","2020-11-19","문서설명내용",0,"ID99(관리자)"),
+				new DocumentVO("P_0003","ID01",1,"ppt01","2020-11-19","문서설명내용",0,"ID99(관리자)"),
+				new DocumentVO("E_0001","ID02",2,"엑셀01","2020-11-19","문서설명내용",1,"ID99(관리자)"),
+				new DocumentVO("P_0001","ID03",3,"ppt01","2020-11-19","문서설명내용",2,"ID99(관리자)")
 				);   
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
@@ -83,7 +87,6 @@ public class TestDocumentController {
 	
 	
 	@Test
-	
 	public void TestController() throws Exception {
 		for(DocumentVO vo :list) {
 			doDelete(vo);

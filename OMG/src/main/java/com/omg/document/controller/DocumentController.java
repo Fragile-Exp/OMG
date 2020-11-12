@@ -43,18 +43,28 @@ public class DocumentController {
 	//--등록 문서 목록 page
 	@RequestMapping(value="document/document.do", method = RequestMethod.GET )
 	public String document_view(DocumentVO documentVO, Model  model){
-		model.addAttribute("url", url);
+		
 		
 		documentVO.setEmployeeId("ID01");
 		
-		List<DocumentVO> IdSeleteList = documentService.doempIdSelectList(documentVO);
-		model.addAttribute("IdSeleteList", IdSeleteList);
-		model.addAttribute("IdSeleteSize", IdSeleteList.size());
-		
-		LOG.debug("=IdSeleteList="+IdSeleteList);
+		int flag = documentService.doempIdcheck(documentVO);
+		model.addAttribute("flag", flag);
+		LOG.debug("=doempIdcheck="+flag);
 		
 		
 		
+		if(flag == 0) {
+			LOG.debug("등록되어진 문서가 없습니다.");
+		}else{
+			List<DocumentVO> IdSeleteList = documentService.doempIdSelectList(documentVO);
+			model.addAttribute("IdSeleteList", IdSeleteList);
+			model.addAttribute("IdSeleteSize", IdSeleteList.size());
+			
+			LOG.debug("=IdSeleteList="+IdSeleteList);
+			LOG.debug("=IdSeleteSize="+IdSeleteList.size());
+		}
+		
+		LOG.debug("종료");
 		return  "document/document";
 	}
 	
@@ -220,7 +230,6 @@ public class DocumentController {
         LOG.debug("=documentVO="+documentVO);
         LOG.debug("==================");		
         
-        //documentVO.setDocumentId("E_0001");
         int flag =documentService.doDelete(documentVO);
         
         LOG.debug("=doDelete="+flag);
