@@ -3,7 +3,7 @@ package com.omg.organization.domain;
 import com.omg.cmn.DTO;
 
 public class PositionVO extends DTO {
-	/** 직급 코드 */
+	/** 직급 코드 */ 
 	private int positionNo;
 	/** 직급 명 */
 	private String positionNm;

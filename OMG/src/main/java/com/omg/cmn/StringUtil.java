@@ -1,12 +1,15 @@
 package com.omg.cmn;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.omg.code.domain.Code;
 
 
 public class StringUtil {
@@ -90,13 +93,13 @@ public class StringUtil {
 	   // 1 2 3 ... 10 (숫자보여주기)
 	   for (inx = startPageNo; inx < maxPageNo && inx <= endPageNo; inx++) {
 			if (inx == currPageNo) {// 현재 page
-				html.append("<li  class=\"disabled\" 	>");
+				html.append("<li  class=\"disabled active\" 	>");
 				html.append("<a  href=\"javascript:#\"  > ");
 				html.append(inx);
 				html.append("</a> \n");
 				html.append("</li>");
 			} else {
-				html.append("<li  class=\"active\">");
+				html.append("<li  class=\"\">");
 				html.append("<a  href=\"javascript:" + scriptName + "('" + url + "'," + inx + ");\"  > ");
 				html.append(inx);
 				html.append("</a> \n");
@@ -225,6 +228,71 @@ public class StringUtil {
 		return formatDate(format)+getUUID();
 	}
 	
+	public static List<String> makeForeach(String codeList, String gb){
+		if(null == codeList || "".equals(codeList)) {
+			return null;
+		}
 		
+		List<String> cdList=new ArrayList<String>();
+		String[] aCode=codeList.split(gb);
+		for(int i=0;i<aCode.length;i++) {
+			cdList.add(aCode[i].toString());
+		}
+		return cdList;
+	}
+	
+	public static String makeSelectBox(List<Code> list,
+							           String selectBoxNm,
+							           String selectNm,
+							           boolean allYN) 
+	{
+		StringBuilder sb = new StringBuilder();
+		//sb.append("<select name='"+selectBoxNm+"' id='"+selectBoxNm+"' class=\"form-control input-sm\"> \n"); //2020.11.11 jgt SB.admin ver
+		sb.append("<select name='"+selectBoxNm+"' id='"+selectBoxNm+"' class=\"custom-select custom-select-sm form-control form-control-sm\"> \n");
+		
+		//custom-select custom-select-sm form-control form-control-sm
+		
+		//전체
+		if(allYN==true) {
+		sb.append("<option value=\"\">전체</option> \n");
+		}
+		
+		if(null !=list) {
+		for(Code vo:list) {
+		sb.append("<option value='"+vo.getDetCode()+"' ");
+		//selectbox선택
+		if(selectNm.equals(vo.getDetCode())) {
+		sb.append(" selected ");
+		}
+		sb.append(">");
+		//코드이름
+		sb.append(vo.getDetNm());
+		sb.append("</option>\n");
+		}
+		} 
+		
+		sb.append("</select>");
+		return sb.toString();
+	
+	}
+	
+	/**
+	 * CodeList중에 특정 마스터 코드 추출
+	 * @param list
+	 * @param codeNm
+	 * @return
+	 */
+	public static List<Code> getCodeSearch(List<Code> list, String codeNm){
+		List<Code> codeList =new ArrayList<Code>();
+		
+		for(Code vo:list) {
+			if(vo.getMstCode().equalsIgnoreCase(codeNm)) {
+				codeList.add(vo);
+				LOG.debug("vo:" + vo);
+			}
+		}
+		
+		return codeList;
+	}
 	
 }

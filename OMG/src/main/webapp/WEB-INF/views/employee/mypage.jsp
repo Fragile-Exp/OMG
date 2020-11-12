@@ -1,8 +1,12 @@
+<%@page import="com.omg.employee.domain.EmployeeVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %> 
-<c:set var="hContext" value="${pageContext.request.contextPath }" ></c:set>     
+<c:set var="hContext" value="${pageContext.request.contextPath }" ></c:set>
+<%
+	EmployeeVO employeeVO=(EmployeeVO)request.getAttribute("employee");
+%>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,17 +35,20 @@
 						<div class="card shadow mb-4">
 							<div class="card-header py-3">
 								<input type="button" class="btn btn-info btn-sm" value="취소" id="cancel">
-								<input type="button" class="btn btn-info btn-sm" value="사원 추가" id="employeeAdd">
+								<input type="button" class="btn btn-info btn-sm" value="수정" id="employeeAdd">
 							</div>
 							<div class="card-body">
+								<div class="col-lg-10 text-center" id="img_preview">
+									<div><img src="OMG/src/main/webapp/WEB-INF/images/basic.png" alt="프로필" width="100" height="100" /></div>
+									<%-- <div><c:out value='${vo.regId}' /></div> --%>
+								</div>
 								<div class="row">
 									<div class="col-lg-2 text-center">
 										<label for="employee_id" >아이디(사원번호)</label>
 									</div>
-									<div class="col-lg-8">
+									<div class="col-lg-9">
 										<input type="text" class="form-control" id="employee_id" placeholder="아이디(사원번호)" />
 									</div>
-									<button type="button" class="btn btn-info btn-sm" value="idConfirm" id="idConfirm">아이디 중복 확인</button>
 								</div>
 								<div class="row py-2">
 									<div class="col-lg-2 text-center">
@@ -53,11 +60,18 @@
 								</div>
 								<div class="row py-2">
 									<div class="col-lg-2 text-center">
-										<label for="password" >비밀번호</label>
+										<label for="password" >새 비밀번호</label>
 									</div>
-									<div class="col-lg-9">
-										<input type="text" class="form-control" id="password" placeholder="비밀번호" />
+									<div class="col-lg-3">
+										<input type="text" class="form-control" id="newPassword" placeholder="비밀번호" />
 									</div>
+									<div class="col-lg-2 text-center">
+										<label for="password" >새 비밀번호 확인</label>
+									</div>
+									<div class="col-lg-3">
+										<input type="text" class="form-control" id="newPasswordConfirm" placeholder="비밀번호" />
+									</div>
+									<button type="button" class="btn btn-info btn-sm" value="idConfirm" id="idConfirm">아이디 중복 확인</button>
 								</div>
 								<div class="row py-2">
 									<div class="col-lg-2 text-center">
@@ -162,6 +176,7 @@
 		$("#Pages").attr("aria-expanded","true");
 		$("#collapsePages").attr("class","collapse show");
 		$("#blank").attr("class","collapse-item active");
+		//console.log("src;"+src);
 		});
 
 	//아이디 존재 여부 확인
@@ -305,6 +320,18 @@
 		
 		
 	});
+
+
+
+
+
+
+
+
+
+
+
+
 	
 
 	

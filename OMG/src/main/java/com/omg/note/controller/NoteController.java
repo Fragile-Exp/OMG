@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
+import com.omg.employee.domain.EmployeeVO;
 import com.omg.note.domain.NoteVO;
 import com.omg.note.service.NoteService;
 
@@ -28,7 +29,22 @@ public class NoteController {
 	@Autowired
 	NoteService noteService;
 	
-	
+	/**
+	 * 사원/부서 찾기 팝업 띄우기
+	 * @return
+	 */
+	@RequestMapping(value="note/find.do",method = RequestMethod.GET)
+	public String findPage() {
+		LOG.debug("== findPage ==");
+		
+		return "note/find";
+	}
+	/**
+	 * 쪽지 페이지 이동
+	 * @param model
+	 * @param noteDiv
+	 * @return
+	 */
 	@RequestMapping(value="note/note.do",method=RequestMethod.GET)
 	public String note_view(Model model,String noteDiv) {
 		LOG.debug("== note_view ==");
@@ -40,6 +56,10 @@ public class NoteController {
 		return "note/note";
 	}
 	
+	/**
+	 * 쪽지 보내기 페이지 이동
+	 * @return
+	 */
 	@RequestMapping(value="note/note_reg.do",method=RequestMethod.GET)
 	public String note_reg() {
 		LOG.debug("== note_reg ==");
@@ -47,6 +67,10 @@ public class NoteController {
 		return "note/note_reg";
 	}
 	
+	/**
+	 * 답글 보내기 페이지 이동
+	 * @return
+	 */
 	@RequestMapping(value="note/note_reply.do",method=RequestMethod.GET)
 	public String note_reply() {
 		LOG.debug("== note_reply ==");
@@ -54,6 +78,12 @@ public class NoteController {
 		return "redirect:note_reg.do";
 	}
 	
+	/**
+	 * 쪽지 읽기 페이지 이동
+	 * @param note
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="note/note_info.do",method=RequestMethod.GET)
 	public String note_info(NoteVO note, Model model) {
 		LOG.debug("== note_info ==");
@@ -65,6 +95,11 @@ public class NoteController {
 		return "note/note_info";
 	}
 	
+	/**
+	 * 쪽지 삭제 이벤트
+	 * @param req
+	 * @return
+	 */
 	@RequestMapping(value="note/doDelete.do", method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -94,15 +129,43 @@ public class NoteController {
 		return json;
 	}
 	
+	/**
+	 * 쪽지 등록 이벤트
+	 * @param note
+	 * @return
+	 */
+	@RequestMapping(value = "note/doInsert.do", method = RequestMethod.POST
+			,produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doInsert(NoteVO note) {
+		LOG.debug("== doInsert ==");
+		
+		// 쪽지 등록
+		Message message = noteService.doInsert(note);
+		
+		Gson gson = new Gson();
+        String json = gson.toJson(message);
+        LOG.debug("json = "+json);
+		
+		return json;
+	}
 	
-	@RequestMapping(value = "org/doSelectList.do", method = RequestMethod.GET
+	
+	/**
+	 * 쪽지 목록 가져오기
+	 * @param req
+	 * @param search
+	 * @param note
+	 * @return
+	 */
+	@RequestMapping(value = "note/doSelectList.do", method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doSelectList(HttpServletRequest req, Search search, NoteVO note) {
 		LOG.debug("== doSelectList ==");
 		// 세션 처리가 됐을 시
-//		EmployeeVO empVO = (EmployeeVO) req.getSession().getAttribute("user");
-		note.setEmployeeId("admin");
+		EmployeeVO empVO = (EmployeeVO) req.getSession().getAttribute("employee");
+		note.setEmployeeId(empVO.getEmployee_id());
 		// 쪽지함 초기값
 		if(note.getNoteDiv()==0) {
 			note.setNoteDiv(2);
@@ -128,7 +191,7 @@ public class NoteController {
         map.put("noteVO", note);
         map.put("searchVO", search);
         
-        LOG.debug("map = "+map);
+        LOG.debug("map = "+map); 
         
         List<NoteVO> list = noteService.doSelectList(map);
 		

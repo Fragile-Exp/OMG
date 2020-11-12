@@ -15,7 +15,7 @@ public class viewController {
 		LOG.debug("== user_view ==");
 		
 		return "index";
-	}
+	} 
 	
 	@RequestMapping(value="view/blank.do",method=RequestMethod.GET)
 	public String blank_view() {

@@ -235,7 +235,7 @@
 		
 		$.ajax({
             type:"GET",
-            url:"${hContext}/org/doSelectList.do",
+            url:"${hContext}/note/doSelectList.do",
             dataType:"html",
             async: true, 
             data : {

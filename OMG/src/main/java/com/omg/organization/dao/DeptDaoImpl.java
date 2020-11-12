@@ -21,7 +21,7 @@ public class DeptDaoImpl {
 	public DeptDaoImpl(){}
 	
 	/**
-	 * 부서체계 삭제
+	 * 부서체계 삭제 
 	 * @param DeptVO
 	 * @return flag(1:성공)
 	 */

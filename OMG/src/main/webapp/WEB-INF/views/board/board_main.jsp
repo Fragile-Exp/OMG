@@ -1,3 +1,5 @@
+<%@page import="com.omg.code.domain.Code"%>
+<%@page import="java.util.List"%>
 <%@page import="com.omg.cmn.Search"%>
 <%@page import="com.omg.cmn.StringUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -30,27 +32,47 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-4 text-gray-800">OO게시판</h1>
+					<h1 class="h3 mb-4 text-gray-800" >OO게시판</h1>
 					<div class="card shadow mb-4">
 						<form action="${hContext}/board/doSelectList.do" name="searchFrm">
 							<div class="card-header py-3">
-								<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="등록"  id="doInsertBtn" style="float: right;" />
-								<input type="hidden" name="pageNum" id="pageNum" />
-								<input type="hidden" name="div"	 id="div"	value="${vo.getDiv()}" />
-								<h6 class="m-0 font-weight-bold text-primary">OO게시판</h6>
+								<div class="row">
+									
+									<input type="hidden" name="div"	 id="div"	value="${vo.getDiv()}" />
+									<div class="col-lg-7">
+										<h6 class="m-0 font-weight-bold text-primary" >OO게시판</h6>
+									</div>
+									
+									<div class="input-group col-lg-4" >
+										<%
+										//검색조건
+										List<Code> boardCondition = (List<Code>)request.getAttribute("BOARD_CONDITION");
+										Search search = (Search)request.getAttribute("vo");
+						    		    out.print(StringUtil.makeSelectBox(boardCondition, "searchDiv", search.getSearchDiv(), true));
+										%>
+										<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+										<div class="input-group-append">
+											<button class="btn btn-primary" type="button" onclick="javascript:doSelectList();">
+												<i class="fas fa-search fa-sm"></i>
+											</button>
+										</div>
+									</div>
+									<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="등록"  id="doInsertBtn" />
+								</div>
 							</div>
 						</form>
 						<form action="${hContext}/board/doSelectList.do" name="boardList">
 							<input type="hidden" name="boardSeq"	id="boardSeq" />
+							<input type="hidden" name="pageNum" id="pageNum" />
 							<div class="com-sm-12">
 								<table class="table table-bordered dataTable" id="boardListTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 									<thead>
 										<tr role="row">
-											<th class="seq" >번호</th>
-											<th class="title" >제목</th>
-											<th class="regId" >작성자</th>
-											<th class="regDt" >작성일</th>
-											<th class="readCnt" >조회수</th>
+											<th class="text-center seq" style="width: 60px;">번호</th>
+											<th class="text-left title" >제목</th>
+											<th class="text-left regId" style="width: 240px;">작성자(수정자)</th>
+											<th class="text-center regDt" style="width: 120px;" >작성일</th>
+											<th class="text-center readCnt" style="width: 60px;" >조회수</th>
 											<th class="hidden-lg hidden-sm hidden-xs" style="display:none;" >boardSeq</th>
 										</tr>
 									</thead>
@@ -58,11 +80,11 @@
 											<c:when test="${list.size()>0}">
 												<c:forEach var="vo" items="${list}">
 													<tr>
-														<td class="seq">${vo.num}</td>
-														<td class="title">${vo.title}</td>
-														<td class="regId">${vo.regId}</td>
-														<td class="regDt">${vo.regDt}</td>
-														<td class="title">${vo.readCnt}</td>
+														<td class="text-center seq">${vo.num}</td>
+														<td class="text-left title">${vo.title}</td>
+														<td class="text-left regId">${vo.regId} (${vo.modId} )</td>
+														<td class="text-center regDt">${vo.regDt}</td>
+														<td class="text-center readCnt">${vo.readCnt}</td>
 														<td class="hidden-lg hidden-sm hidden-xs" style="display:none;">${vo.boardSeq}</td>
 													</tr>
 												</c:forEach>
@@ -76,6 +98,7 @@
 									</tbody>
 								</table>
 							</div>
+							<!-- pagenation -->
 							<div>
 							<%
 								int maxNum = 0; //총글수 
@@ -101,38 +124,10 @@
 								out.print(StringUtil.renderPaging(maxNum, currPageNo, rowPerPage, bottomCount, url, scriptName));
 							%>
 							</div>
+							<!--// pagenation -->
 						</form>
 					</div>
-					<!-- pagenation -->
-					<div class="text-center">
-					<%-- <%
-						int maxNum = 0; //총글수 
-						int currPageNo = 1; //현재페이지
-						int rowPerPage = 10; //현페이지에 보여질 행수
-						int bottomCount = 10; //바닥에 보여질 페이지 수
-				   		String url=""; //호출 url
-						String scriptName=""; //호출javascript
-						
-						maxNum = (Integer)request.getAttribute("totalCnt");
-						
-						Search searchPage = (Search)request.getAttribute("vo");
-						if(null != searchPage)
-						{
-							currPageNo = searchPage.getPageNum();
-							rowPerPage = searchPage.getPageSize();
-						}
-						
-						url = request.getContextPath()+"/board/doSelectList.do";
-						//out.print("url : "+url);
-						scriptName = "doSearchPage";
-						
-						out.print(StringUtil.renderPaging(maxNum, currPageNo, rowPerPage, bottomCount, url, scriptName));
-						
-						
-					%> --%>
-					</div>
-					<!--// pagenation -->
-		
+					
 				</div>
 				<!-- // page Content -->
 
