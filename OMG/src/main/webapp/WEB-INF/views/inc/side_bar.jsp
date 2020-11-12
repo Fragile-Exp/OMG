@@ -126,6 +126,18 @@
 			<div class="collapse-divider"></div>
          </div>
        </div>
+       <div id="adminSetting" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+			<a id="employee_reg" class="collapse-item" href="${hContext}/employee/employee_reg.do">사원 추가</a>
+			<div class="collapse-divider"></div>
+         </div>
+       </div>
+       <div id="adminSetting" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+			<a id="employee_mng" class="collapse-item" href="${hContext}/employee/employee_mng.do">사원 정보 관리</a>
+			<div class="collapse-divider"></div>
+         </div>
+       </div>
      </li>
 
      <!-- Nav Item - Charts -->
