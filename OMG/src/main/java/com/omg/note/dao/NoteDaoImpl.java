@@ -119,7 +119,7 @@ public class NoteDaoImpl {
 	 * @param NoteVO
 	 * @return List<NoteVO>
 	 */
-	public List<NoteVO> doSelectList(HashMap<String, Object> search) {
+	public List<NoteVO> doSelectList(HashMap<String, Object> map) {
 		LOG.debug("== doSelectList ==");
 
 		// mybatis 쿼리 매핑
@@ -127,7 +127,7 @@ public class NoteDaoImpl {
 		LOG.debug("statement : "+statement );
 		
 		// 쿼리 실행
-		List<NoteVO> list = sqlSessionTemplate.selectList(statement,search);
+		List<NoteVO> list = sqlSessionTemplate.selectList(statement,map);
 		
 		for(NoteVO vo:list) {
 			LOG.debug(" 조회 VO : "+ vo);

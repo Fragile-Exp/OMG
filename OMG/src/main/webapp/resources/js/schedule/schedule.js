@@ -39,8 +39,8 @@ function inputStartDay() {
     }
     var today = yyyy + "-" + mm + "-" + dd;
 
-    $("#startDay").val(today);
-    $("#endDay").val(today);
+    $("#startDt").val(today);
+    $("#endDt").val(today);
 }
 
 //일정추가 시간 및 분 구하기

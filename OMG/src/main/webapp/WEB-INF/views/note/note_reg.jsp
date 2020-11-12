@@ -29,18 +29,21 @@
 						<div class="col-lg-2">
 							<div class="card shadow mb-4 py-3 border-left-primary">
 								<div class="card-body">
-									<div class="list-group-flush">
-										<a href="#" class="list-group-item"> 보낸 쪽지함 </a>
-										<a href="#" class="list-group-item"> 받은 쪽지함 </a>
-										<a href="#" class="list-group-item"> 휴지통 </a>
-									</div>
+									<form action="${hContext}/note/note.do" name="move_frm" method="get">
+										<div class="list-group-flush">
+											<input type="hidden" id="noteDiv" name="noteDiv" />
+											<a href="#" onclick="javascript:moveNote(1); return false;" class="list-group-item"> 보낸 쪽지함 </a>
+											<a href="#" onclick="javascript:moveNote(2); return false;" class="list-group-item"> 받은 쪽지함 </a>
+											<a href="#" onclick="javascript:moveNote(3); return false;" class="list-group-item"> 휴지통 </a>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-10">
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
-									<a href="javascript:history.back();" class="btn btn-info btn-icon-split btn-sm">
+									<a id="backBtn" href="#" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-arrow-left"></i></span>
 										<span class="text">취소</span>
 									</a>
@@ -105,5 +108,17 @@
 		<!-- //Content Wrapper -->
 	</div>
 	<!-- //wrap -->
+	<script type="text/javascript">
+	
+	function moveNote(div){
+		var frm = document.move_frm;
+		frm.noteDiv.value = div;
+		frm.submit();
+	}
+
+	$("#backBtn").on("click",function(){
+		moveNote("${noteVO.noteDiv}");
+	});
+	</script>
 </body>
 </html>

@@ -5,6 +5,12 @@
 <head>
 <meta charset="utf-8">
 <title>OMG</title>
+<style type="text/css">
+	.btn-info {
+		
+	}
+</style>
+
 </head>
 <body id="page-top">
 	<!-- wrap -->
@@ -25,43 +31,44 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-4 text-gray-800">내 출석</h1>
+					<h1 class="h3 mb-4 text-gray-800">내 출결관리</h1>
 					
-					<label for="start">월 선택</label> 
-					<input type="month"id="start" name="start" min="2020-11" value="2021-11">
-						
 					<div class="row">
-						<div class="col-lg-2">
-							<div class="card shadow mb-4 py-3 border-left-primary">
-								<div class="card-body">
-									<div class="list-group-flush">
-										<a href="#" class="list-group-item"> 보낸 쪽지함 </a> <a href="#"
-											class="list-group-item"> 받은 쪽지함 </a> <a href="#"
-											class="list-group-item"> 휴지통 </a>
-									</div>
-								</div>
-							</div>
-						</div>
-
 
 						<div class="col-lg-10">
+							
 							<div class="card shadow mb-4">
+							
+								<div class="card-header py-3"> 
+									
+									<label for="start">월 선택</label> 
+									<form action="${hContext}/commuting/my_attendence.do" method="get" name="searchFrm">
+										<input type="month"  min="2020-11" id="month" name="month" value="${month}" >	
+										<input type="submit" class="btn btn-info btn-sm" value="Search"> 
+									</form>
+									<form action="${hContext}/commuting/doUpdateAttendTime.do" method="get" name="searchFrm">
+										<input type="submit" class="btn btn-info btn-sm" value="출근등록"> 
+									</form>
+									
+								</div>
+								
+								
 								<div class="card-body">
 									<div class="table-responsive">
-										<table id="noteList"
+										<!-- table -->
+										<table id="myAttendList"
 											class="table table-striped table-bordered table-hover table-condensed">
 											<thead>
 												<tr>
-													<th class="text-center" width="10%">일자</th>
+													<th class="text-center" width="15%">일자</th>
 													<th class="text-center" width="8%">사번</th>
 													<th class="text-center" width="8%">이름</th>
-													<th class="text-center" width="8%">부서</th>
-													<th class="text-center" width="10%">출근 시간</th>
-													<th class="text-center" width="10%">퇴근 시간</th>
+													<th class="text-center" width="12%">출근 시간</th>
+													<th class="text-center" width="12%">퇴근 시간</th>
 													<th class="text-center" width="10%">현재 출결</th>
 													<th class="text-center" width="10%">출결 상태</th>
-													<th class="text-center" width="10%">근무 시간</th>
-													<th class="text-center" width="19%">누적근무시간</th>
+													<th class="text-center" width="12%">근무 시간</th>
+													<th class="text-center" width="13%">누적근무시간</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -73,7 +80,6 @@
 																<td class="text-center">${vo.seq}</td>
 																<td class="text-center">${vo.employeeId}</td>
 																<td class="text-center">${vo.name}</td>
-																<td class="text-center">${vo.deptNo}</td>
 																<td class="text-center">${vo.attendTime}</td>
 																<td class="text-center">${vo.leaveTime}</td>
 																<td class="text-center">${vo.presentState}</td>
@@ -91,6 +97,7 @@
 												</c:choose>
 											</tbody>
 										</table>
+										<!-- //table -->
 									</div>
 								</div>
 							</div>
@@ -99,7 +106,28 @@
 
 				</div>
 				<!-- // page Content -->
-
+				<!-- Modal추가 -->
+							<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+								aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+									
+										<div class="modal-header">
+											<h4 class="modal-title" id="myModalLabel">알림</h4>
+											<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
+										</div>
+										 
+										<div class="modal-body">처리가 완료되었습니다.</div>
+										
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+											<button type="button" class="btn btn-default">Save changes</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /modal -->
+				
 			</div>
 			<!-- //Main Content -->
 
@@ -118,6 +146,7 @@
 			$("#collapsePages").attr("class", "collapse show");
 			$("#blank").attr("class", "collapse-item active");
 		});
+
 	</script>
 </body>
 </html>

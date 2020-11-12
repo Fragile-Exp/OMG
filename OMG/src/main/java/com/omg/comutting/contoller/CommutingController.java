@@ -3,6 +3,9 @@ package com.omg.comutting.contoller;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +14,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
+import com.omg.cmn.StringUtil;
 import com.omg.commuting.domain.Commuting;
 import com.omg.commuting.service.CommutingService;
+import com.omg.employee.domain.EmployeeVO;
 
 
 
 @Controller
+@RequestMapping(value="/commuting/*")
 public class CommutingController {
+	
+	final String  CURRENT_MONTH = StringUtil.formatDate("yyyy-MM");
 	
 	final Logger LOG = LoggerFactory.getLogger(CommutingController.class);
 	
@@ -182,32 +191,25 @@ public class CommutingController {
 		return returnUrl;
 	}
 	
-	@RequestMapping(value="commuting/doSelectList.do", method = RequestMethod.GET)
-	public String doSelectList(Search search, Model model) {
+	@RequestMapping(value="/my_attendence.do", method = RequestMethod.GET)
+	public void doSelectMyList(
+			@RequestParam(value = "month" ,defaultValue = "2020-11")  String month, Model model, HttpServletRequest req) {
 		LOG.debug("***************************");
-		LOG.debug("=controller.doSelectList=");
+		LOG.debug("=controller.doSelectMyList=");
 		LOG.debug("***************************");
+		//1. 세션 GET
+//		HttpSession session = req.getSession();
+//		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("user");
+		Commuting searchVO = new Commuting();
 		
-		LOG.debug(">param>" + search);
-		model.addAttribute("vo", search);
+		LOG.debug(">param>" + month);
 		
-		if(search.getPageNum()==0) {
-			search.setPageNum(1);
-		}
+		searchVO.setSeq(month);
+		//inVO.setEmployeeId(sessionVO.getEmployee_id());
 		
-		if(search.getPageSize()==0) {
-			search.setPageSize(10);
-		}
-		
-		List<Commuting> cList = this.commutingService.doSelectList(search);
-		model.addAttribute("list",cList);
-		
-		for(Commuting vo : cList) {
-			LOG.debug(vo.toString());
-		}
-		
-		String view ="commuting/my_attend";
-		return view;
+		searchVO.setEmployeeId("d22");
+		model.addAttribute("month",month);
+		model.addAttribute("list",commutingService.doSelectMyList(searchVO));
 	}
 	
 	

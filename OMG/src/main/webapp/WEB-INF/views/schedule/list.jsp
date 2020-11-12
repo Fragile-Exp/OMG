@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +23,7 @@
 				<%@include file="/WEB-INF/views/inc/top_bar.jsp"%>
 
 				<!-- Page Heading -->
-				<h1 class="h3 mb-2 text-gray-800">Board Tables</h1>
+				<h1 class="h3 mb-2 text-gray-800">일정 관리</h1>
 				<p class="mb-4">
 					DataTables is a third party plugin that is used to generate the demo
 					table below. For more information about DataTables, please visit the <a
@@ -78,10 +77,10 @@
 											<option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : ''}"/>>--</option>
 											<option value="T" <c:out value="${pageMaker.cri.type eq 'T' ? 'selected' : ''}"/>>제목</option>
 											<option value="C" <c:out value="${pageMaker.cri.type eq 'C' ? 'selected' : ''}"/>>내용</option>
-											<option value="E" <c:out value="${pageMaker.cri.type eq 'E' ? 'selected' : ''}"/>>사번</option>
-											<option value="TC" <c:out value="${pageMaker.cri.type eq 'TC' ? 'selected' : ''}"/>>제목 or 내용</option>
-											<option value="TE" <c:out value="${pageMaker.cri.type eq 'TE' ? 'selected' : ''}"/>>제목 or 사번</option>
-											<option value="TCE" <c:out value="${pageMaker.cri.type eq 'TCE' ? 'selected' : ''}"/>>제목 or 내용 or 사번</option>
+											<option value="E" <c:out value="${pageMaker.cri.type eq 'E' ? 'selected' : ''}"/>>작성자</option>
+											<option value="TC" <c:out value="${pageMaker.cri.type eq 'TC' ? 'selected' : ''}"/>>제목+내용</option>
+											<option value="TE" <c:out value="${pageMaker.cri.type eq 'TE' ? 'selected' : ''}"/>>제목+작성자</option>
+											<option value="TCE" <c:out value="${pageMaker.cri.type eq 'TCE' ? 'selected' : ''}"/>>제목+내용+작성자</option>
 										</select>
 										
 										<input type="text" name="keyword" value="${pageMaker.cri.keyword}">
@@ -99,19 +98,19 @@
 								<ul class="pagination">
 									<c:if test="${pageMaker.prev}">
 										<li class="paginate_button previous">
-											<a href="#">Previous</a>
+											<a href="${pageMaker.startPage - 1}">Previous</a>
 										</li>
 									</c:if>
 									
 									<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
 										<li class="paginate_button">
-											<a href="#">${num}</a>
+											<a href="${num}">${num}</a>
 										</li>
 									</c:forEach>
 									
 									<c:if test="${pageMaker.next}">
 										<li class="paginate_button next">
-											<a href="#">Next</a>
+											<a href="${pageMaker.endPage + 1}">Next</a>
 										</li>
 									</c:if>
 								</ul>
@@ -152,6 +151,9 @@
 					</div>
 				</div>
 			</div>
+			<!-- footer -->
+			<%@include file="/WEB-INF/views/inc/footer.jsp"%>
+			<!-- //footer -->
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -192,7 +194,7 @@
 			//게시물 조회를 위한 이벤트 처리
 			$(".move").on("click", function(e) {
 				e.preventDefault();
-				actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'> ");
+				actionForm.append("<input type='hidden' name='scheduleNo' value='"+$(this).attr("href")+"'> ");
 				actionForm.attr("action", "/schedule/get.do");
 				actionForm.submit();
 			});

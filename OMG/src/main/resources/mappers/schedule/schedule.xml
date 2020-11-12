@@ -16,7 +16,7 @@
 							content like '%'||#{keyword}||'%'
 						</when>
 						<when test="type == 'E'.toString()">
-							employeeId like '%'||#{keyword}||'%'
+							employee_id like '%'||#{keyword}||'%'
 						</when>
 					</choose>
 				</trim>
