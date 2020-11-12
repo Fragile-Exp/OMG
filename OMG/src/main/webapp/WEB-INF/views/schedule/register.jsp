@@ -66,8 +66,8 @@
 										<input type="datetime-local" class="form-control" name="endDt" id="endDt"/>
 									</div>
 
-									<button type="submit" class="btn btn-default">저장</button>
-									<button type="reset" class="btn btn-default">리셋</button>
+									<button type="submit" class="btn btn-primary">저장</button>
+									<button type="reset" class="btn btn-danger">리셋</button>
 
 									
 								</form>

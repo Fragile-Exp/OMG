@@ -25,14 +25,6 @@
 				
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Board Read</h1>
-					</div>
-					<!-- /.col-log-12 -->
-				</div>
-				<!-- /.row -->
-				
-				<div class="row">
-					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
@@ -81,7 +73,7 @@
 										<input type="datetime-local" class="form-control" name="endDt" value="<c:out value="${schedule.endDt}"/>" id="endDt" readonly="readonly">
 									</div>
 									
-									<button data-oper="modify" class="btn btn-default">수정하기</button>
+									<button data-oper="update" class="btn btn-primary">수정</button>
 									<button data-oper="list" class="btn btn-info">목록</button>
 									
 									<form id="operForm" action="/schedule/modify.do" method="get">
@@ -111,7 +103,7 @@
 		$(document).ready(function() {
 			var operForm = $("#operForm");
 	
-			$("button[data-oper='modify']").on("click", function(e) {
+			$("button[data-oper='update']").on("click", function(e) {
 				operForm.attr("action", "/schedule/update.do").submit();
 			});
 	
@@ -119,7 +111,8 @@
 				operForm.find("#scheduleNo").remove();
 				operForm.attr("action", "/schedule/list.do");
 				operForm.submit();
-			})
+			});
+
 		});
 	</script>
 </body>
