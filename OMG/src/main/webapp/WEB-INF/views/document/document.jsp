@@ -36,8 +36,8 @@
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
 					  <h1 class="h3 mb-0 text-gray-800">문서 등록</h1>
 					  <div class="btn-box">
-					  	<a href="http://localhost:8080/cmn/document/document_reg.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-invoice fa-sm text-white-50"></i>등록 페이지</a>
-					  	<a  class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-trash fa-sm text-white-50"></i> 삭제</a>
+					  	<a href="${hContext}/document/document_reg.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-invoice fa-sm text-white-50"></i>등록 페이지</a>
+					  	<a id="delete" onClick="deleteDcoument()" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-trash fa-sm text-white-50"></i> 삭제</a>
 					  </div>
 					</div>
 					
@@ -52,6 +52,7 @@
 					      <!-- Card Header - Dropdown -->
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					        <h6 class="m-0 font-weight-bold text-primary">등록 결재 목록</h6>
+					    	<div id="test">  </div>
 					    	<div class="dropdown no-arrow">
 					          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -68,7 +69,7 @@
 					      <!-- Card Body -->
 					      <div class="card-body">
 					        <div class="chart-area">
-					        	<table class="card-table" >
+					        	<table id="table"class="card-table" >
 					        		<thead>
 						        		<tr class="card-table-thead">
 						        			<th width="15%" class="text-center" >문서 제목</th>	
@@ -81,26 +82,38 @@
 					        		</thead>
 					        		
 					        		<tbody>
+					        			
 					        		
-					        		
-					        		
-						        		<c:forEach var="i" begin="0" end="${IdSeleteSize-1}" step="1">
-						        			<c:set var="VO" value="${IdSeleteList[i]}"  />
-						        			<tr class="card-table-tbody">
-													<td><c:out value="${VO.title}"/></td>
-												    <td><c:out value="${VO.kind}"/></td>
-												    <td><c:out value="${VO.documentId}"/></td>
-												    <td><c:out value="${VO.dDay}"/></td>
-												    <td><c:out value="${VO.documentSet}"/></td>
-												    <td>
-												    	<a href="http://localhost:8080/cmn/document/document_info.do" class="btn btn-sm btn-primary shadow-sm">
-												    		<i class="fas fa-arrow-right fa-sm text-white-50"></i>
-												    	</a>
-												    	<input id="check"  type="checkbox">
-												    </td>
-												    
+					        			<c:if test="${flag == 0 }">
+					        				<tr id="tbody"class="card-table-tbody">
+												<td colspan="6" style="text-align: center;">등록되어진 문서가 없습니다.</td>	
 											</tr>
-							        	</c:forEach>
+					        			</c:if>
+					        		
+					        			<c:if test="${flag != 0 }">
+							        		<c:forEach var="i" begin="0" end="${IdSeleteSize-1}" step="1">
+							        			<c:set var="VO" value="${IdSeleteList[i]}"  />
+							        			<a id="tbodyA" herf="">
+							        			<tr class="card-table-tbody">
+													<td>${VO.title}</td>
+													<td>${VO.kind}</td>
+													<td>${VO.documentId}</td>
+													<td>${VO.dDay}</td>
+													<td>${VO.documentSet}</td>
+													<td>
+														<a href="${hContext}/document/document_info.do" class="btn btn-sm btn-primary shadow-sm">
+															<i class="fas fa-arrow-right fa-sm text-white-50"></i>
+														</a>
+													   	<input name="check"  type="checkbox" value="${VO.documentId}">
+													</td>
+												</tr>
+												</a>
+								        	</c:forEach>
+						        		</c:if>
+						        	
+						        	
+						        	
+						        		
 						        	</tbody>	
 								</table>
 					        </div>
@@ -127,23 +140,56 @@
 
 <script type="text/javascript">
 	//let param1 = $("#tag name").val(); 
+	//var list = '<c:out value="${IdSeleteList}"/>' ;
+	
+	// button
+	// delete : 삭제 , check : 체크박스
+	
+	var list = [];
 
-	var list = '<c:out value="${IdSeleteList}"/>' ;
-	var Size = '<c:out value="${IdSeleteSize}"/>' ;
+	
+	function deleteDcoument(){
+		if($('input[name="check"]').is(":checked")==true){
+			if(confirm("삭제 하시겠습니까?")==true){
 
+				$("input:checkbox[name=check]:checked").each(function(){
+					list.push($(this).val());
+				});			
+				
 
-	/* $("#delete").click(function(){
-		$("#check").click(function(){
-			if($(this).prop("checked")==true){
-				doDelete
+				for(var i=$("#table input:checkbox:checked").length-1; i>-1; i--){
+					$.ajax({
+						url:"${hContext}/document/doDelete.do",
+						type:"GET",
+						data:{"documentId" : list[i]},
+						dataType:"json",
+					success:function(data){
+					 	alert("삭제가 성공 하였습니다.")
+						$("input:checkbox:checked").closest("tr").remove();
+					},
+					error:function(err){
+						alert("삭제가 실패 하였습니다.")
+					}
+
+					});					
+
+				}
+
+			}else{
+				alert("삭제 취소 되었습니다.");
 			}
+			
 
-			});
-		
-		
-		}); */
+		}
+	}
+
+
 	
 
+
+
+
+	
 </script>
 
 </html>
