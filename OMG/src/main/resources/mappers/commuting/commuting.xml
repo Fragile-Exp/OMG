@@ -110,6 +110,10 @@
 				WHERE TO_CHAR(reg_dt,'yyyyMM') = TO_CHAR(sysdate,'yyyyMM')
 				AND employee_id = #{searchWord}
 			</when>
+			<!-- seq-->
+			<when test="40 == searchDiv">
+				WHERE seq = #{searchWord}
+			</when>
 		</choose>
 	</sql>
 	<select id="doSelectList" parameterType="Search" resultType="Commuting">

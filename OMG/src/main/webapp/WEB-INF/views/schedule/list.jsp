@@ -21,25 +21,19 @@
 			<div id="content">
 				<!-- top_bar -->
 				<%@include file="/WEB-INF/views/inc/top_bar.jsp"%>
-
-				<!-- Page Heading -->
-				<h1 class="h3 mb-2 text-gray-800">일정 관리</h1>
-				<p class="mb-4">
-					DataTables is a third party plugin that is used to generate the demo
-					table below. For more information about DataTables, please visit the <a
-						target="_blank" href="https://datatables.net">official DataTables
-						documentation</a>.
-				</p>
+				
 				<div class="card shadow mb-4">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight bold text-primary">일정 관리</h6>
-						<button id="regBtn" type="button" class="btn btn-xs pull-right">일정 추가</button>
+						<div class="panel-heading">
+							<label class="h4 m-0 font-weight bold text-primary">일정 리스트</label>
+							<button id="regBtn" type="button" class="btn btn-primary pull-right" style="float: right;">일정 추가</button>
+						</div>
 					</div>
 				
 					<div class="card-body">
 						<div class="table-responsive">
 							<!-- table -->
-							<table class="table table-bordered" id="dateTable" width="100%" cellspacing="0">
+							<table class="table table-striped table-bordered table-hover" id="dateTable" width="100%" cellspacing="0">
 								<thead>
 									<tr>
 										<th>#번호</th>
@@ -71,7 +65,7 @@
 				
 							<!-- criteria -->
 							<div class="row">
-								<div class="col-lg-12">
+								<div class="col-lg-12 col-md-7">
 									<form id="searchForm" action="/schedule/list.do" method="get">
 										<select name="type">
 											<option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : ''}"/>>--</option>
@@ -87,35 +81,36 @@
 										<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 										<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
 										
-										<button class="btn btn-default">Search</button>
+										<button class="btn btn-primary">Search</button>
+								
+										<!-- paging -->
+										<div class="dataTables_paginate paging_simple_numbers pull-right" style="float: right;" id="dataTable_paginate">
+											<ul class="pagination">
+												<c:if test="${pageMaker.prev}">
+													<li class="paginate_button page-item previous" id="dataTable_previous">
+														<a href="${pageMaker.startPage - 1}" aria-control="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+													</li>
+												</c:if>
+												
+												<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+													<li class="paginate_button page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
+														<a href="${num}" aria-control="dataTable" data-dt-idx="${num}" tabindex="0" class="page-link">${num}</a>
+													</li>
+												</c:forEach>
+												
+												<c:if test="${pageMaker.next}">
+													<li class="paginate_button page-item next">
+														<a href="${pageMaker.endPage + 1}" aria-control="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
+													</li>
+												</c:if>
+											</ul>
+										</div>
 									</form>
 								</div>
 							</div>
 							<!-- /criteria -->
-			
-							<!-- paging -->
-							<div class="pull-right">
-								<ul class="pagination">
-									<c:if test="${pageMaker.prev}">
-										<li class="paginate_button previous">
-											<a href="${pageMaker.startPage - 1}">Previous</a>
-										</li>
-									</c:if>
-									
-									<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-										<li class="paginate_button">
-											<a href="${num}">${num}</a>
-										</li>
-									</c:forEach>
-									
-									<c:if test="${pageMaker.next}">
-										<li class="paginate_button next">
-											<a href="${pageMaker.endPage + 1}">Next</a>
-										</li>
-									</c:if>
-								</ul>
-							</div>
-							<!-- /paging -->
+
+							
 					
 							<!-- hidden -->
 							<form id="actionForm" action="/schedule/list.do" method="get">
@@ -139,8 +134,8 @@
 										<div class="modal-body">처리가 완료되었습니다.</div>
 										
 										<div class="modal-footer">
-											<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-											<button type="button" class="btn btn-default">Save changes</button>
+											<button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
+											<!-- <button type="button" class="btn btn-default">Save changes</button>  -->
 										</div>
 									</div>
 								</div>
