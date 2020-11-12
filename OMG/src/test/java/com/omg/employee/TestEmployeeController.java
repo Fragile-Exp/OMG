@@ -54,7 +54,6 @@ public class TestEmployeeController {
 	@Autowired
 	EmployeeService employeeService;
 	
-	//브라?��?? ???�� Mock
 	MockMvc  mockMvc;
 	
 	@Before
