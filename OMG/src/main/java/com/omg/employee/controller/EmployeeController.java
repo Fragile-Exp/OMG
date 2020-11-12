@@ -2,12 +2,16 @@ package com.omg.employee.controller;
 
 import java.util.List;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +25,15 @@ import com.omg.cmn.StringUtil;
 import com.omg.employee.domain.EmployeeVO;
 import com.omg.employee.service.EmployeeService;
 
+
 @Controller
 public class EmployeeController {
 	final Logger LOG=LoggerFactory.getLogger(EmployeeController.class);
+	
+	
+	@Autowired 
+	private JavaMailSenderImpl mailSenderImpl;
+	 
 	
 	@Autowired
 	EmployeeService employeeService;
@@ -62,6 +72,48 @@ public class EmployeeController {
 		return "employee/employee_mng";
 	}
 	
+	
+	//비밀번호 찾기
+	@RequestMapping(value="employee/forgot_password.do",method=RequestMethod.GET)
+	public String forgot_password() {
+		LOG.debug("== forgot_password ==");
+		
+		return "employee/forgot_password";
+	}
+	 
+	
+	
+	
+	  //사원 비밀번호 메일로 보내기
+	  @RequestMapping(value="employee/sendMail.do",method=RequestMethod.GET) 
+	  @ResponseBody
+	  public String sendMail(EmployeeVO employee,HttpServletRequest request) {
+		  LOG.debug("=sendMail=");
+		  LOG.debug("=employee="+employee);
+		  
+		  EmployeeVO outVO=employeeService.doSelectOne(employee);
+		  LOG.debug("=outVO="+outVO);
+		  
+		  try {
+			  MimeMessage message=mailSenderImpl.createMimeMessage();
+			  MimeMessageHelper messageHelper=new MimeMessageHelper(message,true,"UTF-8");
+			  
+			  messageHelper.setFrom("casse2045@naver.com");
+			  messageHelper.setTo(outVO.getEmail());
+			  messageHelper.setSubject(outVO.getName()+"님 사원 비밀번호 찾기");
+			  messageHelper.setText(outVO.getName()+"님의 비밀번호는 "+outVO.getPassword()+"입니다.");
+			  
+			  mailSenderImpl.send(message);
+			  
+		  }catch(Exception e) {
+			  e.getMessage();
+		  }
+		 		  
+		  return "result";
+	  
+	  }
+	 
+	 
 	
 	@RequestMapping(value="employee/doSelectOne.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"
@@ -227,9 +279,9 @@ public class EmployeeController {
         message.setMsgId(flag+"");
         
         if(flag ==1 ) {
-        	message.setMsgContents(employee.getEmployee_id()+"존재하는 아이디 입니다.\n다른 아이디를 사용하세요");
+        	message.setMsgContents(employee.getEmployee_id()+"존재하는 아이디 입니다.");
         }else {
-        	message.setMsgContents(employee.getEmployee_id()+"존재하지 않는 아이디 입니다.\n사용 가능합니다.");
+        	message.setMsgContents(employee.getEmployee_id()+"존재하지 않는 아이디 입니다.");
         }
         Gson gson=new Gson();
         String json = gson.toJson(message);

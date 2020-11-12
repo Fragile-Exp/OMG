@@ -5,7 +5,6 @@
 <c:set var="hContext" value="${pageContext.request.contextPath }" ></c:set>   
 <!DOCTYPE html>
 <html>
-
 <head>
 
     <meta charset="utf-8">
@@ -26,10 +25,8 @@
     <link href="../resources/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
-
-<body class="bg-gradient-primary">
-
-    <div class="container">
+<body id="page-top">
+ <div class="container">
 
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -40,37 +37,23 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-2">비밀번호를 잊으셨나요?</h1>
+                                        <p class="mb-4">당신의 사원번호를 입력하시면<br>조회 후 메일로 비밀번호를 보내드리겠습니다.</p>
                                     </div>
                                     <form class="user">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
                                                 id="employee_id" name="employee_id"
-                                                placeholder="아이디(사원번호)">
+                                                placeholder="사원번호를 입력하세요">
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="password" name="password" placeholder="비밀번호">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <a class="btn btn-primary btn-user btn-block" id="loginBtn" name="loginBtn">
-                                            로그인
+                                        <a id="mailSenderBtn" class="btn btn-primary btn-user btn-block">
+                                            메일 보내기
                                         </a>
                                     </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" id="forgot_password" href="${hContext}/employee/forgot_password.do">비밀번호 찾기</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -82,45 +65,34 @@
         </div>
 
     </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="../resources/vendor/jquery/jquery.min.js"></script>
     <script src="../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script type="text/javascript">
-   
-    $("#loginBtn").one("click",function(){
-    	//alert("#loginBtn");
-    	//아이디(사원번호) 필수 체크
+	<script type="text/javascript">
+	$("#mailSenderBtn").one("click",function(){
+		//alert("#mailSenderBtn");
 		if($("#employee_id").val()==false || $("#employee_id").val() ==""){
 			alert("아이디(사원번호)를 확인하세요.");
 			return ;
 		}	
-		//password 필수 체크
-		if($("#password").val()==false || $("#password").val() ==""){
-			alert("비밀번호를 확인하세요.");
-			return ;
-		}
 		//ajax
         $.ajax({
-           type:"POST",
-           url:"${hContext}/employee/doLogin.do",
+           type:"GET",
+           url:"${hContext}/employee/idConfirm.do",
            dataType:"html",
            data:{
-	           "employee_id":$("#employee_id").val(),
-	           "password":$("#password").val()
+	           "employee_id":$("#employee_id").val()
           }, 
         success: function(data){
           var jData = JSON.parse(data);
           if(null != jData && jData.msgId=="1"){
-            console.log(jData.msgContents);
-            //다시조회
-            //doSelectList(1);
-            window.location.href="${hContext}/view/main.do"
+            //console.log(jData.msgContents);
+            alert("존재하는 사원번호입니다.\n등록되어있는 메일로 비밀번호를 보내드렸습니다.")
+            mailSender();
+            //window.location.href="${hContext}/view/main.do"
           }else{
-            alert(jData.msgId+"|"+jData.msgContents);
-            alert("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
+            alert("존재하지 않는 사원번호입니다.\n 사원번호를 확인하세요.");
           }
         },
         complete:function(data){
@@ -131,8 +103,39 @@
         }
        }); 
        //--ajax 
-        });
-    </script>
-</body>
+		
+		
+		});
 
+	function mailSender(){
+		//ajax
+        $.ajax({
+           type:"GET",
+           url:"${hContext}/employee/sendMail.do",
+           dataType:"html",
+           data:{
+	           "employee_id":$("#employee_id").val()
+          }, 
+        success: function(data){
+            console.log("mail send success");
+            window.location.href="${hContext}/employee/login.do"
+        },
+        complete:function(data){
+         
+        },
+        error:function(xhr,status,error){
+            alert("error:"+error);
+        }
+       }); 
+       //--ajax 
+
+
+		}
+
+	
+
+	
+	
+	</script>
+</body>
 </html>
