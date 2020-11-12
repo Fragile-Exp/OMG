@@ -1,7 +1,10 @@
 package com.omg.employee.controller;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.omg.cmn.Message;
@@ -30,6 +34,9 @@ import com.omg.employee.service.EmployeeService;
 public class EmployeeController {
 	final Logger LOG=LoggerFactory.getLogger(EmployeeController.class);
 	
+	/*
+	 * @Resource(name = "uploadPath") private String uploadPath;
+	 */
 	
 	@Autowired 
 	private JavaMailSenderImpl mailSenderImpl;
@@ -80,6 +87,41 @@ public class EmployeeController {
 		
 		return "employee/forgot_password";
 	}
+	
+	//마이페이지
+	@RequestMapping(value="employee/mypage.do",method=RequestMethod.GET)
+	public String mypage() {
+		LOG.debug("== mypage ==");
+		
+		return "employee/mypage";
+	}
+	
+	/*
+	 * //uploadController 생성
+	 * 
+	 * @RequestMapping(value = "/uploadForm", method = RequestMethod.GET) public
+	 * void uploadForm() throws Exception { }
+	 * 
+	 * @RequestMapping(value = "/uploadForm", method = RequestMethod.POST) public
+	 * String uploadForm(MultipartFile file, Model model) throws Exception {
+	 * 
+	 * LOG.debug("originalName: " + file.getOriginalFilename()); LOG.debug("size: "
+	 * + file.getSize()); LOG.debug("contentType: " + file.getContentType());
+	 * 
+	 * String savedName = uploadFile(file.getOriginalFilename(), file.getBytes());
+	 * 
+	 * model.addAttribute("savedName", savedName);
+	 * 
+	 * return "uploadResult"; }
+	 * 
+	 * private String uploadFile(String originalName, byte[] fileData) throws
+	 * Exception {
+	 * 
+	 * UUID uid = UUID.randomUUID(); String savedName = uid.toString() + "_" +
+	 * originalName; File target = new File(uploadPath, savedName);
+	 * FileCopyUtils.copy(fileData, target); return savedName; }
+	 */
+	
 	 
 	
 	
