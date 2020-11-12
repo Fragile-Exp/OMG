@@ -3,7 +3,7 @@ package com.omg.organization.domain;
 import com.omg.cmn.DTO;
 
 public class DeptVO extends DTO {
-	/** 부서 코드 */
+	/** 부서 코드 */ 
 	private int deptNo;
 	/** 부서 명 */
 	private String deptNm;

@@ -166,7 +166,7 @@ public class PositionDaoImpl2 {
 		sb.append("		position_no=up_position		\n");
 		LOG.debug("query : \n"+sb.toString());
 		
-		// Excute
+		// Excute 
 		List<PositionVO> list = (List<PositionVO>) jdbcTemplate.query(sb.toString(), rowMapper);
 		
 		for(PositionVO vo:list) {

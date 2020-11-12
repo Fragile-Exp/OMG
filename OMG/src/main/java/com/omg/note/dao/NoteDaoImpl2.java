@@ -286,7 +286,7 @@ public class NoteDaoImpl2 {
 		
 		int key = jdbcTemplate.queryForObject(sb.toString(), Integer.class);
 		
-		return key;
+		return key; 
 	}
 	
 

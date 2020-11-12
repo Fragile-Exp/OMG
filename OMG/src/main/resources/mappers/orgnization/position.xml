@@ -28,7 +28,7 @@
 		WHERE position_no = #{positionNo}
 	</update>
 	
-	<!-- 목록 조회 -->
+	<!-- 목록 조회 --> 
 	<select id="doSelectList" resultType="PositionVO"  >
 		SELECT position_no as positionNo, position_nm as positionNm, up_position as upPosition
 		FROM position

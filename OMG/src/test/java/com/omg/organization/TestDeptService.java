@@ -24,7 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.omg.organization.domain.DeptVO;
 import com.omg.organization.service.DeptService;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING) // 메소드 수행 순서
+@FixMethodOrder(MethodSorters.NAME_ASCENDING) // 메소드 수행 순서 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class) // 스프링 테스트 컨텍스트 프레임워크의 Junit 기능 확장 applicationContext 공유
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",

@@ -146,7 +146,7 @@ public class NoteDaoImpl {
 		// 쿼리 실행
 		int key = sqlSessionTemplate.selectOne(statement);
 		
-		return key;
+		return key; 
 	}
 	
 

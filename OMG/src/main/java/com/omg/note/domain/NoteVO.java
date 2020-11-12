@@ -15,10 +15,14 @@ public class NoteVO extends DTO {
 	private int receiveDiv;
 	/** 받는 이 */
 	private String receiveId;
-	/** 받는 부서 */
-	private String receiveRef;
 	/** 받는이 이름(사용자이름,부서이름) */
 	private String receiveNm;
+	/** 참조 구분 */
+	private int receiveRefDiv;
+	/** 참조 */
+	private String receiveRef;
+	/** 참조 이름 */
+	private String receiveRefNm;
 	/** 사원 ID(실제 조회에 사용됨) */
 	private String employeeId;
 	/** 사원 이름(실제 조회에 사용됨) */
@@ -72,8 +76,8 @@ public class NoteVO extends DTO {
 	}
 
 	public NoteVO(int noteNo, int noteDiv, String senderId, String senderNm, int receiveDiv, String receiveId,
-			String receiveRef, String receiveNm, String employeeId, String employeeNm, String title, String contents, int upNote, int read,
-			String sendDt, String readDt) {
+			String receiveNm, int receiveRefDiv, String receiveRef, String receiveRefNm, String employeeId,
+			String employeeNm, String title, String contents, int upNote, int read, String sendDt, String readDt) {
 		super();
 		this.noteNo = noteNo;
 		this.noteDiv = noteDiv;
@@ -81,8 +85,10 @@ public class NoteVO extends DTO {
 		this.senderNm = senderNm;
 		this.receiveDiv = receiveDiv;
 		this.receiveId = receiveId;
-		this.receiveRef = receiveRef;
 		this.receiveNm = receiveNm;
+		this.receiveRefDiv = receiveRefDiv;
+		this.receiveRef = receiveRef;
+		this.receiveRefNm = receiveRefNm;
 		this.employeeId = employeeId;
 		this.employeeNm = employeeNm;
 		this.title = title;
@@ -141,6 +147,14 @@ public class NoteVO extends DTO {
 		this.receiveId = receiveId;
 	}
 
+	public int getReceiveRefDiv() {
+		return receiveRefDiv;
+	}
+
+	public void setReceiveRefDiv(int receiveRefDiv) {
+		this.receiveRefDiv = receiveRefDiv;
+	}
+
 	public String getReceiveRef() {
 		return receiveRef;
 	}
@@ -149,6 +163,14 @@ public class NoteVO extends DTO {
 		this.receiveRef = receiveRef;
 	}
 	
+	public String getReceiveRefNm() {
+		return receiveRefNm;
+	}
+
+	public void setReceiveRefNm(String receiveRefNm) {
+		this.receiveRefNm = receiveRefNm;
+	}
+
 	public String getReceiveNm() {
 		return receiveNm;
 	}
@@ -226,11 +248,12 @@ public class NoteVO extends DTO {
 	@Override
 	public String toString() {
 		return "NoteVO [noteNo=" + noteNo + ", noteDiv=" + noteDiv + ", senderId=" + senderId + ", senderNm=" + senderNm
-				+ ", receiveDiv=" + receiveDiv + ", receiveId=" + receiveId + ", receiveRef=" + receiveRef
-				+ ", receiveNm=" + receiveNm + ", employeeId=" + employeeId + ", employeeNm=" + employeeNm
-				+ ", contents=" + contents + ", upNote=" + upNote + ", read=" + read + ", sendDt=" + sendDt
-				+ ", readDt=" + readDt + ", toString()=" + super.toString() + "]";
-	}
+				+ ", receiveDiv=" + receiveDiv + ", receiveId=" + receiveId + ", receiveNm=" + receiveNm
+				+ ", receiveRefDiv=" + receiveRefDiv + ", receiveRef=" + receiveRef + ", receiveRefNm=" + receiveRefNm
+				+ ", employeeId=" + employeeId + ", employeeNm=" + employeeNm + ", title=" + title + ", contents="
+				+ contents + ", upNote=" + upNote + ", read=" + read + ", sendDt=" + sendDt + ", readDt=" + readDt
+				+ ", toString()=" + super.toString() + "]";
+	} 
 
 
 	
