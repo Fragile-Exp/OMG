@@ -160,11 +160,11 @@ public class EmployeeController {
 	}
 	
 
-	@RequestMapping(value="employee/doLogin.do",method = RequestMethod.GET
+	@RequestMapping(value="employee/doLogin.do",method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8"
 			)
 	@ResponseBody
-	public String doLogin(EmployeeVO employee) {
+	public String doLogin(EmployeeVO employee,HttpServletRequest request) {
 		LOG.debug("==================");
         LOG.debug("=employee="+employee);
         LOG.debug("==================");
@@ -195,8 +195,12 @@ public class EmployeeController {
         LOG.debug("=sessionEmployee="+sessionEmployee);
         LOG.debug("==================");  
         
-        //HttpSession session=req.getSession();
+        HttpSession session=request.getSession();
+        session.setAttribute("employee", sessionEmployee);
         
+        LOG.debug("==================");
+        LOG.debug("=session="+session.getAttribute("employee"));
+        LOG.debug("==================");  
         
         
 		return json;
@@ -251,9 +255,8 @@ public class EmployeeController {
         LOG.debug("=flag="+flag);
         LOG.debug("=================="); 
         
-        //메시지 처리
-        Message  message=new Message();
-        message.setMsgId(flag+"");
+        Message message=new Message();
+        message.setMsgId(String.valueOf(flag));
         
         if(flag ==1 ) {
         	message.setMsgContents(employee.getName()+" 님이 삭제 되었습니다.");
@@ -261,13 +264,12 @@ public class EmployeeController {
         	message.setMsgContents(employee.getName()+" 님 삭제 실패.");
         }
         
-        Gson gson=new Gson();
+        Gson   gson=new Gson();
         String json = gson.toJson(message);
-        LOG.debug("==================");
+        LOG.debug("3==================");
         LOG.debug("=json="+json);
-        LOG.debug("==================");         
-        
-		return json;
+        LOG.debug("==================");		
+		return json;    
 	}
 	
 	
