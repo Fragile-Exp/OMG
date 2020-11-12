@@ -57,38 +57,44 @@
 									</a>
 								</div>
 								<div class="card-body">
-									<div class="row">
-										<div class="col-lg-2 text-center">
-											<label for="receive_id" >받는 사람</label>
+									<form action="${hContext}/note/doInsert.do" method="post" name="insert_frm">
+										<div class="row">
+											<div class="col-lg-2 text-center">
+												<label for="receive_id" >받는 사람</label>
+											</div>
+											<div class="col-lg-9">
+												<input type="hidden" id="receive_div" name="receive_div" />
+												<input type="hidden" id="receive_id" name="receive_id" />
+												<input type="text" class="form-control" id="receive_nm" name="receive_nm" placeholder="받는 사람" />
+											</div>
+											<input type="button" onclick="window.open('${hContext}/note/find.do','사원/부서 찾기','width=1000, height=800');" class="btn btn-info btn-sm" value="찾기" id="search">
 										</div>
-										<div class="col-lg-9">
-											<input type="text" class="form-control" id="receive_id" placeholder="받는 사람" />
+										<div class="row py-2">
+											<div class="col-lg-2 text-center">
+												<label for="receive_ref" >참조</label>
+											</div>
+											<div class="col-lg-9">
+												<input type="hidden" id="receive_ref_div" name="receive_ref_div" />
+												<input type="text" class="form-control" id="receive_ref" placeholder="참조" />
+												<input type="hidden" id="receive_ref_nm" name="receive_ref_nm" />
+											</div>
+											<input type="button" class="btn btn-info btn-sm" value="찾기" id="search">
 										</div>
-										<input type="button" class="btn btn-info btn-sm" value="찾기" id="search">
-									</div>
-									<div class="row py-2">
-										<div class="col-lg-2 text-center">
-											<label for="receive_ref" >참조</label>
+										<div class="row">
+											<div class="col-lg-2 text-center">
+												<label for="receive_ref" >제목</label>
+											</div>
+											<div class="col-lg-10">
+												<input type="text" class="form-control" id="receive_ref" placeholder="제목" />
+											</div>
 										</div>
-										<div class="col-lg-9">
-											<input type="text" class="form-control" id="receive_ref" placeholder="참조" />
+										<div class="row py-2">
+											<div class="col-lg-2"></div>
+											<div class="col-lg-10">
+												<textarea id="contents" name="contents" class="form-control" rows="20"></textarea>
+											</div>
 										</div>
-										<input type="button" class="btn btn-info btn-sm" value="찾기" id="search">
-									</div>
-									<div class="row">
-										<div class="col-lg-2 text-center">
-											<label for="receive_ref" >제목</label>
-										</div>
-										<div class="col-lg-10">
-											<input type="text" class="form-control" id="receive_ref" placeholder="제목" />
-										</div>
-									</div>
-									<div class="row py-2">
-										<div class="col-lg-2"></div>
-										<div class="col-lg-10">
-											<textarea class="form-control" rows="20"></textarea>
-										</div>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>

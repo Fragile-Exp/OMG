@@ -171,7 +171,7 @@ public class DeptDaoImpl2 {
 		// Excute
 		List<DeptVO> list = (List<DeptVO>) jdbcTemplate.query(sb.toString(), rowMapper);
 		
-		for(DeptVO vo:list) {
+		for(DeptVO vo:list) { 
 			LOG.debug(" 조회 VO : "+ vo);
 		}
 		

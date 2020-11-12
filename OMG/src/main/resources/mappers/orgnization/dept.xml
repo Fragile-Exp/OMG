@@ -28,7 +28,7 @@
 		WHERE dept_no = #{deptNo}
 	</update>
 	
-	<!-- 목록 조회 -->
+	<!-- 목록 조회 --> 
 	<select id="doSelectList" resultType="DeptVO"  >
 		SELECT dept_no as deptNo, dept_nm as deptNm, up_dept as upDept, level, CONNECT_BY_ISLEAF as isNotLeaf
 		FROM dept
