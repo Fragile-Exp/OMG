@@ -35,8 +35,8 @@
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
 					  <h1 class="h3 mb-0 text-gray-800">문서 등록 페이지</h1>
 					  <div class="btn-box">
-					  	<a href="#" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>등록</a>
-					  	<a href="#" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
+					  	<a id="insert" href="${hContext}/document/document.do"  onClick="insertDcoument()" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>등록</a>
+					  	<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
 					  </div>
 					</div>
 					
@@ -76,7 +76,7 @@
 						      			</div>
 						      		</div>
 						      		<div class="title-body" style="display: inline-block;">
-						      			<input class="title-input" type="text" style=" width :900px;">
+						      			<input id="title" class="title-input" type="text" style=" width :900px;">
 						      		</div>
 					        	</div>
 					        	<!-- //제목  -->
@@ -89,10 +89,10 @@
 						      		</div>
 						      		<div class="kind-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 문서 종류 데이터 입력   -->
-						      			<select class="kind-body-select" style="width:400px;">
+						      			<select id="kind" class="kind-body-select" style="width:400px;">
 							      			<option >----------</option>
-							      			<option >휴가</option>
-							      			<option >차량</option>
+							      			<option >0</option>
+							      			<option >1</option>
 							      		</select>
 						      		</div>
 						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
@@ -101,7 +101,7 @@
 						      			</div>
 						      		</div>
 						      		<div class="dDay-body" style="display: inline-block;">
-						      			<input type="date" style="width:400px;">
+						      			<input id="dDay" type="date" style="width:400px;">
 						      		</div>
 						      	</div>
 						      	<!--// 종류 / 기간   -->
@@ -122,12 +122,12 @@
 					        	<div>
 						        	<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
 						      			<div class="approval-header bg-primary text-white btn-sm" style="text-align:center;" >
-						      				종류
+						      				결재자
 						      			</div>
 						      		</div>
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select class="approval-body-select" style="width:400px;">
+						      			<select id="approval"  class="approval-body-select" style="width:400px;">
 							      			<option >----------</option>
 							      			<option >인사팀 부장 홍길동</option>
 							      			<option >총무팀 팀장 철수</option>
@@ -139,7 +139,7 @@
 						      				문서 내용
 						      			</div>
 						      	</div>
-						      	<input class="cont-body" type="text" style="width:900px; height:100px;">
+						      	<input id="cont" class="cont-body" type="text" style="width:900px; height:100px;">
 					        </div>
 					      </div>
 					    </div>
@@ -161,4 +161,37 @@
 </div>
 <!-- //wrap -->
 </body>
+
+<script type="text/javascript">
+
+
+	//title : 제목 ,  kind : 종류 ,dDay :기간 , approval : 결재자, cont : 내용
+	function insertDcoument (){
+
+		$.ajax({
+			url:"${hContext}/document/doInsert.do",
+			type:"GET",
+			data:{"title" :  $("#title").val(), 
+				  "kind" :	$("#kind option:selected").val(),
+				  "dDay" :	$("#dDay").val(),
+				  "okUser" :$("#approval option:selected").val()	,
+				  "documentCont" : $("#cont").val()	
+				},
+			dataType:"json",
+		success:function(data){
+		 	alert("등록이 성공 하였습니다.")
+		},
+		error:function(err){
+			alert("등록이 실패 하였습니다.")
+		}
+
+		});					
+
+	}
+
+
+
+</script>
+
+
 </html></html>

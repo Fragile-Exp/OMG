@@ -35,13 +35,13 @@ public class DocumentDaoImpl {
 			DocumentVO outVO = new DocumentVO();
 
 		    outVO.setDocumentId(rs.getString("documentId"));     //ë¬¸ì„œê³ ìœ ë²ˆí˜¸  
-		    outVO.setEmployeeId(rs.getString("employeeId"));     //?‚¬ë²?    
+		    outVO.setEmployeeId(rs.getString("employeeId"));     //?ï¿½ï¿½ï¿½?    
 		    outVO.setKind(rs.getInt("kind"));                      //ë¬¸ì„œì¢…ë¥˜  
-		    outVO.setTitle(rs.getString("title"));                 //ë¬¸ì„œ? œëª?  
+		    outVO.setTitle(rs.getString("title"));                 //ë¬¸ì„œ?ï¿½ï¿½ï¿½?  
 		    outVO.setdDay(rs.getString("dDay"));                 //ì²˜ë¦¬ê¸°ê°„  
-		    outVO.setDocumentCont(rs.getString("documentCont")); //ë¬¸ì„œ?‚´?š©  
-		    outVO.setDocumentSet(rs.getInt("documentSet"));      //ë¬¸ì„œ?ƒ?ƒœ  
-		    outVO.setOkUser(rs.getString("okUser"));             //ê²°ì¬??‚¬ë²? 
+		    outVO.setDocumentCont(rs.getString("documentCont")); //ë¬¸ì„œ?ï¿½ï¿½?ï¿½ï¿½  
+		    outVO.setDocumentSet(rs.getInt("documentSet"));      //ë¬¸ì„œ?ï¿½ï¿½?ï¿½ï¿½  
+		    outVO.setOkUser(rs.getString("okUser"));             //ê²°ì¬?ï¿½ï¿½?ï¿½ï¿½ï¿½? 
  		    
 		    return outVO;
 		}
@@ -50,7 +50,7 @@ public class DocumentDaoImpl {
 	public DocumentDaoImpl() {}
 	   
 	    
-	//?‚½?… 
+	//?ï¿½ï¿½?ï¿½ï¿½ 
 	public int doInsert(DocumentVO documentVO) {
 		LOG.debug("=doInsert=");
 		
@@ -99,7 +99,29 @@ public class DocumentDaoImpl {
 		return flag;
 		
 	}
-
+	
+	
+	public int doSeleteAllCount(DocumentVO documentVO) {
+		LOG.debug("=doSeleteAllCount=");
+		
+		String statement = NAMESPACE+".doSeleteAllCount";
+		
+		int flag = sqlSessionTemplate.selectOne(statement, documentVO);
+		return flag;
+		
+	}
+	
+	public int doovercheck(DocumentVO documentVO) {
+		LOG.debug("=doovercheck=");
+		
+		String statement = NAMESPACE+".doovercheck";
+		
+		int flag = sqlSessionTemplate.selectOne(statement, documentVO);
+		return flag;
+		
+	}
+	
+	
 	public DocumentVO doSelectOne(DocumentVO documentVO) {
 		LOG.debug("=doSelectOne=");
 		String statement = NAMESPACE+".doSelectOne";

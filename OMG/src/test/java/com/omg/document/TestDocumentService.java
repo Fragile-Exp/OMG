@@ -73,6 +73,7 @@ public class TestDocumentService {
 	}
 
 	@Test
+	@Ignore
 	public void Insert() {
 		int flag = 0;
 		for(DocumentVO vo : list) {
@@ -84,7 +85,6 @@ public class TestDocumentService {
 	}
 	
 	@Test
-	@Ignore
 	public void TotalTest() {
 		int flag = 0;
 		//삭제 

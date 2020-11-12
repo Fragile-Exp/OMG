@@ -37,6 +37,15 @@
 		SELECT COUNT(employee_id) AS employeeId FROM document WHERE employee_id = #{employeeId}
 	</select>
 	
+	<!-- 전체 갯수 -->
+	<select id="doSeleteAllCount" parameterType="DocumentVO" resultType="int">
+		SELECT COUNT(*) FROM document
+	</select>
+	
+	<select id="doovercheck" parameterType="DocumentVO" resultType="int">
+		SELECT COUNT(document_id) AS documentId FROM document WHERE DOCUMENT_ID =${documentId}  
+	</select>
+	
 	
 	
 </mapper>

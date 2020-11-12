@@ -15,7 +15,7 @@ public class DocumentService {
 	DocumentDaoImpl documentDaoImpl;
 	
 	/**
-	 * ë¬¸ì„œ ?‚½?ž… 
+	 * ë¬¸ì„œ ?ï¿½ï¿½?ï¿½ï¿½ 
 	 * @param documentVO
 	 * @return
 	 */
@@ -24,7 +24,7 @@ public class DocumentService {
 	}
 	
 	/**
-	 * ë¬¸ì„œ ?‚­? œ 
+	 * ë¬¸ì„œ ?ï¿½ï¿½?ï¿½ï¿½ 
 	 * @param documentVO
 	 * @return
 	 */
@@ -41,7 +41,7 @@ public class DocumentService {
 		return documentDaoImpl.doUpdate(documentVO);
 	}
 	/**
-	 * ?‹¨ê±? ê²??ƒ‰ 
+	 * ?ï¿½ï¿½ï¿½? ï¿½??ï¿½ï¿½ 
 	 * @param documentVO
 	 * @return
 	 */
@@ -50,7 +50,7 @@ public class DocumentService {
 	}
 	
 	/**
-	 * ? „ì²? ê²??ƒ‰
+	 * ?ï¿½ï¿½ï¿½? ï¿½??ï¿½ï¿½
 	 * @param documentVO
 	 * @return
 	 */
@@ -59,7 +59,7 @@ public class DocumentService {
 	}
 	
 	/**
-	 * ?‚¬ë²? ê²??‚¬
+	 * ?ï¿½ï¿½ï¿½? ï¿½??ï¿½ï¿½
 	 * @param documentVO
 	 * @return
 	 */
@@ -69,9 +69,31 @@ public class DocumentService {
 		return documentDaoImpl.doempIdSelectList(documentVO);
 	}
 	
+	/**
+	 * í•´ë‹¹ ID ë¬¸ì„œ ë‚´ì—­ ê²€ìƒ‰
+	 * @param documentVO
+	 * @return
+	 */
 	public int doempIdcheck(DocumentVO documentVO) {
 		return documentDaoImpl.doempIdcheck(documentVO);
 	}
+	
+	/**
+	 * ë¬¸ì„œ ì „ì²´ ê°¯ìˆ˜ 
+	 * @param documentVO
+	 * @return
+	 */
+	public int doSeleteAllCount(DocumentVO documentVO) {
+		return documentDaoImpl.doSeleteAllCount(documentVO);
+	}
 
+	/**
+	 * ë¬¸ì„œ ID ìžˆëŠ”ì§€ ê²€ì‚¬
+	 * @param documentVO
+	 * @return
+	 */
+	public int doovercheck(DocumentVO documentVO) {
+		return documentDaoImpl.doovercheck(documentVO);
+	}
 	
 }

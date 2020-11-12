@@ -82,7 +82,7 @@
 					        		</thead>
 					        		
 					        		<tbody>
-					        			
+					        	
 					        		
 					        			<c:if test="${flag == 0 }">
 					        				<tr id="tbody"class="card-table-tbody">
@@ -101,13 +101,16 @@
 													<td>${VO.dDay}</td>
 													<td>${VO.documentSet}</td>
 													<td>
-														<a href="${hContext}/document/document_info.do" class="btn btn-sm btn-primary shadow-sm">
+														<a href="${hContext}/document/document_info.do"  onClick="infoDocument()"  title="${VO.documentId}" class="info btn btn-sm btn-primary shadow-sm" >
 															<i class="fas fa-arrow-right fa-sm text-white-50"></i>
 														</a>
 													   	<input name="check"  type="checkbox" value="${VO.documentId}">
 													</td>
 												</tr>
 												</a>
+								        		
+								        		
+								        	
 								        	</c:forEach>
 						        		</c:if>
 						        	
@@ -184,8 +187,18 @@
 	}
 
 
-	
+	function infoDocument(){
+		$(".info").on("click",function(e){
+			var Id = this.title;
+			
 
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='Id' value='"+Id+"'> ");
+			actionForm.attr("action","document/document_info.do");
+			actionForm.submit();
+	
+		});
+	}
 
 
 

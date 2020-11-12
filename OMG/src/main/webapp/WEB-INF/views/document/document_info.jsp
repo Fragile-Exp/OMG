@@ -51,6 +51,7 @@
 					      <!-- Card Header - Dropdown -->
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					        <h6 class="m-0 font-weight-bold text-primary">문서 등록</h6>	
+					        <div>${SeleteOne}</div>
 					        <div class="dropdown no-arrow">
 					          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -76,7 +77,7 @@
 						      			</div>
 						      		</div>
 						      		<div class="title-body" style="display: inline-block;">
-						      			<input class="title-input" type="text" style=" width :900px;" value="${title}">
+						      			<input class="title-input" type="text" style=" width :900px;" value="">
 						      		</div>
 					        	</div>
 					        	<!-- //제목  -->
@@ -91,9 +92,9 @@
 						      			<!-- to do : for문 사용해서 문서 종류 데이터 입력   -->
 						      			<select class="kind-body-select" style="width:400px;">
 							      			<!-- to do : if문 사용해서 데이터 동일 이면 option에 selected 추가  -->
-							      			<option >${kind}</option>
-							      			<option >휴가</option>
-							      			<option >차량</option>
+							      			<option ></option>
+							      			<option >1</option>
+							      			<option >3</option>
 							      		</select>
 						      		</div>
 						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
@@ -103,7 +104,7 @@
 						      		</div>
 						      		<div class="dDay-body" style="display: inline-block;">
 						      			<!-- to do : value값 데이터 가져와서 입력 -->
-						      			<input type="date" style="width:400px;" value="${dDay}" >
+						      			<input type="date" style="width:400px;" value="" >
 						      		</div>
 						      	</div>
 						      	<!--// 종류 / 기간   -->
@@ -130,7 +131,7 @@
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
 						      			<select class="approval-body-select" style="width:400px;" disabled>
-							      			<option selected>${okUser}</option>
+							      			<option selected></option>
 							      		</select>
 						      		</div>
 						      	</div>
@@ -140,7 +141,7 @@
 						      			</div>
 						      	</div>
 						      	<!-- to do : 데이터 값 가져오기  -->
-						      	<input class="cont-body" type="text" style="width:900px; height:100px;" value="${cont}">
+						      	<input class="cont-body" type="text" style="width:900px; height:100px;" value="">
 					        </div>
 					      </div>
 					    </div>
