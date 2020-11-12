@@ -45,14 +45,16 @@ public class TestCommutingController {
 	/**LOG*/
 	final Logger LOG = LoggerFactory.getLogger(TestCommutingController.class);
 	
-	@Autowired //í…ŒìŠ¤íŠ¸ ì»¨íƒìŠ¤íŠ¸ í”„ë ˆì„ì›Œí¬ëŠ” ì¼ì¹˜í•˜ëŠ” ì»¨í…ìŠ¤íŠ¸ë¥¼ ì°¾ì•„ DIí•´ ì¤€ë‹¤.
+	@Autowired //?…Œ?Š¤?Š¸ ì»¨íƒ?Š¤?Š¸ ?”„? ˆ?„?›Œ?¬?Š” ?¼ì¹˜í•˜?Š” ì»¨í…?Š¤?Š¸ë¥? ì°¾ì•„ DI?•´ ì¤??‹¤.
 	WebApplicationContext webApplicationContext;
 	
 	@Autowired
 	CommutingService commutingService; 
 	
+	
 	MockMvc mockMvc;
 	
+	//í…ŒìŠ¤íŠ¸ ë°ì´í„°
 	List<Commuting> attends;
 	
 	private void makeList() {
@@ -163,6 +165,7 @@ public class TestCommutingController {
 	}
 	
 	@Test
+	@Ignore
 	public void doSelectList() throws Exception {
 		Search search = new Search("","",10,1);
 		
@@ -171,6 +174,22 @@ public class TestCommutingController {
 				.param("searchWord", search.getSearchWord())
 				.param("pageSize", search.getPageSize()+"")
 				.param("pageNum", search.getPageNum()+"");
+		
+		ResultActions resultActions = mockMvc.perform(createMessage)
+				.andExpect(status().is2xxSuccessful());
+		
+		String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
+
+		LOG.debug("=result=" + result);
+	}
+	
+	@Test
+	public void doSelectMyList() throws Exception {
+		makeList();
+		Commuting attend = attends.get(0);
+		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.get("/commuting/doSelectMyList.do")
+				.param("employeeId", attend.getEmployeeId())
+				.param("seq", attend.getSeq());
 		
 		ResultActions resultActions = mockMvc.perform(createMessage)
 				.andExpect(status().is2xxSuccessful());

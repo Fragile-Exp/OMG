@@ -68,7 +68,9 @@ public class StringUtil {
 	   html.append("<table border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">   \n");
 	   html.append("<tr>                       \n");
 	   html.append("<td align=\"center\">                                                                    \n");
-	   html.append("<ul class=\"pagination pagination-sm\">                                                  \n");
+	   //html.append("<ul class=\"pagination pagination-sm\">                                                  \n");
+	   html.append("<ul class=\"pagination \">                                                  \n");
+	   
 	   
 	   // <<
 	   if (nowBlockNo > 1 && nowBlockNo <= maxBlockNo) {

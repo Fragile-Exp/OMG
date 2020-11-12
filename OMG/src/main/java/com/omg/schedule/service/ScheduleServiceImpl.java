@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.omg.cmn.Criteria;
 import com.omg.schedule.dao.ScheduleDao;
 import com.omg.schedule.domain.ScheduleVO;
 
@@ -24,7 +25,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleServiceImpl() {}
     
     /**
-     * ÏùºÏ†ïÏ∂îÍ∞Ä
+     * ?ùº?†ïÏ∂îÍ?
      */
     @Override
     public int doInsert(ScheduleVO schedule) {
@@ -32,7 +33,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * ÏùºÏ†ïÏÇ≠Ï†ú
+     * ?ùº?†ï?Ç≠?†ú
      */
     @Override
     public int doDelete(ScheduleVO schedule) {
@@ -40,7 +41,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * ÏùºÏ†ïÏàòÏ†ï
+     * ?ùº?†ï?àò?†ï
      */
     @Override
     public int doUpdate(ScheduleVO schedule) {
@@ -48,7 +49,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * ÏùºÏ†ïÏÑ†ÌÉù
+     * ?ùº?†ï?Ñ†?Éù
      */
     @Override
     public ScheduleVO doSelectOne(ScheduleVO schedule) {
@@ -56,11 +57,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * ÏùºÏ†ï Î¶¨Ïä§Ìä∏Ìôî
+     * ?ùº?†ï Î¶¨Ïä§?ä∏?ôî
      */
     @Override
-    public List<ScheduleVO> doSelectList(ScheduleVO schedule) {
-	return scheduleDao.doSelectList(schedule);
+    public List<ScheduleVO> doSelectList(Criteria cri) {
+	return scheduleDao.doSelectList(cri);
+    }
+
+    @Override
+    public int getTotalCount(Criteria cri) {
+	return scheduleDao.getTotalCount(cri);
     }
 
 }

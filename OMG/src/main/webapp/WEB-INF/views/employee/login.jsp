@@ -103,7 +103,7 @@
 		}
 		//ajax
         $.ajax({
-           type:"GET",
+           type:"POST",
            url:"${hContext}/employee/doLogin.do",
            dataType:"html",
            data:{
@@ -113,10 +113,10 @@
         success: function(data){
           var jData = JSON.parse(data);
           if(null != jData && jData.msgId=="1"){
-            alert(jData.msgContents);
+            console.log(jData.msgContents);
             //다시조회
-            doSelectList(1);
-            alert("로그인에 성공하셨습니다.");
+            //doSelectList(1);
+            window.location.href="${hContext}/view/main.do"
           }else{
             alert(jData.msgId+"|"+jData.msgContents);
             alert("아이디 또는 비밀번호를 잘못 입력하셨습니다.");

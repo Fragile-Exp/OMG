@@ -32,7 +32,7 @@ import com.omg.commuting.domain.State;
 import com.omg.comutting.dao.CommutingDaoImpl;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)//스프랭 테스트 컨텍스트 프레임워크의 JUnit기능 확장
+@RunWith(SpringJUnit4ClassRunner.class)//?��?��?�� ?��?��?�� 컨텍?��?�� ?��?��?��?��?��?�� JUnit기능 ?��?��
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
                                  "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"		
 })
@@ -58,24 +58,24 @@ public class TestCommutingDao {
 		LOG.debug("=setUp()=");
 	}
 	/**
-	 * update 근무시간
+	 * update 근무?���?
 	 * @throws Exception
 	 */
 	@Test
 	public void rollingTest() throws Exception {
 		
-		//1.조회/삭제
+		//1.조회/?��?��
 		doSelectList();
 		doDelete();
 		
-		//2.초기 데이터 주입
+		//2.초기 ?��?��?�� 주입
 		doInit();
 		
-		//3. 출퇴근시간, 작업시간 업데이트
+		//3. 출퇴근시�?, ?��?��?���? ?��?��?��?��
 		doSelectList();
 		doUpdate();
 		
-		//4. 확인
+		//4. ?��?��
 		doSelectList();
 		doSelectMyList();
 	}
@@ -120,7 +120,6 @@ public class TestCommutingDao {
 		for(Commuting vo : attendList) {
 			vo.setAttendTime(StringUtil.formatDate("yyyyMMdd 090000"));
 			vo.setLeaveTime(StringUtil.formatDate("yyyyMMdd 180000"));
-			vo.setPresentState(PresentState.퇴근);
 			vo.setState(State.조퇴);
 			flag += commutingDao.doUpdate(vo);
 			flag += commutingDao.doUpdateWorkTime(vo);

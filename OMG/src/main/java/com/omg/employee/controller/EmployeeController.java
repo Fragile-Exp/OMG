@@ -3,11 +3,13 @@ package com.omg.employee.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,6 +53,39 @@ public class EmployeeController {
 		
 		return "employee/employee_list";
 	}
+	
+	//관리자모드 사원 수정
+	@RequestMapping(value="employee/employee_mng.do",method=RequestMethod.GET)
+	public String employee_mng() {
+		LOG.debug("== employee_mng ==");
+		
+		return "employee/employee_mng";
+	}
+	
+	
+	@RequestMapping(value="employee/doSelectOne.do",method = RequestMethod.GET
+			,produces = "application/json;charset=UTF-8"
+			)
+	@ResponseBody
+	public String doSelectOne(EmployeeVO employee,Model model) {
+		
+		LOG.debug("=doSelectOne=");	
+		LOG.debug("=param="+employee);
+		  
+        EmployeeVO outVO=this.employeeService.doSelectOne(employee);
+        LOG.debug("==================");
+        LOG.debug("=outVO="+outVO);
+        LOG.debug("==================");
+        
+        Gson gson=new Gson();
+        String json = gson.toJson(outVO);
+        LOG.debug("==================");
+        LOG.debug("=json="+json);
+        LOG.debug("==================");
+         
+        return json;
+	}
+	
 	
 	
 	
@@ -124,35 +159,12 @@ public class EmployeeController {
 		return json;
 	}
 	
-	
-	@RequestMapping(value="employee/doSelectOne.do",method = RequestMethod.GET
+
+	@RequestMapping(value="employee/doLogin.do",method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8"
 			)
 	@ResponseBody
-	public String doSelectOne(EmployeeVO employee) {
-		LOG.debug("==================");
-        LOG.debug("=employee="+employee);
-        LOG.debug("==================");
-        
-        EmployeeVO outVO=employeeService.doSelectOne(employee);
-        LOG.debug("==================");
-        LOG.debug("=outVO="+outVO);
-        LOG.debug("==================");
-        
-        Gson gson=new Gson();
-        String json = gson.toJson(outVO);
-        LOG.debug("==================");
-        LOG.debug("=json="+json);
-        LOG.debug("==================");
-         
-        return json;
-	}
-	
-	@RequestMapping(value="employee/doLogin.do",method = RequestMethod.GET
-			,produces = "application/json;charset=UTF-8"
-			)
-	@ResponseBody
-	public String doLogin(EmployeeVO employee) {
+	public String doLogin(EmployeeVO employee,HttpServletRequest request) {
 		LOG.debug("==================");
         LOG.debug("=employee="+employee);
         LOG.debug("==================");
@@ -177,6 +189,20 @@ public class EmployeeController {
         LOG.debug("=json="+json);
         LOG.debug("==================");         
         
+        //세션처리
+        EmployeeVO sessionEmployee=this.employeeService.doSelectOne(employee);
+        LOG.debug("==================");
+        LOG.debug("=sessionEmployee="+sessionEmployee);
+        LOG.debug("==================");  
+        
+        HttpSession session=request.getSession();
+        session.setAttribute("employee", sessionEmployee);
+        
+        LOG.debug("==================");
+        LOG.debug("=session="+session.getAttribute("employee"));
+        LOG.debug("==================");  
+        
+        
 		return json;
 	}
 	
@@ -186,6 +212,7 @@ public class EmployeeController {
 			)
 	@ResponseBody
 	public String idConfirm(EmployeeVO employee) {
+		LOG.debug("=idConfirm***********");
 		LOG.debug("==================");
         LOG.debug("=employee="+employee);
         LOG.debug("==================");
@@ -228,9 +255,8 @@ public class EmployeeController {
         LOG.debug("=flag="+flag);
         LOG.debug("=================="); 
         
-        //메시지 처리
-        Message  message=new Message();
-        message.setMsgId(flag+"");
+        Message message=new Message();
+        message.setMsgId(String.valueOf(flag));
         
         if(flag ==1 ) {
         	message.setMsgContents(employee.getName()+" 님이 삭제 되었습니다.");
@@ -238,13 +264,12 @@ public class EmployeeController {
         	message.setMsgContents(employee.getName()+" 님 삭제 실패.");
         }
         
-        Gson gson=new Gson();
+        Gson   gson=new Gson();
         String json = gson.toJson(message);
-        LOG.debug("==================");
+        LOG.debug("3==================");
         LOG.debug("=json="+json);
-        LOG.debug("==================");         
-        
-		return json;
+        LOG.debug("==================");		
+		return json;    
 	}
 	
 	

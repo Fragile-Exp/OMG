@@ -50,8 +50,8 @@
 				    		  </select>	    		
 				    		  <select class="form-control input-sm" name="searchDiv" id="searchDiv">
 				    		    <option value="">전체</option>
-				    		  	<option value="10">이름</option>
-				    		  	<option value="20">부서</option>
+				    		  	<option value="10">아이디</option>
+				    		  	<option value="20">이름</option>
 				    		  </select>  
 				    		  <input  type="text" name="searchWord" id="searchWord"  class="form-control  input-sm"  placeholder="검색어"/>
 				    		  <input type="button" class="btn btn-info btn-sm" onclick="javascript:doSelectList(1);"  value="조회"  />
@@ -60,7 +60,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="employeeTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead >
                                         <tr>
                                             <th>이름</th>
@@ -71,26 +71,19 @@
                                             <th>주소</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>이름</th>
-                                            <th>부서</th>
-                                            <th>직급</th>
-                                            <th>핸드폰</th>
-                                            <th>이메일</th>
-                                            <th>주소</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody></tbody>
+                                    <tbody>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
+                        
                         <!-- pagenation -->
-						<div  class="text-center">
-							<div id="page-selection" class="text-center page"></div>
-						</div>
-					    <!--// pagenation -->
+				<div class="text-center">
+					<div id="page-selection" class="text-center page"></div>
+				</div>
+			    <!--// pagenation -->
                     </div>
+
                 </div>
                 <!-- /.container-fluid -->
                
@@ -120,9 +113,12 @@
 		$("#Pages").attr("aria-expanded","true");
 		$("#collapsePages").attr("class","collapse show");
 		$("#blank").attr("class","collapse-item active");
-		doSelectList(1);
 		});
-	
+	$(document).ready(function() {
+		//alert("javascript");
+        //화면이 로딩 되면서 데이터 조회
+    	doSelectList(1);
+    });
 
     function doSelectList(page){
     	var pageTotal = 1;
@@ -140,14 +136,12 @@
          success: function(data){
            var parseData = JSON.parse(data);
        	  //table에 있던 기존 데이터 삭제
-       	  $("#employeeTable>tbody").empty();
+       	  $("#dataTable>tbody").empty();
            var html = "";
 
            //Data가 없으면   
            
        	  var totalCount = 0;
-    
-       	  
            if(parseData.length>0){
                totalCount = parseData[0].totalCnt;//33/10->3,3
                pageTotal  = (totalCount/$("#pageSize").val());
@@ -168,12 +162,12 @@
 					  
 		      }else{
 		    	  html += "<tr>";
-				  html += "<td class='text-center' colspan='99'>등록된 사원이 없습니다.</td>";
+				  html += "<td class='text-center' colspan='99'>등록된 게시글이 없습니다.</td>";
 				  html += "</tr>";
 			  }
 		                  
 			  //table>tbody 동적으로 html추가
-		      $("#employeeTable>tbody").append(html);	
+		      $("#dataTable>tbody").append(html);	
 		      //페이징
 			  renderingPage(pageTotal,page);  
            	  //등록부분 초기화

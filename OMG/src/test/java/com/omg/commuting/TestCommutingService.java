@@ -48,7 +48,7 @@ public class TestCommutingService {
 	}
 	
 	private void makeList() {
-		Search search = new Search("", "");
+		Search search = new Search("", "",300,1);
 		attendList = commutingService.doSelectList(search);
 	}
 	
@@ -58,23 +58,24 @@ public class TestCommutingService {
 		LOG.debug(">rollingTest()>");
 		LOG.debug(">>>>>>>>>>>>>>>>>>>>>>>>");
 		
-		makeList();
-		for(Commuting vo : attendList) {
-			commutingService.doDelete(vo);
-		}
+//		makeList();
+//		for(Commuting vo : attendList) {
+//			commutingService.doDelete(vo);
+//		}
 		
 		commutingService.doInit();
 		
 		makeList();
 		
 		for(Commuting vo : attendList) {
-			commutingService.doUpdateAttendTime(vo);
+				commutingService.doUpdateAttendTime(vo);
+			
 		}
 		
 		makeList();
 		
 		for(Commuting vo : attendList) {
-			commutingService.doUpdateLeaveTime(vo);
+				commutingService.doUpdateLeaveTime(vo);
 		}
 		
 		makeList();
