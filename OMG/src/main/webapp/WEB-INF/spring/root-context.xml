@@ -12,6 +12,67 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
+	
+	
+	
+	<!-- javax.mail.PasswordAuthentication -->
+	<bean id="passwordAuth" class="javax.mail.PasswordAuthentication">
+		<constructor-arg index="0">
+			<value>casse2045@naver.com</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>dbql2549$$</value>
+		</constructor-arg>
+	</bean>
+	<!-- //javax.mail.PasswordAuthentication -->
+	
+	<!-- Authenticator -->
+	<bean id="authenticator" class="javax.mail.Authenticator">
+		<lookup-method name="getPasswordAuthentication"
+			bean="passwordAuth" />
+	</bean>
+	<!-- //Authenticator -->
+	
+	<!-- Session -->
+	<bean id="emailSession" class="javax.mail.Session">
+		<constructor-arg index="0">
+			<props>
+				<prop key="mail.smtp.host">smtp.naver.com</prop>
+				<prop key="mail.smtp.port">465</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.ssl.enable">true</prop>
+				<prop key="mail.smtp.ssl.trust">smtp.naver.com</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+		</constructor-arg>
+		<constructor-arg index="1" ref="authenticator" />
+	</bean>
+	<!-- //Session -->
+	
+	<!-- JavaMailSenderImpl : 운영 (mail 보내기) -->
+	<bean id="mailSenderImpl"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="session" ref="emailSession" />
+	</bean>
+	<!-- //JavaMailSenderImpl : 운영 (mail 보내기) -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- Locale : 사용자언어, 국가, 정보가 들어가 있는 경우 -->
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="ko"></property>
