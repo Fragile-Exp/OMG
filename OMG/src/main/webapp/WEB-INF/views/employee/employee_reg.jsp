@@ -158,10 +158,10 @@
 <!-- //wrap -->
 	<script type="text/javascript">
 	$(document).ready(function(){
-		$("#Pages").attr("class","nav-link");
-		$("#Pages").attr("aria-expanded","true");
-		$("#collapsePages").attr("class","collapse show");
-		$("#blank").attr("class","collapse-item active");
+		$("#setting").attr("class","nav-link");
+		$("#setting").attr("aria-expanded","true");
+		$("#adminSetting").attr("class","collapse show");
+		$("#employee_reg").attr("class","collapse-item active");
 		});
 
 	//아이디 존재 여부 확인
