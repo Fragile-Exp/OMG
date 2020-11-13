@@ -63,9 +63,12 @@
 												<label for="receive_id" >받는 사람</label>
 											</div>
 											<div class="col-lg-9">
-												<input type="hidden" id="receiveDiv" name="receiveDiv" />
-												<input type="text" class="form-control" id="receiveNm" name="receiveNm" readonly="readonly" placeholder="받는 사람 (검색 사용)" />
-												<input type="hidden" id="receiveId" name="receiveId" />
+												<input type="hidden" id="receiveDiv" name="receiveDiv" 
+												<c:if test="${null ne noteVO }">value="1"</c:if> />
+												<input type="text" class="form-control" id="receiveNm" name="receiveNm" readonly="readonly" placeholder="받는 사람 (검색 사용)" 
+												<c:if test="${null ne noteVO }">value="${noteVO.senderNm}"</c:if>/>
+												<input type="hidden" id="receiveId" name="receiveId" 
+												<c:if test="${null ne noteVO }">value="${noteVO.senderId}"</c:if>/>
 											</div>
 											<input type="button" onclick="window.open('${hContext}/note/find.do','사원/부서 찾기','width=1000, height=900');" class="btn btn-info btn-sm" value="검색" id="search">
 										</div>
@@ -84,13 +87,18 @@
 												<label for="title" >제목</label>
 											</div>
 											<div class="col-lg-10">
-												<input type="text" class="form-control" id="title" name="title" placeholder="제목" />
+												<input type="text" class="form-control" id="title" name="title" placeholder="제목"
+												<c:if test="${null ne noteVO }">value="RE : ${noteVO.title}"</c:if> />
 											</div>
 										</div>
 										<div class="row py-2">
 											<div class="col-lg-2"></div>
 											<div class="col-lg-10">
-												<textarea id="contents" name="contents" class="form-control" rows="20"></textarea>
+												<textarea id="contents" name="contents" class="form-control" rows="20"><c:if test="${null ne noteVO }">${noteVO.contents}
+
+=================================================================</c:if>
+												</textarea>
+												
 											</div>
 										</div>
 									</form>

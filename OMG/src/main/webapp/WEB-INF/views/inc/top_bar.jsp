@@ -98,7 +98,7 @@
       <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-envelope fa-fw"></i>
         <!-- Counter - Messages -->
-        <span class="badge badge-danger badge-counter">7</span>
+        <span id="msgCnt" class="badge badge-danger badge-counter">7</span>
       </a>
       <!-- Dropdown - Messages -->
       <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
@@ -206,3 +206,27 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$.ajax({
+            type:"GET",
+            url:"${hContext}/note/noteReadCnt.do",
+            dataType:"html",
+            async: true,
+            data:{ "id" : "${sessionScope.employee.employee_id}"
+                },
+         success: function(data){
+           var cnt = JSON.parse(data);
+           alert(cnt);
+           $("#msgCnt").text(cnt);
+           }
+		},
+         error:function(xhr,status,error){
+             alert("error:"+error);
+         }
+        });
+		})
+		
+</script>

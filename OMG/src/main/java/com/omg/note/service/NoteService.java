@@ -175,5 +175,9 @@ public class NoteService {
 		return dao.doSelectList(map);
 	}
 	
+	public int notReadCnt(String id) {
+		return dao.notReadCnt(id);
+	}
+	
 	
 }

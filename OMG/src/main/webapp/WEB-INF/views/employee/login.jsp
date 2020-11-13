@@ -90,7 +90,7 @@
     <!-- Core plugin JavaScript-->
     <script type="text/javascript">
    
-    $("#loginBtn").one("click",function(){
+    $("#loginBtn").on("click",function(){
     	//alert("#loginBtn");
     	//아이디(사원번호) 필수 체크
 		if($("#employee_id").val()==false || $("#employee_id").val() ==""){
@@ -122,9 +122,6 @@
             alert(jData.msgId+"|"+jData.msgContents);
             alert("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
           }
-        },
-        complete:function(data){
-         
         },
         error:function(xhr,status,error){
             alert("error:"+error);

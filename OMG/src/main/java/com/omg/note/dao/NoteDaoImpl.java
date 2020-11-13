@@ -149,6 +149,19 @@ public class NoteDaoImpl {
 		return key; 
 	}
 	
+	public int notReadCnt(String id) {
+		LOG.debug("== notReadCnt ==");
+
+		// mybatis 쿼리 매핑
+		String statement = NAMESPACE+".notReadCnt";
+		LOG.debug("statement : "+statement );
+		
+		// 쿼리 실행
+		int cnt = sqlSessionTemplate.selectOne(statement,id);
+		
+		return cnt; 
+	}
+	
 
 	
 	

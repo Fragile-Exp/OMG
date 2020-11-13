@@ -12,7 +12,7 @@ public class viewController {
 	
 	@RequestMapping(value="view/main.do",method=RequestMethod.GET)
 	public String main_view() {
-		LOG.debug("== user_view ==");
+		LOG.debug("== main ==");
 		
 		return "index";
 	} 

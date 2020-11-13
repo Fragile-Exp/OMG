@@ -29,10 +29,25 @@ public class NoteController {
 	@Autowired
 	NoteService noteService;
 	
+	@RequestMapping(value="note/notReadCnt.do", method = RequestMethod.GET
+			,produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String notReadCnt(String id) {
+		LOG.debug("== notReadCnt ==");
+		
+		int cnt = noteService.notReadCnt(id);
+		Gson gson=new Gson();
+        String json = gson.toJson(cnt);
+        LOG.debug("json = "+json);
+
+		return json;
+	}
+
 	/**
 	 * 사원/부서 찾기 팝업 띄우기
 	 * @return
 	 */
+
 	@RequestMapping(value="note/find.do",method = RequestMethod.GET)
 	public String findPage() {
 		LOG.debug("== findPage ==");
@@ -72,10 +87,15 @@ public class NoteController {
 	 * @return
 	 */
 	@RequestMapping(value="note/note_reply.do",method=RequestMethod.GET)
-	public String note_reply() {
+	public String note_reply(NoteVO note, Model model) {
 		LOG.debug("== note_reply ==");
+		LOG.debug("param = "+note);
+		NoteVO outVO = noteService.doSelectOne(note);
+		LOG.debug("outVO = "+outVO);
 		
-		return "redirect:note_reg.do";
+		model.addAttribute("noteVO", outVO);
+		
+		return "note/note_reg";
 	}
 	
 	/**
