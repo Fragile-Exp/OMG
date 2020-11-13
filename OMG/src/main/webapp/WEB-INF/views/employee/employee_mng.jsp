@@ -228,6 +228,10 @@
     
     <script type="text/javascript">
 	$(document).ready(function(){
+		$("#setting").attr("class","nav-link");
+		$("#setting").attr("aria-expanded","true");
+		$("#adminSetting").attr("class","collapse show");
+		$("#employee_mng").attr("class","collapse-item active");
 		doSelectList(1);
 		});
 
