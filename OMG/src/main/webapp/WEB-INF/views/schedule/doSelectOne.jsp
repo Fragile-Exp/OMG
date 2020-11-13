@@ -76,7 +76,7 @@
 									<button data-oper="update" class="btn btn-primary">수정</button>
 									<button data-oper="list" class="btn btn-info">목록</button>
 									
-									<form id="operForm" action="/schedule/modify.do" method="get">
+									<form id="operForm" action="/schedule/doUpdate.do" method="get">
 										<input type="hidden" id="scheduleNo" name="scheduleNo" value="<c:out value="${schedule.scheduleNo}"/>">
 										<input type="hidden" name="pageNum" value="<c:out value="${cri.pageNum}"/>">
 										<input type="hidden" name="amount" value="<c:out value="${cri.amount}"/>">
@@ -104,12 +104,12 @@
 			var operForm = $("#operForm");
 	
 			$("button[data-oper='update']").on("click", function(e) {
-				operForm.attr("action", "/schedule/update.do").submit();
+				operForm.attr("action", "/schedule/doUpdate.do").submit();
 			});
 	
 			$("button[data-oper='list']").on("click", function(e) {
 				operForm.find("#scheduleNo").remove();
-				operForm.attr("action", "/schedule/list.do");
+				operForm.attr("action", "/schedule/doSelectList.do");
 				operForm.submit();
 			});
 

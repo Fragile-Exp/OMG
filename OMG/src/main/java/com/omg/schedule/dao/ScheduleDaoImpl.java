@@ -23,10 +23,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
     public ScheduleDaoImpl() {}
 
     /**
-     * ?“±ë¡?
+     * ìƒì„±
      * @param schedule
      * @return flag
-     * @author ë°•ì •ë¯?
+     * @author ë°•ì •ë¯¼
      */
     @Override
     public int doInsert(ScheduleVO schedule) {
@@ -41,10 +41,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     /**
-     * ?‚­? œ
+     * ì‚­ì œ
      * @param schedule
      * @return flag
-     * @author ë°•ì •ë¯? 
+     * @author ë°•ì •ë¯¼
      */
     @Override
     public int doDelete(ScheduleVO schedule) {
@@ -59,10 +59,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     /**
-     * ?ˆ˜? •
+     * ìˆ˜ì •
      * @param schedule
      * @return flag
-     * @author ë°•ì •ë¯? 
+     * @author ë°•ì •ë¯¼ 
      */
     @Override
     public int doUpdate(ScheduleVO schedule) {
@@ -77,10 +77,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     /**
-     * ?‹¨ê±´ì¡°?šŒ
+     * ë‹¨ê±´ì¡°íšŒ
      * @param schedule
      * @return outVO
-     * @author ë°•ì •ë¯? 
+     * @author ë°•ì •ë¯¼
      */
     @Override
     public ScheduleVO doSelectOne(ScheduleVO schedule) {
@@ -98,10 +98,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     /**
-     * ?‹¤ê±´ì¡°?šŒ
+     * ë‹¤ê±´ì¡°íšŒ
      * @param schedule
      * @return list
-     * @author ë°•ì •ë¯? 
+     * @author ë°•ì •ë¯¼
      */
     @Override
     public List<ScheduleVO> doSelectList(Criteria cri) {
