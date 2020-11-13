@@ -103,7 +103,7 @@
 			<!-- 오늘 부서별-->
 			<when test="20 == searchDiv">
 				WHERE TO_CHAR(attend_time,'yyyyMMdd') = TO_CHAR(sysdate,'yyyyMMdd')
-				AND dept_no = #{searchWord}
+				AND dept_no = #{searchWord,jdbcType=VARCHAR}
 			</when>
 			<!-- my 월별-->
 			<when test="30 == searchDiv">

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
@@ -51,7 +52,7 @@ public class CommutingController {
 	@RequestMapping(value="doInit.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Message doInit(Locale locale) {
-		LOG.debug("***************************");
+		LOG.debug("******************************************************");
 		LOG.debug("=controller.doInit=");
 		
 		int flag = commutingService.doInit();
@@ -70,29 +71,23 @@ public class CommutingController {
 		}
 		
 		LOG.debug(">message>" + message);
-		LOG.debug("***************************");
+		LOG.debug("******************************************************");
 		return message;
 	}
 	
-	@RequestMapping(value="doDelete.do", method = RequestMethod.POST)
-	@ResponseBody
-	public Message doDelete(Commuting inVO, Locale locale) {
-		LOG.debug("***************************");
+	@RequestMapping(value="delete.do", method = RequestMethod.POST)
+	public String doDelete(String seq,String employeeId, Locale locale ,RedirectAttributes rttr) {
+		LOG.debug("******************************************************");
 		LOG.debug("=controller.doDelete=");
-		if(null == inVO.getSeq()) {
-			throw new IllegalArgumentException("시퀀스를 확인하세요");
-		}
-		if(null == inVO.getEmployeeId()) {
-			throw new IllegalArgumentException("사번을 확인하세요");
-		}
 		
-		int flag = commutingService.doDelete(inVO);
+		Commuting deleteVO =  new Commuting(seq, employeeId);
+		int flag = commutingService.doDelete(deleteVO);
 		
 		Message message = new Message();
 		message.setMsgId(flag+"");
 		
 		if(flag >0 ) {
-			Object[] args = new String[] {"삭제"};
+			Object[] args = new String[] {employeeId+"님 삭제"};
 			String msgStrConfirm = this.messageSource.getMessage("message.common.message.confirm",args, locale);
 			LOG.debug(">msgStrConfirm()>"+msgStrConfirm);
 			message.setMsgContents(msgStrConfirm);
@@ -101,27 +96,26 @@ public class CommutingController {
 			message.setMsgContents("삭제 실패");
 		}
 		
+		rttr.addFlashAttribute("result", message.getMsgContents());
+		
 		LOG.debug(">message>" + message);
-		LOG.debug("***************************");
-		return message;
+		LOG.debug("******************************************************");
+		
+		return "redirect:dept_attendence.do";
 	}
 	
 
-	@RequestMapping(value="doUpdateAttendTime.do", method = RequestMethod.POST)
-	@ResponseBody
-	public Message doUpdateAttendTime(Commuting inVO, Locale locale) {
-		LOG.debug("***************************");
+	@RequestMapping(value="updateAttendTime.do", method = RequestMethod.POST)
+	public String doUpdateAttendTime(Commuting inVO, Locale locale ,RedirectAttributes rttr,HttpServletRequest req) {
+		LOG.debug("******************************************************");
 		LOG.debug("=controller.doUpdateAttendTime=");
 		
-		if(null == inVO.getSeq()) {
-			throw new IllegalArgumentException("시퀀스를 확인하세요");
-		}
-		if(null == inVO.getEmployeeId()) {
-			throw new IllegalArgumentException("사번을 확인하세요");
-		}
+		HttpSession session = req.getSession();
+		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
 		
-		int flag = commutingService.doUpdateAttendTime(inVO);
-		
+		Commuting attendVO = new Commuting(StringUtil.formatDate("yyyy-MM-dd"), sessionVO.getEmployee_id());
+				
+		int flag = commutingService.doUpdateAttendTime(attendVO);
 		Message message = new Message();
 		message.setMsgId(flag+"");
 		
@@ -135,16 +129,18 @@ public class CommutingController {
 			message.setMsgContents("출근 실패");
 		}
 		
+		rttr.addFlashAttribute("result", message.getMsgContents());
+		
 		LOG.debug(">message>" + message);
-		LOG.debug("***************************");
-		return message;
+		LOG.debug("******************************************************");
+		return "redirect:my_attendence.do";
 		
 	}
 	
 	@RequestMapping(value="doUpdateLeaveTime.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Message doUpdateLeaveTime(Commuting inVO, Locale locale) {
-		LOG.debug("***************************");
+		LOG.debug("******************************************************");
 		LOG.debug("=controller.doUpdateLeaveTime=");
 		
 		if(null == inVO.getSeq()) {
@@ -170,7 +166,7 @@ public class CommutingController {
 		}
 		
 		LOG.debug(">message>" + message);
-		LOG.debug("***************************");
+		LOG.debug("******************************************************");
 		return message;
 		
 	}
@@ -178,7 +174,7 @@ public class CommutingController {
 	@RequestMapping(value="doSelectOne.do", method = RequestMethod.GET)
 	@ResponseBody
 	public String doSelectOne(Commuting inVO,Model model) {
-		LOG.debug("***************************");
+		LOG.debug("******************************************************");
 		LOG.debug("=controller.doSelectOne=");
 		String returnUrl = "";
 		if(null == inVO.getSeq()) {
@@ -191,56 +187,48 @@ public class CommutingController {
 		
 		model.addAttribute("vo",outVO);
 		
-		LOG.debug("***************************");
+		LOG.debug("******************************************************");
 		return returnUrl;
 	}
 	
-	@RequestMapping(value="/my_attendence.do", method = RequestMethod.GET)
+	@RequestMapping(value="my_attendence.do", method = RequestMethod.GET)
 	public void doSelectMyList(
 			@RequestParam(value = "month" ,defaultValue = "2020-11")  String month, Model model, HttpServletRequest req) {
-		LOG.debug("***************************");
+		LOG.debug("******************************************************");
 		LOG.debug("=controller.my_attendence.do=");
-		LOG.debug("***************************");
 		//1. 세션 GET
 		HttpSession session = req.getSession();
-		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("user");
-		Commuting searchVO = new Commuting();
+		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
+		
 		
 		LOG.debug(">param>" + month);
-		
+		Commuting searchVO = new Commuting();
 		searchVO.setSeq(month);
-		//inVO.setEmployeeId(sessionVO.getEmployee_id());
-		
-		searchVO.setEmployeeId("d22");
+		searchVO.setEmployeeId(sessionVO.getEmployee_id());
 		model.addAttribute("month",month);
 		model.addAttribute("list",commutingService.doSelectMyList(searchVO));
+		LOG.debug("******************************************************");
 	}
 	
-	@RequestMapping(value="/dept_attendence.do" , method = RequestMethod.GET)
-	public void doSelectDeptList(
-			@RequestParam(value = "deptNo" ,defaultValue = "10000") String deptNo, Model model, HttpServletRequest req) {
-		LOG.debug("***************************");
+	@RequestMapping(value="dept_attendence.do" , method = RequestMethod.GET)
+	public void doSelectDeptList(String deptNo, Model model) {
+		LOG.debug("******************************************************");
 		LOG.debug("=controller.dept_attendence.do=");
-		LOG.debug("***************************");
-		
-		HttpSession session = req.getSession();
-		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("user");
+		LOG.debug("******************************************************");
 		
 		Search search = new Search();
-
-		if(null ==deptNo || deptNo.equals("10000")) {
-			search.setSearchDiv("");
-		}else {
-			search.setSearchDiv("20");
-			search.setSearchWord(deptNo);
-		}
+		search.setPageSize(50);
+		search.setPageNum(1);
+		
+		deptNo = StringUtil.nvl(deptNo, "10000");
+		search.setSearchDiv("20");
+		search.setSearchWord(deptNo);
+	
 		
 		LOG.debug(">param>" + deptNo);
-		LOG.debug(">sessionVO>" + sessionVO);
 		
-		
-		model.addAttribute("deptList",deptService.doSelectList());
-		model.addAttribute("list",commutingService.doSelectList(search));
+		model.addAttribute("deptNo",deptNo);
+		model.addAttribute("deptList",deptService.doSelectList());		model.addAttribute("list",commutingService.doSelectList(search));
 	}
 	
 	

@@ -41,14 +41,11 @@
 							
 								<div class="card-header py-3s"> 
 									<label for="start">월 선택</label> 
-									<form action="${hContext}/commuting/my_attendence.do" method="get" name="searchFrm">
+									<form action="${hContext}/commuting/my_attendence.do" method="get" name="searchFrm" >
 										<input type="month"  min="2020-11" id="month" name="month" value="${month}" >	
-										<input type="submit" class="btn btn-info btn-sm" value="Search"> 
+										<button type="submit" class="btn btn-info btn-sm" data-oper="search">Search </button>
+										<button type="submit" class="btn btn-info btn-sm" data-oper="insert">출근등록</button> 
 									</form>
-									<form action="${hContext}/commuting/doUpdateAttendTime.do" method="get" name="atttendFrm">
-										<input type="submit" class="btn btn-info btn-sm" value="출근등록"> 
-									</form>
-									
 								</div>
 								
 								
@@ -106,26 +103,25 @@
 				</div>
 				<!-- // page Content -->
 				<!-- Modal추가 -->
-							<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-									
-										<div class="modal-header">
-											<h4 class="modal-title" id="myModalLabel">알림</h4>
-											<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
-										</div>
-										 
-										<div class="modal-body">처리가 완료되었습니다.</div>
-										
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-											<button type="button" class="btn btn-default">Save changes</button>
-										</div>
-									</div>
-								</div>
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+						
+							<div class="modal-header">
+								<h4 class="modal-title" id="myModalLabel">알림</h4>
+								<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
 							</div>
-							<!-- /modal -->
+							 
+							<div class="modal-body">처리가 완료되었습니다.</div>
+							
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /modal -->
 				
 			</div>
 			<!-- //Main Content -->
@@ -140,12 +136,49 @@
 	<!-- //wrap -->
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("#Pages").attr("class", "nav-link");
-			$("#Pages").attr("aria-expanded", "true");
-			$("#collapsePages").attr("class", "collapse show");
-			$("#blank").attr("class", "collapse-item active");
+			
+			/* Modal*/
+			var result = '<c:out value="${result}"/>';
+			
+			checkModal(result);
+		
+			history.replaceState({},null,null);
+		
+			function checkModal(result) {
+				if(result == '' || history.state){
+					return;
+				}else {
+					$(".modal-body").html(result);
+				}
+					
+		
+				$("#myModal").modal("show");
+			
+			}
+			/*// Modal*/
+			
 		});
 
+
+		$('button').on("click", function(e) {
+			e.preventDefault();
+
+			var operation = $(this).data("oper");
+	
+			console.log(operation);
+	
+			if (operation === 'search') {
+				formObj.attr("action", "/commuting/my_attendence.do").attr("method","get");
+			} else if (operation === 'insert') {
+				//move to list
+				formObj.attr("action", "/commuting/updateAttendTime.do").attr("method", "post");
+				
+			}
+	
+			formObj.submit();
+
+			/*// Form Controll */
+		});	
 	</script>
 </body>
 </html>

@@ -163,6 +163,10 @@
           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
           마이페이지
         </a>
+         <a class="dropdown-item" href="${hContext}/commuting/my_attendence.do">
+          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+          내 출결
+        </a>
         <a class="dropdown-item" href="#">
           <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
           Settings
