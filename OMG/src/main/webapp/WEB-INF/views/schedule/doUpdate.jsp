@@ -34,7 +34,7 @@
 								</div>
 
 								<div class="card-body">
-									<form role="form" action="/schedule/update.do" method="post">
+									<form role="form" action="/schedule/doUpdate.do" method="post">
 										<!-- hidden -->
 										<input type="hidden" name="scheduleNo" value='<c:out value="${schedule.scheduleNo}"/>'>
 										<input type="hidden" name="pageNum" value='<c:out value="${cri.pageNum}"/>'>
@@ -108,10 +108,10 @@
 				console.log(operation);
 		
 				if (operation === 'remove') {
-					formObj.attr("action", "/schedule/delete.do");
+					formObj.attr("action", "/schedule/doDelete.do");
 				} else if (operation === 'list') {
 					//move to list
-					formObj.attr("action", "/schedule/list.do").attr("method", "get");
+					formObj.attr("action", "/schedule/doSelectList.do").attr("method", "get");
 		
 					//폼 값 초기화하고 필요한 값만 리스트로 복사
 					var pageNumTag = $("input[name='pageNum']")	.clone();

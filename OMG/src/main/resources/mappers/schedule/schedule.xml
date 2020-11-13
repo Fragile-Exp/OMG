@@ -3,7 +3,10 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mappers.schedule.schedule">
+
+	<!-- 부서검색 -->
 	
+	<!-- 검색 -->
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<foreach item='type' collection="typeArr"> <!-- getTypeArr메서드 -->
@@ -114,6 +117,11 @@
 			 <include refid="criteria"></include>
 		<![CDATA[
 			 rownum <= #{pageNum} * #{amount}
+		]]>
+			 <if test="deptNo != null">
+			 	dept_no = #{deptNo}
+			 </if>
+		<![CDATA[
 			 )
 		WHERE rn > (#{pageNum} - 1) * #{amount}
 		]]>

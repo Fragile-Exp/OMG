@@ -30,7 +30,7 @@
 							<!-- /.panel-heading -->
 			
 							<div class="panel-body">
-								<form role="form" action="/schedule/register.do" method="post">
+								<form role="form" action="/schedule/doInsert.do" method="post">
 									
 									<div class="form-group">
 										<label>제목</label> <input class="form-control" name="title"/>

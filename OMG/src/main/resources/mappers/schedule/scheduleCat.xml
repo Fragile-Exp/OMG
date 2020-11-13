@@ -25,7 +25,8 @@
 	
 	<!-- 단건조회 -->
 	<select id="doSelectOne" resultType="ScheduleCatVO">
-		SELECT category_id, category_nm
+		SELECT category_id categoryId,
+			   category_nm categoryNm
 		FROM schedule_cat
 		WHERE category_id = #{categoryId}
 	</select>
@@ -33,7 +34,8 @@
 	<!-- 다건조회 -->
 	<select id="doSelectList" resultType="ScheduleCatVO">
 		SELECT /*+ INDEX_ASC(schedule_cat pk_schedule_cat) */
-			   category_id, category_nm
+			   category_id categoryId,
+			   category_nm categoryNM
 		FROM schedule_cat
 	</select>
 	

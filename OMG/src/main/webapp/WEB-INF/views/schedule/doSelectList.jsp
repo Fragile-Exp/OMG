@@ -32,6 +32,19 @@
 				
 					<div class="card-body">
 						<div class="table-responsive">
+							<!-- search dept -->
+							<div class="row">
+								<div class="col-lg-12 col-md-7">
+									<form id="searchDept" action="/schedule/doSelectList.do" method="get">
+										<select name="keyword">
+											<c:forEach items="${dept}" var="dept">
+												<option value="${dept.deptNo}">${dept.deptNm}(${dept.deptNo})</option>
+											</c:forEach>
+										</select>
+									</form> 
+								</div>
+							</div>
+						
 							<!-- table -->
 							<table class="table table-striped table-bordered table-hover" id="dateTable" width="100%" cellspacing="0">
 								<thead>
@@ -66,7 +79,7 @@
 							<!-- criteria -->
 							<div class="row">
 								<div class="col-lg-12 col-md-7">
-									<form id="searchForm" action="/schedule/list.do" method="get">
+									<form id="searchForm" action="/schedule/doSelectList.do" method="get">
 										<select name="type">
 											<option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : ''}"/>>--</option>
 											<option value="T" <c:out value="${pageMaker.cri.type eq 'T' ? 'selected' : ''}"/>>제목</option>
@@ -109,11 +122,9 @@
 								</div>
 							</div>
 							<!-- /criteria -->
-
 							
-					
 							<!-- hidden -->
-							<form id="actionForm" action="/schedule/list.do" method="get">
+							<form id="actionForm" action="/schedule/doSelectList.do" method="get">
 								<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}"/>
 								<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 								<input type="hidden" name="type" value="${pageMaker.cri.type}"/>
@@ -166,14 +177,14 @@
 				}
 		
 				if(parseInt(result) > 0) {
-					$(".modal-body").html("게시글 " + parseInt(result) + " 번이 등록되었습니다.");
+					$(".modal-body").html("게시글이 등록되었습니다.");
 				}
 		
 				$("#myModal").modal("show");
 			}
 		
 			$("#regBtn").on("click", function(){
-				self.location = "/schedule/register.do";
+				self.location = "/schedule/doInsert.do";
 			});
 		
 			//페이징 이벤트처리
@@ -190,7 +201,7 @@
 			$(".move").on("click", function(e) {
 				e.preventDefault();
 				actionForm.append("<input type='hidden' name='scheduleNo' value='"+$(this).attr("href")+"'> ");
-				actionForm.attr("action", "/schedule/get.do");
+				actionForm.attr("action", "/schedule/doSelectOne.do");
 				actionForm.submit();
 			});
 		
