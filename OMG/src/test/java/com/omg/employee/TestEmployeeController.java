@@ -61,11 +61,11 @@ public class TestEmployeeController {
 		LOG.debug("=========================");
 		LOG.debug("=setUp()=");
 		employees=Arrays.asList(
-				new EmployeeVO("ID01","123456","유비_01",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1"),
-				new EmployeeVO("ID02","123456","유비_02",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1"),
-				new EmployeeVO("ID03","123456","유비_03",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1"),
-				new EmployeeVO("ID04","123456","유비_04",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1"),
-				new EmployeeVO("ID05","123456","유비_05",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1")
+				new EmployeeVO("ID01","123456","유비_01",1,1,123456789,"casse2045@naver.com","서울","20/10/28","20/10/29",15,"1"),
+				new EmployeeVO("ID02","123456","유비_02",1,1,123456789,"casse2045@naver.com","서울","20/10/28","20/10/29",15,"1"),
+				new EmployeeVO("ID03","123456","유비_03",1,1,123456789,"casse2045@naver.com","서울","20/10/28","20/10/29",15,"1"),
+				new EmployeeVO("ID04","123456","유비_04",1,1,123456789,"casse2045@naver.com","서울","20/10/28","20/10/29",15,"1"),
+				new EmployeeVO("ID05","123456","유비_05",1,1,123456789,"casse2045@naver.com","서울","20/10/28","20/10/29",15,"1")
 				);
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		LOG.debug("=mockMvc="+mockMvc);

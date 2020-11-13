@@ -4,9 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <c:set var="hContext" value="${pageContext.request.contextPath }" ></c:set>
-<%
-	EmployeeVO employeeVO=(EmployeeVO)request.getAttribute("employee");
-%>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,19 +32,26 @@
 						<div class="card shadow mb-4">
 							<div class="card-header py-3">
 								<input type="button" class="btn btn-info btn-sm" value="취소" id="cancel">
-								<input type="button" class="btn btn-info btn-sm" value="수정" id="employeeAdd">
+								<input type="button" class="btn btn-info btn-sm" value="수정" id="doUpdate">
 							</div>
 							<div class="card-body">
+								<input type="hidden"  name="img_code" id="img_code" value="${sessionScope.employee.img_code }" />	
+								<div class="form-group">
+									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+									<div class="col-lg-3">
+										<input type="file" onchange="img_upload(this)" id="input_image" name="input_image" accept="img/*" />
+									</div>
+								</div>		
 								<div class="col-lg-10 text-center" id="img_preview">
-									<div><img src="OMG/src/main/webapp/WEB-INF/images/basic.png" alt="프로필" width="100" height="100" /></div>
+									<div><img src="/OMG/src/main/webapp/WEB-INF/images/basic.png" alt="프로필" width=100 height=100 /></div>
 									<%-- <div><c:out value='${vo.regId}' /></div> --%>
-								</div>
+								</div>	
 								<div class="row">
 									<div class="col-lg-2 text-center">
 										<label for="employee_id" >아이디(사원번호)</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="employee_id" placeholder="아이디(사원번호)" />
+										<input readOnly class="form-control" id="employee_id" value="${sessionScope.employee.employee_id}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -55,7 +59,15 @@
 										<label for="name" >이름</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="name" placeholder="이름" />
+										<input readOnly type="text" class="form-control" id="name" value="${sessionScope.employee.name}"/>
+									</div>
+								</div>
+								<div class="row py-2">
+									<div class="col-lg-2 text-center">
+										<label for="name" >기존 비밀번호</label>
+									</div>
+									<div class="col-lg-9">
+										<input readOnly type="password" class="form-control" id="password" value="${sessionScope.employee.password}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -63,46 +75,31 @@
 										<label for="password" >새 비밀번호</label>
 									</div>
 									<div class="col-lg-3">
-										<input type="text" class="form-control" id="newPassword" placeholder="비밀번호" />
+										<input type="password" class="form-control" id="newPassword" placeholder="새 비밀번호" />
 									</div>
 									<div class="col-lg-2 text-center">
 										<label for="password" >새 비밀번호 확인</label>
 									</div>
-									<div class="col-lg-3">
-										<input type="text" class="form-control" id="newPasswordConfirm" placeholder="비밀번호" />
+									<div class="col-lg-4">
+										<input type="password" class="form-control" id="newPasswordConfirm" placeholder="새 비밀번호 확인" />
 									</div>
-									<button type="button" class="btn btn-info btn-sm" value="idConfirm" id="idConfirm">아이디 중복 확인</button>
 								</div>
 								<div class="row py-2">
 									<div class="col-lg-2 text-center">
 										<label for="dept_no" >부서명</label>
+										<input type="hidden" id="dept_no" value="${sessionScope.employee.dept_no}"/>
 									</div>
 									<div class="col-lg-9">
-										<select class="form-control input-sm" name="dept_no"  id="dept_no">
-							    		  	<option value="11000">전략기획본부</option>
-							    		  	<option value="12000">경영관리본부</option>
-							    		  	<option value="13000">기술개발본부</option>
-							    		  	<option value="14000">영업본부</option>
-							    		</select>
+										<input readOnly type="text" class="form-control" id="dept_nm" value="${sessionScope.employee.dept_nm}"/>
 									</div>
 								</div>
 								<div class="row py-2">
 									<div class="col-lg-2 text-center">
 										<label for="position_no" >직급</label>
+										<input type="hidden" id="position_no" value="${sessionScope.employee.position_no}"/>
 									</div>
 									<div class="col-lg-9">
-										<select class="form-control input-sm" name="position_no"  id="position_no">
-											<option value="10000">사장</option>
-											<option value="11000">부사장</option>
-											<option value="11100">전무이사</option>
-											<option value="11200">상무이사</option>
-											<option value="11300">이사</option>
-							    		  	<option value="11310">수석</option>
-							    		  	<option value="11320">책임</option>
-							    		  	<option value="11330">선임</option>
-							    		  	<option value="11331">사원</option>
-							    		  	<option value="11332">인턴</option>
-							    		</select>
+										<input readOnly type="text" class="form-control" id="position_nm" value="${sessionScope.employee.position_nm}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -110,7 +107,7 @@
 										<label for="cell_phone" >핸드폰</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="cell_phone" placeholder="핸드폰 EX)01012341234" />
+										<input type="text" class="form-control" id="cell_phone" value="${sessionScope.employee.cell_phone}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -118,7 +115,7 @@
 										<label for="email" >이메일</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="email" placeholder="이메일 EX)omg@omg.com" />
+										<input type="text" class="form-control" id="email" value="${sessionScope.employee.email}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -126,7 +123,7 @@
 										<label for="address" >주소</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="address" placeholder="주소" />
+										<input type="text" class="form-control" id="address" value="${sessionScope.employee.address}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -134,7 +131,7 @@
 										<label for="hire_date" >입사일 EX)20/11/19</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="hire_date" placeholder="입사일 EX)20/11/19" />
+										<input readOnly type="text" class="form-control" id="hire_date" value="${sessionScope.employee.hire_date}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -142,7 +139,7 @@
 										<label for="birth_day" >생년월일 EX)20/11/19</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="birth_day" placeholder="생년월일 EX)20/11/19" />
+										<input readOnly type="text" class="form-control" id="birth_day" value="${sessionScope.employee.birth_day}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -150,7 +147,7 @@
 										<label for="holiday" >휴가일</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="holiday" placeholder="휴가일" />
+										<input readOnly type="text" class="form-control" id="holiday" value="${sessionScope.employee.holiday}"/>
 									</div>
 								</div>
 							</div>
@@ -171,82 +168,8 @@
 </div>
 <!-- //wrap -->
 	<script type="text/javascript">
-	$(document).ready(function(){
-		$("#Pages").attr("class","nav-link");
-		$("#Pages").attr("aria-expanded","true");
-		$("#collapsePages").attr("class","collapse show");
-		$("#blank").attr("class","collapse-item active");
-		//console.log("src;"+src);
-		});
-
-	//아이디 존재 여부 확인
-	$("#idConfirm").one("click", function(){
-		//alert("#idConfirm");
-		if($("#employee_id").val()==false || $("#employee_id").val() ==""){
-			alert("아이디를 확인하세요.");
-			return ;
-		}
-		
-		$.ajax({
-            type:"GET",
-            url:"${hContext}/employee/idConfirm.do",
-            dataType:"html",
-            data:{
-            "employee_id":$("#employee_id").val().trim()
-           }, 
-         success: function(data){
-           var jData = JSON.parse(data);
-           if(null != jData && jData.msgId=="1"){
-             alert(jData.msgContents);
-             //다시조회
-             // doSelectList(1);
-           	 //존재하는 아이디이므로 초기화
-             $("#employee_id").val("");
-           }else{
-             alert(jData.msgId+"|"+jData.msgContents);
-           }
-         },
-         complete:function(data){
-          
-         },
-         error:function(xhr,status,error){
-             alert("error:"+error);
-         }
-        }); 
-        //--ajax 
-		});
-
-	//사원 추가
-	$("#employeeAdd").on("click", function(){
-		alert("#employeeAdd");
-
-/* 		EMPLOYEE_ID
-		PASSWORD
-		NAME
-		CELL_PHONE
-		EMAIL
-		ADDRESS
-		HIRE_DATE
-		BIRTH_DAY
-		HOLIDAY
-		IMG_CODE */
-
-
-		//아이디(사원번호) 필수 체크
-		if($("#employee_id").val()==false || $("#employee_id").val() ==""){
-			alert("아이디(사원번호)를 확인하세요.");
-			return ;
-		}		
-		//name 필수 체크
-		if($("#name").val()==false || $("#name").val() ==""){
-			alert("이름을 확인하세요.");
-			return ;
-		}
-		//password 필수 체크
-		if($("#password").val()==false || $("#password").val() ==""){
-			alert("비밀번호를 확인하세요.");
-			return ;
-		}
+	$("#doUpdate").on("click",function(){
+		//console.log("doUpdate");
 		//cell_phone 필수 체크
 		if($("#cell_phone").val()==false || $("#cell_phone").val() ==""){
 			alert("핸드폰을 확인하세요.");
@@ -262,28 +185,36 @@
 			alert("주소를 확인하세요.");
 			return ;
 		}
-		//hire_date 필수 체크
-		if($("#hire_date").val()==false || $("#hire_date").val() ==""){
-			alert("입사일을 확인하세요.");
-			return ;
-		}//birth_day 필수 체크
-		if($("#birth_day").val()==false || $("#birth_day").val() ==""){
-			alert("생년월일을 확인하세요.");
-			return ;
-		}//holiday 필수 체크
-		if($("#holiday").val()==false || $("#holiday").val() ==""){
-			alert("휴가일을 확인하세요.");
-			return ;
+
+		var updatePasswd;
+		
+		
+		if($("#newPassword").val() != ""  ){//새로운 비밀번호를 입력함
+			
+			if($("#newPassword").val() == $("#newPasswordConfirm").val()){//새로운 비밀번호가 동일한 경우
+				alert("비밀번호가 동일합니다.");
+				updatePasswd=$("#newPassword").val();
+				//console.log("updatePasswd:"+updatePasswd);
+			}else{
+				alert("비밀번호가 동일하지 않습니다.");
+				return; //새로운 비밀번호가 동일하지 않은 경우
+			}
+			
+		}else if($("#newPassword").val()==false || $("#newPassword").val() ==""){ //새로운 비밀번호를 입력하지 않음
+			alert("새 비밀번호를 입력하지 않아 기존 비밀번호를 유지합니다.");
+			updatePasswd=$("#password").val();
 		}
 
+		if(confirm("수정 하시겠습니까?") ==false)return;
+		
 		//ajax
         $.ajax({
-           type:"POST",
-           url:"${hContext}/employee/doInsert.do",
+           type:"GET",
+           url:"${hContext}/employee/doUpdate.do",
            dataType:"html",
            data:{
 	           "employee_id":$("#employee_id").val(),
-	           "password":$("#password").val(),
+	           "password":updatePasswd,
 	           "name":$("#name").val(),
 	           "dept_no":$("#dept_no").val(),
 	           "position_no":$("#position_no").val(),
@@ -300,7 +231,8 @@
           if(null != jData && jData.msgId=="1"){
             alert(jData.msgContents);
             //다시조회
-            doSelectList(1);
+            //doSelectList(1);
+            
           }else{
             alert(jData.msgId+"|"+jData.msgContents);
           }
@@ -313,27 +245,14 @@
         }
        }); 
        //--ajax 
-           			
 		
 
-		
-		
-		
 	});
 
-
-
-
-
-
-
-
-
-
-
-
-	
-
+	$("#cancel").on("click",function(){
+		$("#newPassword").val("");
+		$("#newPasswordConfirm").val("");
+		});
 	
 	
 	</script>
