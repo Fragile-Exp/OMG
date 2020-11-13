@@ -110,24 +110,22 @@
 	
 	<!-- 단건조회 -->
 	<select id="doSelectOne" parameterType="EmployeeVO" resultType="EmployeeVO">
-		SELECT
-		    employee_id,
-		    password,
-		    name,
-		    dept_no,
-		    dept_nm,
-		    position_no,
-		    position_nm,
-		    cell_phone,
-		    email,
-		    address,
+		SELECT                  
+		    employee_id,        
+		    password,           
+		    name,               
+		    dept_no,            
+		    position_no,        
+		    cell_phone,         
+		    email,              
+		    address,            
 		    TO_CHAR(hire_date,'YY/MM/DD ') AS hire_date,
-		    birth_day,
-		    holiday,
-		    img_code
+		    birth_day,          
+		    holiday,            
+		    img_code            
 		FROM
-		    employee_view
-		WHERE employee_id = #{employee_id}		 
+		    employee
+		WHERE employee_id = #{employee_id}  
 	</select>
 	
 	<!-- 전체삭제 -->
