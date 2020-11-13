@@ -215,9 +215,11 @@ public class BoardController
 		
 		//검색구분
 		search.setSearchDiv(StringUtil.nvl(search.getSearchDiv(), ""));
+		LOG.debug("[search.getSearchDiv()] : "+search.getSearchDiv());
 		
 		//검색어
 		search.setSearchWord(StringUtil.nvl(search.getSearchWord(), ""));
+		LOG.debug("[search.getSearchWord()] : "+search.getSearchWord());
 		
 		//board_list 화면으로 param 전달
 		model.addAttribute("vo", search);

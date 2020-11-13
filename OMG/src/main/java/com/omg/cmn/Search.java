@@ -71,12 +71,16 @@ public class Search extends DTO
 		this.pageNum = pageNum;
 	}
 
+
+
 	@Override
 	public String toString() 
 	{
 		return "Search [searchDiv=" + searchDiv + ", searchWord=" + searchWord + ", pageSize=" + pageSize + ", pageNum="
-				+ pageNum + "]";
+				+ pageNum + ", getDiv()=" + getDiv() + "]";
 	}
+
+	
 	
 	
 	

@@ -1,6 +1,5 @@
 package com.omg.board.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -12,8 +11,8 @@ import org.springframework.stereotype.Repository;
 import com.omg.board.domain.BoardVO;
 import com.omg.cmn.Search;
 
-@Repository("BoardDao")
-public class BoardDaoImpl implements BoardDao
+@Repository
+public class BoardDaoImpl
 {
 	final static Logger LOG = LoggerFactory.getLogger(BoardDaoImpl.class);
 	
@@ -25,7 +24,6 @@ public class BoardDaoImpl implements BoardDao
 	SqlSessionTemplate sqlSessionTemplate;
 	public BoardDaoImpl() {}
 	
-	@Override
 	public List<BoardVO> doSelectList(Search search)
 	{
 		LOG.debug("===========================");
@@ -35,7 +33,7 @@ public class BoardDaoImpl implements BoardDao
 		String statement = NAMESPACE + ".doSelectList";
 		LOG.debug("===========================");
 		LOG.debug("=statement : "+statement);
-		LOG.debug("=param : "+search);
+		LOG.debug("=search : "+search);
 		LOG.debug("===========================");
 		
 		List<BoardVO> list = this.sqlSessionTemplate.selectList(statement, search);
@@ -48,7 +46,7 @@ public class BoardDaoImpl implements BoardDao
 		return list;
 	}
 	
-	@Override
+	
 	public BoardVO doSelectOne(BoardVO boardVO)
 	{
 		LOG.debug("===========================");
@@ -66,7 +64,7 @@ public class BoardDaoImpl implements BoardDao
 		return outVO;
 	}
 	
-	@Override
+	
 	public int doUpdate(BoardVO boardVO)
 	{
 		LOG.debug("===========================");
@@ -84,7 +82,7 @@ public class BoardDaoImpl implements BoardDao
 		return flag;
 	}
 	
-	@Override
+	
 	public int doDelete(BoardVO boardVO)
 	{
 		LOG.debug("===========================");
@@ -108,7 +106,7 @@ public class BoardDaoImpl implements BoardDao
 	 * @param board
 	 * @return
 	 */
-	@Override
+	
 	public int doInsert(BoardVO boardVO)
 	{
 		LOG.debug("===========================");
