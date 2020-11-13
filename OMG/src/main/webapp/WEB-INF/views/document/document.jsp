@@ -14,7 +14,7 @@
 	.card-table-tbody > td {border-bottom : 1px solid #444444; padding:10px;}
 	.btn-box {float:right;}
 </style>
-<body id="page-top">
+<body id="page-top">	
 <!-- wrap -->
 <div id="wrapper">
 	<!-- side_bar -->
@@ -101,7 +101,8 @@
 													<td>${VO.dDay}</td>
 													<td>${VO.documentSet}</td>
 													<td>
-														<a href="${hContext}/document/document_info.do"  onClick="infoDocument()"  title="${VO.documentId}" class="info btn btn-sm btn-primary shadow-sm" >
+														<a href="#" onClick="infoDocument(this)"  id="${VO.documentId}" class="info btn btn-sm btn-primary shadow-sm" >
+															
 															<i class="fas fa-arrow-right fa-sm text-white-50"></i>
 														</a>
 													   	<input name="check"  type="checkbox" value="${VO.documentId}">
@@ -167,11 +168,12 @@
 						data:{"documentId" : list[i]},
 						dataType:"json",
 					success:function(data){
-					 	alert("삭제가 성공 하였습니다.")
+					 	alert("삭제가 성공 하였습니다.");
 						$("input:checkbox:checked").closest("tr").remove();
 					},
 					error:function(err){
-						alert("삭제가 실패 하였습니다.")
+						alert("삭제가 실패 하였습니다.");
+						
 					}
 
 					});					
@@ -180,24 +182,18 @@
 
 			}else{
 				alert("삭제 취소 되었습니다.");
-			}
+				
+				}
 			
 
 		}
 	}
 
 
-	function infoDocument(){
-		$(".info").on("click",function(e){
-			var Id = this.title;
-			
+	function infoDocument(e){ 
 
-			e.preventDefault();
-			actionForm.append("<input type='hidden' name='Id' value='"+Id+"'> ");
-			actionForm.attr("action","document/document_info.do");
-			actionForm.submit();
-	
-		});
+		window.location.href="${hContext}/document/document_info.do?documentId="+$(e).attr("id");
+
 	}
 
 

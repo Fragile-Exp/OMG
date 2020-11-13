@@ -35,13 +35,13 @@ public class DocumentDaoImpl {
 			DocumentVO outVO = new DocumentVO();
 
 		    outVO.setDocumentId(rs.getString("documentId"));     //문서고유번호  
-		    outVO.setEmployeeId(rs.getString("employeeId"));     //?���?    
+		    outVO.setEmployeeId(rs.getString("employeeId"));     //사원아이디    
 		    outVO.setKind(rs.getInt("kind"));                      //문서종류  
-		    outVO.setTitle(rs.getString("title"));                 //문서?���?  
+		    outVO.setTitle(rs.getString("title"));                 //문서
 		    outVO.setdDay(rs.getString("dDay"));                 //처리기간  
-		    outVO.setDocumentCont(rs.getString("documentCont")); //문서?��?��  
-		    outVO.setDocumentSet(rs.getInt("documentSet"));      //문서?��?��  
-		    outVO.setOkUser(rs.getString("okUser"));             //결재?��?���? 
+		    outVO.setDocumentCont(rs.getString("documentCont")); //문서내용  
+		    outVO.setDocumentSet(rs.getInt("documentSet"));      //문서상태  
+		    outVO.setOkUser(rs.getString("okUser"));             //승인자 
  		    
 		    return outVO;
 		}
@@ -50,7 +50,7 @@ public class DocumentDaoImpl {
 	public DocumentDaoImpl() {}
 	   
 	    
-	//?��?�� 
+
 	public int doInsert(DocumentVO documentVO) {
 		LOG.debug("=doInsert=");
 		
