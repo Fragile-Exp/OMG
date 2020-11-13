@@ -15,7 +15,7 @@ public class DocumentService {
 	DocumentDaoImpl documentDaoImpl;
 	
 	/**
-	 * 문서 ?��?�� 
+	 * 문서 삽입
 	 * @param documentVO
 	 * @return
 	 */
@@ -24,7 +24,7 @@ public class DocumentService {
 	}
 	
 	/**
-	 * 문서 ?��?�� 
+	 * 문서 삭제
 	 * @param documentVO
 	 * @return
 	 */
@@ -41,7 +41,7 @@ public class DocumentService {
 		return documentDaoImpl.doUpdate(documentVO);
 	}
 	/**
-	 * ?���? �??�� 
+	 * 문서단건 검색
 	 * @param documentVO
 	 * @return
 	 */
@@ -50,7 +50,7 @@ public class DocumentService {
 	}
 	
 	/**
-	 * ?���? �??��
+	 * 문서 전체 검색
 	 * @param documentVO
 	 * @return
 	 */
@@ -59,7 +59,7 @@ public class DocumentService {
 	}
 	
 	/**
-	 * ?���? �??��
+	 * 문서 사원 ID 기준 검색
 	 * @param documentVO
 	 * @return
 	 */
