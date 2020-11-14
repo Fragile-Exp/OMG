@@ -192,10 +192,10 @@
 	
 			if (operation === 'remove') {
 				$("#employeeId").val($(":input:radio[name=seq]:checked").attr("id"));
-				formObj.attr("action", "/commuting/delete.do").attr("method","post");
+				formObj.attr("action", "$("#hContext")/commuting/delete.do").attr("method","post");
 			} else if (operation === 'search') {
 				//move to list
-				formObj.attr("action", "/commuting/dept_attendence.do").attr("method", "get");
+				formObj.attr("action", "$("#hContext")/commuting/dept_attendence.do").attr("method", "get");
 	
 				/* //폼 값 초기화하고 필요한 값만 리스트로 복사
 				var pageNumTag = $("input[name='pageNum']")	.clone();

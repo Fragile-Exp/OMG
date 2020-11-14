@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -47,8 +48,9 @@ public class TestCommutingService {
 		
 	}
 	
+	
 	private void makeList() {
-		Search search = new Search("", "",300,1);
+		Search search = new Search("10", "ID02",20,1);
 		attendList = commutingService.doSelectList(search);
 	}
 	
@@ -58,33 +60,28 @@ public class TestCommutingService {
 		LOG.debug(">rollingTest()>");
 		LOG.debug(">>>>>>>>>>>>>>>>>>>>>>>>");
 		
-//		makeList();
+		//makeList();
 //		for(Commuting vo : attendList) {
 //			commutingService.doDelete(vo);
 //		}
-		
+//		
 		commutingService.doInit();
-		
-		makeList();
-		
-		for(Commuting vo : attendList) {
-				commutingService.doUpdateAttendTime(vo);
-			
-		}
-		
-		makeList();
-		
-		for(Commuting vo : attendList) {
-				commutingService.doUpdateLeaveTime(vo);
-		}
-		
-		makeList();
-		
-		for(Commuting vo : attendList) {
-			commutingService.doSelectOne(vo);
-		}
-		
-		
+//		
+//		makeList();
+//		
+//		for(Commuting vo : attendList) {
+//				commutingService.doUpdateAttendTime(vo);
+//				
+//			
+//		}
+//		
+//		makeList();
+//		
+//		for(Commuting vo : attendList) {
+//				commutingService.doUpdateLeaveTime(vo);
+//		}
+//		
+//		commutingService.getAll();		
 	}
 	
 	@Test

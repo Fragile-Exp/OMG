@@ -41,10 +41,11 @@
 							
 								<div class="card-header py-3s"> 
 									<label for="start">월 선택</label> 
-									<form action="${hContext}/commuting/my_attendence.do" method="get" name="searchFrm" >
+									<form action="${hContext}/commuting/my_attendence.do" method="get" >
 										<input type="month"  min="2020-11" id="month" name="month" value="${month}" >	
 										<button type="submit" class="btn btn-info btn-sm" data-oper="search">Search </button>
-										<button type="submit" class="btn btn-info btn-sm" data-oper="insert">출근등록</button> 
+										<button type="submit" class="btn btn-info btn-sm" data-oper="attend">출근하기</button> 
+										<button type="submit" class="btn btn-danger btn-sm" data-oper="leave">퇴근하기</button>
 									</form>
 								</div>
 								
@@ -159,22 +160,25 @@
 			
 		});
 
-
+		/* Form Controll */
 		$('button').on("click", function(e) {
 			e.preventDefault();
-
+			
+			var formObj = $("form");
 			var operation = $(this).data("oper");
 	
 			console.log(operation);
 	
 			if (operation === 'search') {
-				formObj.attr("action", "/commuting/my_attendence.do").attr("method","get");
-			} else if (operation === 'insert') {
+				formObj.attr("action", "${hContext}/commuting/my_attendence.do").attr("method","get");
+			} else if (operation === 'attend') {
 				//move to list
-				formObj.attr("action", "/commuting/updateAttendTime.do").attr("method", "post");
+				formObj.attr("action", "${hContext}/commuting/updateAttendTime.do").attr("method", "post");
 				
+			} else if (operation === 'leave') {
+				//move to list
+				formObj.attr("action", "${hContext}/commuting/updateLeaveTime.do").attr("method", "post");
 			}
-	
 			formObj.submit();
 
 			/*// Form Controll */

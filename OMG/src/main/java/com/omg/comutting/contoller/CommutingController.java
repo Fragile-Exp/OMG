@@ -106,7 +106,7 @@ public class CommutingController {
 	
 
 	@RequestMapping(value="updateAttendTime.do", method = RequestMethod.POST)
-	public String doUpdateAttendTime(Commuting inVO, Locale locale ,RedirectAttributes rttr,HttpServletRequest req) {
+	public String doUpdateAttendTime(HttpServletRequest req,RedirectAttributes rttr,Locale locale ) {
 		LOG.debug("******************************************************");
 		LOG.debug("=controller.doUpdateAttendTime=");
 		
@@ -137,21 +137,16 @@ public class CommutingController {
 		
 	}
 	
-	@RequestMapping(value="doUpdateLeaveTime.do", method = RequestMethod.POST)
-	@ResponseBody
-	public Message doUpdateLeaveTime(Commuting inVO, Locale locale) {
+	@RequestMapping(value="updateLeaveTime.do", method = RequestMethod.POST)
+	public String doUpdateLeaveTime(HttpServletRequest req,RedirectAttributes rttr,Locale locale) {
 		LOG.debug("******************************************************");
 		LOG.debug("=controller.doUpdateLeaveTime=");
+		HttpSession session = req.getSession();
+		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
 		
-		if(null == inVO.getSeq()) {
-			throw new IllegalArgumentException("시퀀스를 확인하세요");
-		}
-		if(null == inVO.getEmployeeId()) {
-			throw new IllegalArgumentException("사번을 확인하세요");
-		}
-		
-		int flag = commutingService.doUpdateLeaveTime(inVO);
-		
+		Commuting attendVO = new Commuting(StringUtil.formatDate("yyyy-MM-dd"), sessionVO.getEmployee_id());
+				
+		int flag = commutingService.doUpdateLeaveTime(attendVO);
 		Message message = new Message();
 		message.setMsgId(flag+"");
 		
@@ -165,10 +160,11 @@ public class CommutingController {
 			message.setMsgContents("퇴근 실패");
 		}
 		
+		rttr.addFlashAttribute("result", message.getMsgContents());
+		
 		LOG.debug(">message>" + message);
 		LOG.debug("******************************************************");
-		return message;
-		
+		return "redirect:my_attendence.do";
 	}
 	
 	@RequestMapping(value="doSelectOne.do", method = RequestMethod.GET)
@@ -183,7 +179,7 @@ public class CommutingController {
 			throw new IllegalArgumentException("아이디를 확인하세요");
 		}
 		
-		Commuting outVO = (Commuting) this.commutingService.doSelectOne(inVO);
+		Commuting outVO = (Commuting) this.commutingService.get(inVO);
 		
 		model.addAttribute("vo",outVO);
 		
