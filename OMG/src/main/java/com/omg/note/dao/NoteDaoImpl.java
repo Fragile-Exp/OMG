@@ -149,17 +149,17 @@ public class NoteDaoImpl {
 		return key; 
 	}
 	
-	public int notReadCnt(String id) {
-		LOG.debug("== notReadCnt ==");
+	public List<NoteVO> notReadNote(String id) {
+		LOG.debug("== notReadNote ==");
 
 		// mybatis 쿼리 매핑
-		String statement = NAMESPACE+".notReadCnt";
+		String statement = NAMESPACE+".notReadNote";
 		LOG.debug("statement : "+statement );
 		
 		// 쿼리 실행
-		int cnt = sqlSessionTemplate.selectOne(statement,id);
+		List<NoteVO> list = sqlSessionTemplate.selectList(statement,id);
 		
-		return cnt; 
+		return list; 
 	}
 	
 

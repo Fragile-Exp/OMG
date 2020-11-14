@@ -96,8 +96,7 @@
 											<div class="col-lg-10">
 												<textarea id="contents" name="contents" class="form-control" rows="20"><c:if test="${null ne noteVO }">${noteVO.contents}
 
-=================================================================</c:if>
-												</textarea>
+=================================================================</c:if></textarea>
 												
 											</div>
 										</div>

@@ -68,6 +68,9 @@
 			</when>
 			<when test="2 == noteVO.noteDiv">
 				<choose>
+					<when test="1 == noteVO.div">
+						AND read = 0
+					</when>
 					<when test="'10' == searchVO.searchDiv">
 						AND sender_id like #{searchVO.searchWord}||'%'
 					</when>
@@ -125,12 +128,22 @@
 		SELECT note_seq.nextval FROM dual
 	</select>
 	
-	<select id="notReadCnt" parameterType="String" resultType="java.lang.Integer">
-		SELECT COUNT(*)
+	<select id="notReadNote" parameterType="String" resultType="NoteVO">
+		SELECT note_no as noteNo, note_div as noteDiv, sender_id as senderId, sender_nm as senderNm, receive_div as receiveDiv,
+				receive_id as receiveId, receive_ref_div as receiveRefDiv, receive_ref as receiveRef, receive_ref_nm as receiveRefNm,
+				receive_nm as receiveNm, employee_id as employeeId, employee_nm as employeeNm,
+				title, contents, up_note as upNote, read,      	  	     											
+        		--등록일이 당일이면:HH24MI 그렇치 않으면: YYYY-MM-DD   
+        		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(send_dt,'YYYYMMDD'),
+        				TO_CHAR(send_dt,'HH24:MI'),TO_CHAR(send_dt,'YYYY-MM-DD')) sendDt,
+        		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(read_dt,'YYYYMMDD'),
+        				TO_CHAR(read_dt,'HH24:MI'),TO_CHAR(read_dt,'YYYY-MM-DD')) readDt,
+        		COUNT(*) OVER() as totalCnt
 		FROM note 
 		where note_div= 2
 		AND employee_id= #{value}
 		AND read = 0
+		ORDER BY send_dt desc
 	</select>
 	
 	

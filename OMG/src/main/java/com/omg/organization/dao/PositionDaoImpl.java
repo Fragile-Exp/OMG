@@ -44,7 +44,7 @@ public class PositionDaoImpl {
 	 * @return flag(1:성공)
 	 */
 	public int doInsert(PositionVO position) {
-LOG.debug("== doInsert ==");
+		LOG.debug("== doInsert ==");
 		
 		// mybatis 쿼리 매핑
 		String statement = NAMESPACE+".doInsert";

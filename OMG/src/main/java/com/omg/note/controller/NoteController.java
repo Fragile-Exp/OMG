@@ -13,11 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
 import com.google.gson.Gson;
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
+import com.omg.code.dao.CodeDaoImpl;
+import com.omg.code.domain.Code;
 import com.omg.employee.domain.EmployeeVO;
 import com.omg.note.domain.NoteVO;
 import com.omg.note.service.NoteService;
@@ -29,15 +32,23 @@ public class NoteController {
 	@Autowired
 	NoteService noteService;
 	
-	@RequestMapping(value="note/notReadCnt.do", method = RequestMethod.GET
+	@Autowired
+	CodeDaoImpl codeDao;
+	
+	/**
+	 * 읽지 않은 쪽지 불러오기
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="note/notReadNote.do", method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String notReadCnt(String id) {
-		LOG.debug("== notReadCnt ==");
+	public String notReadNote(String id) {
+		LOG.debug("== notReadNote ==");
 		
-		int cnt = noteService.notReadCnt(id);
+		List<NoteVO> list = noteService.notReadNote(id);
 		Gson gson=new Gson();
-        String json = gson.toJson(cnt);
+        String json = gson.toJson(list);
         LOG.debug("json = "+json);
 
 		return json;
@@ -47,7 +58,6 @@ public class NoteController {
 	 * 사원/부서 찾기 팝업 띄우기
 	 * @return
 	 */
-
 	@RequestMapping(value="note/find.do",method = RequestMethod.GET)
 	public String findPage() {
 		LOG.debug("== findPage ==");
@@ -68,6 +78,14 @@ public class NoteController {
 		}
 		LOG.debug("noteDiv = " + noteDiv);
 		model.addAttribute("noteDiv", noteDiv);
+		String codeList = "PAGE_SIZE,NOTE_CONDITION";
+		List<Code> list = codeDao.doSelectList(codeList);
+		
+		List<Code> pageSizeList = StringUtil.getCodeSearch(list, "PAGE_SIZE");
+		List<Code> noteConditionList = StringUtil.getCodeSearch(list, "NOTE_CONDITION");
+		model.addAttribute("pageSizeList", pageSizeList);
+		model.addAttribute("noteConditionList", noteConditionList);
+		
 		return "note/note";
 	}
 	
@@ -113,6 +131,53 @@ public class NoteController {
 		model.addAttribute("noteVO",noteVO);
 		
 		return "note/note_info";
+	}
+	
+	/**
+	 * 쪽지 일괄 읽음 처리
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="note/changeRead.do", method = RequestMethod.GET
+			,produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String changeRead(HttpServletRequest req) {
+		LOG.debug("== changeRead ==");
+		
+		// param 셋팅
+		String[] noteNoList = req.getParameterValues("noteNo");
+		LOG.debug("noteNoList = " + noteNoList);
+		String[] employeeList = req.getParameterValues("employee");
+		LOG.debug("employeeList = " + employeeList);
+		String[] senderList = req.getParameterValues("sender");
+		LOG.debug("senderList = " + senderList);
+		String[] readList = req.getParameterValues("read");
+		LOG.debug("readlist = " + readList);
+		String noteDiv = req.getParameter("noteDiv");
+		LOG.debug("noteDiv = " + noteDiv);
+		
+		int flag = 0;
+		for(int i=0;i<noteNoList.length;i++) {
+			NoteVO note = new NoteVO();
+			note.setNoteNo(Integer.parseInt(noteNoList[i]));
+			note.setEmployeeId(employeeList[i]);
+			note.setSenderId(senderList[i]);
+			note.setNoteDiv(Integer.parseInt(noteDiv));
+			note.setRead(Integer.parseInt(readList[i]));
+			NoteVO outVO = noteService.doSelectOne(note);
+			flag++;
+		}
+		Message message = null;
+		if(flag != noteNoList.length) {
+			message = new Message();
+			message.setMsgContents("읽음 처리 실패");
+		}
+		
+		Gson gson=new Gson();
+        String json = gson.toJson(message);
+        LOG.debug("json = "+json);
+
+		return json;
 	}
 	
 	/**
@@ -181,7 +246,7 @@ public class NoteController {
 	@RequestMapping(value = "note/doSelectList.do", method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doSelectList(HttpServletRequest req, Search search, NoteVO note) {
+	public String doSelectList(HttpServletRequest req, NoteVO note, Search search) {
 		LOG.debug("== doSelectList ==");
 		// 세션 처리가 됐을 시
 		EmployeeVO empVO = (EmployeeVO) req.getSession().getAttribute("employee");

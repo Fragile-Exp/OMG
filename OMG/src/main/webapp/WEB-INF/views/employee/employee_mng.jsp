@@ -74,11 +74,9 @@
                             </div>
                         </div>
                         
-                        <!-- pagenation -->
-						<div  class="text-center">
-							<div id="page-selection" class="text-center page"></div>
-						</div>
-					    <!--// pagenation -->
+						<!-- pagenation -->
+						<div id="page-selection" class="pagination justify-content-center"></div>
+				    	<!--// pagenation -->
 					    
 					    <!-- 입력 버튼 -->
                         <div class="card-body">

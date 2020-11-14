@@ -27,7 +27,7 @@
 	      		<!-- page Content -->
 	      		<form action=""></form>
 	      		<div class="container-fluid">
-		      		<div class="col-lg-10">
+		      		<div class="col-lg-8">
 						<div class="card shadow mb-4">
 							<div class="card-header py-3">
 								<input type="button" class="btn btn-info btn-sm" value="취소" id="cancel">
