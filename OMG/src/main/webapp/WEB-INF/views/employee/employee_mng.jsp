@@ -74,11 +74,9 @@
                             </div>
                         </div>
                         
-                        <!-- pagenation -->
-						<div  class="text-center">
-							<div id="page-selection" class="text-center page"></div>
-						</div>
-					    <!--// pagenation -->
+						<!-- pagenation -->
+						<div id="page-selection" class="pagination justify-content-center"></div>
+				    	<!--// pagenation -->
 					    
 					    <!-- 입력 버튼 -->
                         <div class="card-body">
@@ -228,6 +226,10 @@
     
     <script type="text/javascript">
 	$(document).ready(function(){
+		$("#setting").attr("class","nav-link");
+		$("#setting").attr("aria-expanded","true");
+		$("#adminSetting").attr("class","collapse show");
+		$("#employee_mng").attr("class","collapse-item active");
 		doSelectList(1);
 		});
 

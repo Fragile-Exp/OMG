@@ -25,6 +25,8 @@ public interface CommutingDao {
 	
 	public int doUpdateWorkTime(DTO dto);
 	
+	public List<Commuting> getAll();
+	
 	
 	
 }

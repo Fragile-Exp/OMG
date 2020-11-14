@@ -31,7 +31,13 @@
 	<!-- com.omg.commuting.doInit -->
 	<insert id="doInit">
 		INSERT INTO commuting (seq,employee_id,name,dept_no,present_state,state,reg_dt) 
-		SELECT TO_CHAR(sysdate,'yyyy-MM-dd') as seq,  
+		SELECT TO_CHAR(sysdate,'yyyy-MM-dd') as seq, 
+		--SELECT 2020-11-14 as seq, 
+		--SELECT '2020-11-15' as seq, 
+		--SELECT '2020-11-16' as seq, 
+		--SELECT '2020-11-17' as seq, 
+		--SELECT '2020-11-18' as seq, 
+		--SELECT '2020-11-19' as seq, 
 		       employee_id,                                                             
 		       name,                                                                    
 		       dept_no,                                                                 
@@ -71,6 +77,7 @@
 		WHERE c.seq =#{seq}                                                                                            		
 		AND c.employee_id =#{employeeId}                                                                                      		
 	</update>
+	
 	<!-- com.omg.commuting.doSelectOne -->
 	<select id="doSelectOne" parameterType="Commuting" resultType="Commuting">
 		SELECT                                                                     
@@ -103,7 +110,7 @@
 			<!-- 오늘 부서별-->
 			<when test="20 == searchDiv">
 				WHERE TO_CHAR(attend_time,'yyyyMMdd') = TO_CHAR(sysdate,'yyyyMMdd')
-				AND dept_no = #{searchWord}
+				AND dept_no = #{searchWord,jdbcType=VARCHAR}
 			</when>
 			<!-- my 월별-->
 			<when test="30 == searchDiv">
@@ -116,6 +123,7 @@
 			</when>
 		</choose>
 	</sql>
+	<!-- com.omg.commuting.doSelectList -->
 	<select id="doSelectList" parameterType="Search" resultType="Commuting">
 		SELECT C.*                                                                       
 		FROM                                                                             
@@ -131,13 +139,14 @@
 					 B.state as stateIntValue,                                                            
 					 B.work_time as workTime,                                                        
 					 B.reg_dt as regDt,
-					 SUM(B.work_time) OVER(ORDER BY B.rnum) as totalCnt                      
+					 SUM(B.work_time) OVER(PARTITION BY B.employee_id ORDER BY B.work_time) as totalCnt                      
 				FROM (                                                                   
 					  SELECT ROWNUM rnum, A.*                                                
 					  FROM(                                                                  
 						  SELECT *                                                           
 						  FROM  commuting                                                    
 			              <include refid="searchCondition"/>
+			              ORDER BY seq
 			              )A                                                                         
 			  		  WHERE ROWNUM <![CDATA[<=]]> (#{pageSize} *(#{pageNum}-1)+#{pageSize})                    						     
 					)B                                                                           
@@ -145,6 +154,7 @@
 		 ) C                                                                                             
 	</select>
 	
+	<!-- com.omg.commuting.doSelectMyList -->
 	<select id="doSelectMyList" parameterType="Commuting" resultType="Commuting">
 		SELECT                                                                     
 		    seq,                                       								
@@ -157,11 +167,32 @@
 		    state as stateIntValue,                                                                 
 		    work_time as workTime,                                                             
 		    reg_dt as regDt,
-		    SUM(work_time) OVER(ORDER BY seq) as totalCnt   
+		    SUM(work_time) OVER(ORDER BY reg_dt ) as totalCnt   
 		FROM                                                                       
 		    commuting c                                                            
 		WHERE employee_id = #{employeeId}
-		AND seq like #{seq} ||'%'                                      
+		AND seq like #{seq} ||'%' 
+		ORDER BY reg_dt
 	</select>
+	
+	<!-- com.omg.commuting.getAll -->
+	<select id="getAll" resultType="Commuting">
+		SELECT                                                                     
+		    seq,                                       								
+		    employee_id as employeeId,                                                           
+		    name,                                                                  
+		    dept_no as deptNo,                                                               
+			TO_CHAR(attend_time,'HH24:MI') as attendTime,
+			TO_CHAR(leave_time,'HH24:MI') as leaveTime,
+		    present_state as presentStateIntValue,                                                         
+		    state as stateIntValue,                                                                 
+		    work_time as workTime,                                                             
+		    reg_dt as regDt,
+		    SUM(work_time) OVER(PARTITION BY employee_id ORDER BY work_time) as totalCnt   
+		FROM                                                                       
+		    commuting                   
+	</select>
+	
+	
 </mapper>
  

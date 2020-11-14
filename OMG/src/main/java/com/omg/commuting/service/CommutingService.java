@@ -43,14 +43,15 @@ public interface CommutingService {
 	public int doUpdateLeaveTime(DTO dto);
 	
 	/**
-	 * 근무 시간 확인
+	 * 금일 현재 내 근무
 	 * @param dto
 	 * @return
-	 */
-	public DTO doSelectOne(DTO dto); 
+	 */ 
+	public DTO get(DTO dto); 
 	
 	/**
 	 * 검색조건에 따라 다른 서비스 호출
+	 * 10(id) , 20(dept), 30(month) , 40(seq)
 	 * @param search
 	 * @return
 	 */
@@ -63,4 +64,8 @@ public interface CommutingService {
 	 */
 	public List<Commuting> doSelectMyList(DTO dto);
 	
+	/**
+	 * 전체 목록
+	 */
+	public List<Commuting> getAll();
 }

@@ -77,11 +77,9 @@
                             </div>
                         </div>
                         
-                        <!-- pagenation -->
-				<div class="text-center">
-					<div id="page-selection" class="text-center page"></div>
-				</div>
-			    <!--// pagenation -->
+					<!-- pagenation -->
+					<div id="page-selection" class="pagination justify-content-center"></div>
+			    	<!--// pagenation -->
                     </div>
 
                 </div>

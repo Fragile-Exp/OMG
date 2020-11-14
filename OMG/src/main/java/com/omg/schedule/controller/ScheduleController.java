@@ -13,7 +13,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.omg.cmn.Criteria;
 import com.omg.cmn.PageDTO;
+import com.omg.organization.service.DeptService;
 import com.omg.schedule.domain.ScheduleVO;
+import com.omg.schedule.service.ScheduleCatService;
 import com.omg.schedule.service.ScheduleService;
 
 @Controller
@@ -24,6 +26,12 @@ public class ScheduleController {
 
 	@Autowired
 	private ScheduleService service;
+	
+	@Autowired
+	private ScheduleCatService catService;
+	
+	@Autowired
+	private DeptService deptService;
 
 	/**
 	 * 일정 추가
@@ -32,20 +40,21 @@ public class ScheduleController {
 	 * @param rttr
 	 * @author 박정민
 	 */
-	@RequestMapping(value = "/register.do", method = RequestMethod.POST)
-	public String insert(ScheduleVO inVO, RedirectAttributes rttr) {
-		//문자열 T 치환
+	@RequestMapping(value = "/doInsert.do", method = RequestMethod.POST)
+	public String doInsert(ScheduleVO inVO, RedirectAttributes rttr) {
+		//날짜 문자열 T 치환
 		inVO.setStartDt(inVO.getStartDt().replace("T", " "));
 		inVO.setEndDt(inVO.getEndDt().replace("T", " "));
+		
 		log.debug("[Insert]ScheduleVO: " + inVO);
+		int flag = service.doInsert(inVO);
+		
+		rttr.addFlashAttribute("result", flag);
 
-		service.doInsert(inVO);
-		rttr.addFlashAttribute("result", inVO.getScheduleNo());
-
-		return "redirect:/schedule/list.do"; // 생성 완료되면 일정관리 페이지로 리다이렉트
+		return "redirect:/schedule/doSelectList.do"; // 생성 완료되면 일정관리 페이지로 리다이렉트
 	}
 
-	@RequestMapping(value = "/register.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/doInsert.do", method = RequestMethod.GET)
 	public void insert() {
 
 	}
@@ -57,8 +66,8 @@ public class ScheduleController {
 	 * @param rttr
 	 * @author 박정민
 	 */
-	@RequestMapping(value = "/delete.do", method = RequestMethod.POST)
-	public String remove(@RequestParam("scheduleNo") int scheduleNo, RedirectAttributes rttr) {
+	@RequestMapping(value = "/doDelete.do", method = RequestMethod.POST)
+	public String doDelete(@RequestParam("scheduleNo") int scheduleNo, RedirectAttributes rttr) {
 		log.debug("[Delete]scheduleNo: " + scheduleNo);
 
 		ScheduleVO inVO = new ScheduleVO();
@@ -68,7 +77,7 @@ public class ScheduleController {
 			rttr.addFlashAttribute("result", "success");
 		}
 
-		return "redirect:/schedule/list.do";
+		return "redirect:/schedule/doSelectList.do";
 	}
 
 	/**
@@ -78,15 +87,15 @@ public class ScheduleController {
 	 * @param rttr
 	 * @author 박정민
 	 */
-	@RequestMapping(value = "/update.do", method = RequestMethod.POST)
-	public String update(ScheduleVO inVO, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+	@RequestMapping(value = "/doUpdate.do", method = RequestMethod.POST)
+	public String doUpdate(ScheduleVO inVO, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		log.debug("[Update]ScheduleVO: " + inVO);
 
 		if (service.doUpdate(inVO) == 1) {
 			rttr.addFlashAttribute("result", "success");
 		}
 
-		return "redirect:/schedule/list.do";
+		return "redirect:/schedule/doSelectList.do";
 	}
 
 	/**
@@ -96,9 +105,9 @@ public class ScheduleController {
 	 * @param model
 	 * @author 박정민
 	 */
-	@RequestMapping(value = { "/get.do", "/update.do" }, method = RequestMethod.GET)
-	public void get(@RequestParam("scheduleNo") int scheduleNo, 
-			@ModelAttribute("cri") Criteria cri, Model model) {
+	@RequestMapping(value = { "/doSelectOne.do", "/doUpdate.do" }, method = RequestMethod.GET)
+	public void doSelectOne(@RequestParam("scheduleNo") int scheduleNo, 
+					@ModelAttribute("cri") Criteria cri, Model model) {
 		log.debug("doSelectOne or doUpdate.....");
 
 		ScheduleVO inVO = new ScheduleVO();
@@ -119,11 +128,12 @@ public class ScheduleController {
 	 * @param model
 	 * @author 박정민
 	 */
-	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
-	public void list(Criteria cri, Model model) {
+	@RequestMapping(value = "/doSelectList.do", method = RequestMethod.GET)
+	public void doSelectList(Criteria cri, Model model) {
 		log.debug("doSelectList: " + cri);
 
 		model.addAttribute("list", service.doSelectList(cri));
+		model.addAttribute("dept", deptService.doSelectList());
 
 		int total = service.getTotalCount(cri);
 

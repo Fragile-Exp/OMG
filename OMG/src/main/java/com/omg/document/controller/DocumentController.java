@@ -41,7 +41,7 @@ public class DocumentController {
 	String url = "http://localhost:8080/cmn";
 	//--view--
 	
-	//--?���? 문서 목록 page
+	//--문서 목록 page
 	@RequestMapping(value="document/document.do", method = RequestMethod.GET )
 	public String document_view(DocumentVO documentVO, Model  model){
 		
@@ -67,7 +67,7 @@ public class DocumentController {
 		return  "document/document";
 	}
 	
-	//--문서 ?���? page
+	//--문서 등록page
 	@RequestMapping(value="document/document_reg.do", method = RequestMethod.GET )
 	public String document_reg(){
 		LOG.debug("===========================");
@@ -76,13 +76,9 @@ public class DocumentController {
 		return "document/document_reg";
 	}
 	
-	//--문서 ?��?�� ?���? page
-	@RequestMapping(value="document/document_info.do" , method = RequestMethod.GET )
-	public String document_info(@RequestParam(value="Id", required=false) String documentId ,DocumentVO documentVO, Model  model){
-		
-		LOG.debug("info_test"+documentId);
-		
-		documentVO.setDocumentId(documentId);
+	//--문서 상세 page
+	@RequestMapping(value="document/document_info.do" , method = RequestMethod.GET)
+	public String document_info(  DocumentVO documentVO, Model  model){
 		
 		
 		DocumentVO SeleteOne = documentService.doSelectOne(documentVO);
@@ -91,27 +87,15 @@ public class DocumentController {
 		model.addAttribute("SeleteOne", SeleteOne);
 		LOG.debug("SeleteOne"+SeleteOne);
 		
-		// .get -> 0 ?���? if(){ .set}
-		// .set(pk�?)(StringUtil.nvl( .get(pk�?),""))
-		//
-		//model.addAttribute("",VO)
-		//?��비스 ?���? 
-		//List<VO> document = this.Service.doSeleteOne(VO);
-		//�? ?��?�� 
-		//model.addAttribute("name�?", ?��?��?��  ) <?��면으�? ?��?��?��?�� 보내�?> 
 		
-		//jsp file ?��?��?�� ${model name�? ?��?�� }
-		
-		String view = "document/document_info";
-		
-		return view;
+		return "document/document_info";
 	}
 	
 	
 	
 	//--기능----------------------------------------------------------------------------- 
 	
-	//--?���? �??��
+	//--문서 단건 검색
 	@RequestMapping(value="document/doSelectOne.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doSelectOne(DocumentVO documentVO) {
@@ -134,7 +118,7 @@ public class DocumentController {
          
         return json;
 	}
-	//-- ?���? �??��
+	//-- 문서 전체 검색
 	@RequestMapping(value="document/doSelectList.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doSelectList(DocumentVO documentVO) {
@@ -157,7 +141,7 @@ public class DocumentController {
          
         return json;
 	}
-	//-- ?���? 기�? �??��
+	//-- 문서 사원 ID 기준 검색
 	@RequestMapping(value="document/doempIdSelectList.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doempIdSelectList(DocumentVO documentVO) {
@@ -185,7 +169,7 @@ public class DocumentController {
 	
 	
 	
-	//-- ?���?
+	//-- 삽입
 	@RequestMapping(value="document/doInsert.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doInsert(DocumentVO documentVO) {
@@ -209,9 +193,9 @@ public class DocumentController {
         message.setMsgId(flag+"");
         
         if(flag ==1 ) {
-        	message.setMsgContents(documentVO.getTitle()+"문서�? ?��록되?��?��?��?��.");
+        	message.setMsgContents(documentVO.getTitle()+"문서가 등록 되었습니다.");
         }else {
-        	message.setMsgContents(documentVO.getTitle()+"문서�? ?��록실?��?��?��?��?��?��.");
+        	message.setMsgContents(documentVO.getTitle()+"문서가 등록 실패 하였습니다.");
         }
         
         Gson gson=new Gson();
@@ -223,7 +207,7 @@ public class DocumentController {
         return json;
 	}
 	
-	//-- ?��?��
+	//-- 삭제
 	@RequestMapping(value="document/doDelete.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doDelete(DocumentVO documentVO) {
@@ -238,9 +222,9 @@ public class DocumentController {
         message.setMsgId(flag+"");
         
         if(flag ==1 ) {
-        	message.setMsgContents(documentVO.getTitle()+"문서�? ?��?��?��?��?��?��?��.");
+        	message.setMsgContents(documentVO.getTitle()+"문서 삭제 성공하였습니다.");
         }else {
-        	message.setMsgContents(documentVO.getTitle()+"문서�? ?��?�� ?��?��?��?��?��?��?��.");
+        	message.setMsgContents(documentVO.getTitle()+"문서 삭제 실패 하였습니다.");
         }
         
         Gson gson=new Gson();
@@ -252,7 +236,7 @@ public class DocumentController {
         return json;
 	}
 	
-	//-- ?��?�� 
+	//-- 수정 
 	@RequestMapping(value="document/doUpdate.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	@ResponseBody	
 	public String doUpdate(DocumentVO documentVO) {
@@ -263,14 +247,14 @@ public class DocumentController {
         //documentVO.setDocumentId("E_0001");
         int flag =documentService.doUpdate(documentVO);
         
-        LOG.debug("=doInsert="+flag);
+        LOG.debug("=doUpdate="+flag);
         Message  message=new Message();
         message.setMsgId(flag+"");
         
         if(flag ==1 ) {
-        	message.setMsgContents(documentVO.getTitle()+"문서�? ?��?��?��?��?��?��?��.");
+        	message.setMsgContents(documentVO.getTitle()+"문서 수정 하였습니다.");
         }else {
-        	message.setMsgContents(documentVO.getTitle()+"문서�? ?��?�� ?��?��?��?��?��?��?��.");
+        	message.setMsgContents(documentVO.getTitle()+"문서 수정 실패 하였습니다.");
         }
         
         Gson gson=new Gson();

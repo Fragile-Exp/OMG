@@ -96,31 +96,7 @@ public class EmployeeController {
 		return "employee/mypage";
 	}
 	
-	/*
-	 * //uploadController 생성
-	 * 
-	 * @RequestMapping(value = "/uploadForm", method = RequestMethod.GET) public
-	 * void uploadForm() throws Exception { }
-	 * 
-	 * @RequestMapping(value = "/uploadForm", method = RequestMethod.POST) public
-	 * String uploadForm(MultipartFile file, Model model) throws Exception {
-	 * 
-	 * LOG.debug("originalName: " + file.getOriginalFilename()); LOG.debug("size: "
-	 * + file.getSize()); LOG.debug("contentType: " + file.getContentType());
-	 * 
-	 * String savedName = uploadFile(file.getOriginalFilename(), file.getBytes());
-	 * 
-	 * model.addAttribute("savedName", savedName);
-	 * 
-	 * return "uploadResult"; }
-	 * 
-	 * private String uploadFile(String originalName, byte[] fileData) throws
-	 * Exception {
-	 * 
-	 * UUID uid = UUID.randomUUID(); String savedName = uid.toString() + "_" +
-	 * originalName; File target = new File(uploadPath, savedName);
-	 * FileCopyUtils.copy(fileData, target); return savedName; }
-	 */
+
 	
 	 
 	

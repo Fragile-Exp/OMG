@@ -27,7 +27,7 @@
 	      		<!-- page Content -->
 	      		<form action=""></form>
 	      		<div class="container-fluid">
-		      		<div class="col-lg-10">
+		      		<div class="col-lg-8">
 						<div class="card shadow mb-4">
 							<div class="card-header py-3">
 								<input type="button" class="btn btn-info btn-sm" value="취소" id="cancel">
@@ -158,10 +158,10 @@
 <!-- //wrap -->
 	<script type="text/javascript">
 	$(document).ready(function(){
-		$("#Pages").attr("class","nav-link");
-		$("#Pages").attr("aria-expanded","true");
-		$("#collapsePages").attr("class","collapse show");
-		$("#blank").attr("class","collapse-item active");
+		$("#setting").attr("class","nav-link");
+		$("#setting").attr("aria-expanded","true");
+		$("#adminSetting").attr("class","collapse show");
+		$("#employee_reg").attr("class","collapse-item active");
 		});
 
 	//아이디 존재 여부 확인

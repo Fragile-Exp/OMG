@@ -31,9 +31,9 @@
 							<div class="card shadow mb-4 py-3 border-left-primary">
 								<div class="card-body">
 									<div class="list-group-flush">
-										<a id="note1" href="#" onclick="javascript:$('#searchWord').val(''); drawNote(1,1); return false;" class="list-group-item"> 보낸 쪽지함 </a>
-										<a id="note2" href="#" onclick="javascript:$('#searchWord').val(''); drawNote(2,1); return false;" class="list-group-item"> 받은 쪽지함 </a>
-										<a id="note3" href="#" onclick="javascript:$('#searchWord').val(''); drawNote(3,1); return false;" class="list-group-item"> 휴지통 </a>
+										<a id="note1" href="#" onclick="changeNoteDiv(1,1); return false;" class="list-group-item"> 보낸 쪽지함 </a>
+										<a id="note2" href="#" onclick="changeNoteDiv(2,1); return false;" class="list-group-item"> 받은 쪽지함 </a>
+										<a id="note3" href="#" onclick="changeNoteDiv(3,1); return false;" class="list-group-item"> 휴지통 </a>
 									</div>
 								</div>
 							</div>
@@ -48,7 +48,7 @@
 										<a href="${hContext}/note/note_reg.do" class="btn btn-secondary btn-sm">
 											<span class="text">쪽지쓰기</span>
 										</a>
-										<a href="#" class="btn btn-info btn-icon-split btn-sm">
+										<a id="readBtn" href="#" class="btn btn-info btn-icon-split btn-sm">
 											<span class="icon text-white-50"> <i class="fas fa-check"></i></span>
 											<span class="text">읽음 처리</span>
 										</a>
@@ -60,23 +60,23 @@
 											<span class="icon text-white-50"> <i class="fas fa-arrow-right"></i></span>
 											<span class="text">답장하기</span>
 										</a>
+										<input type="checkbox" id="onlyNotRead" onclick="drawNote($('#noteDiv').val(),1);"/> 읽지 않음
 										</div>
 										<div class="col-lg-6" align="right">
+										
 											<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" onsubmit="return false">
 												<input type="hidden" name="pageNum" id="pageNum" value="1" />
 											    <div class="input-group">
 											    	<div class="px-1">
-														<select class="form-control input-sm" name="pageSize"  id="pageSize">
-											    		  	<option value="10">10</option>
-											    		  	<option value="20">20</option>
-											    		  	<option value="30">30</option>
-											    		  	<option value="50">50</option>
-											    			<option value="100">100</option>
+											    		<select class="form-control input-sm" name="pageSize"  id="pageSize">
+												    		<c:forEach var="pageSzie" items="${pageSizeList}">
+												    			<option value="${pageSzie.detCode}">${pageSzie.detNm}</option>
+												    		</c:forEach>
 											    		</select>
 											    		<select class="form-control input-sm" name="searchDiv" id="searchDiv">
-											    		  	<option value="10">아이디</option>
-											    		  	<option value="20">이름</option>
-											    		  	<option value="30">제목</option>
+											    		  	<c:forEach var="noteCondition" items="${noteConditionList}">
+												    			<option value="${noteCondition.detCode}">${noteCondition.detNm}</option>
+												    		</c:forEach>
 											    		</select> 
 										    		</div>
 													<input id="searchWord" name="searchWord" type="text" class="form-control bg-light small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -106,7 +106,7 @@
 										<table id="noteList" class="table table-striped table-bordered table-hover table-condensed">
 											<thead>
 												<tr>
-													<th class="text-center" width="2%"><input type="checkbox" class="form-controll" id="selectAll" /></th>
+													<th class="text-center" width="2%"><input type="checkbox" onclick="checkToggle();" id="checkAll" /></th>
 													<th class="text-center" width="12%">보낸 사람</th>
 													<th class="text-center" width="12%">받는 사람</th>
 													<th class="text-center" width="36%">제목</th>
@@ -153,9 +153,18 @@
 		drawNote("${noteDiv}",1);
 		})
 		
+		
+	function changeNoteDiv(noteDiv,pageNum){
+		$('#searchWord').val('');
+		$("#checkAll").prop("checked", false);
+		$("#onlyNotRead").prop("checked", false);
+		drawNote(noteDiv,pageNum);
+		}
+		
 	/* 검색 버튼 */
 	$("#searchBtn").on("click",function(){
 		drawNote($("#noteDiv").val(),1);
+		$("#checkAll").prop("checked", false);
 	});
 
 	//검색 Enter Event처리
@@ -165,8 +174,21 @@
 			$("#searchBtn").trigger("click");
 		}
 	});
+
+	// pageSize 변경시 자동 검색
+	$("#pageSize").on("change",function(){
+		$("#searchBtn").trigger("click");
+		})
 	
-		
+	function checkToggle(){
+      if( $("#checkAll").is(':checked') ){
+        $("input:checkbox[name=selectNote]").prop("checked", true);
+      }else{
+        $("input:checkbox[name=selectNote]").prop("checked", false);
+      }
+	}
+
+	
 	/* 삭제 버튼 */	
 	$("#deleteBtn").on("click",function(){
 		var size = $("input:checkbox[name=selectNote]:checked").length;
@@ -199,6 +221,7 @@
          success: function(data){
            var parseData = JSON.parse(data);
            alert(parseData.msgContents);
+           $("#checkAll").prop("checked", false);
            drawNote($("#noteDiv").val(),1);
 		},
          error:function(xhr,status,error){
@@ -206,7 +229,52 @@
          }
         }); 
 	})
+	
+	/* 읽음 처리 */
+	$("#readBtn").on("click",function(){
+		var noteNolist = [];
+		var employeelist = [];
+		var senderlist = [];
+		var readlist = [];
+		$("input:checkbox[name=selectNote]:checked").each(function(i){
+			var args = [];
+			args = $(this).val().split(',');
+			noteNolist.push(args[0]);
+			employeelist.push(args[1]);
+			senderlist.push(args[2]);
+			readlist.push(args[3]);
+			});
 		
+		jQuery.ajaxSettings.traditional = true;
+		$.ajax({
+            type:"GET",
+            url:"${hContext}/note/changeRead.do",
+            dataType:"html",
+            async: true,
+            data:{
+                "noteDiv" : $("#noteDiv").val(),
+                "noteNo" : noteNolist,
+                "employee" : employeelist,
+                "sender" : senderlist,
+                "read" : readlist
+                },
+         success: function(data){
+           var parseData = JSON.parse(data);
+
+           if(null != parseData ){
+        	   alert(parseData.msgContents);
+               }
+           
+           $("#checkAll").prop("checked", false);
+           drawNote($("#noteDiv").val(),1);
+		},
+         error:function(xhr,status,error){
+             alert("error:"+error);
+         }
+        });
+
+		})
+	
 	/* 쪽지 확인 */
 	$("#noteList>tbody").on("click","tr",function(){
 		var tds = $(this).children();
@@ -232,13 +300,13 @@
 		var activeNote = "note"+noteDiv;
 		$(".active").removeClass("active");
 		document.getElementById(activeNote).classList.add("active");
-		
 		$.ajax({
             type:"GET",
             url:"${hContext}/note/doSelectList.do",
             dataType:"html",
             async: true, 
             data : {
+                "div" : $("#onlyNotRead:checked").length,
                 "noteDiv" : noteDiv,
                 "pageSize" : $("#pageSize").val(),
                 "pageNum" : page,
@@ -254,10 +322,17 @@
 			//Data가 없으면
            if(parseData.length>0){
                var totalCnt = parseData[0].totalCnt;
+               var totalCount = 0;
         	   $.each(parseData, function(i, value) {
+        		   totalCount = totalCount +1;
+        		   /* if( $("#onlyNotRead").is(':checked') && value.read==1 ){
+            		   totalCnt = totalCount;
+            		   return true;
+        		   } */
+        		   
             	    html += '<tr>';
     		   		html += '<td class="text-center" onclick="event.cancelBubble=true">';
-    		   		html += '<input type="checkbox" class="form-controll" name="selectNote" value="'+value.noteNo+','+value.employeeId+'" />';
+    		   		html += '<input type="checkbox" name="selectNote" value="'+value.noteNo+','+value.employeeId+','+value.senderId+','+value.read+'" />';
     		   		html += '</td>';
 					html += '<td class="text-center">'+value.senderNm+'('+value.senderId+')</td>';
 					html += '<td style="display:none;">'+value.senderId+'</td>';
@@ -282,6 +357,8 @@
 			  var pageTotal = Math.ceil(totalCnt/$("#pageSize").val());
 			  //테이블 동적으로 html추가
 		      $("#noteList>tbody").append(html);
+		      console.log(totalCnt);
+		      console.log(totalCount);
 		      renderingPage(pageTotal,page);
 		      
          },
