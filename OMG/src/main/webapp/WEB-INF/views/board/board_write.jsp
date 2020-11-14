@@ -55,6 +55,30 @@
 							</div>
 						</div>
 					</form>
+					<form>
+						<ul class="list-group" id="">
+							<li class="list-group-item" style="width: 1335px;border-left-width: 1px;left: 10px;">
+								<div class="row">
+									<div id="" class="col-lg-10">
+										<input type="file" onchange="file_upload(this)" id="file_btn" name="file_btn" multiple />
+										<table class="table table-striped table-bordered" id="fileListTable">
+											<thead>
+												<tr>
+													<th>원본파일명</th>
+													<th>확장자</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="text-center" colspan="99">등록된 데이터가 없습니다.</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</form>
 				</div>
 				<!-- // page Content -->
 				
@@ -162,6 +186,16 @@
 		
 	});
 	
+	function file_upload(e)	
+	{
+		var fileValue = $(e).val().split("\\");
+		var fileName = fileValue[fileValue.length-1]; // 파일명
+		
+		alert($(e).val());
+		console.log(e);
+		console.log($(e).text());
+		alert(fileName);
+	}
 	</script>
 </body>
 </html>

@@ -72,7 +72,7 @@ public class BoardController
 		Message message = new Message();
 		message.setMsgId(flag+"");
 		
-		if(flag==1)
+		if(flag>=1)
 		{
 			message.setMsgContents(" 게시글 등록이 완료 되었습니다.");
 		}

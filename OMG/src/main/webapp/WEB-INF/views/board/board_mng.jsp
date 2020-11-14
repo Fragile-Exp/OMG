@@ -67,34 +67,6 @@
 				<!-- h4>댓글</h4> -->
 				<label for="" class="col-sm-2 control-label">댓글</label>
 			</div>
-			<!-- <div>
-				<ul class="list-group" id="comment_list">
-					<li class="list-group-item" style="width: 1349px;">
-					<div class="row">
-						<input type="hidden" name="commentNum" id="commentNum" value="10069">
-						<input type="hidden" name="upNum" id="upNum" value="0">
-						<a href="#" class="col-lg-1"><img src="/N1/images/profile/man.jpeg" alt="프로필 사진" width="72" height="72"></a>
-						<div id="comment_area" class="col-lg-10">
-							<div>
-								<label id="modId">eee</label>
-							</div>
-							<div>
-								<p id="comment_contents">asd</p>
-							</div>
-							<div>2020-11-12 16:55:26<a href="#" onclick="reply(this); return false;" class="btn btn-link">답글쓰기</a></div>
-						</div>
-						<div class="dropdown col-lg-1 text-right">
-							<button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">...<span class="caret"></span></button>
-							<ul class="dropdown-menu">
-								<li><a href="#" onclick="comment_modify(this); return false;">수정</a></li>
-								<li><a href="#" onclick="comment_del(this); return false;">삭제</a></li>
-							</ul>
-						</div>
-					</div>
-					</li>
-				</ul>
-			</div> -->
-			
 			<ul class="list-group" id="comment_list">
 				<!-- 댓글 영역 -->
 			</ul>
@@ -102,15 +74,16 @@
 				<form class="form-horizontal" name="comment_reg_frm" id="comment_reg_frm" >
 					<div class="form-group col-lg-10">
 						<div>
-							<label>현재 로그인한 사용자 ID</label>
-							</div>
-						<div >
+							<%-- <label>${employee.employee_id}</label> --%>
+						</div>
+						<div>
 							<textarea class="form-control" style="resize:none;" id="write_contents" name="write_contents" rows="3" cols="100" placeholder="댓글을 입력하세요."></textarea>
 						</div>
 						<div style="float: right;">
 							<input type="button" id="comment_reg_btn" class="btn btn-primary btn-icon-split icon text-white-100"  value="등록" style="margin: 13px;" />
 						</div>
-						<input type="hidden" name="regId" id="regId" value="admin"/>
+						<!-- <input type="hidden" name="regId" id="regId" value="admin"/> -->
+						<input type="hidden" name="regId" id="regId" value="${employee.employee_id}"/>
 						<%-- <input type="hidden" name="boardSeq" id="boardSeq" value="${vo.getBoardSeq()}" /> --%>
 						<input type="hidden" name="boardSeq" id="boardSeq" value="${vo.boardSeq}" />
 						<input type="hidden" name="upNum" id="upNum" value="0"/>
@@ -211,7 +184,7 @@
 			console.log("modId:"+modId);
 			if(null == modId || modId.trim().length==0){
 				$("#modId").focus();
-				alert("등록자를 입력하세요.");
+				alert("수정자를 입력하세요.");
 				return;
 			}
 			
@@ -287,13 +260,15 @@
 				var html ="";
 				var index = 0;
 				if(null != commentList && commentList.length>0){
-					for(var vo of commentList){
+					for(var vo of commentList)
+					{
 						var col = 10;
 						html += "<li class='list-group-item' style='width: 1335px;border-left-width: 1px;left: 10px;'>";
 						html += "<div class='row'>";
 						html += "<input type='hidden' name='commentNum' id ='commentNum' value='"+vo.commentNum+"'/>";
 						html += "<input type='hidden' name='upNum' id ='upNum' value='"+vo.upNum+"'/>";
-						if( vo.upNum != 0){
+						if( vo.upNum != 0)
+						{
 							html += "<div class='col-lg-1'></div>";
 							col--;
 						}
@@ -303,11 +278,14 @@
 						html += "</a>"; */
 						html += "<div id='comment_area' class='col-lg-"+col+"'>";
 						html += "<div><label id='modId'>"+vo.modId+"</label></div>";
+						/* html += "<div><label id='modId'>"${employee.employee_id}"</label></div>"; */
 						html += "<div><p id='comment_contents'>"+vo.contents+"</p></div>";
 						html += "<div>"+vo.modDt+"<a href='#' onclick='reply(this); return false;' class='btn btn-link'>답글쓰기</a></div>";
 						html += "</div>";
 						// 세션 ID로 변경
-						if(vo.modId=="admin"){
+						if(vo.modId=="admin")
+						/* if(vo.modId==${employee.employee_id}) */
+						{
 						html += "<div class='dropdown col-lg-1 text-right'>";
 						html += "<button class='btn btn-default btn-xs dropdown-toggle' data-toggle='dropdown'>";
 						html += "...<span class='caret'></span>";
@@ -322,7 +300,9 @@
 						html += "</li>";
 						
 					}
-				} else {
+				} 
+				else 
+				{
 					html += "<div class='text-center'><label>등록된 댓글이 없습니다.</label></div>";
 				}
 				$("#comment_list").empty();
@@ -404,6 +384,7 @@
 	$("#comment_reg_btn").on('click',function(){
 		var frm = document.comment_reg_frm;
 		var cotents = frm.write_contents.value;
+		/* var modId = ${employee.employee_id}; */
 		/* var upNum = $("#upNum").val(); */
 		if (null == cotents || cotents.trim().length == 0) {
 			$("#write_contents").focus();

@@ -25,6 +25,36 @@
 
 	<!-- com.omg.board.doInsert -->
 	<insert id="doInsert" parameterType="BoardVO">
+		<selectKey resultType="int" keyProperty="filecode" order="BEFORE">
+			SELECT ATTACHMENT_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO board (         
+						    board_seq,              
+						    div,                    
+						    title,                  
+						    contents,               
+						    read_cnt,               
+						    file_code,              
+						    reg_dt,                 
+						    reg_id,                 
+						    mod_dt,                 
+						    mod_id                  
+						  ) VALUES (                  
+						    BOARD_SEQ.NEXTVAL,      
+						    #{div},                      
+						    #{title},                      
+						    #{contents},                      
+						    #{readCnt},                      
+						    #{fileCode},
+						    SYSDATE,                
+						    #{regId},                      
+						    null,                
+						    null                       
+						  ) 
+	</insert>
+	
+	<!-- com.omg.board.doInsert -->
+	<insert id="doInsert2" parameterType="BoardVO">
 		INSERT INTO board (         
 						    board_seq,              
 						    div,                    
