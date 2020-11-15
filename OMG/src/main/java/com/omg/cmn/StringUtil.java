@@ -93,13 +93,13 @@ public class StringUtil {
 	   // 1 2 3 ... 10 (숫자보여주기)
 	   for (inx = startPageNo; inx < maxPageNo && inx <= endPageNo; inx++) {
 			if (inx == currPageNo) {// 현재 page
-				html.append("<li  class=\"disabled active\" 	>");
+				html.append("<li  class=\"disabled \" 	>");
 				html.append("<a  href=\"javascript:#\"  > ");
 				html.append(inx);
 				html.append("</a> \n");
 				html.append("</li>");
 			} else {
-				html.append("<li  class=\"\">");
+				html.append("<li  class=\"active\">");
 				html.append("<a  href=\"javascript:" + scriptName + "('" + url + "'," + inx + ");\"  > ");
 				html.append(inx);
 				html.append("</a> \n");
@@ -248,7 +248,7 @@ public class StringUtil {
 	{
 		StringBuilder sb = new StringBuilder();
 		//sb.append("<select name='"+selectBoxNm+"' id='"+selectBoxNm+"' class=\"form-control input-sm\"> \n"); //2020.11.11 jgt SB.admin ver
-		sb.append("<select name='"+selectBoxNm+"' id='"+selectBoxNm+"' class=\"custom-select custom-select-sm form-control form-control-sm\"> \n");
+		sb.append("<select name='"+selectBoxNm+"' id='"+selectBoxNm+"' class=\"custom-select custom-select form-control form-control-sm\"> \n");
 		
 		//custom-select custom-select-sm form-control form-control-sm
 		

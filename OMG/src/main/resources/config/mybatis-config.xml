@@ -23,6 +23,8 @@
 		<typeAlias type="com.omg.board.domain.BoardVO" alias="BoardVO"/>
 		<!-- conments -->
 		<typeAlias type="com.omg.comments.domain.CommentsVO" alias="CommentsVO"/>
+		<!-- attachment -->
+		<typeAlias type="com.omg.attachment.domain.AttachmentVO" alias="AttachmentVO"/>
 		
 		<!-- code -->
 		<typeAlias type="com.omg.code.domain.Code" alias="Code" />

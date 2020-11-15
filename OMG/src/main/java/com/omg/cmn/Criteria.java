@@ -8,6 +8,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class Criteria {
 	private int pageNum; // 페이지번호
 	private int amount; // 페이지당 행의 수
+	private int deptNo; //부서번호
 
 	private String type; // 검색기준
 	private String keyword; // 검색어
@@ -54,6 +55,14 @@ public class Criteria {
 		this.amount = amount;
 	}
 
+	public int getDeptNo() {
+		return deptNo;
+	}
+
+	public void setDeptNo(int deptNo) {
+		this.deptNo = deptNo;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -72,7 +81,8 @@ public class Criteria {
 
 	@Override
 	public String toString() {
-		return "Criteria [pageNum=" + pageNum + ", amount=" + amount + ", type=" + type + ", keyword=" + keyword + "]";
+		return "Criteria [pageNum=" + pageNum + ", amount=" + amount + ", deptNo=" + deptNo + ", type=" + type
+				+ ", keyword=" + keyword + "]";
 	}
-
+	
 }

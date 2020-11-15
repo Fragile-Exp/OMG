@@ -1,6 +1,5 @@
 package com.omg.comments.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.omg.cmn.Search;
 import com.omg.comments.domain.CommentsVO;
 
 @Repository("CommentsDao")
@@ -26,7 +24,7 @@ public class CommentsDaoImpl implements CommentsDao
 	public CommentsDaoImpl() {}
 	
 	@Override
-	public List<CommentsVO> doSelectList(Search search) 
+	public List<CommentsVO> doSelectList(CommentsVO comments) 
 	{
 		LOG.debug("===========================");
 		LOG.debug("=doSelectList=");
@@ -35,10 +33,9 @@ public class CommentsDaoImpl implements CommentsDao
 		String statement = NAMESPACE + ".doSelectList";
 		LOG.debug("===========================");
 		LOG.debug("=statement : "+statement);
-		LOG.debug("=param : "+search);
 		LOG.debug("===========================");
 		
-		List<CommentsVO> list = this.sqlSessionTemplate.selectList(statement, search);
+		List<CommentsVO> list = this.sqlSessionTemplate.selectList(statement, comments);
 		
 		for(CommentsVO vo : list)
 		{

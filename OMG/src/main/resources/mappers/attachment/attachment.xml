@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.attachment">
+
+	<!-- com.omg.attachment.doInsert -->
+	<insert id="doInsert" parameterType="AttachmentVO">
+		INSERT INTO attachment 
+		(
+		    file_code,
+		    file_num,
+		    file_path,
+		    origin_name,
+		    save_name
+		) VALUES (
+		    #{fileCode},
+		    #{fileNum},
+		    #{filePath},
+		    #{originName},
+		    #{saveName}
+		)                         
+	</insert>
+	
+	<!-- com.omg.attachment.doDelete -->
+	<delete id="doDelete" parameterType="AttachmentVO">
+		DELETE FROM attachment   
+	    WHERE file_code = #{fileCode}
+	      	
+	</delete>
+	
+	<!-- com.omg.attachment.doDeleteOne -->
+	<delete id="doDeleteOne" parameterType="AttachmentVO">
+		DELETE FROM attachment   
+	    WHERE file_code = #{fileCode}
+	    AND file_num = #{fileNum} 	
+	</delete>
+	
+	<!-- com.omg.attachment.doSelectOne -->
+	<select id="doSelectOne" parameterType="AttachmentVO" resultType="AttachmentVO">
+		SELECT
+		    file_code   as fileCode, 
+		    file_num    as fileNum,   
+		    file_path   as filePath,  
+		    origin_name as originName,
+		    save_name   as saveName   
+		FROM attachment 
+		WHERE file_code = #{fileCode}
+		AND file_num = #{fileNum}                                    	
+	</select>
+	
+	<!-- com.omg.attachment.doSelectList -->
+	<select id="doSelectList" parameterType="AttachmentVO" resultType="AttachmentVO">
+		SELECT
+		    file_code   as fileCode,
+		    file_num    as fileNum,   
+		    file_path   as filePath,  
+		    origin_name as originName,
+		    save_name   as saveName   
+		FROM attachment 
+		WHERE file_code = #{fileCode}                                                                                 		
+	</select>
+	
+</mapper>

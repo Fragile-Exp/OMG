@@ -2,22 +2,25 @@ package com.omg.comments.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.omg.cmn.Message;
-import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
 import com.omg.comments.domain.CommentsVO;
 import com.omg.comments.service.CommentsService;
 
 @Controller
+
 public class CommentsController 
 {
 	final Logger LOG = LoggerFactory.getLogger(CommentsController.class);
@@ -25,18 +28,23 @@ public class CommentsController
 	@Autowired
 	CommentsService commentsService;
 	
-	@RequestMapping(value="Comments/doInsert.do", method = RequestMethod.POST
+	@RequestMapping(value="comments/doInsert.do", method = RequestMethod.POST
 											 ,produces = "application/json;charset=UTF-8"
 					)
 	@ResponseBody
-	public String doInsert(CommentsVO Comments)
+	public String doInsert(HttpServletRequest req, CommentsVO comments, Model model)
 	{
 		LOG.debug("===========================");
 		LOG.debug("=doInsert()=");
-		LOG.debug("=Comments : "+Comments);
+		LOG.debug("=comments : "+comments);
 		LOG.debug("===========================");
 		
-		int flag = this.commentsService.doInsert(Comments);
+		comments.setContents(StringUtil.nvl(req.getParameter("write_contents"),""));
+		comments.setModId(comments.getRegId());
+		
+		int flag = this.commentsService.doInsert(comments);
+		model.addAttribute(comments);
+		
 		LOG.debug("===========================");
 		LOG.debug("=flag : "+flag);
 		LOG.debug("===========================");
@@ -62,18 +70,18 @@ public class CommentsController
 		
 		return json;
 	}
-	@RequestMapping(value="Comments/doDelete.do", method = RequestMethod.POST
+	@RequestMapping(value="comments/doDelete.do", method = RequestMethod.POST
 											 ,produces = "application/json;charset=UTF-8"
 					)
 	@ResponseBody	
-	public String doDelete(CommentsVO Comments)
+	public String doDelete(CommentsVO comments)
 	{
 		LOG.debug("===========================");
 		LOG.debug("=doDelete()=");
-		LOG.debug("=Comments : "+Comments);
+		LOG.debug("=comments : "+comments);
 		LOG.debug("===========================");
 		
-		int flag = this.commentsService.doDelete(Comments);
+		int flag = this.commentsService.doDelete(comments);
 		LOG.debug("===========================");
 		LOG.debug("=flag : "+flag);
 		LOG.debug("===========================");
@@ -100,18 +108,28 @@ public class CommentsController
 		return json;
 	}
 	
-	@RequestMapping(value="Comments/doUpdate.do", method = RequestMethod.POST
+	@RequestMapping(value="comments/doUpdate.do", method = RequestMethod.POST
 											 ,produces = "application/json;charset=UTF-8"
 					)
 	@ResponseBody
-	public String doUpdate(CommentsVO Comments)
+	public String doUpdate(HttpServletRequest req, CommentsVO comments, Model model)
 	{
 		LOG.debug("===========================");
 		LOG.debug("=doUpdate()=");
-		LOG.debug("=board : "+Comments);
+		LOG.debug("=comments : "+comments);
 		LOG.debug("===========================");
 		
-		int flag = this.commentsService.doUpdate(Comments);
+		
+		comments.setContents(StringUtil.nvl(req.getParameter("write_contents"),""));
+		comments.setModId(comments.getRegId());
+		
+		int flag = this.commentsService.doUpdate(comments);
+		model.addAttribute(comments);
+		
+		LOG.debug("===========================");
+		LOG.debug("=comments : "+comments);
+		LOG.debug("===========================");
+		
 		LOG.debug("===========================");
 		LOG.debug("=flag : "+flag);
 		LOG.debug("===========================");
@@ -137,18 +155,18 @@ public class CommentsController
 		return json;
 	}
 	
-	@RequestMapping(value="Comments/doSelectOne.do", method = RequestMethod.GET
+	@RequestMapping(value="comments/doSelectOne.do", method = RequestMethod.GET
 			   									,produces = "application/json;charset=UTF-8"
 					)
 	@ResponseBody
-	public CommentsVO doSelectOne(CommentsVO Comments)
+	public CommentsVO doSelectOne(CommentsVO comments)
 	{
 		LOG.debug("===========================");
 		LOG.debug("=doSelectOne()=");
-		LOG.debug("=Comments : "+Comments);
+		LOG.debug("=comments : "+comments);
 		LOG.debug("===========================");
 		
-		CommentsVO outVO = (CommentsVO) this.commentsService.doSelectOne(Comments);
+		CommentsVO outVO = (CommentsVO) this.commentsService.doSelectOne(comments);
 
 		Gson gson = new Gson();
 		String json = gson.toJson(outVO);
@@ -159,40 +177,19 @@ public class CommentsController
 		
 		return outVO;
 	}
-	@RequestMapping(value="Comments/doSelectList.do", method = RequestMethod.GET
-												 , produces = "application/json;charset=UTF-8"
-					)
+	@RequestMapping(value="comments/doSelectList.do", method = RequestMethod.GET
+			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doSelectList(Search search)
+	public String doSelectList(CommentsVO comments, Model model)
 	{
 		LOG.debug("===========================");
-		LOG.debug("=doSelectOne()=");
-		LOG.debug("=search : "+search);
+		LOG.debug("=doSelectList()=");
 		LOG.debug("===========================");
+		LOG.debug(comments.getBoardSeq()+"");
+
 		
-		//페이지 num 기본값 처리
-		if(search.getPageNum()==0)
-		{
-			search.setPageNum(1);;
-		}
-		
-		//페이지 사이즈 기본값 처리
-		if(search.getPageSize()==0)
-		{
-			search.setPageSize(10);
-		}
-		
-		//검색구분
-		search.setSearchDiv(StringUtil.nvl(search.getSearchDiv(), ""));
-		
-		//검색어
-		search.setSearchWord(StringUtil.nvl(search.getSearchWord(), ""));
-		
-		LOG.debug("===========================");
-		LOG.debug("=null 처리 이후 search : "+search);
-		LOG.debug("===========================");
-		
-		List<CommentsVO> list = this.commentsService.doSelectList(search);
+		List<CommentsVO> list = this.commentsService.doSelectList(comments);
+		model.addAttribute("list", list);
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(list);

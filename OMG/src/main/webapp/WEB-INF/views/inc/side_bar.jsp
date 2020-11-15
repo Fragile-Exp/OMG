@@ -139,9 +139,9 @@
 			<a id="org" class="collapse-item" href="${hContext}/org/org.do">조직 관리</a>
 			<a id="employee_reg" class="collapse-item" href="${hContext}/employee/employee_reg.do">사원 추가</a>
 			<a id="employee_mng" class="collapse-item" href="${hContext}/employee/employee_mng.do">사원 정보 수정</a>
+			<a id="dept_commuting" class="collapse-item" href="${hContext}/commuting/dept_attendence.do">부서 근태 관리</a>
 			<div class="collapse-divider"></div>
          </div>
-         
        </div>
      </li>
 
@@ -154,9 +154,9 @@
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-      <a class="nav-link" href="tables.html">
+      <a class="nav-link" href="/schedule/doSelectList.do">
         <i class="fas fa-fw fa-table"></i>
-        <span>Tables</span></a>
+        <span>일정</span></a>
     </li>
 
     <!-- Divider -->

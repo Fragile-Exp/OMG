@@ -62,7 +62,7 @@ public class CommutingServiceImpl implements CommutingService {
 		
 		LOG.debug("-CURRENT_TIME : " + CUTTENT_HOUR);
 		
-		if(MIN_HOUR_FOR_ATTEND < CUTTENT_HOUR
+		if(MIN_HOUR_FOR_ATTEND <= CUTTENT_HOUR
 				&&CUTTENT_HOUR < QUITTING_HOUR ) {
 			
 			inVO.setPresentState(PresentState.근무중);
@@ -74,6 +74,7 @@ public class CommutingServiceImpl implements CommutingService {
 		}
 		
 		inVO.setAttendTime(StringUtil.formatDate("yyyyMMdd HHmmss"));
+		//inVO.setAttendTime(StringUtil.formatDate("yyyyMMdd HHmmss"));
 		inVO.setLeaveTime("");
 		
 		LOG.debug("-inVO :\n"+inVO);
@@ -94,10 +95,10 @@ public class CommutingServiceImpl implements CommutingService {
 		
 		LOG.debug("-CURRENT_TIME : " + CUTTENT_HOUR);
 		
+		inVO.setPresentState(PresentState.퇴근);
+		
 		if(MIN_HOUR_FOR_ATTEND < CUTTENT_HOUR
 				&&CUTTENT_HOUR < QUITTING_HOUR ) {
-			
-			inVO.setPresentState(PresentState.퇴근);
 			
 			if(inVO.getState() == State.지각) {
 				inVO.setState(State.지각조퇴);
@@ -106,12 +107,11 @@ public class CommutingServiceImpl implements CommutingService {
 			}
 			
 		}else {
-			inVO.setPresentState(PresentState.퇴근);
 			inVO.setState(State.정상);
 		}
 		
-		inVO.setLeaveTime(StringUtil.formatDate("yyyyMMdd 180000"));
-		
+		inVO.setLeaveTime(StringUtil.formatDate("yyyyMMdd HHmmss"));
+		inVO.setAttendTime("");
 		LOG.debug("-inVO :\n"+inVO);
 		
 		int verify = commutingDao.doUpdate(inVO);
@@ -123,7 +123,7 @@ public class CommutingServiceImpl implements CommutingService {
 	}
 
 	@Override
-	public DTO doSelectOne(DTO dto) {
+	public DTO get(DTO dto) {
 		LOG.debug("-------------------------------");
 		LOG.debug("-doSelectOne()");
 		LOG.debug("-------------------------------");
@@ -144,6 +144,14 @@ public class CommutingServiceImpl implements CommutingService {
 		LOG.debug("-doSelectMyList()");
 		LOG.debug("-------------------------------");
 		return commutingDao.doSelectMyList(dto);
+	}
+
+	@Override
+	public List<Commuting> getAll() {
+		LOG.debug("-------------------------------");
+		LOG.debug("-getAll()");
+		LOG.debug("-------------------------------");
+		return commutingDao.getAll();
 	}
 
 	

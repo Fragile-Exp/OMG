@@ -197,4 +197,20 @@ public class CommutingDaoImpl implements CommutingDao {
 		LOG.debug("====================================");
 		return cList;
 	}
+	
+	@Override
+	public List<Commuting> getAll() {
+		LOG.debug("====================================");
+		LOG.debug("=DAO=");
+		LOG.debug("=getAll=");
+		
+		String statement = NAMESPACE +".getAll";
+		
+		LOG.debug("=statement=" + statement);
+		List<Commuting> cList = this.sqlSessionTemplate.selectList(statement);
+		LOG.debug("====================================");
+		
+		return cList;
+	}
+	
 }

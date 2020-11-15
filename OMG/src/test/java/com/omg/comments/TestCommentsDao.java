@@ -75,13 +75,13 @@ public class TestCommentsDao
 		
 		int flag = 0;
 		
-		//등록
-		for(CommentsVO vo : list)
-		{
-			LOG.debug("test()[doInsert]");
-			flag = commentsDao.doInsert(vo);
-			assertThat(flag, is(1));
-		}
+//		//등록
+//		for(CommentsVO vo : list)
+//		{
+//			LOG.debug("test()[doInsert]");
+//			flag = commentsDao.doInsert(vo);
+//			assertThat(flag, is(1));
+//		}
 //		
 //		//삭제
 //		for(CommentsVO vo : list)
@@ -91,30 +91,29 @@ public class TestCommentsDao
 //			assertThat(flag, is(1));
 //		}
 		
-//		//수정
-//		LOG.debug("test()[doUpdate]");
+		//수정
+		LOG.debug("test()[doUpdate]");
+		
+		CommentsVO param01 = list.get(0);
+		CommentsVO param02 = list.get(1);
+		CommentsVO param03 = list.get(2);
+		CommentsVO param04 = list.get(3);
+		
+		param01.setContents(param01.getContents()+"_U");
+		param02.setContents(param02.getContents()+"_U");
+		param03.setContents(param03.getContents()+"_U");
+		param04.setContents(param04.getContents()+"_U");
+		
+		for(CommentsVO vo : list)
+		{
+			flag = commentsDao.doUpdate(vo);
+			assertThat(flag, is(1));
+		}
 //		
-//		CommentsVO param01 = list.get(0);
-//		CommentsVO param02 = list.get(1);
-//		CommentsVO param03 = list.get(2);
-//		CommentsVO param04 = list.get(3);
-//		
-//		param01.setContents(param01.getContents()+"_U");
-//		param02.setContents(param02.getContents()+"_U");
-//		param03.setContents(param03.getContents()+"_U");
-//		param04.setContents(param04.getContents()+"_U");
-//		
-//		for(CommentsVO vo : list)
-//		{
-//			flag = commentsDao.doUpdate(vo);
-//			assertThat(flag, is(1));
-//		}
-//		
-		//목록조회
-		LOG.debug("test()[doSelectList]");
-		Search search = new Search("", "", 10, 1);
-		List<CommentsVO> coList = commentsDao.doSelectList(search);
-		LOG.debug("list.size() : "+list.size());
+//		//목록조회
+//		LOG.debug("test()[doSelectList]");
+//		List<CommentsVO> coList = commentsDao.doSelectList(list.get(0));
+//		LOG.debug("coList.size() : "+coList.size());
 		
 //		//단건조회
 //		LOG.debug("test()[doSelectOne]");

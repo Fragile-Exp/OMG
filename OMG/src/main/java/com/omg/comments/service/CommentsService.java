@@ -15,5 +15,5 @@ public int doInsert(CommentsVO board);
 	
 	public CommentsVO doSelectOne(CommentsVO board);
 	
-	public List<CommentsVO> doSelectList(Search search);
+	public List<CommentsVO> doSelectList(CommentsVO comments);
 }

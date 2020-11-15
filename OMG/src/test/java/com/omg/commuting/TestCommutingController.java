@@ -45,7 +45,7 @@ public class TestCommutingController {
 	/**LOG*/
 	final Logger LOG = LoggerFactory.getLogger(TestCommutingController.class);
 	
-	@Autowired //?��?��?�� 컨택?��?�� ?��?��?��?��?��?�� ?��치하?�� 컨텍?��?���? 찾아 DI?�� �??��.
+	@Autowired 
 	WebApplicationContext webApplicationContext;
 	
 	@Autowired
@@ -90,12 +90,13 @@ public class TestCommutingController {
 	}
 	
 	@Test
+	@Ignore
 	public void doDelete() throws Exception {
 		
 		makeList();
 		
 		for(Commuting vo : attends) {
-			MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/commuting/doDelete.do")
+			MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/commuting/delete.do")
 					.param("seq", vo.getSeq())
 					.param("employeeId", vo.getEmployeeId());
 			
@@ -116,6 +117,7 @@ public class TestCommutingController {
 	}
 	
 	@Test
+	@Ignore
 	public void doUpdateAttendTime() throws Exception {
 		makeList();
 		for(Commuting vo : attends) {
@@ -140,6 +142,7 @@ public class TestCommutingController {
 	}
 	
 	@Test
+	@Ignore
 	public void doUpdateLeaveTime() throws Exception {
 		makeList();
 		for(Commuting vo : attends) {
@@ -184,6 +187,7 @@ public class TestCommutingController {
 	}
 	
 	@Test
+	@Ignore
 	public void doSelectMyList() throws Exception {
 		makeList();
 		Commuting attend = attends.get(0);

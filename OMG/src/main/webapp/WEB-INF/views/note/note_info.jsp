@@ -51,12 +51,18 @@
 										<span class="icon text-white-50"> <i class="fas fa-trash"></i></span>
 										<span class="text">삭제</span>
 									</a>
-									<a href="${hContext}/note/note_reply.do" class="btn btn-info btn-icon-split btn-sm">
+									<a href="#" onclick="javasscript:document.reply_frm.submit();" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-arrow-right"></i></span>
 										<span class="text">답장하기</span>
 									</a>
 								</div>
 								<div class="card-body">
+								<form name="reply_frm" action="${hContext}/note/note_reply.do" method="GET">
+									<input type="hidden" name="noteNo" value="${noteVO.noteNo}" />
+									<input type="hidden" name="noteDiv" value="${noteVO.noteDiv}" />
+									<input type="hidden" name="employeeId" value="${noteVO.employeeId}" />
+									<input type="hidden" name="read" value="${noteVO.read}" />
+								</form>
 									<div class="row">
 										<div class="col-lg-9">
 											<h6><span class="label label-default"> 제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${noteVO.title}</span></h6>
@@ -110,6 +116,7 @@
 	$("#backBtn").on("click",function(){
 		moveNote("${noteVO.noteDiv}");
 	});
+
 	</script>
 </body>
 </html>

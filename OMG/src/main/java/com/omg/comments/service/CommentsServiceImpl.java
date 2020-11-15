@@ -47,9 +47,9 @@ public class CommentsServiceImpl implements CommentsService
 	}
 
 	@Override
-	public List<CommentsVO> doSelectList(Search search) 
+	public List<CommentsVO> doSelectList(CommentsVO comments) 
 	{
-		return commentsDao.doSelectList(search);
+		return commentsDao.doSelectList(comments);
 	}
 
 }

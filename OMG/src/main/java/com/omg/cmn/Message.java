@@ -30,8 +30,9 @@ public class Message extends DTO {
 
 	@Override
 	public String toString() {
-		return "Message [msgId=" + msgId + ", msgContents=" + msgContents + ", toString()=" + super.toString() + "]";
+		return "Message [msgId=" + msgId + ", msgContents=" + msgContents + "]";
 	}
+
 	
 	
 	

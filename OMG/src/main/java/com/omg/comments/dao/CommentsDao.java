@@ -15,5 +15,5 @@ public interface CommentsDao
 	
 	public CommentsVO doSelectOne(CommentsVO Comments);
 	
-	public List<CommentsVO> doSelectList(Search search);
+	public List<CommentsVO> doSelectList(CommentsVO Comments);
 }

@@ -41,6 +41,15 @@ public class Commuting extends DTO {
 		this.name = name;
 		this.deptNo = deptNo;
 	}
+	
+	
+
+
+	public Commuting(String seq, String employeeId) {
+		super();
+		this.seq = seq;
+		this.employeeId = employeeId;
+	}
 
 
 	public Commuting(String seq, String employeeId, String name, String deptNo, String attendTime, String leaveTime,

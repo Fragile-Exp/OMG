@@ -20,52 +20,74 @@
 
 			<!-- Main Content -->
 			<div id="content">
-			<!-- top_bar -->
-			<%@include file="/WEB-INF/views/inc/top_bar.jsp"%>
-			<!-- //top_bar -->
-			
-			<!-- page Content -->
-			<div class="container-fluid">
-
-				<!-- Page Heading -->
-				<h1 class="h3 mb-4 text-gray-800">게시글 등록</h1>
+				<!-- top_bar -->
+				<%@include file="/WEB-INF/views/inc/top_bar.jsp"%>
+				<!-- //top_bar -->
 				
-				<form class="form-horizontal" name="writeFrm" action="${hContext}/board/doSelectLsit.do" method="post">
-					<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="등록"  id="doInsertBtn" style="float: right;  margin: 13px;" />
-					<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="목록" id="moveList"  style="float: right;  margin: 13px;" />
-					<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="초기화" id="doClearBtn"  style="float: right;  margin: 13px;" />
-					<input type="hidden" name="div"     id="div"  value="${boardDiv}" />
-					<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
-					<div class="form-group">
-						<label for="" class="col-sm-2 control-label">제목</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="title" id="title" placeholder="제목" maxlength="200">
+				<!-- page Content -->
+				<div class="container-fluid">
+	
+					<!-- Page Heading -->
+					<h1 class="h3 mb-4 text-gray-800">게시글 등록</h1>
+					
+					<form class="form-horizontal" name="writeFrm" action="${hContext}/board/doSelectLsit.do" method="post">
+						<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="등록"  id="doInsertBtn" style="float: right;  margin: 13px;" />
+						<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="목록" id="moveList"  style="float: right;  margin: 13px;" />
+						<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="초기화" id="doClearBtn"  style="float: right;  margin: 13px;" />
+						<input type="hidden" name="div"     id="div"  value="${boardDiv}" />
+						<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
+						<div class="form-group">
+							<label for="" class="col-sm-2 control-label">제목</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" name="title" id="title" placeholder="제목" maxlength="200">
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="" class="col-sm-2 control-label">작성자</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="regId" id="regId" placeholder="작성자" maxlength="20">
+						<div class="form-group">
+							<label for="" class="col-sm-2 control-label">작성자</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" name="regId" id="regId" placeholder="작성자" maxlength="20">
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="" class="col-sm-2 control-label">내용</label>
-						<div class="col-sm-10">
-							<textarea  class="form-control" rows="15" cols="40" name="contents" id="contents"></textarea>
+						<div class="form-group">
+							<label for="" class="col-sm-2 control-label">내용</label>
+							<div class="col-sm-10">
+								<textarea  class="form-control" rows="15" cols="40" name="contents" id="contents"></textarea>
+							</div>
 						</div>
-					</div>
-				</form>
-		
-			</div>
-			<!-- // page Content -->
-
+					</form>
+					<form>
+						<ul class="list-group" id="">
+							<li class="list-group-item" style="width: 1335px;border-left-width: 1px;left: 10px;">
+								<div class="row">
+									<div id="" class="col-lg-10">
+										<input type="file" onchange="file_upload(this)" id="file_btn" name="file_btn" multiple />
+										<table class="table table-striped table-bordered" id="fileListTable">
+											<thead>
+												<tr>
+													<th>원본파일명</th>
+													<th>확장자</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="text-center" colspan="99">등록된 데이터가 없습니다.</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</form>
+				</div>
+				<!-- // page Content -->
+				
 			</div>
 			<!-- //Main Content -->
 
 			<!-- footer -->
 			<%@include file="/WEB-INF/views/inc/footer.jsp"%>
 			<!-- //footer -->
-
 		</div>
 		<!-- //Content Wrapper -->
 </div>
@@ -79,16 +101,19 @@
 		$("#blank").attr("class","collapse-item active");
 	});
 
+	//게시판 목록 이동
 	function moveToListView()
 	{
 		window.location.href="${hContext}/board/doSelectList.do?div="+$("#div").val();
 	}
 
+	//게시판 목록버튼
 	$("#moveList").on("click",function(){
 		console.log("moveList");
 		moveToListView();
 	});
 
+	//게시판 등록버튼
 	$("#doInsertBtn").on("click",function()
 	{
 		console.log("#doInsertBtn");
@@ -161,6 +186,16 @@
 		
 	});
 	
+	function file_upload(e)	
+	{
+		var fileValue = $(e).val().split("\\");
+		var fileName = fileValue[fileValue.length-1]; // 파일명
+		
+		alert($(e).val());
+		console.log(e);
+		console.log($(e).text());
+		alert(fileName);
+	}
 	</script>
 </body>
 </html>
