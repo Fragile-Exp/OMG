@@ -156,6 +156,28 @@ public class DocumentDaoImpl {
 		return list;
 	} 
 	
+	
+
+	public List<DocumentVO> doSeleteListManager(DocumentVO documentVO){
+		LOG.debug("=doSeleteListManager=");
+		String statement = NAMESPACE+".doSeleteListManager";
+		LOG.debug("=statement="+statement);
+		LOG.debug("=serach="+documentVO);
+		List<DocumentVO> list = this.sqlSessionTemplate.selectList(statement, documentVO);
+		LOG.debug("=list="+list);
+		return list;
+	} 
+	
+
+	public int domanagerIdcheck(DocumentVO documentVO) {
+		LOG.debug("=domanagerIdcheck=");
+		
+		String statement = NAMESPACE+".domanagerIdcheck";
+		
+		int flag = sqlSessionTemplate.selectOne(statement, documentVO);
+		return flag;
+		
+	}
 
 
 }

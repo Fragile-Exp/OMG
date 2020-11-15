@@ -45,7 +45,7 @@ public class DocumentController {
 	@RequestMapping(value="document/document.do", method = RequestMethod.GET )
 	public String document_view(DocumentVO documentVO, Model  model){
 		
-		
+		//공통값 받아오기
 		documentVO.setEmployeeId("ID01");
 		
 		int flag = documentService.doempIdcheck(documentVO);
@@ -82,7 +82,7 @@ public class DocumentController {
 		
 		
 		DocumentVO SeleteOne = documentService.doSelectOne(documentVO);
-		LOG.debug("test");
+		
 		
 		model.addAttribute("SeleteOne", SeleteOne);
 		LOG.debug("SeleteOne"+SeleteOne);
@@ -90,6 +90,48 @@ public class DocumentController {
 		
 		return "document/document_info";
 	}
+	
+	
+	//--관리자 목록 page
+	@RequestMapping(value="document/document_manager.do" , method = RequestMethod.GET)
+	public String document_manager(DocumentVO documentVO, Model  model){
+		documentVO.setOkUser("ID99(관리자)");
+		
+		int flag = documentService.domanagerIdcheck(documentVO);
+		model.addAttribute("flag", flag);
+		LOG.debug("=domanagerIdcheck="+flag);
+		
+
+		if(flag == 0) {
+			LOG.debug("등록되어진 문서가 없습니다.");
+		}else{
+			List<DocumentVO> managerSeleteList = documentService.doSeleteListManager(documentVO);
+			model.addAttribute("managerSeleteList", managerSeleteList);
+			model.addAttribute("managerSeleteSize", managerSeleteList.size());
+		}
+		LOG.debug("종료");
+		
+		return "document/document_manager";
+	}
+	
+	//--관리자 산세 page
+	@RequestMapping(value="document/document_manager_info.do" , method = RequestMethod.GET)
+	public String document_manager_info(DocumentVO documentVO, Model  model){
+		
+		DocumentVO SeleteOne = documentService.doSelectOne(documentVO);
+		
+		model.addAttribute("SeleteOne", SeleteOne);
+		LOG.debug("SeleteOne"+SeleteOne);
+		
+		
+		return "document/document_manager_info";
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -181,6 +223,7 @@ public class DocumentController {
         int row = documentService.doSeleteAllCount(documentVO);
         documentVO.setDocumentId(row+1+"");
         documentVO.setDocumentSet(0);
+        //세션으로 받기 
         documentVO.setEmployeeId("ID_NEW");
         
         

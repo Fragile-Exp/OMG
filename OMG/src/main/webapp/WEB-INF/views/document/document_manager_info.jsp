@@ -35,8 +35,9 @@
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
 					  
 					  <div class="btn-box">
-					  	<a  onClick="update()"  href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>수정</a>
-					  	<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
+					  	<!-- 상태 업데이트  -->
+					  	<a  onClick="okay()"   class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>승인</a>
+					  	<a  onClick="unokay()" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-backspace fa-sm text-white-50"></i>미승인</a>
 					  </div>
 					</div>
 					
@@ -50,7 +51,7 @@
 					    <div class="card shadow mb-4">
 					      <!-- Card Header - Dropdown -->
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-					        <h6 class="m-0 font-weight-bold text-primary">문서 상세</h6>	
+					        <h6 class="m-0 font-weight-bold text-primary">문서 상세(관리자)</h6>	
 					       
 					        <div class="dropdown no-arrow">
 					          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -77,7 +78,7 @@
 						      			</div>
 						      		</div>
 						      		<div class="title-body" style="display: inline-block;">
-						      			<input id="title" class="title-input" type="text" style=" width :900px;" value="${SeleteOne.title}">
+						      			<input id="title" class="title-input" type="text" style=" width :900px;" value="${SeleteOne.title}" disabled>
 						      		</div>
 					        	</div>
 					        	<!-- //제목  -->
@@ -90,9 +91,9 @@
 						      		</div>
 						      		<div class="kind-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 문서 종류 데이터 입력   -->
-						      			<select id="kind" class="kind-body-select" style="width:400px;">
+						      			<select id="kind" class="kind-body-select" style="width:400px;" disabled>
 							      			<!-- to do : if문 사용해서 데이터 동일 이면 option에 selected 추가  -->
-							      			<option value="${SeleteOne.kind}">${SeleteOne.kind}</option>
+							      			<option value="${SeleteOne.kind}" selected>${SeleteOne.kind}</option>
 							      			<option value="1">1</option>
 							      			<option value="3">3</option>
 							      		</select>
@@ -104,7 +105,7 @@
 						      		</div>
 						      		<div class="dDay-body" style="display: inline-block;">
 						      			<!-- to do : value값 데이터 가져와서 입력 -->
-						      			<input id="day" type="date" style="width:400px;" value="${SeleteOne.dDay}" >
+						      			<input id="day" type="date" style="width:400px;" value="${SeleteOne.dDay}" disabled >
 						      		</div>
 						      	</div>
 						      	<!--// 종류 / 기간   -->
@@ -134,21 +135,14 @@
 							      			<option selected>${SeleteOne.okUser}</option>
 							      		</select>
 						      		</div>
-						      		<div class="approval-body" style="display: inline-block;">
-						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select class="approval-body-select" style="width:400px;" disabled>
-							      			<option selected>${SeleteOne.okUser}</option>
-							      		</select>
-						      		</div>
-						      		
 						      	</div>
 					        	<div class="card-body-label" style="width:7%; margin-bottom:10px;">
 						      			<div class="cont-header bg-primary text-white btn-sm" style="text-align:center; width:100px;" >
 						      				문서 내용
 						      			</div>
 						      	</div>
-						    
-						      	<input id="cont" class="cont-body" type="text" style="width:900px; height:100px;" value="${SeleteOne.documentCont}">
+						      	<!-- to do : 데이터 값 가져오기  -->
+						      	<input id="cont" class="cont-body" type="text" style="width:900px; height:100px;" value="${SeleteOne.documentCont}" disabled>
 					        
 					        
 					        	<input id="documentId" type="hidden" value="${SeleteOne.documentId}">
@@ -182,9 +176,9 @@
 
 	
 
-	function update(){
+	function okay(){
 	
-			$.ajax({
+		$.ajax({
 				url:"${hContext}/document/doUpdate.do",
 				type:"GET",
 				data:{
@@ -194,24 +188,53 @@
 					"title" : $("#title").val(),
 					"dDay" : $("#day").val(),
 					"documentCont" : $("#cont").val(),	
-					"documentSet" : $("#documentSet").val(),
+					"documentSet" : "1",
 					"okUser" : $("#okUser").val()
 						 },
 					dataType:"json",
 					success:function(data){
 						
-						if(confirm("수정이 성공하였습니다. 목록 페이지로 이동합니다.")==true){
-							window.location.href="${hContext}/document/document.do";
+						if(confirm("문서 승인이 완료 되었습니다.")==true){
+							window.location.href="${hContext}/document/document_manager.do";
 						}
 					},
 					error:function(err){
-						alert("수정이 실패 하였습니다.");
+						alert("문서 승인 실패되었습니다.");
 				
 					}
 			});	
 
 
 		}
+
+	function unokay(){
+
+		$.ajax({
+			url:"${hContext}/document/doUpdate.do",
+			type:"GET",
+			data:{
+				"documentId" : $("#documentId").val(), 
+				"employeeId" : $("#employeeId").val(), 
+				"kind" : $("#kind").val(),
+				"title" : $("#title").val(),
+				"dDay" : $("#day").val(),
+				"documentCont" : $("#cont").val(),	
+				"documentSet" : "2",
+				"okUser" : $("#okUser").val()
+					 },
+				dataType:"json",
+				success:function(data){
+					
+					if(confirm("문서 미승인이 완료 되었습니다.")==true){
+						window.location.href="${hContext}/document/document_manager.do";
+					}
+				},
+				error:function(err){
+					alert("문서 미승인이 실패 하였습니다.");
+			
+				}
+		});	
+	}
 	
 		
 </script>

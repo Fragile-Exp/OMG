@@ -96,4 +96,21 @@ public class DocumentService {
 		return documentDaoImpl.doovercheck(documentVO);
 	}
 	
+	/**
+	 * 관리자 기준 문서목록 검색 
+	 * @param documentVO
+	 * @return
+	 */
+	public List<DocumentVO> doSeleteListManager (DocumentVO documentVO){
+		return documentDaoImpl.doSeleteListManager(documentVO);
+	}
+	
+	/**
+	 * 관리자 목록 갯수  
+	 * @param documentVO
+	 * @return
+	 */
+	public int domanagerIdcheck(DocumentVO documentVO){
+		return documentDaoImpl.domanagerIdcheck(documentVO);
+	}
 }

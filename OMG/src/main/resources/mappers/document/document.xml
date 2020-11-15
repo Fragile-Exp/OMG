@@ -42,9 +42,22 @@
 		SELECT COUNT(*) FROM document
 	</select>
 	
+	<!--  -->
 	<select id="doovercheck" parameterType="DocumentVO" resultType="int">
 		SELECT COUNT(document_id) AS documentId FROM document WHERE DOCUMENT_ID =${documentId}  
 	</select>
+	
+	<!-- 관리자 기준 목록 검색  -->
+	<select id="doSeleteListManager" parameterType="DocumentVO" resultType="DocumentVO" >
+		SELECT document_id AS documentId, employee_id AS employeeId,kind AS kind, title AS title, TO_CHAR(d_day, 'YYYY-MM-DD') AS dDay, document_cont AS documentCont, document_set AS documentSet, ok_user AS okUser FROM document WHERE ok_user = #{okUser} 
+	</select>
+	
+	<!-- 관리자 목록 갯수 -->
+	<select id="domanagerIdcheck" parameterType="DocumentVO" resultType="int">
+		SELECT COUNT(ok_user) AS okUser FROM document WHERE ok_user = #{okUser} 
+	</select>
+	
+	
 	
 	
 	

@@ -34,9 +34,8 @@
 
 					<!-- Page Heading -->
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
-					  <h1 class="h3 mb-0 text-gray-800">문서 등록 목록</h1>
+					  <h1 class="h3 mb-0 text-gray-800">문서 관리 목록(관리자) </h1>
 					  <div class="btn-box">
-					  	<a href="${hContext}/document/document_reg.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-invoice fa-sm text-white-50"></i>등록 페이지</a>
 					  	<a id="delete" onClick="deleteDcoument()" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-trash fa-sm text-white-50"></i> 삭제</a>
 					  </div>
 					</div>
@@ -51,7 +50,7 @@
 					    <div class="card shadow mb-4">
 					      <!-- Card Header - Dropdown -->
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-					        <h6 class="m-0 font-weight-bold text-primary">등록 결재 목록</h6>
+					        <h6 class="m-0 font-weight-bold text-primary">등록 결재 목록(관리자)</h6>
 					    	<div id="test">  </div>
 					    	<div class="dropdown no-arrow">
 					          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,7 +67,7 @@
 					      </div>
 					      <!-- Card Body -->
 					      <div class="card-body">
-					        <div class="chart-area"  style=" height:100%; ">
+					        <div class="chart-area" style=" height:100%; ">
 					        	<table id="table"class="card-table" >
 					        		<thead>
 						        		<tr class="card-table-thead">
@@ -86,19 +85,20 @@
 					        		
 					        			<c:if test="${flag == 0 }">
 					        				<tr id="tbody"class="card-table-tbody">
-												<td colspan="6" style="text-align: center;">등록되어진 문서가 없습니다.</td>	
+												<td colspan="6" style="text-align: center;">등록되어진 관리 문서가 없습니다.</td>	
 											</tr>
 					        			</c:if>
 					        		
 					        			<c:if test="${flag != 0 }">
-							        		<c:forEach var="i" begin="0" end="${IdSeleteSize-1}" step="1">
-							        			<c:set var="VO" value="${IdSeleteList[i]}"  />
+							        		<c:forEach var="i" begin="0" end="${managerSeleteSize-1}" step="1">
+							        			<c:set var="VO" value="${managerSeleteList[i]}"  />
 							        			<a id="tbodyA" herf="">
 							        			<tr class="card-table-tbody">
 													<td>${VO.title}</td>
 													<td>${VO.kind}</td>
 													<td>${VO.documentId}</td>
 													<td>${VO.dDay}</td>
+													
 													<c:set var="set" value="${VO.documentSet }"/>
 													<c:choose>
 														<c:when test="${set == 1 }"><td>승인</td></c:when>	
@@ -199,7 +199,7 @@
 
 	function infoDocument(e){ 
 
-		window.location.href="${hContext}/document/document_info.do?documentId="+$(e).attr("id");
+			window.location.href="${hContext}/document/document_manager_info.do?documentId="+$(e).attr("id");
 
 	}
 
