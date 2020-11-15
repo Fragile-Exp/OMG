@@ -23,15 +23,15 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		
 		Object obj = session.getAttribute("employee");
-		LOG.debug(request.getRequestURI());
-		LOG.debug(request.getContextPath()+"/employee/login.do");
+	
 		// 로그인 객체가 null이면 로그인 페이지로 이동.
-		
+		String url = request.getRequestURI();
 		if(null == obj) {
 			response.sendRedirect(request.getContextPath()+"/employee/login.do");
+			LOG.debug("비로그인 상태 : " + url);
 			return false;
 		} 
-		
+		LOG.debug("로그인 상태 : " + url);
 		return true;
 	}
 	

@@ -25,7 +25,7 @@
 
 	<!-- com.omg.board.doInsert -->
 	<insert id="doInsert" parameterType="BoardVO">
-		<selectKey resultType="int" keyProperty="filecode" order="BEFORE">
+		<selectKey resultType="String" keyProperty="filecode" order="BEFORE">
 			SELECT ATTACHMENT_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO board (         
@@ -45,11 +45,11 @@
 						    #{title},                      
 						    #{contents},                      
 						    #{readCnt},                      
-						    #{fileCode},
+						    #{filecode},
 						    SYSDATE,                
 						    #{regId},                      
-						    null,                
-						    null                       
+						    NULL,                
+						    NULL                       
 						  ) 
 	</insert>
 	

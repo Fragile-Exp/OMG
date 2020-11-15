@@ -12,6 +12,15 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
+	<!-- fileupload:  -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8"/>
+		<!--  1024*1024*50  -->
+		<property name="maxUploadSize"  value="52428800"/>
+		<property name="maxInMemorySize" value="52428800"/>
+	</bean>	
+		
+	
 	<!-- 트랜젝션 처리 -->
    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
   	    <property name="dataSource" ref="datasource"/>

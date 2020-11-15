@@ -1,5 +1,7 @@
 package com.omg.cmn;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,7 +10,10 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.omg.attachment.domain.AttachmentVO;
 import com.omg.code.domain.Code;
 
 
@@ -293,6 +298,81 @@ public class StringUtil {
 		}
 		
 		return codeList;
+	}
+	
+	/**
+	 * 파일 업로드 처리
+	 * @param multi
+	 * @return
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 */
+	public final static List<AttachmentVO> fileUpload(MultipartHttpServletRequest multi, String fileCode, String dir) throws IllegalStateException, IOException {
+
+		List<AttachmentVO> list =new ArrayList<>();
+
+		List<MultipartFile> files = multi.getFiles("file");
+		// 파일 네임 목록
+		if(files.size() != 0) {
+		
+			// 파일 save Directory
+			String uploadDir = multi.getSession().getServletContext().getRealPath("/resources/upload/")+dir;
+			LOG.debug("uploadDir = " + uploadDir);
+			//파일 root Directory() 생성
+			File  fileRootDir = new File(uploadDir);
+			if(fileRootDir.isDirectory()==false) {
+				boolean flag =fileRootDir.mkdir();
+				LOG.debug("fileRootDir 생성 = "+flag);
+			}
+			// 년도
+			String year = formatDate("yyyy");
+			// 월
+			String month = formatDate("MM");
+			
+			String datePath = uploadDir+File.separator+year+File.separator+month;
+			LOG.debug("datePath = " + datePath);
+			
+			File dateFilePath=new File(datePath);
+			if(dateFilePath.isDirectory()==false) {
+				boolean flag =dateFilePath.mkdirs();
+				LOG.debug("dataFilePath 생성 = "+flag);
+			}
+			
+			// 파일 갯수 측정 할 변수
+			int i = 1;
+			for(MultipartFile file : files) {
+				AttachmentVO fileVO = new AttachmentVO();
+				
+				// 원본 파일명
+				String originName = file.getOriginalFilename();
+				
+				if(null == originName || "".equals(originName)) continue;
+				LOG.debug("원본 파일명 = "+originName);
+				fileVO.setOriginName(originName);
+				// 파일 사이즈
+				//long fileSize = file.getSize();
+				
+				String saveName = getPK("yyyyMMddHHmmss");
+				String ext = "";
+				if(originName.indexOf(".") > -1) {
+					ext = originName.substring(originName.indexOf(".")+1);
+					saveName += "."+ext;
+				}
+				
+				LOG.debug("저장 파일명 = "+saveName);
+				
+				// 저장명으로 파일 변경
+				File renameFile = new File(dateFilePath,saveName);
+				fileVO.setSaveName(renameFile.getAbsolutePath());
+				fileVO.setFileCode(fileCode);
+				fileVO.setFileNum(i++);
+				list.add(fileVO);
+				file.transferTo(new File(renameFile.getAbsolutePath()));
+				
+			}
+		}
+		
+		return list;
 	}
 	
 }

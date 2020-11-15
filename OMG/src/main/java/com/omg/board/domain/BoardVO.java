@@ -10,7 +10,7 @@ public class BoardVO extends DTO
 	private String title;
 	private String contents;
 	private int    readCnt;
-	private int	   filecode;
+	private String filecode;
 	private String regDt;
 	private String regId;
 	private String modDt;
@@ -18,7 +18,7 @@ public class BoardVO extends DTO
 	
 	public BoardVO() {}
 
-	public BoardVO(int boardSeq, String div, String title, String contents, int readCnt, int filecode, String regDt,
+	public BoardVO(int boardSeq, String div, String title, String contents, int readCnt, String filecode, String regDt,
 			String regId, String modDt, String modId) 
 	{
 		super();
@@ -86,12 +86,12 @@ public class BoardVO extends DTO
 		this.readCnt = readCnt;
 	}
 
-	public int getFilecode() 
+	public String getFilecode() 
 	{
 		return filecode;
 	}
 
-	public void setFilecode(int filecode) 
+	public void setFilecode(String filecode) 
 	{
 		this.filecode = filecode;
 	}

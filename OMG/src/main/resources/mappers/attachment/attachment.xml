@@ -14,7 +14,7 @@
 		) VALUES (
 		    #{fileCode},
 		    #{fileNum},
-		    #{filePath},
+		    #{filePath,jdbcType=VARCHAR},
 		    #{originName},
 		    #{saveName}
 		)                         

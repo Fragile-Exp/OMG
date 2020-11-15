@@ -30,7 +30,7 @@
 					<!-- Page Heading -->
 					<h1 class="h3 mb-4 text-gray-800">게시글 등록</h1>
 					
-					<form class="form-horizontal" name="writeFrm" action="${hContext}/board/doSelectLsit.do" method="post">
+					<form class="form-horizontal" name="writeFrm" action="" method="post" enctype="multipart/form-data">
 						<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="등록"  id="doInsertBtn" style="float: right;  margin: 13px;" />
 						<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="목록" id="moveList"  style="float: right;  margin: 13px;" />
 						<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="초기화" id="doClearBtn"  style="float: right;  margin: 13px;" />
@@ -45,7 +45,7 @@
 						<div class="form-group">
 							<label for="" class="col-sm-2 control-label">작성자</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="regId" id="regId" placeholder="작성자" maxlength="20">
+								<input type="text" class="form-control" name="regId" id="regId" placeholder="작성자" maxlength="20" value="${sessionScope.employee.employee_id}">
 							</div>
 						</div>
 						<div class="form-group">
@@ -54,31 +54,30 @@
 								<textarea  class="form-control" rows="15" cols="40" name="contents" id="contents"></textarea>
 							</div>
 						</div>
+						<div class="form-group">
+							<div class="col-sm-10">
+								<input type="file" onchange="file_upload(this)" id="file" name="file" multiple />
+							</div>
+						</div>
 					</form>
-					<form>
-						<ul class="list-group" id="">
-							<li class="list-group-item" style="width: 1335px;border-left-width: 1px;left: 10px;">
-								<div class="row">
-									<div id="" class="col-lg-10">
-										<input type="file" onchange="file_upload(this)" id="file_btn" name="file_btn" multiple />
-										<table class="table table-striped table-bordered" id="fileListTable">
-											<thead>
-												<tr>
-													<th>원본파일명</th>
-													<th>확장자</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td class="text-center" colspan="99">등록된 데이터가 없습니다.</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
+					<ul class="list-group" id="">
+						<li class="list-group-item" style="width: 1335px;border-left-width: 1px;left: 10px;">
+							<div class="row">
+								<div id="" class="col-lg-10">
+									
+									<table class="table table-striped table-bordered" id="fileListTable">
+										<thead>
+											<tr>
+												<th>첨부 파일명</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
 								</div>
-							</li>
-						</ul>
-					</form>
+							</div>
+						</li>
+					</ul>
 				</div>
 				<!-- // page Content -->
 				
@@ -148,23 +147,25 @@
 		//confirm : 확인
 		if( false==confirm("저장 하시겠습니까?"))return;
 		
+		var frm = document.writeFrm;
+		var formData = new FormData(frm);
+		
 		$.ajax({
 			type:"POST",
 			url:"${hContext}/board/doInsert.do",
 			dataType:"html", 
-			data:{
-					"div" :$("#div").val(),
-					"title":$("#title").val(),
-					"contents":$("#contents").val(),
-					"regId":$("#regId").val()
-				},
-			success:function(data)
+			enctype : 'multipart/form-data',
+			contentType : false,
+			processData : false,
+			data: formData,
+		success:function(data)
 			{ //성공
 			var jsonObj = JSON.parse(data);
 			console.log("msgId="+jsonObj.msgId);
 			console.log("msgContents="+jsonObj.msgContents);
 
-				if(null !=jsonObj && jsonObj.msgId=="1")
+				// msgId (fileCOde) 가 1보다 크거나 같으면
+				if(null !=jsonObj && jsonObj.msgId >=1)
 				{
 					alert(jsonObj.msgContents);
 					//board_list.jsp로 이동 
@@ -185,16 +186,35 @@
 
 		
 	});
+
+	function fileSave(fileCode){
+
+
+		}
 	
 	function file_upload(e)	
 	{
-		var fileValue = $(e).val().split("\\");
-		var fileName = fileValue[fileValue.length-1]; // 파일명
+		var files = e.files;
+	    var fileArr = Array.prototype.slice.call(files);
+ 		html = "";
+ 		if(fileArr.length != 0){
+ 			for(var file of fileArr){
+ 				html += '<tr>';
+				html += '<td>';
+				html += file.name;
+				html += '</td>';
+				html += '</tr>';
+ 			}
+ 	 	} else{
+ 	 		html += '<tr>';
+			html += '<td class="text-center">';
+			html += '등록된 데이터가 없습니다.';
+			html += '</td>';
+			html += '</tr>';
+ 	 	 	}
 		
-		alert($(e).val());
-		console.log(e);
-		console.log($(e).text());
-		alert(fileName);
+		$("#fileListTable>tbody").empty();
+		$("#fileListTable>tbody").append(html);
 	}
 	</script>
 </body>

@@ -1,5 +1,6 @@
 package com.omg.board.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
+import com.omg.attachment.domain.AttachmentVO;
+import com.omg.attachment.service.AttachmentServiceImpl;
 import com.omg.board.domain.BoardVO;
 import com.omg.board.service.BoardService;
 import com.omg.cmn.Message;
@@ -31,6 +35,9 @@ public class BoardController
 	
 	@Autowired
 	CodeDaoImpl codeDaoImpl;
+	
+	@Autowired
+	AttachmentServiceImpl attachmentService;
 	
 	@RequestMapping(value="board/board_main.do",method=RequestMethod.GET)
 	public String board_main() 
@@ -53,11 +60,19 @@ public class BoardController
 	}
 	
 	@RequestMapping(value="board/doInsert.do", method = RequestMethod.POST
-			   								,produces = "application/json;charset=UTF-8"
-				   )
+			,produces = "application/json;charset=UTF-8"
+			)
 	@ResponseBody
-	public String doInsert(BoardVO boardVO)
+	public String doInsert(MultipartHttpServletRequest multi) throws IllegalStateException, IOException
 	{
+		LOG.debug("=doInsert()=");
+		//paramSet
+		BoardVO boardVO = new BoardVO();
+		boardVO.setDiv(multi.getParameter("div"));
+		boardVO.setTitle(multi.getParameter("title"));
+		boardVO.setContents(multi.getParameter("contents"));
+		boardVO.setRegId(multi.getParameter("regId"));
+		
 		LOG.debug("===========================");
 		LOG.debug("=doInsert()=");
 		LOG.debug("=boardVO : "+boardVO);
@@ -72,8 +87,16 @@ public class BoardController
 		Message message = new Message();
 		message.setMsgId(flag+"");
 		
-		if(flag>=1)
+		if(flag==1)
 		{
+			String fileCode = boardVO.getFilecode();
+			String dir = "board";
+			List<AttachmentVO> list = StringUtil.fileUpload(multi, fileCode, dir);
+			LOG.debug("업로드 파일 개수 = " + list.size());
+			int fileFlag = 0;
+			for(AttachmentVO vo : list) {
+				fileFlag = attachmentService.doInsert(vo);
+			}
 			message.setMsgContents(" 게시글 등록이 완료 되었습니다.");
 		}
 		else
