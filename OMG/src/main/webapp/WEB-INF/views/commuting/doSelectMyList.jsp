@@ -5,11 +5,6 @@
 <head>
 <meta charset="utf-8">
 <title>OMG</title>
-<style type="text/css">
-	.btn-info {
-		
-	}
-</style>
 
 </head>
 <body id="page-top">

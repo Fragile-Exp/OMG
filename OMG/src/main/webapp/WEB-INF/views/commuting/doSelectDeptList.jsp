@@ -69,7 +69,6 @@
 									</form>
 								</div>
 								
-								<!-- 출결 리스트 -->
 								<div class="card-body">
 									<div class="table-responsive">
 										<!-- table -->
@@ -116,6 +115,27 @@
 											</tbody>
 										</table>
 										<!-- //table -->
+										
+										<!-- Modal추가 -->
+										<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+											aria-labelledby="myModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+												
+													<div class="modal-header">
+														<h4 class="modal-title" id="myModalLabel">알림</h4>
+														<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
+													</div>
+													 
+													<div class="modal-body">처리가 완료되었습니다.</div>
+													
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- /modal -->
 									</div>
 								</div>
 							</div>
@@ -125,26 +145,7 @@
 				</div>
 				<!-- // page Content -->
 				
-				<!-- Modal추가 -->
-				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-						
-							<div class="modal-header">
-								<h4 class="modal-title" id="myModalLabel">알림</h4>
-								<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
-							</div>
-							 
-							<div class="modal-body">처리가 완료되었습니다.</div>
-							
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- /modal -->
+				
 				
 			</div>
 			<!-- //Main Content -->
