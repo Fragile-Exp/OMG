@@ -42,7 +42,12 @@
 								<div class="card-header py-3"> 
 									<label for="start">부서</label> 
 									<form action="${hContext}/commuting/dept_attendence.do" method="get" id="deptFrm">
+									
+									
+											<!-- 삭제를 위한 hidden param -->
 											<input type="hidden" id="employeeId" name="employeeId" />
+											
+											
 											<div style="width:30%; display:inline-block;">										
 												<select class="form-control" name="deptNo"  >
 													<c:forEach var="vo" items="${deptList}">
@@ -192,10 +197,10 @@
 	
 			if (operation === 'remove') {
 				$("#employeeId").val($(":input:radio[name=seq]:checked").attr("id"));
-				formObj.attr("action", "$("#hContext")/commuting/delete.do").attr("method","post");
+				formObj.attr("action", "${hContext}/commuting/delete.do").attr("method","post");
 			} else if (operation === 'search') {
 				//move to list
-				formObj.attr("action", "$("#hContext")/commuting/dept_attendence.do").attr("method", "get");
+				formObj.attr("action", "${hContext}/commuting/dept_attendence.do").attr("method", "get");
 	
 				/* //폼 값 초기화하고 필요한 값만 리스트로 복사
 				var pageNumTag = $("input[name='pageNum']")	.clone();

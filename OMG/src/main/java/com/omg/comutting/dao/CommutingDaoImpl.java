@@ -35,6 +35,11 @@ public class CommutingDaoImpl implements CommutingDao {
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 	
+	
+	//Scheduler
+	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
+		this.sqlSessionTemplate = sqlSessionTemplate;
+	}
 
 	public CommutingDaoImpl() {
 		// TODO Auto-generated constructor stub

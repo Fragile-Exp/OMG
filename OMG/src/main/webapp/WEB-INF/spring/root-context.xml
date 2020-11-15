@@ -81,11 +81,37 @@
 	<!-- //JavaMailSenderImpl : 운영 (mail 보내기) -->
 	
 	
+	<bean id="methodInvokingJobDetailFactoryBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 주기적인 Job처리 대상 bean -->
+		<property name="targetObject" ref="commutingServiceImpl"/>
+		<!-- 실행할 메소드 -->
+		<property name="targetMethod" value="doInit"/>
+		<!-- 동시 실행 방지 -->
+		<property name="concurrent" value="false"/>
+	</bean>
 	
+	<bean id="cronTriggerFactoryBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	  <property name="jobDetail" ref="methodInvokingJobDetailFactoryBean"></property>
+	  <!-- 주중 8: 30분 -->
+	  <property name="cronExpression" value="0 30 8 ? * MON,TUE,WED,THU,FRI *"></property>
+	 <!--  <property name="cronExpression" value="0 40 19 ? * SUN *"></property> -->
+	</bean>
+
+	<!-- 스케줄러 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	    <property name="triggers">
+	    	<!-- 트리거 등록 -->
+	    	<list><ref bean="cronTriggerFactoryBean"/> </list>
+	    </property>
+	</bean>
 	
+	<bean id="commutingServiceImpl" class="com.omg.commuting.service.CommutingServiceImpl">
+		<property name="commutingDao" ref="commutingDaoImpl"></property>
+	</bean>
 	
-	
-	
+	<bean id="commutingDaoImpl" class="com.omg.comutting.dao.CommutingDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
 	
 	
 	

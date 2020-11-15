@@ -33,6 +33,7 @@ import com.omg.organization.service.DeptService;
 public class CommutingController {
 	
 	final String  CURRENT_MONTH = StringUtil.formatDate("yyyy-MM");
+	final String  CURRENT_DAY = StringUtil.formatDate("yyyy-MM-dd");
 	
 	final Logger LOG = LoggerFactory.getLogger(CommutingController.class);
 	
@@ -113,7 +114,7 @@ public class CommutingController {
 		HttpSession session = req.getSession();
 		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
 		
-		Commuting attendVO = new Commuting(StringUtil.formatDate("yyyy-MM-dd"), sessionVO.getEmployee_id());
+		Commuting attendVO = new Commuting(CURRENT_DAY, sessionVO.getEmployee_id());
 				
 		int flag = commutingService.doUpdateAttendTime(attendVO);
 		Message message = new Message();
@@ -144,7 +145,7 @@ public class CommutingController {
 		HttpSession session = req.getSession();
 		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
 		
-		Commuting attendVO = new Commuting(StringUtil.formatDate("yyyy-MM-dd"), sessionVO.getEmployee_id());
+		Commuting attendVO = new Commuting(CURRENT_DAY, sessionVO.getEmployee_id());
 				
 		int flag = commutingService.doUpdateLeaveTime(attendVO);
 		Message message = new Message();
@@ -207,24 +208,33 @@ public class CommutingController {
 	}
 	
 	@RequestMapping(value="dept_attendence.do" , method = RequestMethod.GET)
-	public void doSelectDeptList(String deptNo, Model model) {
+	public void doSelectDeptList(
+			@RequestParam(value="deptNo" ,defaultValue = "10000" ) String deptNo, Model model) {
+		
 		LOG.debug("******************************************************");
 		LOG.debug("=controller.dept_attendence.do=");
-		LOG.debug("******************************************************");
 		
 		Search search = new Search();
-		search.setPageSize(50);
+		search.setPageSize(10);
 		search.setPageNum(1);
-		
-		deptNo = StringUtil.nvl(deptNo, "10000");
-		search.setSearchDiv("20");
-		search.setSearchWord(deptNo);
-	
 		
 		LOG.debug(">param>" + deptNo);
 		
-		model.addAttribute("deptNo",deptNo);
-		model.addAttribute("deptList",deptService.doSelectList());		model.addAttribute("list",commutingService.doSelectList(search));
+		
+		model.addAttribute("deptList",deptService.doSelectList());	
+		
+		if(deptNo.equals("10000") || deptNo == null) {
+			search.setSearchDiv("20");
+			search.setSearchWord(CURRENT_DAY);
+			model.addAttribute("list",commutingService.doSelectList(search));
+		} else {
+			search.setSearchDiv("10");
+			search.setSearchWord(deptNo);
+			model.addAttribute("deptNo",deptNo);
+			model.addAttribute("list",commutingService.doSelectList(search));
+		}
+		
+		LOG.debug("******************************************************");
 	}
 	
 	
