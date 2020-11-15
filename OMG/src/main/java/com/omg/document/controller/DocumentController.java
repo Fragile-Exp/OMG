@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.omg.cmn.Message;
 import com.omg.document.domain.DocumentVO;
 import com.omg.document.service.DocumentService;
+import com.omg.employee.domain.EmployeeVO;
 
 
 
@@ -309,7 +310,33 @@ public class DocumentController {
         return json;
 	}
 
-
+	@RequestMapping(value="document/doempName.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
+	@ResponseBody	
+	public String doempName(EmployeeVO employee,  Model  model) {
+		List<EmployeeVO> outVO= documentService.doempName(employee );
+		 
+		int Number = 0;
+		
+		for(EmployeeVO vo : outVO) {
+			Number++;
+		}
+		
+		LOG.debug("=Number="+Number);
+		model.addAttribute("Number", Number);
+		
+		model.addAttribute("outVO", outVO);
+		
+		
+		Gson gson=new Gson();
+		String json = gson.toJson(outVO);
+	    LOG.debug("==================");
+	    LOG.debug("=json="+json);
+	    LOG.debug("==================");         
+	        
+	    return json;
+	}
+	
+	
 
 	
 }

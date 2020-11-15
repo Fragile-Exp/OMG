@@ -57,6 +57,10 @@
 		SELECT COUNT(ok_user) AS okUser FROM document WHERE ok_user = #{okUser} 
 	</select>
 	
+	<!-- 결재자 name 가져오기 -->
+	<select id="doempName" parameterType="EmployeeVO" resultType="EmployeeVO">
+		SELECT name FROM (SELECT * FROM (SELECT * FROM employee WHERE dept_no = #{dept_no}) WHERE position_no = #{position_no}); 
+	</select>
 	
 	
 	

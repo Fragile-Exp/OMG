@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.omg.document.dao.DocumentDaoImpl;
 import com.omg.document.domain.DocumentVO;
+import com.omg.employee.domain.EmployeeVO;
 
 @Service("documentService")
 public class DocumentService {
@@ -113,4 +114,15 @@ public class DocumentService {
 	public int domanagerIdcheck(DocumentVO documentVO){
 		return documentDaoImpl.domanagerIdcheck(documentVO);
 	}
+
+	/**
+	 * 결쟂자 name 찾기
+	 * @param employee
+	 * @return
+	 */
+	public List<EmployeeVO> doempName (EmployeeVO employee){
+		return documentDaoImpl.doempName(employee);
+	}
+
+
 }

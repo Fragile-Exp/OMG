@@ -105,26 +105,16 @@
 														<c:when test="${set == 2 }"><td>미승인</td></c:when>	
 														<c:otherwise><td>대기</td></c:otherwise>	
 													</c:choose>
-													
-													
 													<td>
 														<a href="#" onClick="infoDocument(this)"  id="${VO.documentId}" class="info btn btn-sm btn-primary shadow-sm" >
-															
 															<i class="fas fa-arrow-right fa-sm text-white-50"></i>
 														</a>
 													   	<input name="check"  type="checkbox" value="${VO.documentId}">
 													</td>
 												</tr>
 												</a>
-								        		
-								        		
-								        	
 								        	</c:forEach>
 						        		</c:if>
-						        	
-						        	
-						        	
-						        		
 						        	</tbody>	
 								</table>
 					        </div>
