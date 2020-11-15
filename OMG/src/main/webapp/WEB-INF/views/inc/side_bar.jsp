@@ -51,10 +51,24 @@
         <i class="fas fa-fw fa-table"></i>
         <span>사원 검색</span></a>
     </li>
-      
-      
-      
-	 
+    
+	<div class="sidebar-heading">
+		board
+	</div>
+	<li class="nav-item">
+		<a id="setting" class="nav-link" href="#" data-toggle="collapse" data-target="#boardKategorie" aria-expanded="true" aria-controls="boardKategorie">
+			<i class="fas fa-fw fa-folder"></i>
+			<span>게시판</span>
+		</a>
+		<div id="boardKategorie" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+			<a id="board_10" class="collapse-item" href="${hContext}/board/doSelectList.do?div=10">공지사항</a>
+			<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=20">자유게시판</a>
+			<div class="collapse-divider"></div>
+			</div>
+		</div>
+	</li>
+
       <!-- Heading -->
       <div class="sidebar-heading">
         Interface
