@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.transform.impl.InterceptFieldFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -202,8 +203,13 @@ public class BoardController
 		}
 		
 		BoardVO outVO = (BoardVO) this.boardService.doSelectOne(boardVO);
-
 		model.addAttribute("vo", outVO);
+		
+		AttachmentVO inFileVO = new AttachmentVO();
+		inFileVO.setFileCode(outVO.getFilecode());
+		List<AttachmentVO> fileList = attachmentService.doSelectList(inFileVO);
+		model.addAttribute("fileList",fileList);
+		
 		
 		String returnUrl = "board/board_mng";
 		

@@ -46,10 +46,23 @@
 							/>
 						</div>
 					</div>
+					<input type="hidden" class="form-control" name="modId" id="modId" placeholder="수정자" maxlength="20">		
 					<div class="form-group">
-						<label for="" class="col-sm-2 control-label">수정자</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="modId" id="modId" placeholder="수정자" maxlength="20">
+						<label for="" class="col-sm-2 control-label">첨부파일</label>
+						<div class="px-4">
+							<div class="card card-body">
+								<c:choose>
+									<c:when test="${0 ne fileList.size() }">
+										<c:forEach var="vo" items="${fileList}" >
+											<form method="post" action="${hContext}/file/download.do" >
+												<input type="hidden" name="originName"  id="originName" value="${vo.originName}" />
+												<input type="hidden" name="saveName" id="saveName" value="${vo.saveName}" />
+												<a href="#" onclick="this.parentNode.submit(); return false;">${vo.originName}</a>
+											</form>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</div>
 						</div>
 					</div>
 					<div class="form-group">
