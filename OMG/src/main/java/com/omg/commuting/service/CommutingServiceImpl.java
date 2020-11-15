@@ -28,6 +28,12 @@ public class CommutingServiceImpl implements CommutingService {
 	@Autowired
 	CommutingDao commutingDao;
 	
+	
+	//Scheduler
+	public void setCommutingDao(CommutingDao commutingDao) {
+		this.commutingDao = commutingDao;
+	}
+
 	public CommutingServiceImpl() {}
 	
 	@Override

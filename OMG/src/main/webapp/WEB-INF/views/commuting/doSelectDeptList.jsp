@@ -41,8 +41,13 @@
 								<!-- 관리자 검색, 삭제 -->
 								<div class="card-header py-3"> 
 									<label for="start">부서</label> 
-									<form action="${hContext}/commuting/dept_attendence.do" method="get" id="deptFrm">
+									<form action="${hContext}/commuting/doSelectDeptList.do" method="get" id="deptFrm">
+									
+									
+											<!-- 삭제를 위한 hidden param -->
 											<input type="hidden" id="employeeId" name="employeeId" />
+											
+											
 											<div style="width:30%; display:inline-block;">										
 												<select class="form-control" name="deptNo"  >
 													<c:forEach var="vo" items="${deptList}">
@@ -58,10 +63,12 @@
 											<div style="width:10%;   display:inline-block;">
 												<button type="submit" data-oper="remove" class="btn btn-danger btn-sm">삭제</button>
 											</div>
+											<div style="width:10%;   display:inline-block;">
+												<button type="submit" data-oper="init" class="btn btn-danger btn-sm">근태 초기화</button>
+											</div>
 									</form>
 								</div>
 								
-								<!-- 출결 리스트 -->
 								<div class="card-body">
 									<div class="table-responsive">
 										<!-- table -->
@@ -75,7 +82,7 @@
 													<th class="text-center" width="8%">부서번호</th>
 													<th class="text-center" width="12%">출근 시간</th>
 													<th class="text-center" width="12%">퇴근 시간</th>
-													<th class="text-center" width="10%">현재 출결</th>
+													<th class="text-center" width="10%">현재</th>
 													<th class="text-center" width="10%">출결 상태</th>
 													<th class="text-center" width="10%">선택</th>
 												</tr>
@@ -108,6 +115,27 @@
 											</tbody>
 										</table>
 										<!-- //table -->
+										
+										<!-- Modal추가 -->
+										<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+											aria-labelledby="myModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+												
+													<div class="modal-header">
+														<h4 class="modal-title" id="myModalLabel">알림</h4>
+														<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
+													</div>
+													 
+													<div class="modal-body">처리가 완료되었습니다.</div>
+													
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- /modal -->
 									</div>
 								</div>
 							</div>
@@ -117,26 +145,7 @@
 				</div>
 				<!-- // page Content -->
 				
-				<!-- Modal추가 -->
-				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-						
-							<div class="modal-header">
-								<h4 class="modal-title" id="myModalLabel">알림</h4>
-								<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
-							</div>
-							 
-							<div class="modal-body">처리가 완료되었습니다.</div>
-							
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- /modal -->
+				
 				
 			</div>
 			<!-- //Main Content -->
@@ -192,10 +201,10 @@
 	
 			if (operation === 'remove') {
 				$("#employeeId").val($(":input:radio[name=seq]:checked").attr("id"));
-				formObj.attr("action", "$("#hContext")/commuting/delete.do").attr("method","post");
+				formObj.attr("action", "${hContext}/commuting/doDelete.do").attr("method","post");
 			} else if (operation === 'search') {
 				//move to list
-				formObj.attr("action", "$("#hContext")/commuting/dept_attendence.do").attr("method", "get");
+				formObj.attr("action", "${hContext}/commuting/doSelectDeptList.do").attr("method", "get");
 	
 				/* //폼 값 초기화하고 필요한 값만 리스트로 복사
 				var pageNumTag = $("input[name='pageNum']")	.clone();
@@ -207,6 +216,8 @@
 				formObj.append(amountTag);
 				formObj.append(type);
 				formObj.append(keyword); */
+			} else if (operation === 'init') {
+				formObj.attr("action", "${hContext}/commuting/doInit.do").attr("method", "post");
 			}
 	
 			formObj.submit();

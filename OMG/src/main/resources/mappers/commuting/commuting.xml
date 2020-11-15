@@ -32,12 +32,6 @@
 	<insert id="doInit">
 		INSERT INTO commuting (seq,employee_id,name,dept_no,present_state,state,reg_dt) 
 		SELECT TO_CHAR(sysdate,'yyyy-MM-dd') as seq, 
-		--SELECT 2020-11-14 as seq, 
-		--SELECT '2020-11-15' as seq, 
-		--SELECT '2020-11-16' as seq, 
-		--SELECT '2020-11-17' as seq, 
-		--SELECT '2020-11-18' as seq, 
-		--SELECT '2020-11-19' as seq, 
 		       employee_id,                                                             
 		       name,                                                                    
 		       dept_no,                                                                 
@@ -103,23 +97,15 @@
 	
 	<sql id="searchCondition">
 		<choose>
-			<!-- my 근무 현황 -->
-			<when test="10 == searchDiv">
-				WHERE employee_id = #{searchWord}
-			</when>
 			<!-- 오늘 부서별-->
-			<when test="20 == searchDiv">
+			<when test="10 == searchDiv">
 				WHERE TO_CHAR(attend_time,'yyyyMMdd') = TO_CHAR(sysdate,'yyyyMMdd')
 				AND dept_no = #{searchWord,jdbcType=VARCHAR}
 			</when>
-			<!-- my 월별-->
-			<when test="30 == searchDiv">
-				WHERE TO_CHAR(reg_dt,'yyyyMM') = TO_CHAR(sysdate,'yyyyMM')
-				AND employee_id = #{searchWord}
-			</when>
 			<!-- seq-->
-			<when test="40 == searchDiv">
-				WHERE seq = #{searchWord}
+			<when test="20 == searchDiv">
+				WHERE seq = #{searchWord,jdbcType=VARCHAR}
+				ORDER BY attend_time
 			</when>
 		</choose>
 	</sql>
@@ -146,7 +132,6 @@
 						  SELECT *                                                           
 						  FROM  commuting                                                    
 			              <include refid="searchCondition"/>
-			              ORDER BY seq
 			              )A                                                                         
 			  		  WHERE ROWNUM <![CDATA[<=]]> (#{pageSize} *(#{pageNum}-1)+#{pageSize})                    						     
 					)B                                                                           
@@ -190,7 +175,8 @@
 		    reg_dt as regDt,
 		    SUM(work_time) OVER(PARTITION BY employee_id ORDER BY work_time) as totalCnt   
 		FROM                                                                       
-		    commuting                   
+		    commuting   
+		ORDER BY dept_no                    
 	</select>
 	
 	

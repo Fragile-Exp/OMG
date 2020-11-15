@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.omg.document.domain.DocumentVO;
+import com.omg.employee.domain.EmployeeVO;
 
 @Repository("documentDao")
 public class DocumentDaoImpl {
@@ -26,6 +27,10 @@ public class DocumentDaoImpl {
 	SqlSessionTemplate sqlSessionTemplate;
 	
 	private final String NAMESPACE ="com.omg.document";
+	private final String SPACE = "com.omg.employee";
+	
+	
+	
 	
 	DataSource dataSource; 
 	
@@ -177,6 +182,16 @@ public class DocumentDaoImpl {
 		int flag = sqlSessionTemplate.selectOne(statement, documentVO);
 		return flag;
 		
+	}
+	
+	
+	public List<EmployeeVO> doempName(EmployeeVO employee) {
+		LOG.debug("=doempName=");
+		
+		String statement = NAMESPACE+".doempName";
+		List<EmployeeVO> list = this.sqlSessionTemplate.selectList(statement, employee);
+		
+		return list;
 	}
 
 

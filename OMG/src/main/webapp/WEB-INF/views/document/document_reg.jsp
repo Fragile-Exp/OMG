@@ -127,7 +127,7 @@
 						      		</div>
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select id="approval_dept"  class="approval-body-select" style="width:200px;">
+						      			<select id="approval-dept"  class="approval-body-select" style="width:200px;">
 							      			<option >부서</option>
 							      			<option value="10000">omg</option>
 							      			<option value="11000">전력기획본부</option>
@@ -145,7 +145,7 @@
 						      		</div>
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select id="approval_lever"  class="approval-body-select" style="width:200px;"  >
+						      			<select id="approval-lever"  class="approval-body-select" style="width:200px;"  >
 							      			<option >직책</option>
 							      			<option value="10000">사장</option>
 							      			<option value="11000">부사장</option>
@@ -162,7 +162,12 @@
 						      		</div>
 						      		
 						      		<div class="approval-body" style="display: inline-block;">
-						      			<input id="approval-name"  type="text"  placeholder="이름"   style="width:200px;"> 	
+						      			<select id="approval-name" class="approval-body-select" style="width:200px;"  >
+						      				
+										
+						      			</select>
+						      			
+						      				
 						      		</div>
 						      		
 						      	</div>
@@ -197,8 +202,33 @@
 <script type="text/javascript">
 
 	
+/* 
+	function selectClick(){
 
+		if( $('#approval-lever > optoin:seleted').val() == true ){
+			$.ajax({
+				url:"${hContext}/document/doempName.do",
+				type:"GET",
+				data:{"dept_no": $('#approval-dept').val(),
+					  "position_no": $('#approval-lever').val()
+					},
+				dataType:"json",
+			success:function(data){
+			 	alert("등록이 성공 하였습니다.")
+			 	
+			 	
+			},
+			error:function(err){
+				alert("등록이 실패 하였습니다.")
+			}
 
+			});					
+			
+		}
+
+		
+	}
+ */
 
 
 	//title : 제목 ,  kind : 종류 ,dDay :기간 , approval : 결재자, cont : 내용
@@ -228,7 +258,7 @@
 	}
 
 
-
+	
 </script>
 
 

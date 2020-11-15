@@ -5,11 +5,6 @@
 <head>
 <meta charset="utf-8">
 <title>OMG</title>
-<style type="text/css">
-	.btn-info {
-		
-	}
-</style>
 
 </head>
 <body id="page-top">
@@ -41,7 +36,7 @@
 							
 								<div class="card-header py-3s"> 
 									<label for="start">월 선택</label> 
-									<form action="${hContext}/commuting/my_attendence.do" method="get" >
+									<form action="${hContext}/commuting/doSelectMyList.do" method="get" >
 										<input type="month"  min="2020-11" id="month" name="month" value="${month}" >	
 										<button type="submit" class="btn btn-info btn-sm" data-oper="search">Search </button>
 										<button type="submit" class="btn btn-info btn-sm" data-oper="attend">출근하기</button> 
@@ -170,14 +165,14 @@
 			console.log(operation);
 	
 			if (operation === 'search') {
-				formObj.attr("action", "${hContext}/commuting/my_attendence.do").attr("method","get");
+				formObj.attr("action", "${hContext}/commuting/doSelectMyList.do").attr("method","get");
 			} else if (operation === 'attend') {
 				//move to list
-				formObj.attr("action", "${hContext}/commuting/updateAttendTime.do").attr("method", "post");
+				formObj.attr("action", "${hContext}/commuting/doUpdateAttendTime.do").attr("method", "post");
 				
 			} else if (operation === 'leave') {
 				//move to list
-				formObj.attr("action", "${hContext}/commuting/updateLeaveTime.do").attr("method", "post");
+				formObj.attr("action", "${hContext}/commuting/doUpdateLeaveTime.do").attr("method", "post");
 			}
 			formObj.submit();
 
