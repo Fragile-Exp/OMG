@@ -54,7 +54,7 @@
     
 	<div class="sidebar-heading">board</div>
 	<li class="nav-item">
-		<a id="boardMemu" class="nav-link" href="#" data-toggle="collapse" data-target="#boardKategorie" aria-expanded="true" aria-controls="boardKategorie">
+		<a id="boardMemu" class="nav-link" href="#" data-toggle="collapse" data-target="#boardCategory" aria-expanded="true" aria-controls="boardCategory">
 			<i class="fas fa-fw fa-folder"></i>
 			<span>게시판</span>
 		</a>
