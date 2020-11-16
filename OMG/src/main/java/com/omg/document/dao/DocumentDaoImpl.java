@@ -198,5 +198,27 @@ public class DocumentDaoImpl {
 		return Id;
 	}
 
+	public EmployeeVO doempIdSelete(EmployeeVO employee) {
+		String statement = NAMESPACE+".doempIdSelete";
+		LOG.debug("=statement ="+statement );
+		LOG.debug("=serach="+employee);
+		EmployeeVO Id= this.sqlSessionTemplate.selectOne(statement, employee);
+		LOG.debug("doempIdSelete: " + Id);
+		return Id;
 
+	}
+	
+	public int doMaxNumberId(DocumentVO documentVO) {
+		LOG.debug("=doMaxNumberId=");
+		
+		String statement = NAMESPACE+".doMaxNumberId";
+		
+		int flag = sqlSessionTemplate.selectOne(statement, documentVO);
+		return flag;
+		
+	}
+	
+	
+	
+	
 }

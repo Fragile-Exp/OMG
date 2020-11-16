@@ -3,6 +3,8 @@ package com.omg.document.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,10 +42,14 @@ public class DocumentController {
 
 	// --문서 목록 page
 	@RequestMapping(value = "document/document.do", method = RequestMethod.GET)
-	public String document_view(DocumentVO documentVO, Model model) {
-
+	public String document_view(DocumentVO documentVO, Model model, HttpServletRequest req) {
+		
+		HttpSession session = req.getSession();
+		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
+		
+		String Id = sessionVO.getEmployee_id();
 		// 공통값 받아오기
-		documentVO.setEmployeeId("ID01");
+		documentVO.setEmployeeId(Id);
 
 		int flag = documentService.doempIdcheck(documentVO);
 		model.addAttribute("flag", flag);
@@ -75,21 +81,41 @@ public class DocumentController {
 
 	// --문서 상세 page
 	@RequestMapping(value = "document/document_info.do", method = RequestMethod.GET)
-	public String document_info(DocumentVO documentVO, Model model) {
-
+	public String document_info(DocumentVO documentVO, Model model ) {
+		
+		
+		EmployeeVO empVO = new EmployeeVO();
+		
 		DocumentVO SeleteOne = documentService.doSelectOne(documentVO);
-
+		
+		empVO.setEmployee_id(SeleteOne.getOkUser());
+		
+		LOG.debug("empVO"+empVO);
+		
+		EmployeeVO emp= documentService.doempIdSelete(empVO);
+		LOG.debug("emp"+emp);
 		model.addAttribute("SeleteOne", SeleteOne);
+		model.addAttribute("emp",emp);
+		
 		LOG.debug("SeleteOne" + SeleteOne);
 
 		return "document/document_info";
 	}
 
+	
+
 	// --관리자 목록 page
 	@RequestMapping(value = "document/document_manager.do", method = RequestMethod.GET)
-	public String document_manager(DocumentVO documentVO, Model model) {
-		documentVO.setOkUser("ID99(관리자)");
+	public String document_manager(DocumentVO documentVO, Model model, HttpServletRequest req) {
+		
 
+		HttpSession session = req.getSession();
+		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
+		
+		String Id = sessionVO.getEmployee_id();
+		
+		documentVO.setOkUser(Id);
+		
 		int flag = documentService.domanagerIdcheck(documentVO);
 		model.addAttribute("flag", flag);
 		LOG.debug("=domanagerIdcheck=" + flag);
@@ -195,18 +221,24 @@ public class DocumentController {
 	// -- 삽입
 	@RequestMapping(value = "document/doInsert.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doInsert(DocumentVO documentVO) {
+	public String doInsert(DocumentVO documentVO, HttpServletRequest req) {
 		LOG.debug("==================");
 		LOG.debug("=documentVO=" + documentVO);
 		LOG.debug("==================");
-
-		int row = documentService.doSeleteAllCount(documentVO);
+		
+		HttpSession session = req.getSession();
+		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
+		
+		String Id = sessionVO.getEmployee_id();
+		// 공통값 받아오기
+		
+		
+		int row = documentService.doMaxNumberId(documentVO);
 		documentVO.setDocumentId(row + 1 + "");
-		documentVO.setDocumentSet(0);
 		// 세션으로 받기
-		documentVO.setEmployeeId("ID_NEW");
+		documentVO.setEmployeeId(Id);
 
-		// documentVO.setDocumentId("E_0001");
+		
 		int flag = documentService.doInsert(documentVO);
 
 		LOG.debug("=doInsert=" + flag);
@@ -306,6 +338,7 @@ public class DocumentController {
 		 
 		 return json; 
 	 }
+
 	
 
 }

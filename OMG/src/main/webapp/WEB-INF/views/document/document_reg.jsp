@@ -93,6 +93,15 @@
 							      			<option >----------</option>
 							      			<option value="0">휴가</option>
 							      			<option value="1">실험</option>
+							      			<option value="2">문서</option>
+							      			<option value="3">물품구매</option>
+							      			<option value="4">프로젝트</option>
+							      			<option value="5">회의록</option>
+							      			<option value="6">행사</option>
+							      			<option value="7">인사</option>
+							      			<option value="8">총무</option>
+							      			<option value="9">사직</option>
+							      			
 							      		</select>
 						      		</div>
 						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
@@ -176,7 +185,6 @@
 						      	<input id="cont" class="cont-body" type="text" style="width:900px; height:100px;">
 					        </div>
 					      
-					      <div>${Id}</div>
 					      </div>
 					    </div>
 					  </div>
@@ -216,7 +224,7 @@
 			dataType:"json",
 		success:function(data){
 		 	alert("존재합니다.");
-		 	alert("Id"+data.employee_id);
+		 	alert(data.employee_id);
 		 	Id = data.employee_id;
 		 	
 		},
@@ -240,8 +248,7 @@
 			data:{"title" :  $("#title").val(), 
 				  "kind" :	$("#kind option:selected").val(),
 				  "dDay" :	$("#dDay").val(),
-				  //to do : okUser name 가져오기 
-				  "okUser" :$("#approval-name").val()	,
+				  "okUser" : Id	,	
 				  "documentCont" : $("#cont").val()	
 				},
 			dataType:"json",

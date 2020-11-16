@@ -124,5 +124,12 @@ public class DocumentService {
 		return documentDaoImpl.doempName(employee);
 	}
 
+	public EmployeeVO doempIdSelete (EmployeeVO employee){
+		return documentDaoImpl.doempIdSelete(employee);
+	}
+
+	public int doMaxNumberId(DocumentVO documentVO) {
+		return documentDaoImpl.doMaxNumberId(documentVO);
+	}
 
 }

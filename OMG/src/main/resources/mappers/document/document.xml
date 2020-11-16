@@ -63,6 +63,14 @@
 	</select>
 	
 	
+	<select id="doempIdSelete" parameterType="EmployeeVO" 	resultType="EmployeeVO">
+		SELECT * FROM employee WHERE employee_id = #{employee_id}
+	</select>
+	
+	
+	<select id="doMaxNumberId" parameterType="DocumentVO" resultType="int">
+		SELECT  MAX( CAST(document_id AS INT )) FROM document
+	</select>
 	
 	
 </mapper>

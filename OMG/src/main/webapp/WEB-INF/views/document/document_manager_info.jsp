@@ -93,9 +93,18 @@
 						      			<!-- to do : for문 사용해서 문서 종류 데이터 입력   -->
 						      			<select id="kind" class="kind-body-select" style="width:400px;" disabled>
 							      			<!-- to do : if문 사용해서 데이터 동일 이면 option에 selected 추가  -->
-							      			<option value="${SeleteOne.kind}" selected>${SeleteOne.kind}</option>
-							      			<option value="1">1</option>
-							      			<option value="3">3</option>
+							      			<c:choose>
+							      				<c:when test="${SeleteOne.kind == 0}"><option value="0">휴가</option></c:when>
+							      				<c:when test="${SeleteOne.kind == 1}"><option value="1">실험<option></c:when>
+							      				<c:when test="${SeleteOne.kind == 2}"><option value="2">문서<option></c:when>
+							      				<c:when test="${SeleteOne.kind == 3}"><option value="3">물풀구매<option></c:when>
+							      				<c:when test="${SeleteOne.kind == 4}"><option value="4">프로젝트<option></c:when>
+							      				<c:when test="${SeleteOne.kind == 5}"><option value="5">회의록<option></c:when>
+							      				<c:when test="${SeleteOne.kind == 6}"><option value="6">행사<option></c:when>
+							      				<c:when test="${SeleteOne.kind == 7}"><option value="7">인사<option></c:when>
+							      				<c:when test="${SeleteOne.kind == 8}"><option value="8">총무<option></c:when>
+							      				<c:when test="${SeleteOne.kind == 9}"><option value="9">사직<option></c:when>
+							      			</c:choose>
 							      		</select>
 						      		</div>
 						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
@@ -122,20 +131,7 @@
 						      		</div>
 					        	</div>
 					        	<!--// 파일 등록 -->
-					        	<!-- 결재자 -->
-					        	<div>
-						        	<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
-						      			<div class="approval-header bg-primary text-white btn-sm" style="text-align:center;" >
-						      				승인자
-						      			</div>
-						      		</div>
-						      		<div class="approval-body" style="display: inline-block;">
-						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select class="approval-body-select" style="width:400px;" disabled>
-							      			<option selected>${SeleteOne.okUser}</option>
-							      		</select>
-						      		</div>
-						      	</div>
+					        	
 					        	<div class="card-body-label" style="width:7%; margin-bottom:10px;">
 						      			<div class="cont-header bg-primary text-white btn-sm" style="text-align:center; width:100px;" >
 						      				문서 내용

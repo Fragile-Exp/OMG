@@ -74,8 +74,8 @@
 						        			<th width="15%" class="text-center" >문서 제목</th>	
 						        			<th width="10%">문서 종류</th>
 						        			<th width="10%">문서번호 </th>
-						        			<th width="10%">처리기간</th>
-						        			<th width="3%">상태</th>
+						        			<th width="8%">처리기간</th>
+						        			<th width="5%">상태</th>
 						        			<th width="3%">선택</th>
 						        		</tr>
 					        		</thead>
@@ -95,7 +95,18 @@
 							        			<a id="tbodyA" herf="">
 							        			<tr class="card-table-tbody">
 													<td>${VO.title}</td>
-													<td>${VO.kind}</td>
+													<c:choose>
+							      						<c:when test="${VO.kind == 0}"><td value="0">휴가</td></c:when>
+							      						<c:when test="${VO.kind == 1}"><td value="1">실험</td></c:when>
+							      						<c:when test="${VO.kind == 2}"><td value="2">문서</td></c:when>
+							      						<c:when test="${VO.kind == 3}"><td value="3">물풀구매</td></c:when>
+							      						<c:when test="${VO.kind == 4}"><td value="4">프로젝트<v></c:when>
+							      						<c:when test="${VO.kind == 5}"><td value="5">회의록</td></c:when>
+							      						<c:when test="${VO.kind == 6}"><td value="6">행사</td></c:when>
+							      						<c:when test="${VO.kind == 7}"><td value="7">인사</td></c:when>
+							      						<c:when test="${VO.kind == 8}"><td value="8">총무</td></c:when>
+							      						<c:when test="${VO.kind == 9}"><td value="9">사직</td></c:when>
+							      					</c:choose>
 													<td>${VO.documentId}</td>
 													<td>${VO.dDay}</td>
 													
