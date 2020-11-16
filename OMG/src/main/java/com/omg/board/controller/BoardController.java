@@ -297,13 +297,31 @@ public class BoardController
 		}
 		
 		//code : PAGE_SIZE,BOARD_CONDITION
-		String codeArray = "PAGE_SIZE,BOARD_CONDITION";
+		String codeArray = "PAGE_SIZE,BOARD_CONDITION,BOARD_DIV";
 		List<Code> list = codeDaoImpl.doSelectList(codeArray);
 		
 		List<Code> pageSizeList = StringUtil.getCodeSearch(list, "PAGE_SIZE");
 		List<Code> boardConditionList = StringUtil.getCodeSearch(list, "BOARD_CONDITION");
+		
+		
+		Code code = new Code();
+		code.setMstCode("BOARD_DIV"); 
+		code.setDetCode(search.getDiv());
+		
+		Code coVO = codeDaoImpl.doSelectOne(code);
+		
+		model.addAttribute("coVO", coVO);
+		
+		LOG.debug("===========================");
+		LOG.debug("=code : "+code);
+		LOG.debug("===========================");
+		
+		List<Code> boardDivlist = StringUtil.getCodeSearch(list, "BOARD_DIV");
+		
 		model.addAttribute("PAGE_SIZE", pageSizeList);
 		model.addAttribute("BOARD_CONDITION", boardConditionList);
+		
+		model.addAttribute("BOARD_DIV", boardDivlist);
 		
 		//View 화면
 		String view = "board/board_main";

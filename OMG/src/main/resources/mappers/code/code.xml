@@ -15,4 +15,14 @@
           </foreach>
 		ORDER BY mst_code, seq
 	</select>
+	
+	<select id="doSelectOne" resultType="Code">
+		SELECT mst_code as mstCode,
+			   det_code as detCode,
+			   det_nm as detNm
+		FROM com_code
+		WHERE use_yn = 1
+		AND mst_code = #{mstCode}
+		AND det_code = #{detCode}
+	</select>
 </mapper>
