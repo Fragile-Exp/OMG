@@ -28,7 +28,7 @@
 				<div align="center">
 				<!-- Page Heading -->
 				<h1 class="h3 mb-4 text-gray-800">채팅방 목록</h1>
-					<div id="mainbody" class="card shadow mb-4" style="width: 1000px; height: 800px" >
+					<div id="mainbody" class="card shadow mb-4" style="width: 1000px; height: 800px overflow: auto;"" >
 						<div class="card-header py-3">
 							<div class="row">
 								<div class="col-lg-6">

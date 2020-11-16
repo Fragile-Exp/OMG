@@ -2,6 +2,8 @@ package com.omg.chat;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,16 +64,17 @@ public class ChatController {
 	}
 	
 	/**
-	 * 채팅방
+	 * 채팅방 이동
 	 * @return
 	 */
 	@RequestMapping("/chat/moveChat.do")
-	public ModelAndView chating(ChattingRoom room) {
+	public ModelAndView chatting(ChattingRoom room, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		
 		ChattingRoom outVO = service.doSelectOne(room);
 		
 		if(null != outVO) {
+			mv.addObject("roomVO",outVO);
 			mv.addObject("roomNo", outVO.getRoomNo());
 			mv.addObject("roomNm", outVO.getRoomNm());
 			mv.setViewName("chat/chat");

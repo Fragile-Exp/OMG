@@ -65,8 +65,8 @@ public class ChatHandler extends TextWebSocketHandler {
 		boolean flag = false;
 		String url = session.getUri().toString();
 		
-		String roomNo = url.split("/chatting/")[1];
-		roomNo = roomNo.split(".")[0];
+		String roomNumber = url.split("/chatting/")[1];
+		String roomNo = roomNumber.substring(0,roomNumber.length()-3);
 		
 		int idx = sessionListMap.size(); //방의 사이즈를 조사한다.
 		if(sessionListMap.size() > 0) {
