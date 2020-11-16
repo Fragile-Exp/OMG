@@ -6,17 +6,17 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author 박정민
  */
 public class Criteria {
-	private int pageNum; 	// 페이지번호
-	private int amount; 	// 페이지당 행의 수
+	private int pageNum; 		// 페이지번호
+	private int amount; 		// 페이지당 행의 수
 	
-	private int category_id;//분류번호
-	private int dept_no; 	//부서번호
-	private int employee_id;//사원번호
-	private String start_dt;//시작일
-	private String end_dt;	//종료일
+	private int category_id;	//분류번호
+	private int dept_no; 		//부서번호
+	private String employee_id;	//사원번호
+	private String start_dt;	//시작일
+	private String end_dt;		//종료일
 
-	private String type; 	//검색기준
-	private String keyword; //검색어
+	private String type; 		//검색기준
+	private String keyword; 	//검색어
 
 	public Criteria() {
 		this(1, 10, 1); // 페이징 시 1페이지, 10개로 초기화 + 분류번호:1
@@ -45,8 +45,6 @@ public class Criteria {
 	}
 
 	// Getter, Setter, ToString
-	
-	
 	public int getPageNum() {
 		return pageNum;
 	}
@@ -75,11 +73,11 @@ public class Criteria {
 		this.category_id = category_id;
 	}
 
-	public int getEmployee_id() {
+	public String getEmployee_id() {
 		return employee_id;
 	}
 
-	public void setEmployee_id(int employee_id) {
+	public void setEmployee_id(String employee_id) {
 		this.employee_id = employee_id;
 	}
 
@@ -99,7 +97,7 @@ public class Criteria {
 		return dept_no;
 	}
 
-	public void setDeptNo(int dept_no) {
+	public void setDept_no(int dept_no) {
 		this.dept_no = dept_no;
 	}
 

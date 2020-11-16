@@ -48,11 +48,6 @@
 									</div>
 									
 									<div class="form-group">
-										<label>카테고리</label>
-										<input class="form-control" name="category_id" readonly="readonly">
-									</div>
-				
-									<div class="form-group">
 										<label>부서</label>
 										<input class="form-control" name="dept_no" value="<c:out value="${schedule.dept_no}"/>" readonly="readonly"/>
 									</div>

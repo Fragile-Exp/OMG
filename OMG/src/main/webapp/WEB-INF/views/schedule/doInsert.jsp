@@ -31,6 +31,9 @@
 			
 							<div class="panel-body">
 								<form role="form" action="/schedule/doInsert.do" method="post">
+									<input type="hidden" name="category_id" value="${cri.category_id}"/>
+									<input type="hidden" name="dept_no" value="${cri.dept_no}"/>
+									<input type="hidden" name="employee_id" value="${cri.employee_id}"/>
 									
 									<div class="form-group">
 										<label>제목</label> <input class="form-control" name="title"/>
@@ -38,22 +41,7 @@
 			
 									<div class="form-group">
 										<label>내용</label>
-										<textarea class="form-control" row="3" name="content"></textarea>
-									</div>
-									
-									<div class="form-group">
-										<label>작성자</label>
-										<input class="form-control" name="employee_id" />
-									</div>
-									
-									<div class="form-group">
-										<label>카테고리</label>
-										<input class="form-control" name="category_id"/>
-									</div>
-
-									<div class="form-group">
-										<label>부서</label>
-										<input class="form-control" name="dept_no"/>
+										<textarea class="form-control" row="5" name="content"></textarea>
 									</div>
 									
 									<div class="form-group">
@@ -91,7 +79,10 @@
 			today();
 			inputStartDay();
 			inputHourAndMinute();
-			addValue();
+			//addValue();
+
+			var para = document.location.href.split("?");
+			console.log(para);
 		});
 	</script>
 </body>

@@ -81,7 +81,7 @@
 										</td>
 										<td><c:out value="${schedule.start_dt}"/></td>
 										<td><c:out value="${schedule.end_dt}"/></td>
-										<td><c:out value="${schedule.dept_no}"/></td>
+										<td><c:out value="${schedule.dept_nm}"/></td>
 										<td><c:out value="${schedule.employee_id}"/></td>
 									</tr>
 								</c:forEach>
@@ -143,6 +143,7 @@
 								<input type="hidden" name="type" value="${pageMaker.cri.type}"/>
 								<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
 								<input type="hidden" name="category_id" value="${pageMaker.cri.category_id}"/>
+								<input type="hidden" name="dept_no" value="${pageMaker.cri.dept_no}"/>
 							</form>
 							
 							<!-- Modal추가 -->
@@ -198,7 +199,7 @@
 			}
 		
 			$("#regBtn").on("click", function(){
-				self.location = "/schedule/doInsert.do";
+				self.location = "/schedule/doInsert.do?category_id=" + actionForm.find("input[name='category_id']").val();
 			});
 		
 			//페이징 이벤트처리

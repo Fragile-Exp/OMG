@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 다건검색 -->
 	<select id="getList" resultType="ScheduleVO">
 		SELECT A.*,
-			   B.category_nm
+			   B.dept_nm
 		FROM(SELECT rownum rn,
 					schedule_no,
 					dept_no,
@@ -115,11 +115,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					</when>
 				</choose>
 			 )
-		 	 ORDER BY start_dt ASC, end_dt ASC) A, schedule_cat B
+		 	 ORDER BY start_dt ASC, end_dt ASC) A, DEPT B
 		<![CDATA[
 		WHERE rn > (#{pageNum} - 1) * #{amount}
 		]]>
-		AND A.category_id = B.category_id
+		AND A.dept_no = B.dept_no
 	</select>
 
 	<select id="getTotalCount" resultType="int">

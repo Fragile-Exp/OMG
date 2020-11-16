@@ -4,39 +4,34 @@ import com.omg.cmn.Criteria;
 import com.omg.cmn.PageDTO;
 
 public class ScheduleVO extends PageDTO {
-	
-    private int schedule_no;	//일정번호
-    private int dept_no;	//부서번호
-    private String employee_id;	//사원번호
-    private int category_id;	//카테고리ID
-    private String category_nm;	//카테고리 이름
-    private String title;	//제목
-    private String content;	//내용
-    private String start_dt;	//시작일
-    private String end_dt;	//종료일
-    
-	public ScheduleVO() {
-		super();
-		this.category_id = 1;
-	}
-	
-    public ScheduleVO(Criteria cri, int total, int schedule_no, int dept_no, String employee_id, int category_id,
-			String category_nm, String title, String content, String start_dt, String end_dt) {
-		super(cri, total);
-		this.schedule_no = schedule_no;
-		this.dept_no = dept_no;
-		this.employee_id = employee_id;
-		this.category_id = category_id;
-		this.category_nm = category_nm;
-		this.title = title;
-		this.content = content;
-		this.start_dt = start_dt;
-		this.end_dt = end_dt;
-	}
 
+    private int schedule_no; // 일정번호
+    private int dept_no; // 부서번호
+    private String dept_nm; // 부서이름
+    private String employee_id; // 사원번호
+    private int category_id; // 카테고리ID
+    private String title; // 제목
+    private String content; // 내용
+    private String start_dt; // 시작일
+    private String end_dt; // 종료일
 
+    public ScheduleVO() {}
 
-	public int getSchedule_no() {
+    public ScheduleVO(Criteria cri, int total, int schedule_no, int dept_no, String dept_nm, String employee_id,
+	    int category_id, String title, String content, String start_dt, String end_dt) {
+	super(cri, total);
+	this.schedule_no = schedule_no;
+	this.dept_no = dept_no;
+	this.dept_nm = dept_nm;
+	this.employee_id = employee_id;
+	this.category_id = category_id;
+	this.title = title;
+	this.content = content;
+	this.start_dt = start_dt;
+	this.end_dt = end_dt;
+    }
+
+    public int getSchedule_no() {
         return schedule_no;
     }
 
@@ -50,6 +45,14 @@ public class ScheduleVO extends PageDTO {
 
     public void setDept_no(int dept_no) {
         this.dept_no = dept_no;
+    }
+
+    public String getDept_nm() {
+        return dept_nm;
+    }
+
+    public void setDept_nm(String dept_nm) {
+        this.dept_nm = dept_nm;
     }
 
     public String getEmployee_id() {
@@ -66,14 +69,6 @@ public class ScheduleVO extends PageDTO {
 
     public void setCategory_id(int category_id) {
         this.category_id = category_id;
-    }
-
-    public String getCategory_nm() {
-        return category_nm;
-    }
-
-    public void setCategory_nm(String category_nm) {
-        this.category_nm = category_nm;
     }
 
     public String getTitle() {
@@ -110,9 +105,9 @@ public class ScheduleVO extends PageDTO {
 
     @Override
     public String toString() {
-	return "ScheduleVO [schedule_no=" + schedule_no + ", dept_no=" + dept_no + ", employee_id=" + employee_id
-		+ ", category_id=" + category_id + ", category_nm=" + category_nm + ", title=" + title + ", content="
+	return "ScheduleVO [schedule_no=" + schedule_no + ", dept_no=" + dept_no + ", dept_nm=" + dept_nm
+		+ ", employee_id=" + employee_id + ", category_id=" + category_id + ", title=" + title + ", content="
 		+ content + ", start_dt=" + start_dt + ", end_dt=" + end_dt + "]";
     }
-
+    
 }
