@@ -27,7 +27,7 @@ public class DocumentDaoImpl {
 	SqlSessionTemplate sqlSessionTemplate;
 	
 	private final String NAMESPACE ="com.omg.document";
-	private final String SPACE = "com.omg.employee";
+	
 	
 	
 	
@@ -185,13 +185,17 @@ public class DocumentDaoImpl {
 	}
 	
 	
-	public List<EmployeeVO> doempName(EmployeeVO employee) {
+	public EmployeeVO doempName(EmployeeVO employee) {
 		LOG.debug("=doempName=");
 		
 		String statement = NAMESPACE+".doempName";
-		List<EmployeeVO> list = this.sqlSessionTemplate.selectList(statement, employee);
 		
-		return list;
+		LOG.debug("=statement ="+statement );
+		LOG.debug("=serach="+employee);
+		
+		EmployeeVO Id= this.sqlSessionTemplate.selectOne(statement, employee);
+		
+		return Id;
 	}
 
 

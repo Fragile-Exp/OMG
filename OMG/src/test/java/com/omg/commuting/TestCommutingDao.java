@@ -62,22 +62,23 @@ public class TestCommutingDao {
 	 * @throws Exception
 	 */
 	@Test
+	@Ignore
 	public void rollingTest() throws Exception {
 		
-		//1.조회/?��?��
-		doSelectList();
-		doDelete();
+//		//1.조회/?��?��
+//		doSelectList();
+//		doDelete();
 		
 		//2.초기 ?��?��?�� 주입
 		doInit();
 		
-		//3. 출퇴근시�?, ?��?��?���? ?��?��?��?��
-		doSelectList();
-		doUpdate();
-		
-		//4. ?��?��
-		doSelectList();
-		doSelectMyList();
+//		//3. 출퇴근시�?, ?��?��?���? ?��?��?��?��
+//		doSelectList();
+//		doUpdate();
+//		
+//		//4. ?��?��
+//		doSelectList();
+//		doSelectMyList();
 	}
 	
 	private void doSelectMyList() {
@@ -157,7 +158,6 @@ public class TestCommutingDao {
 	}
 
 	@Test
-	@Ignore
 	public void beans() {
 		LOG.debug("====================================");
 		LOG.debug("=beans()=");

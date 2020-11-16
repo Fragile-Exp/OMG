@@ -35,7 +35,7 @@
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
 					  <h1 class="h3 mb-0 text-gray-800">문서 등록 페이지</h1>
 					  <div class="btn-box">
-					  	<a id="Update"  onClick="insertDcoument()" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>등록</a>
+					  	<a id="Insert"  onClick="insertDcoument()" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>등록</a>
 					  	<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
 					  </div>
 					</div>
@@ -157,19 +157,16 @@
 							      			<option value="11330">선임</option>
 							      			<option value="11331">사원</option>
 							      			<option value="11332">인턴</option>
-							      			<option value="11333">인천2</option>
+							      			<option value="11333">인턴2</option>
 							      		</select>
 						      		</div>
 						      		
 						      		<div class="approval-body" style="display: inline-block;">
-						      			<select id="approval-name" class="approval-body-select" style="width:200px;"  >
-						      				
-										
-						      			</select>
-						      			
-						      				
+						      			<input  id="approval-name" type="text" style="width:100px;" placeholder="이름" >	 
 						      		</div>
-						      		
+						      		<div style="display: inline-block;">
+						      			<input id="approval-button" type="submit" style="width:100px;" onclick="selectClick()" value="검색"> 
+						      		</div>
 						      	</div>
 					        	<div class="card-body-label" style="width:7%; margin-bottom:10px;">
 						      			<div class="cont-header bg-primary text-white btn-sm" style="text-align:center; width:100px;" >
@@ -178,6 +175,8 @@
 						      	</div>
 						      	<input id="cont" class="cont-body" type="text" style="width:900px; height:100px;">
 					        </div>
+					      
+					      <div>${Id}</div>
 					      </div>
 					    </div>
 					  </div>
@@ -185,6 +184,7 @@
 					
 		        </div>
 		        <!-- // page Content -->
+	      	
 	      	
 	      	</div>
 	      	<!-- //Main Content -->
@@ -201,35 +201,35 @@
 
 <script type="text/javascript">
 
-	
-/* 
+	var Id;
 	function selectClick(){
 
-		if( $('#approval-lever > optoin:seleted').val() == true ){
-			$.ajax({
-				url:"${hContext}/document/doempName.do",
-				type:"GET",
-				data:{"dept_no": $('#approval-dept').val(),
-					  "position_no": $('#approval-lever').val()
-					},
-				dataType:"json",
-			success:function(data){
-			 	alert("등록이 성공 하였습니다.")
-			 	
-			 	
-			},
-			error:function(err){
-				alert("등록이 실패 하였습니다.")
-			}
-
-			});					
-			
+		
+		$.ajax({
+			url:"${hContext}/document/doempName.do",
+			type:"GET",
+			data:{
+				  "dept_no": $('#approval-dept').val(),
+				  "position_no": $('#approval-lever').val(),
+				  "name" : $("#approval-name").val()
+				  },
+			dataType:"json",
+		success:function(data){
+		 	alert("존재합니다.");
+		 	alert("Id"+data.employee_id);
+		 	Id = data.employee_id;
+		 	
+		},
+		error:function(err){
+			alert("존재하지 않습니다.");
 		}
+	
+		});					
+			
+	}
 
 		
-	}
- */
-
+	
 
 	//title : 제목 ,  kind : 종류 ,dDay :기간 , approval : 결재자, cont : 내용
 	function insertDcoument (){
