@@ -19,8 +19,9 @@ public class DownloadView extends AbstractView {
 
 	final Logger LOG = LoggerFactory.getLogger(DownloadView.class);
 	
-	public DownloadView() {
-		setContentType("application/download;charset=utf-8");
+	public DownloadView() 
+	{
+		setContentType("application/download;charset=utf-8");	
 	}
 	
 	/**
@@ -34,22 +35,52 @@ public class DownloadView extends AbstractView {
 			HttpServletResponse response) throws Exception {
 		//브라우저 정보: IE/None IE
 		String userAgent = request.getHeader("User-Agent");
-		LOG.debug("originName:"+originName);
+		LOG.debug("originName1111111111111111:"+originName);
 		LOG.debug("userAgent:"+userAgent);
 		LOG.debug("URLEncoder.encode(originName:"+originName);
+		
+		//인코딩 되서 변환될 String
+		String encodedFilename = null;
 		
 		//브라우저별 인코딩이 다름 : 파일이름 치환!
 		
 		//IE 11 version부터 식별자가 Trident로 변경
-		if((userAgent.indexOf("Trident") >-1) || (userAgent.indexOf("MSIE")>-1)) {
+		if((userAgent.indexOf("Trident") >-1) || (userAgent.indexOf("MSIE")>-1)) 
+		{
+			//LOG.debug("[1]");
 			//IE(file이름에 space가 있으면 치환 필요!)
 			originName = URLEncoder.encode(originName,"utf-8").replaceAll("\\+", "%20");
 	    //chrome
-		}else if( (userAgent.indexOf("Chrome") >-1)  ) {
+		}
+		else if( (userAgent.indexOf("Chrome") >-1)  ) 
+		{
+			//LOG.debug("[2]");
+			//originName = URLEncoder.encode(originName,"utf-8");
 			
-			originName = URLEncoder.encode(originName,"utf-8");
+			StringBuffer sb = new StringBuffer();
+
+            for (int i = 0; i < originName.length(); i++) {
+
+                   char c = originName.charAt(i);
+
+                   if (c > '~') {
+
+                         sb.append(URLEncoder.encode("" + c, "UTF-8"));
+
+                   } else {
+
+                         sb.append(c);
+
+                   }
+
+            }
+
+            encodedFilename = sb.toString();
+			
 		//그외	
-		}else {
+		}else 
+		{
+			//LOG.debug("[3]");
 			originName = URLEncoder.encode(originName,"utf-8");
 		}
 		

@@ -50,6 +50,23 @@ public class CodeDaoImpl {
 		return lists;
 	}
 	
+	public Code doSelectOne(Code code)
+	{
+		LOG.debug("===========================");
+		LOG.debug("=doSelectOne=");
+		LOG.debug("===========================");
+		
+		String statement = NAMESPACE + ".doSelectOne";
+		LOG.debug("===========================");
+		LOG.debug("=statement : "+statement);
+		LOG.debug("=code : "+code);
+		LOG.debug("===========================");
+		
+		Code outVO = this.sqlSessionTemplate.selectOne(statement, code);
+		
+		return outVO;
+	}
+	
 
    
 	

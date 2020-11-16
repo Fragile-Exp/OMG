@@ -58,6 +58,7 @@ public class TestPositionService {
 	}
 	
 	@Test
+	@Ignore
 	public void totalTest() {
 		int flag = 0;
 		// 삭제
@@ -99,7 +100,7 @@ public class TestPositionService {
 	}
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void bean() {
 		LOG.debug("context : "+context);
 		LOG.debug("service : "+service);

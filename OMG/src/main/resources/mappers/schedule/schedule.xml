@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mappers.schedule.schedule">
+<mapper namespace="com.omg.mapper.schedule">
 
-	<!-- 부서검색 -->
-	
 	<!-- 검색 -->
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
@@ -26,112 +25,115 @@
 			</foreach>
 		</trim>
 	</sql>
-
-	<!-- 등록 -->
-	<select id="doInsert">
-		INSERT INTO schedule (
-			schedule_no,
-			dept_no,
-			employee_id,
-			category_id,
-			time_status,
-			title,
-			content,
-			start_dt,
-			end_dt
+	
+	<!-- 생성 -->
+	<insert id="insert">
+		INSERT INTO schedule
+		VALUES (SCHEDULE_SEQ.nextval,
+			    #{dept_no},
+			    #{employee_id},
+			    #{category_id},
+			    #{title},
+			    #{content},
+			    TO_DATE(#{start_dt}, 'YYYY-MM-DD HH24:MI'),
+			    TO_DATE(#{end_dt}, 'YYYY-MM-DD HH24:MI')
 		)
-		VALUES (
-			SCHEDULE_SEQ.nextval,
-			#{deptNo},
-			#{employeeId},
-			#{categoryId},
-			#{timeStatus},
-			#{title},
-			#{content},
-			TO_DATE(#{startDt}, 'yyyy-MM-dd HH24:mi'),
-			TO_DATE(#{endDt}, 'yyyy-MM-dd HH24:mi')
-		)
-	</select>
+	</insert>
 
 	<!-- 삭제 -->
-	<delete id="doDelete">
+	<delete id="delete">
 		DELETE FROM schedule
-		WHERE schedule_no = #{scheduleNo}
+		WHERE schedule_no = #{schedule_no}
 	</delete>
 
 	<!-- 수정 -->
-	<update id="doUpdate">
+	<update id="update">
 		UPDATE schedule
-		SET category_id = #{categoryId},
-			time_status = #{timeStatus},
-			title = #{title},
-			content = #{content},
-			start_dt = TO_DATE(#{startDt}, 'yyyy-MM-dd HH24:mi'),
-			end_dt = TO_DATE(#{endDt}, 'yyyy-MM-dd HH24:mi')
-		WHERE schedule_no =	#{scheduleNo}
+		SET title =	#{title},
+		content = #{content},
+		start_dt = TO_DATE(#{start_dt}, 'YYYY-MM-DD HH24:MI'),
+		end_dt = TO_DATE(#{end_dt}, 'YYYY-MM-DD HH24:MI')
+		WHERE schedule_no = #{schedule_no}
 	</update>
 
-	<!-- 단건조회 -->
-	<select id="doSelectOne" resultType="ScheduleVO">
-		SELECT schedule_no
-			   scheduleNo,
-			   dept_no deptNo,
-			   employee_id employeeId,
-			   category_id categoryId,
-			   time_status timeStatus,
+	<!-- 단건검색 -->
+	<select id="read" resultType="ScheduleVO">
+		SELECT schedule_no,
+			   dept_no,
+			   employee_id,
+			   category_id,
 			   title,
 			   content,
-			   TO_CHAR(start_dt, 'yyyy-MM-dd HH24:mi') startDt,
-			   TO_CHAR(end_dt, 'yyyy-MM-dd HH24:mi') endDt
+			   TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') start_dt,
+			   TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') end_dt
 		FROM schedule
-		WHERE schedule_no =	#{scheduleNo}
+		WHERE schedule_no = #{schedule_no}
 	</select>
 
-	<!-- 다건조회 -->
-	<select id="doSelectList" resultType="ScheduleVO">
-		<![CDATA[
-		SELECT scheduleNo,
-			   deptNo,
-			   employeeId,
-			   categoryId,
-			   timeStatus,
-			   title,
-			   content,
-			   startDt,
-			   endDt
-		FROM(SELECT /*+ INDEX_ASC (schedule pk_schedule) */
-					rownum rn,
-			   		schedule_no scheduleNo,
-			   		dept_no deptNo,
-			   		employee_id employeeId,
-			   		category_id categoryId,
-			   		time_status timeStatus,
-			   		title,
-			   		content,
-			   		TO_CHAR(start_dt, 'yyyy-MM-dd HH24:MI') startDt,
-			   		TO_CHAR(end_dt, 'yyyy-MM-dd HH24:MI') endDt
-			 FROM schedule
-			 WHERE
-		]]>	 
-			 <!-- 검색기준 -->
-			 <include refid="criteria"></include>
-		<![CDATA[
-			 rownum <= #{pageNum} * #{amount}
-		]]>
-			 <if test="deptNo != null">
-			 	dept_no = #{deptNo}
-			 </if>
-		<![CDATA[
+	<!-- 다건검색 -->
+	<select id="getList" resultType="ScheduleVO">
+		SELECT A.*,
+			   B.category_nm
+		FROM(SELECT rownum rn,
+					schedule_no,
+					dept_no,
+					employee_id,
+					category_id,
+					title,
+					content,
+					TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') start_dt,
+					TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') end_dt
+		 	 FROM schedule
+		 	 WHERE category_id = #{category_id}
+		 	 <![CDATA[
+		 	 AND rownum <= #{pageNum} * #{amount}
+		 	 ]]>
+		 	 <choose>
+				<when test="category_id == 2">
+					AND dept_no = #{dept_no}
+				</when>
+				<when test="category_id == 3">
+					AND employee_id = #{employee_id}
+				</when> 
+			</choose> 
+		 	 AND (SUBSTR(TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI:SS'), 0, 7) = 
+		 	 	<choose>
+					<when test="start_dt != null">
+						#{start_dt}
+					</when>
+					<when test="start_dt == null">
+						SUBSTR(TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI'), 0, 7)
+					</when>
+				</choose>
+		 	 OR SUBSTR(TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI:SS'), 0, 7) = 
+		 	 	<choose>
+					<when test="end_dt != null">
+						#{end_dt}
+					</when>
+					<when test="end_dt == null">
+						SUBSTR(TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI'), 0, 7)
+					</when>
+				</choose>
 			 )
+		 	 ORDER BY start_dt ASC, end_dt ASC) A, schedule_cat B
+		<![CDATA[
 		WHERE rn > (#{pageNum} - 1) * #{amount}
 		]]>
+		AND A.category_id = B.category_id
 	</select>
-	
+
 	<select id="getTotalCount" resultType="int">
 		SELECT count(*)
 		FROM schedule
-		WHERE <include refid="criteria"></include> <!-- 검색기준 -->
-			  schedule_no > 0
+		WHERE category_id = #{category_id}
+		<choose>
+			<when test="category_id == 2">
+				AND dept_no = #{dept_no}
+			</when>
+			<when test="category_id == 3">
+				AND employee_id = #{employee_id}
+			</when> 
+		</choose> 
 	</select>
 
 </mapper>

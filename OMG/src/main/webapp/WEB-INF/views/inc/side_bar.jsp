@@ -52,18 +52,16 @@
         <span>사원 검색</span></a>
     </li>
     
-	<div class="sidebar-heading">
-		board
-	</div>
+	<div class="sidebar-heading">board</div>
 	<li class="nav-item">
-		<a id="setting" class="nav-link" href="#" data-toggle="collapse" data-target="#boardKategorie" aria-expanded="true" aria-controls="boardKategorie">
+		<a id="boardMemu" class="nav-link" href="#" data-toggle="collapse" data-target="#boardCategory" aria-expanded="true" aria-controls="boardCategory">
 			<i class="fas fa-fw fa-folder"></i>
 			<span>게시판</span>
 		</a>
-		<div id="boardKategorie" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+		<div id="boardCategory" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
-			<a id="board_10" class="collapse-item" href="${hContext}/board/doSelectList.do?div=10">공지사항</a>
-			<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=20">자유게시판</a>
+				<a id="board_10" class="collapse-item" href="${hContext}/board/doSelectList.do?div=10">공지사항</a>
+				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=20">자유게시판</a>
 			<div class="collapse-divider"></div>
 			</div>
 		</div>
@@ -136,7 +134,7 @@
      
 	<!-- Nav Item - Charts -->
 	<li id="chattingPlace" class="nav-item">
-		<a class="nav-link" href="${hContext}/chat/chat.do">
+		<a class="nav-link" href="${hContext}/chat/room.do">
 		<i class="fas fa-fw fa-comments"></i>
 		<span>채팅</span></a>
 	</li>
@@ -173,11 +171,20 @@
         <span>Charts</span></a>
     </li>
 
-    <!-- Nav Item - Tables -->
+    <!-- 일정 -->
     <li class="nav-item">
-      <a class="nav-link" href="/schedule/doSelectList.do">
-        <i class="fas fa-fw fa-table"></i>
-        <span>일정</span></a>
+      	<a id="setting" class="nav-link" href="#" data-toggle="collapse" data-target="#scheduler" aria-expanded="true" aria-controls="scheduler">
+        	<i class="fas fa-fw fa-folder"></i>
+        	<span>일정관리</span>
+    	</a>
+    	<div id="scheduler" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+          	<div class="bg-white py-2 collapse-inner rounded">
+				<a id="schedule_all" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=1">사내 일정</a>
+				<a id="schedule_dept" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=2">부서 일정</a>
+				<a id="schedule_private" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=3">개인 일정</a>
+				<div class="collapse-divider"></div>
+         	</div>
+       </div>
     </li>
 
     <!-- Divider -->

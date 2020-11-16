@@ -2,9 +2,11 @@ package com.omg.attachment.controller;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.View;
 import com.google.gson.Gson;
 import com.omg.attachment.domain.AttachmentVO;
 import com.omg.attachment.service.AttachmentServiceImpl;
+import com.omg.cmn.DownloadView;
 import com.omg.cmn.Message;
 
 @Controller
@@ -30,6 +33,9 @@ public class AttachmentController
 	@Autowired
 	AttachmentServiceImpl attachmentServiceImpl;
 	
+	@Autowired
+	DownloadView downloadView;
+	
 	@Resource(name = "downloadView")
 	View  download;
 	
@@ -38,9 +44,11 @@ public class AttachmentController
 	 * DownloadView extends AbstractView
 	 * 
 	 * file/download.do 
+	 * @throws Exception 
 	 */
 	@RequestMapping(value="file/download.do",method = RequestMethod.POST)
-	public ModelAndView download(HttpServletRequest req, ModelAndView  model) {
+	public ModelAndView download(HttpServletRequest req, ModelAndView  model) 
+	{
 		
 		LOG.debug("===================");
 		LOG.debug("==download() ==");
@@ -48,6 +56,7 @@ public class AttachmentController
 		
 		/** 원본파일명*/
 		String originName = req.getParameter("originName");
+		
 		/**저장파일명*/
 		String saveName = req.getParameter("saveName");
 		
@@ -63,8 +72,6 @@ public class AttachmentController
 		//file
 		File downloadFile=new File(saveName);
 		model.addObject("downloadFile", downloadFile);//다운로드 파일 
-		
-		
 		
 		return model;
 	}

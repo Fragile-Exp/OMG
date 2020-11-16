@@ -32,7 +32,14 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-4 text-gray-800" >OO게시판</h1>
+					<!-- h1 class="h3 mb-4 text-gray-800" >OO게시판</h1> -->
+					<h1 class="h3 mb-4 text-gray-800" >
+						<%
+							Code boardDiv = (Code)request.getAttribute("coVO");
+							out.print("<h1 class='h3 mb-4 text-gray-800'>"+boardDiv.getDetNm()+"</h1>");
+						%>
+					</h1>
+					
 					<div class="card shadow mb-4">
 						<form action="${hContext}/board/doSelectList.do" name="searchFrm">
 							<input type="hidden" name="pageNum" id="pageNum" />
@@ -147,11 +154,22 @@
 	<script type="text/javascript">
 	$(document).ready(function()
 	{
-		/* $("#Pages").attr("class","nav-link");
-		$("#Pages").attr("aria-expanded","true");
-		$("#collapsePages").attr("class","collapse show");
-		$("#blank").attr("class","collapse-item active"); */
+		$("#boardMenu").attr("class","nav-link");
+		$("#boardMenu").attr("aria-expanded","true");
+		$("#boardCategory").attr("class","collapse show");
+		$("#board_${vo.getDiv()}").attr("class","collapse-item active");
 	});
+
+	$('#searchWord').keydown(function(key)
+	{
+		console.log("searchWord.keydown(key)")
+		
+		if(key.keyCode == 13)
+		{
+			doSelectList();
+		}
+
+	}); 
 
 	function doSearchPage(url, num)
 	{
@@ -171,11 +189,12 @@
     	
     });
 
-	function doSelectList(){
-        //alert('doSelectList');
-      var frm = document.searchFrm;
-      frm.pageNum.value = 1;
-      frm.submit();
+	function doSelectList()
+	{
+		//alert('doSelectList');
+		var frm = document.searchFrm;
+		frm.pageNum.value = 1;
+		frm.submit();
 	}
 
 	$("#boardListTable>tbody").on("click","tr" ,function() {

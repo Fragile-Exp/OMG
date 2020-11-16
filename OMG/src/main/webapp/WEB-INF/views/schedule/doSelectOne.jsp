@@ -22,7 +22,6 @@
 			<div id="content">
 				<!-- top_bar -->
 				<%@ include file="/WEB-INF/views/inc/top_bar.jsp"%>
-				
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="panel panel-default">
@@ -33,11 +32,6 @@
 								</div>
 								
 								<div class="card-body">
-									<div class="form-group">
-										<label>번호</label>
-										<input class="form-control" name="scheduleNo"
-										value="<c:out value="${schedule.scheduleNo}"/>" readonly="readonly"/>				
-									</div>
 									<div class="form-group">
 										<label>제목</label>
 										<input class="form-control" name="title" value="<c:out value="${schedule.title}"/>" readonly="readonly">
@@ -50,41 +44,43 @@
 				
 									<div class="form-group">
 										<label>작성자</label>
-										<input class="form-control" name="employeeId" value="<c:out value="${schedule.employeeId}"/>" readonly="readonly"/>
+										<input class="form-control" name="employee_id" value="<c:out value="${schedule.employee_id}"/>" readonly="readonly"/>
 									</div>
 									
 									<div class="form-group">
 										<label>카테고리</label>
-										<input class="form-control" name="categoryId" value="<c:out value="${schedule.categoryId}"/>" readonly="readonly"/>
+										<input class="form-control" name="category_id" readonly="readonly">
 									</div>
 				
 									<div class="form-group">
 										<label>부서</label>
-										<input class="form-control" name="deptNo" value="<c:out value="${schedule.deptNo}"/>" readonly="readonly"/>
+										<input class="form-control" name="dept_no" value="<c:out value="${schedule.dept_no}"/>" readonly="readonly"/>
 									</div>
 									
 									<div class="form-group">
 										<label>시작일</label>
-										<input type="datetime-local" class="form-control" name="startDt" value="<c:out value="${schedule.startDt}"/>" id="startDt" readonly="readonly">
+										<input type="datetime-local" class="form-control" name="start_dt" value="<c:out value="${schedule.start_dt}"/>" id="startDt" readonly="readonly">
 									</div>
 									
 									<div class="form-group">
 										<label>종료일</label>
-										<input type="datetime-local" class="form-control" name="endDt" value="<c:out value="${schedule.endDt}"/>" id="endDt" readonly="readonly">
+										<input type="datetime-local" class="form-control" name="end_dt" value="<c:out value="${schedule.end_dt}"/>" id="end_dt" readonly="readonly">
 									</div>
 									
 									<button data-oper="update" class="btn btn-primary">수정</button>
 									<button data-oper="list" class="btn btn-info">목록</button>
 									
 									<form id="operForm" action="/schedule/doUpdate.do" method="get">
-										<input type="hidden" id="scheduleNo" name="scheduleNo" value="<c:out value="${schedule.scheduleNo}"/>">
+										<input type="hidden" id="schedule_no" name="schedule_no" value="<c:out value="${schedule.schedule_no}"/>">
 										<input type="hidden" name="pageNum" value="<c:out value="${cri.pageNum}"/>">
 										<input type="hidden" name="amount" value="<c:out value="${cri.amount}"/>">
 										<input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>">
 										<input type="hidden" name="type" value="<c:out value="${cri.type}"/>">
+										<input type="hidden" name="category_id" value="<c:out value="${cri.category_id}"/>"/>
 									</form>
 								</div>
 								<!-- end panel-body -->
+							</div>
 							</div>
 							
 						</div>
@@ -108,8 +104,10 @@
 			});
 	
 			$("button[data-oper='list']").on("click", function(e) {
-				operForm.find("#scheduleNo").remove();
+				//move to list
+				operForm.find("#schedule_no").remove();
 				operForm.attr("action", "/schedule/doSelectList.do");
+
 				operForm.submit();
 			});
 

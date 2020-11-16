@@ -46,6 +46,7 @@ public class CommutingController {
 	@Autowired
 	DeptService deptService;
 	
+	/*Constructor*/
 	public CommutingController() {
 		// TODO Auto-generated constructor stub
 	}
@@ -65,7 +66,7 @@ public class CommutingController {
 			LOG.debug(">msgStrConfirm()>"+msgStrConfirm);
 			message.setMsgContents(msgStrConfirm);
 		}else {
-			message.setMsgContents("초기화 실패");
+			message.setMsgContents("전부 근무 준비중");
 		}
 		
 		rttr.addFlashAttribute("result", message.getMsgContents());
@@ -213,7 +214,7 @@ public class CommutingController {
 		LOG.debug("=controller.doSelectDeptList.do=");
 		
 		Search search = new Search();
-		search.setPageSize(10);
+		search.setPageSize(100);
 		search.setPageNum(1);
 		
 		LOG.debug(">param>" + deptNo);

@@ -36,7 +36,7 @@
 								<div class="card-body">
 									<form role="form" action="/schedule/doUpdate.do" method="post">
 										<!-- hidden -->
-										<input type="hidden" name="scheduleNo" value='<c:out value="${schedule.scheduleNo}"/>'>
+										<input type="hidden" name="schedule_no" value='<c:out value="${schedule.schedule_no}"/>'>
 										<input type="hidden" name="pageNum" value='<c:out value="${cri.pageNum}"/>'>
 										<input type="hidden" name="amount" value='<c:out value="${cri.amount}"/>'>
 										<input type="hidden" name="type" value='<c:out value="${cri.type}"/>'>
@@ -53,27 +53,27 @@
 										
 										<div class="form-group">
 											<label>작성자</label>
-											<input class="form-control" name="employeeId" value="<c:out value="${schedule.employeeId}"/>"/>
+											<input class="form-control" name="employee_id" value="<c:out value="${schedule.employee_id}"/>"/>
 										</div>
 										
 										<div class="form-group">
 											<label>카테고리</label>
-											<input class="form-control" name="categoryId" value="<c:out value="${schedule.categoryId}"/>"/>
+											<input class="form-control" name="category_id" value="<c:out value="${schedule.category_id}"/>"/>
 										</div>
 					
 										<div class="form-group">
 											<label>부서</label>
-											<input class="form-control" name="deptNo" value="<c:out value="${schedule.deptNo}"/>" readonly="readonly"/>
+											<input class="form-control" name="dept_no" value="<c:out value="${schedule.dept_no}"/>" readonly="readonly"/>
 										</div>
 										
 										<div class="form-group">
 											<label>시작일</label>
-											<input type="datetime-local" class="form-control" name="startDt" value="<c:out value="${schedule.startDt}"/>">
+											<input type="datetime-local" class="form-control" name="start_dt" value="<c:out value="${schedule.start_dt}"/>">
 										</div>
 										
 										<div class="form-group">
 											<label>종료일</label>
-											<input type="datetime-local" class="form-control" name="endDt" value="<c:out value="${schedule.endDt}"/>" id="endDt">
+											<input type="datetime-local" class="form-control" name="end_dt" value="<c:out value="${schedule.end_dt}"/>" id="endDt">
 										</div>
 
 										<button type="submit" data-oper="update" class="btn btn-primary">수정</button>

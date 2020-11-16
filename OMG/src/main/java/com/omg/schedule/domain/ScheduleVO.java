@@ -1,71 +1,79 @@
 package com.omg.schedule.domain;
 
-import com.omg.cmn.DTO;
+import com.omg.cmn.Criteria;
+import com.omg.cmn.PageDTO;
 
-public class ScheduleVO extends DTO {
-    private int scheduleNo;	//일정번호
-    private int deptNo;		//부서번호
-    private String employeeId;	//사번
-    private int categoryId;	//카테고리ID
-    private int timeStatus;	//일정상태
+public class ScheduleVO extends PageDTO {
+	
+    private int schedule_no;	//일정번호
+    private int dept_no;	//부서번호
+    private String employee_id;	//사원번호
+    private int category_id;	//카테고리ID
+    private String category_nm;	//카테고리 이름
     private String title;	//제목
     private String content;	//내용
-    private String startDt;	//시작일
-    private String endDt;	//종료일
+    private String start_dt;	//시작일
+    private String end_dt;	//종료일
     
-    public ScheduleVO() {}
+	public ScheduleVO() {
+		super();
+		this.category_id = 1;
+	}
+	
+    public ScheduleVO(Criteria cri, int total, int schedule_no, int dept_no, String employee_id, int category_id,
+			String category_nm, String title, String content, String start_dt, String end_dt) {
+		super(cri, total);
+		this.schedule_no = schedule_no;
+		this.dept_no = dept_no;
+		this.employee_id = employee_id;
+		this.category_id = category_id;
+		this.category_nm = category_nm;
+		this.title = title;
+		this.content = content;
+		this.start_dt = start_dt;
+		this.end_dt = end_dt;
+	}
 
-    public ScheduleVO(int scheduleNo, int deptNo, String employeeId, int categoryId, int timeStatus, String title,
-	    String content, String startDt, String endDt) {
-	this.scheduleNo = scheduleNo;
-	this.deptNo = deptNo;
-	this.employeeId = employeeId;
-	this.categoryId = categoryId;
-	this.timeStatus = timeStatus;
-	this.title = title;
-	this.content = content;
-	this.startDt = startDt;
-	this.endDt = endDt;
+
+
+	public int getSchedule_no() {
+        return schedule_no;
     }
 
-    public int getScheduleNo() {
-        return scheduleNo;
+    public void setSchedule_no(int schedule_no) {
+        this.schedule_no = schedule_no;
     }
 
-    public void setScheduleNo(int scheduleNo) {
-        this.scheduleNo = scheduleNo;
+    public int getDept_no() {
+        return dept_no;
     }
 
-    public int getDeptNo() {
-        return deptNo;
+    public void setDept_no(int dept_no) {
+        this.dept_no = dept_no;
     }
 
-    public void setDeptNo(int deptNo) {
-        this.deptNo = deptNo;
+    public String getEmployee_id() {
+        return employee_id;
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public void setEmployee_id(String employee_id) {
+        this.employee_id = employee_id;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public int getCategory_id() {
+        return category_id;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public String getCategory_nm() {
+        return category_nm;
     }
 
-    public int getTimeStatus() {
-        return timeStatus;
-    }
-
-    public void setTimeStatus(int timeStatus) {
-        this.timeStatus = timeStatus;
+    public void setCategory_nm(String category_nm) {
+        this.category_nm = category_nm;
     }
 
     public String getTitle() {
@@ -84,27 +92,27 @@ public class ScheduleVO extends DTO {
         this.content = content;
     }
 
-    public String getStartDt() {
-        return startDt;
+    public String getStart_dt() {
+        return start_dt;
     }
 
-    public void setStartDt(String startDt) {
-        this.startDt = startDt;
+    public void setStart_dt(String start_dt) {
+        this.start_dt = start_dt;
     }
 
-    public String getEndDt() {
-        return endDt;
+    public String getEnd_dt() {
+        return end_dt;
     }
 
-    public void setEndDt(String endDt) {
-        this.endDt = endDt;
+    public void setEnd_dt(String end_dt) {
+        this.end_dt = end_dt;
     }
 
     @Override
     public String toString() {
-	return "ScheduleVO [scheduleNo=" + scheduleNo + ", deptNo=" + deptNo + ", employeeId=" + employeeId
-		+ ", categoryId=" + categoryId + ", timeStatus=" + timeStatus + ", title=" + title + ", content="
-		+ content + ", startDt=" + startDt + ", endDt=" + endDt + "]";
+	return "ScheduleVO [schedule_no=" + schedule_no + ", dept_no=" + dept_no + ", employee_id=" + employee_id
+		+ ", category_id=" + category_id + ", category_nm=" + category_nm + ", title=" + title + ", content="
+		+ content + ", start_dt=" + start_dt + ", end_dt=" + end_dt + "]";
     }
 
 }

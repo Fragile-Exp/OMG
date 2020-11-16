@@ -32,10 +32,10 @@
 				<h1 class="h3 mb-4 text-gray-800">${vo.title}</h1>
 				<div class="btn-group btn-group-lg">
 					<input type="button" class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"  value="목록" id="moveList" style="float: right;  margin: 13px;" />
-					<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
+					<c:if test="${vo.regId eq sessionScope.employee.name}">
 						<input type="button" class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"  value="삭제" id="doDeleteBtn"  style="float: right;  margin: 13px;" />
 					</c:if>
-					<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
+					<c:if test="${vo.regId eq sessionScope.employee.name}">
 						<input type="button" class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"  value="수정"  id="doUpdateBtn" style="float: right;  margin: 13px;" />
 					</c:if>
 				</div>
