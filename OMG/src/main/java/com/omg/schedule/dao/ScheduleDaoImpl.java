@@ -13,123 +13,142 @@ import com.omg.schedule.domain.ScheduleVO;
 
 @Repository("scheduleDao")
 public class ScheduleDaoImpl implements ScheduleDao {
-    
-    private final Logger LOG = LoggerFactory.getLogger(ScheduleDaoImpl.class);
-    private final String NAMESPACE = "mappers.schedule.schedule";
 
-    @Autowired
-    private SqlSessionTemplate sqlSessionTemplate;
-    
-    public ScheduleDaoImpl() {}
+	private final Logger LOG = LoggerFactory.getLogger(ScheduleDaoImpl.class);
+	private final String NAMESPACE = "com.omg.mapper.schedule";
 
-    /**
-     * 생성
-     * @param schedule
-     * @return flag
-     * @author 박정민
-     */
-    @Override
-    public int doInsert(ScheduleVO schedule) {
-	LOG.debug("doInsert.....");
-	
-	String statement = NAMESPACE + ".doInsert";
-	
-	int flag = sqlSessionTemplate.insert(statement, schedule);
-	LOG.debug("[doInsert]flag: " + flag);
-	
-	return flag;
-    }
+	@Autowired
+	private SqlSessionTemplate sqlSessionTemplate;
 
-    /**
-     * 삭제
-     * @param schedule
-     * @return flag
-     * @author 박정민
-     */
-    @Override
-    public int doDelete(ScheduleVO schedule) {
-	LOG.debug("doDelete.....");
-	
-	String statement = NAMESPACE + ".doDelete";
-	
-	int flag = sqlSessionTemplate.delete(statement, schedule);
-	LOG.debug("[doDelete]flag: " + flag);
-	
-	return flag;
-    }
+	public ScheduleDaoImpl() {
+	}
 
-    /**
-     * 수정
-     * @param schedule
-     * @return flag
-     * @author 박정민 
-     */
-    @Override
-    public int doUpdate(ScheduleVO schedule) {
-	LOG.debug("doUpdate.....");
-	
-	String statement = NAMESPACE + ".doUpdate";
-	
-	int flag = sqlSessionTemplate.update(statement, schedule);
-	LOG.debug("[doUpdate]flag: " + flag);
+	/**
+	 * 생성
+	 * 
+	 * @param schedule
+	 * @return flag
+	 * @author 박정민
+	 */
+	@Override
+	public int doInsert(ScheduleVO schedule) {
+		LOG.debug("doInsert.....");
+		LOG.debug("[Insert]Param: " + schedule);
 
-	return flag;
-    }
+		String statement = NAMESPACE + ".insert";
 
-    /**
-     * 단건조회
-     * @param schedule
-     * @return outVO
-     * @author 박정민
-     */
-    @Override
-    public ScheduleVO doSelectOne(ScheduleVO schedule) {
-	LOG.debug("doSelectOne.....");
-	
-	String statement = NAMESPACE + ".doSelectOne";
-	
-	ScheduleVO outVO = sqlSessionTemplate.selectOne(statement, schedule);
-	
-	LOG.debug("=========================");
-	LOG.debug("= [one]outVO: " + outVO);
-	LOG.debug("=========================");
-	
-	return outVO;
-    }
+		// 날짜 문자열 T 치환
+		schedule.setStart_dt(schedule.getStart_dt().replace("T", " "));
+		schedule.setEnd_dt(schedule.getEnd_dt().replace("T", " "));
 
-    /**
-     * 다건조회
-     * @param schedule
-     * @return list
-     * @author 박정민
-     */
-    @Override
-    public List<ScheduleVO> doSelectList(Criteria cri) {
-	LOG.debug("doSelectList.....");
-	
-	String statement = NAMESPACE + ".doSelectList";
-	
-	List<ScheduleVO> list = sqlSessionTemplate.selectList(statement, cri);
-	LOG.debug("cri: " + cri);
-	
-	LOG.debug("=========================");
-	list.forEach(outVO -> LOG.debug("= [list]outVO: " + outVO));
-	LOG.debug("=========================");
-	
-	return list;
-    }
+		int flag = sqlSessionTemplate.insert(statement, schedule);
+		LOG.debug("[doInsert]flag: " + flag);
 
-    @Override
-    public int getTotalCount(Criteria cri) {
-	LOG.debug("getTotalCount.....");
-	
-	String statement = NAMESPACE + ".getTotalCount";
-	int total = sqlSessionTemplate.selectOne(statement, cri);
-	LOG.debug("total: " + total);
-	
-	return total;
-    }
+		return flag;
+	}
 
-    
+	/**
+	 * 삭제
+	 * 
+	 * @param schedule
+	 * @return flag
+	 * @author 박정민
+	 */
+	@Override
+	public int doDelete(ScheduleVO schedule) {
+		LOG.debug("doDelete.....");
+		LOG.debug("[Delete]Param: " + schedule);
+
+		String statement = NAMESPACE + ".delete";
+
+		int flag = sqlSessionTemplate.delete(statement, schedule);
+		LOG.debug("[doDelete]flag: " + flag);
+
+		return flag;
+	}
+
+	/**
+	 * 수정
+	 * 
+	 * @param schedule
+	 * @return flag
+	 * @author 박정민
+	 */
+	@Override
+	public int doUpdate(ScheduleVO schedule) {
+		LOG.debug("doUpdate.....");
+		LOG.debug("[Update]Param: " + schedule);
+
+		String statement = NAMESPACE + ".update";
+
+		// 날짜 문자열 T 치환
+		schedule.setStart_dt(schedule.getStart_dt().replace("T", " "));
+		schedule.setEnd_dt(schedule.getEnd_dt().replace("T", " "));
+
+		int flag = sqlSessionTemplate.update(statement, schedule);
+		LOG.debug("[doUpdate]flag: " + flag);
+
+		return flag;
+	}
+
+	/**
+	 * 단건조회
+	 * 
+	 * @param schedule
+	 * @return outVO
+	 * @author 박정민
+	 */
+	@Override
+	public ScheduleVO doSelectOne(ScheduleVO schedule) {
+		LOG.debug("doSelectOne.....");
+		LOG.debug("[Read]Param: " + schedule);
+
+		String statement = NAMESPACE + ".read";
+
+		ScheduleVO outVO = sqlSessionTemplate.selectOne(statement, schedule);
+
+		LOG.debug("=========================");
+		LOG.debug("= [one]outVO: " + outVO);
+		LOG.debug("=========================");
+
+		return outVO;
+	}
+
+	/**
+	 * 다건조회
+	 * 
+	 * @param schedule
+	 * @return list
+	 * @author 박정민
+	 */
+	@Override
+	public List<ScheduleVO> doSelectList(Criteria cri) {
+		LOG.debug("doSelectList.....");
+		LOG.debug("[List]Param: " + cri);
+
+		String statement = NAMESPACE + ".getList";
+
+		List<ScheduleVO> list = sqlSessionTemplate.selectList(statement, cri);
+		LOG.debug("cri: " + cri);
+
+		LOG.debug("=========================");
+		list.forEach(outVO -> LOG.debug("= [list]outVO: " + outVO));
+		LOG.debug("=========================");
+
+		return list;
+	}
+
+	@Override
+	public int getTotalCount(Criteria cri) {
+		LOG.debug("getTotalCount.....");
+		LOG.debug("[count]Param: " + cri);
+		
+		String statement = NAMESPACE + ".getTotalCount";
+		int count = sqlSessionTemplate.selectOne(statement, cri);
+		
+		LOG.debug("COUNT: " + count);
+
+		return count;
+	}
 
 }
