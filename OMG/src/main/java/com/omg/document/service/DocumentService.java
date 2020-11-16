@@ -120,7 +120,7 @@ public class DocumentService {
 	 * @param employee
 	 * @return
 	 */
-	public List<EmployeeVO> doempName (EmployeeVO employee){
+	public EmployeeVO doempName (EmployeeVO employee){
 		return documentDaoImpl.doempName(employee);
 	}
 
