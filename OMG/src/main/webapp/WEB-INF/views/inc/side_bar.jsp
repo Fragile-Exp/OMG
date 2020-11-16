@@ -134,7 +134,7 @@
      
 	<!-- Nav Item - Charts -->
 	<li id="chattingPlace" class="nav-item">
-		<a class="nav-link" href="${hContext}/chat/chat.do">
+		<a class="nav-link" href="${hContext}/chat/room.do">
 		<i class="fas fa-fw fa-comments"></i>
 		<span>채팅</span></a>
 	</li>

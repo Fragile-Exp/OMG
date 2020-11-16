@@ -26,25 +26,26 @@
       		<div class="container-fluid">
 
 				<!-- Page Heading -->
-				<h1 class="h3 mb-4 text-gray-800">Chatting</h1>
+				<h1 class="h3 mb-4 text-gray-800">${roomNm}Chatting</h1>
 				
 				<input type="hidden" id="sessionId" value="" />
+				<input type="hidden" id="roomNo" value="${roomNo }" />
 				<div align="center">
 						<div id="chating" class="jumbotron" style="width: 800px; height: 800px" ></div>
-					<div id="yourName">
+<!-- 					<div id="yourName">
 						<table class="inputTable">
 							<tr>
-								<th>사용자명</th>
-								<th><input type="text" name="userName" id="userName" /></th>
-								<th><input type="button" onclick="chatName();" id="startBtn" value="이름 등록" /></th>
+								<th>사용자명</th> -->
+								<input type="hidden" name="userName" id="userName" value="${sessionScope.employee.employee_id}" />
+<!-- 								<th><input type="button" onclick="chatName();" id="startBtn" value="이름 등록" /></th>
 							</tr>
 						</table>
-					</div>
-					<div id="yourMsg" style="display:none;">
+					</div> -->
+					<div id="yourMsg">
 						<table class="inputTable">
 							<tr>
 								<th>메시지</th>
-								<th><input type="text" id="chatting" placeholder="보내실 메시지를 입력하세요." /></th>
+								<th><input type="text" id="chatting" size="30" placeholder="보내실 메시지를 입력하세요." /></th>
 								<th><input type="button" onclick="send()" id="sendBtn" value="보내기" /></th>
 							</tr>
 						</table>
@@ -68,12 +69,13 @@
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$("#chattingPlace").addClass("active");
+		wsOpen();
 		});
 
 	var ws;
 
 	function wsOpen(){
-		ws = new WebSocket("ws://"+location.host+"/cmn/chatting.do");
+		ws = new WebSocket("ws://"+location.host+"/cmn/chatting/"+$(roomNo).val()+".do");
 		wsEvt();
 	}
 
@@ -112,21 +114,11 @@
 		});
 	}
 
-	function chatName(){
-		var userName = $("#userName").val();
-		if(userName == null || userName.trim() == ""){
-			alert("사용자 이름을 입력해주세요.");
-			$("#userName").focus();
-		}else{
-			wsOpen();
-			$("#yourName").hide();
-			$("#yourMsg").show();
-		}
-	}
 
 	function send() {
 		var option = {
 				type : "message",
+				roomNo : $("#roomNo").val(),
 				sessionId : $("#sessionId").val(),
 				userName : $("#userName").val(),
 				msg : $("#chatting").val()

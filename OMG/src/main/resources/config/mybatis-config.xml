@@ -32,6 +32,8 @@
 		<!-- document -->
 		<typeAlias type="com.omg.document.domain.DocumentVO" alias="DocumentVO"/>
 		<typeAlias type="com.omg.car.domain.CarVO" alias="CarVO"/>
+		<!-- chat -->
+		<typeAlias type="com.omg.chat.domain.ChattingRoom" alias="RoomVO"/>
 		
 	</typeAliases>
 </configuration>  
