@@ -13,9 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.omg.cmn.Criteria;
 import com.omg.cmn.PageDTO;
-import com.omg.organization.service.DeptService;
 import com.omg.schedule.domain.ScheduleVO;
-import com.omg.schedule.service.ScheduleCatService;
 import com.omg.schedule.service.ScheduleService;
 
 @Controller
@@ -26,12 +24,7 @@ public class ScheduleController {
 
 	@Autowired
 	private ScheduleService service;
-	
-	@Autowired
-	private ScheduleCatService catService;
-	
-	@Autowired
-	private DeptService deptService;
+
 
 	/**
 	 * 일정 추가
@@ -42,9 +35,6 @@ public class ScheduleController {
 	 */
 	@RequestMapping(value = "/doInsert.do", method = RequestMethod.POST)
 	public String doInsert(ScheduleVO inVO, RedirectAttributes rttr) {
-		//날짜 문자열 T 치환
-		inVO.setStartDt(inVO.getStartDt().replace("T", " "));
-		inVO.setEndDt(inVO.getEndDt().replace("T", " "));
 		
 		log.debug("[Insert]ScheduleVO: " + inVO);
 		int flag = service.doInsert(inVO);
@@ -67,11 +57,11 @@ public class ScheduleController {
 	 * @author 박정민
 	 */
 	@RequestMapping(value = "/doDelete.do", method = RequestMethod.POST)
-	public String doDelete(@RequestParam("scheduleNo") int scheduleNo, RedirectAttributes rttr) {
-		log.debug("[Delete]scheduleNo: " + scheduleNo);
+	public String doDelete(@RequestParam("schedule_no") int schedule_no, RedirectAttributes rttr) {
+		log.debug("[Delete]scheduleNo: " + schedule_no);
 
 		ScheduleVO inVO = new ScheduleVO();
-		inVO.setScheduleNo(scheduleNo);
+		inVO.setSchedule_no(schedule_no);
 
 		if (service.doDelete(inVO) == 1) {
 			rttr.addFlashAttribute("result", "success");
@@ -88,13 +78,14 @@ public class ScheduleController {
 	 * @author 박정민
 	 */
 	@RequestMapping(value = "/doUpdate.do", method = RequestMethod.POST)
-	public String doUpdate(ScheduleVO inVO, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+	public String doUpdate(ScheduleVO inVO, RedirectAttributes rttr) {
+		log.debug("doUpdate loading.....");
 		log.debug("[Update]ScheduleVO: " + inVO);
 
 		if (service.doUpdate(inVO) == 1) {
 			rttr.addFlashAttribute("result", "success");
 		}
-
+		
 		return "redirect:/schedule/doSelectList.do";
 	}
 
@@ -106,22 +97,23 @@ public class ScheduleController {
 	 * @author 박정민
 	 */
 	@RequestMapping(value = { "/doSelectOne.do", "/doUpdate.do" }, method = RequestMethod.GET)
-	public void doSelectOne(@RequestParam("scheduleNo") int scheduleNo, 
-					@ModelAttribute("cri") Criteria cri, Model model) {
+	public void doSelectOne(@RequestParam("schedule_no") int schedule_no, Criteria cri, Model model) {
 		log.debug("doSelectOne or doUpdate.....");
 
 		ScheduleVO inVO = new ScheduleVO();
-		inVO.setScheduleNo(scheduleNo);
+		inVO.setSchedule_no(schedule_no);
 
 		ScheduleVO outVO = service.doSelectOne(inVO);
 				
-		outVO.setStartDt(outVO.getStartDt().replace(" ", "T"));
-		outVO.setEndDt(outVO.getEndDt().replace(" ", "T"));
+		outVO.setStart_dt(outVO.getStart_dt().replace(" ", "T"));
+		outVO.setEnd_dt(outVO.getEnd_dt().replace(" ", "T"));
 		
 		model.addAttribute("schedule", outVO);
+		model.addAttribute("cri", cri);
 	}
 
 	/**
+	 * 
 	 * 일정 검색 deptNo: 0(전체검색) or 부서별검색
 	 * 
 	 * @param deptNo
@@ -130,13 +122,14 @@ public class ScheduleController {
 	 */
 	@RequestMapping(value = "/doSelectList.do", method = RequestMethod.GET)
 	public void doSelectList(Criteria cri, Model model) {
+		log.debug("doSelectList loading.....");
 		log.debug("doSelectList: " + cri);
 
-		model.addAttribute("list", service.doSelectList(cri));
-		model.addAttribute("dept", deptService.doSelectList());
-
 		int total = service.getTotalCount(cri);
-
+		
+		model.addAttribute("list", service.doSelectList(cri));
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		log.debug("doSelectList complite.....");
 	}
 }

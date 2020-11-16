@@ -23,25 +23,39 @@
 				<%@include file="/WEB-INF/views/inc/top_bar.jsp"%>
 				
 				<div class="card shadow mb-4">
+					<!-- header -->
+					<div class="card-header py-3">
+						<h2>
+							<!-- 일정구분번호 -->
+							<c:choose>
+								<c:when test="${pageMaker.cri.category_id == 1}">사내 일정</c:when>
+								<c:when test="${pageMaker.cri.category_id == 2}">부서 일정</c:when>
+								<c:when test="${pageMaker.cri.category_id == 3}">개인 일정</c:when>
+							</c:choose>
+						</h2>
+					</div>
+					<!-- /header -->
 					<div class="card-header py-3">
 						<div class="panel-heading">
 							<label class="h4 m-0 font-weight bold text-primary">일정 리스트</label>
 							<button id="regBtn" type="button" class="btn btn-primary pull-right" style="float: right;">일정 추가</button>
 						</div>
-					</div>
+					</div>				
 				
 					<div class="card-body">
 						<div class="table-responsive">
 							<!-- search dept -->
 							<div class="row">
 								<div class="col-lg-12 col-md-7">
+									<!-- 
 									<form id="searchDept" action="/schedule/doSelectList.do" method="get">
 										<select name="keyword">
 											<c:forEach items="${dept}" var="dept">
-												<option value="${dept.deptNo}">${dept.deptNm}(${dept.deptNo})</option>
+												<option value="${dept.deptNo}">${dept.dept_nm}(${dept.dept_no})</option>
 											</c:forEach>
 										</select>
 									</form> 
+									 -->
 								</div>
 							</div>
 						
@@ -55,22 +69,20 @@
 										<th>종료일</th>
 										<th>부서</th>
 										<th>작성자</th>
-										<th>일정종류</th>
 									</tr>
 								</thead>
 								<c:forEach items="${list}" var="schedule">
 									<tr>
-										<td><c:out value="${schedule.scheduleNo}"/></td>
+										<td><c:out value="${schedule.schedule_no}"/></td>
 										<td>
-											<a class="move" href="<c:out value='${schedule.scheduleNo}'/>">
+											<a class="move" href="<c:out value='${schedule.schedule_no}'/>">
 												<c:out value="${schedule.title}"/>
 											</a>
 										</td>
-										<td><c:out value="${schedule.startDt}"/></td>
-										<td><c:out value="${schedule.endDt}"/></td>
-										<td><c:out value="${schedule.deptNo}"/></td>
-										<td><c:out value="${schedule.employeeId}"/></td>
-										<td><c:out value="${schedule.categoryId}"/></td>
+										<td><c:out value="${schedule.start_dt}"/></td>
+										<td><c:out value="${schedule.end_dt}"/></td>
+										<td><c:out value="${schedule.dept_no}"/></td>
+										<td><c:out value="${schedule.employee_id}"/></td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -118,6 +130,7 @@
 												</c:if>
 											</ul>
 										</div>
+										<!-- /paging -->
 									</form>
 								</div>
 							</div>
@@ -129,6 +142,7 @@
 								<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 								<input type="hidden" name="type" value="${pageMaker.cri.type}"/>
 								<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
+								<input type="hidden" name="category_id" value="${pageMaker.cri.category_id}"/>
 							</form>
 							
 							<!-- Modal추가 -->
@@ -200,7 +214,7 @@
 			//게시물 조회를 위한 이벤트 처리
 			$(".move").on("click", function(e) {
 				e.preventDefault();
-				actionForm.append("<input type='hidden' name='scheduleNo' value='"+$(this).attr("href")+"'> ");
+				actionForm.append("<input type='hidden' name='schedule_no' value='"+$(this).attr("href")+"'> ");
 				actionForm.attr("action", "/schedule/doSelectOne.do");
 				actionForm.submit();
 			});

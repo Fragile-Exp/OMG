@@ -173,11 +173,20 @@
         <span>Charts</span></a>
     </li>
 
-    <!-- Nav Item - Tables -->
+    <!-- 일정 -->
     <li class="nav-item">
-      <a class="nav-link" href="/schedule/doSelectList.do">
-        <i class="fas fa-fw fa-table"></i>
-        <span>일정</span></a>
+      	<a id="setting" class="nav-link" href="#" data-toggle="collapse" data-target="#scheduler" aria-expanded="true" aria-controls="scheduler">
+        	<i class="fas fa-fw fa-folder"></i>
+        	<span>일정관리</span>
+    	</a>
+    	<div id="scheduler" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+          	<div class="bg-white py-2 collapse-inner rounded">
+				<a id="schedule_all" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=1">사내 일정</a>
+				<a id="schedule_dept" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=2">부서 일정</a>
+				<a id="schedule_private" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=3">개인 일정</a>
+				<div class="collapse-divider"></div>
+         	</div>
+       </div>
     </li>
 
     <!-- Divider -->

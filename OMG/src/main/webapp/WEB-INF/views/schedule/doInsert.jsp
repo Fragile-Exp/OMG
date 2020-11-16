@@ -43,27 +43,27 @@
 									
 									<div class="form-group">
 										<label>작성자</label>
-										<input class="form-control" name="employeeId" />
+										<input class="form-control" name="employee_id" />
 									</div>
 									
 									<div class="form-group">
 										<label>카테고리</label>
-										<input class="form-control" name="categoryId"/>
+										<input class="form-control" name="category_id"/>
 									</div>
 
 									<div class="form-group">
 										<label>부서</label>
-										<input class="form-control" name="deptNo"/>
+										<input class="form-control" name="dept_no"/>
 									</div>
 									
 									<div class="form-group">
 										<label>시작일</label>
-										<input type="datetime-local" class="form-control" name="startDt" id="startDt"/>
+										<input type="datetime-local" class="form-control" name="start_dt" id="start_dt"/>
 									</div>
 									
 									<div class="form-group">
 										<label>종료일</label>
-										<input type="datetime-local" class="form-control" name="endDt" id="endDt"/>
+										<input type="datetime-local" class="form-control" name="end_dt" id="end_dt"/>
 									</div>
 
 									<button type="submit" class="btn btn-primary">저장</button>

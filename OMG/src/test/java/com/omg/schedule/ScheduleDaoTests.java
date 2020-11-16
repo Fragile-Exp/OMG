@@ -40,14 +40,13 @@ public class ScheduleDaoTests {
 	LOG.debug("setup.....");
 
 	inVO = new ScheduleVO();
-	inVO.setDeptNo(10);
-	inVO.setEmployeeId("user01");
-	inVO.setCategoryId(10);
-	inVO.setTimeStatus(0);
+	inVO.setDept_no(10);
+	inVO.setEmployee_id("user01");
+	inVO.setCategory_id(10);
 	inVO.setTitle("테스트 제목");
 	inVO.setContent("테스트 내용");
-	inVO.setStartDt("2020-01-01 00:00");
-	inVO.setEndDt("2020-01-01 01:00");
+	inVO.setStart_dt("2020-01-01 00:00");
+	inVO.setEnd_dt("2020-01-01 01:00");
     }
 
     @Test
@@ -55,11 +54,11 @@ public class ScheduleDaoTests {
     public void totalTest() {
 	dao.doInsert(inVO); //등록
 	
-	inVO.setScheduleNo(28);
+	inVO.setSchedule_no(28);
 	dao.doSelectOne(inVO); //단건 검색
 	dao.doUpdate(inVO);	//수정
 	
-	inVO.setDeptNo(0);
+	inVO.setDept_no(0);
 	dao.doSelectList(cri); //다건조회
     }
     
