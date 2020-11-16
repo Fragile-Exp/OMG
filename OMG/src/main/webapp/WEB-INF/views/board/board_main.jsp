@@ -160,6 +160,17 @@
 		$("#board_${vo.getDiv()}").attr("class","collapse-item active");
 	});
 
+	$('#searchWord').keydown(function(key)
+	{
+		console.log("searchWord.keydown(key)")
+		
+		if(key.keyCode == 13)
+		{
+			doSelectList();
+		}
+
+	}); 
+
 	function doSearchPage(url, num)
 	{
 		//alert(url+":"+num);
@@ -178,11 +189,12 @@
     	
     });
 
-	function doSelectList(){
-        //alert('doSelectList');
-      var frm = document.searchFrm;
-      frm.pageNum.value = 1;
-      frm.submit();
+	function doSelectList()
+	{
+		//alert('doSelectList');
+		var frm = document.searchFrm;
+		frm.pageNum.value = 1;
+		frm.submit();
 	}
 
 	$("#boardListTable>tbody").on("click","tr" ,function() {
