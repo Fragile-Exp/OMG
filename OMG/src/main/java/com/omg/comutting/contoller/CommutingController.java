@@ -46,6 +46,7 @@ public class CommutingController {
 	@Autowired
 	DeptService deptService;
 	
+	/*Constructor*/
 	public CommutingController() {
 		// TODO Auto-generated constructor stub
 	}
@@ -213,7 +214,7 @@ public class CommutingController {
 		LOG.debug("=controller.doSelectDeptList.do=");
 		
 		Search search = new Search();
-		search.setPageSize(10);
+		search.setPageSize(100);
 		search.setPageNum(1);
 		
 		LOG.debug(">param>" + deptNo);
