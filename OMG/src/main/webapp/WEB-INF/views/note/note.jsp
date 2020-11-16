@@ -121,11 +121,12 @@
 
 										    </tbody>
 										</table>
-										<!-- 페이지네이션 -->
-										<div id="page-selection" class="pagination justify-content-center"></div>
-										<!-- // 페이지네이션 -->
+										
 									</div>
 									<!-- // 쪽지 테이블 -->
+									<!-- 페이지네이션 -->
+										<div id="page-selection" class="pagination d-flex justify-content-center" ></div>
+										<!-- // 페이지네이션 -->
 								</div>
 							</div>
 						</div>

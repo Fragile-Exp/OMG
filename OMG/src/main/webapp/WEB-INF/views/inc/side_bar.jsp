@@ -51,10 +51,24 @@
         <i class="fas fa-fw fa-table"></i>
         <span>사원 검색</span></a>
     </li>
-      
-      
-      
-	 
+    
+	<div class="sidebar-heading">
+		board
+	</div>
+	<li class="nav-item">
+		<a id="setting" class="nav-link" href="#" data-toggle="collapse" data-target="#boardKategorie" aria-expanded="true" aria-controls="boardKategorie">
+			<i class="fas fa-fw fa-folder"></i>
+			<span>게시판</span>
+		</a>
+		<div id="boardKategorie" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+			<a id="board_10" class="collapse-item" href="${hContext}/board/doSelectList.do?div=10">공지사항</a>
+			<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=20">자유게시판</a>
+			<div class="collapse-divider"></div>
+			</div>
+		</div>
+	</li>
+
       <!-- Heading -->
       <div class="sidebar-heading">
         Interface
@@ -120,6 +134,13 @@
        </div>
      </li>
      
+	<!-- Nav Item - Charts -->
+	<li id="chattingPlace" class="nav-item">
+		<a class="nav-link" href="${hContext}/chat/chat.do">
+		<i class="fas fa-fw fa-comments"></i>
+		<span>채팅</span></a>
+	</li>
+     
      <!-- Divider -->
       <hr class="sidebar-divider">
 
@@ -139,7 +160,7 @@
 			<a id="org" class="collapse-item" href="${hContext}/org/org.do">조직 관리</a>
 			<a id="employee_reg" class="collapse-item" href="${hContext}/employee/employee_reg.do">사원 추가</a>
 			<a id="employee_mng" class="collapse-item" href="${hContext}/employee/employee_mng.do">사원 정보 수정</a>
-			<a id="dept_commuting" class="collapse-item" href="${hContext}/commuting/dept_attendence.do">부서 근태 관리</a>
+			<a id="dept_commuting" class="collapse-item" href="${hContext}/commuting/doSelectDeptList.do">부서 근태 관리</a>
 			<div class="collapse-divider"></div>
          </div>
        </div>

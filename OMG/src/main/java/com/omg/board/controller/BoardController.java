@@ -211,6 +211,32 @@ public class BoardController
 		model.addAttribute("fileList",fileList);
 		
 		
+		String returnUrl = "board/board_info";
+		
+		return returnUrl;
+	}
+	
+	@RequestMapping(value="board/doSelectOneMng.do", method = RequestMethod.GET)
+	public String doSelectOneMng(BoardVO boardVO, Locale locale,Model model)
+	{
+		LOG.debug("===========================");
+		LOG.debug("=doSelectOneMng()=");
+		LOG.debug("=boardVO : "+boardVO);
+		LOG.debug("===========================");
+		
+		if(0 == boardVO.getBoardSeq()) {
+			throw new IllegalArgumentException("게시글 seq를 확인하세요");
+		}
+		
+		BoardVO outVO = (BoardVO) this.boardService.doSelectOne(boardVO);
+		model.addAttribute("vo", outVO);
+		
+		AttachmentVO inFileVO = new AttachmentVO();
+		inFileVO.setFileCode(outVO.getFilecode());
+		List<AttachmentVO> fileList = attachmentService.doSelectList(inFileVO);
+		model.addAttribute("fileList",fileList);
+		
+		
 		String returnUrl = "board/board_mng";
 		
 		return returnUrl;

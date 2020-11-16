@@ -32,12 +32,6 @@
 	<insert id="doInit">
 		INSERT INTO commuting (seq,employee_id,name,dept_no,present_state,state,reg_dt) 
 		SELECT TO_CHAR(sysdate,'yyyy-MM-dd') as seq, 
-		--SELECT 2020-11-14 as seq, 
-		--SELECT '2020-11-15' as seq, 
-		--SELECT '2020-11-16' as seq, 
-		--SELECT '2020-11-17' as seq, 
-		--SELECT '2020-11-18' as seq, 
-		--SELECT '2020-11-19' as seq, 
 		       employee_id,                                                             
 		       name,                                                                    
 		       dept_no,                                                                 

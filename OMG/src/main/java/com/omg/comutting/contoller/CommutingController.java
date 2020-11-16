@@ -50,15 +50,12 @@ public class CommutingController {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@RequestMapping(value="doInit.do", method = RequestMethod.GET)
-	@ResponseBody
-	public Message doInit(Locale locale) {
+	@RequestMapping(value="doInit.do", method = RequestMethod.POST)
+	public String doInit(Locale locale,RedirectAttributes rttr) {
 		LOG.debug("******************************************************");
 		LOG.debug("=controller.doInit=");
 		
 		int flag = commutingService.doInit();
-		LOG.debug("::::::: flag :::::: \n" + flag);
-		
 		Message message = new Message();
 		message.setMsgId(flag + "");
 		
@@ -71,12 +68,13 @@ public class CommutingController {
 			message.setMsgContents("초기화 실패");
 		}
 		
-		LOG.debug(">message>" + message);
+		rttr.addFlashAttribute("result", message.getMsgContents());
+		
 		LOG.debug("******************************************************");
-		return message;
+		return "redirect:doSelectDeptList.do";
 	}
 	
-	@RequestMapping(value="delete.do", method = RequestMethod.POST)
+	@RequestMapping(value="doDelete.do", method = RequestMethod.POST)
 	public String doDelete(String seq,String employeeId, Locale locale ,RedirectAttributes rttr) {
 		LOG.debug("******************************************************");
 		LOG.debug("=controller.doDelete=");
@@ -102,11 +100,11 @@ public class CommutingController {
 		LOG.debug(">message>" + message);
 		LOG.debug("******************************************************");
 		
-		return "redirect:dept_attendence.do";
+		return "redirect:doSelectDeptList.do";
 	}
 	
 
-	@RequestMapping(value="updateAttendTime.do", method = RequestMethod.POST)
+	@RequestMapping(value="doUpdateAttendTime.do", method = RequestMethod.POST)
 	public String doUpdateAttendTime(HttpServletRequest req,RedirectAttributes rttr,Locale locale ) {
 		LOG.debug("******************************************************");
 		LOG.debug("=controller.doUpdateAttendTime=");
@@ -134,11 +132,11 @@ public class CommutingController {
 		
 		LOG.debug(">message>" + message);
 		LOG.debug("******************************************************");
-		return "redirect:my_attendence.do";
+		return "redirect:doSelectMyList.do";
 		
 	}
 	
-	@RequestMapping(value="updateLeaveTime.do", method = RequestMethod.POST)
+	@RequestMapping(value="doUpdateLeaveTime.do", method = RequestMethod.POST)
 	public String doUpdateLeaveTime(HttpServletRequest req,RedirectAttributes rttr,Locale locale) {
 		LOG.debug("******************************************************");
 		LOG.debug("=controller.doUpdateLeaveTime=");
@@ -165,7 +163,7 @@ public class CommutingController {
 		
 		LOG.debug(">message>" + message);
 		LOG.debug("******************************************************");
-		return "redirect:my_attendence.do";
+		return "redirect:doSelectMyList.do";
 	}
 	
 	@RequestMapping(value="doSelectOne.do", method = RequestMethod.GET)
@@ -188,7 +186,7 @@ public class CommutingController {
 		return returnUrl;
 	}
 	
-	@RequestMapping(value="my_attendence.do", method = RequestMethod.GET)
+	@RequestMapping(value="doSelectMyList.do", method = RequestMethod.GET)
 	public void doSelectMyList(
 			@RequestParam(value = "month" ,defaultValue = "2020-11")  String month, Model model, HttpServletRequest req) {
 		LOG.debug("******************************************************");
@@ -207,12 +205,12 @@ public class CommutingController {
 		LOG.debug("******************************************************");
 	}
 	
-	@RequestMapping(value="dept_attendence.do" , method = RequestMethod.GET)
+	@RequestMapping(value="doSelectDeptList.do" , method = RequestMethod.GET)
 	public void doSelectDeptList(
 			@RequestParam(value="deptNo" ,defaultValue = "10000" ) String deptNo, Model model) {
 		
 		LOG.debug("******************************************************");
-		LOG.debug("=controller.dept_attendence.do=");
+		LOG.debug("=controller.doSelectDeptList.do=");
 		
 		Search search = new Search();
 		search.setPageSize(10);

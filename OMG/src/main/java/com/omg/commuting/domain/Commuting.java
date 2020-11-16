@@ -3,31 +3,31 @@ package com.omg.commuting.domain;
 import com.omg.cmn.DTO;
 
 public class Commuting extends DTO {
-	/** 순번 */
+	/* 순번 */
 	private String seq;
-	/** 사번 */
+	/* 사번 */
 	private String employeeId;
-	/** 이름 */
+	/* 이름 */
 	private String name;
-	/** 부서번호 */
+	/* 부서번호 */
 	private String deptNo;
-	/** 출근시간 */
+	/* 출근시간 */
 	private String attendTime;
-	/** 퇴근시간 */
+	/* 퇴근시간 */
 	private String leaveTime;
-	/** 현재상태 */
+	/* 현재상태 */
 	private PresentState presentState;
-	/** 출결상태 */
+	/* 출결상태 */
 	private State state;
-	/** 근무시간 */
+	/* 근무시간 */
 	private String workTime;
-	/** 등록자*/
+	/* 등록자*/
 	private String regDt;
 	
-	/** presentStateIntValue*/
+	/* presentStateIntValue*/
 	private int presentStateIntValue;
 	
-	/** stateIntValue*/
+	/* stateIntValue*/
 	private int stateIntValue;
 	
 	public Commuting() {

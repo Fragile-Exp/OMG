@@ -80,7 +80,7 @@
 	</bean>
 	<!-- //JavaMailSenderImpl : 운영 (mail 보내기) -->
 	
-	
+	<!-- 매일 실행될 타겟 메서드 -->
 	<bean id="methodInvokingJobDetailFactoryBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<!-- 주기적인 Job처리 대상 bean -->
 		<property name="targetObject" ref="commutingServiceImpl"/>
