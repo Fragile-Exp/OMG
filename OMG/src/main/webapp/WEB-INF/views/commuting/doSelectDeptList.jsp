@@ -35,11 +35,11 @@
 					
 					<div class="row">
 
-						<div class="col-lg-10">
+						<div class="col-lg-50">
 							
 							<div class="card shadow mb-4 column">
 								<!-- 관리자 검색, 삭제 -->
-								<div class="card-header py-3"> 
+								<div class="card-header"> 
 									<label for="start">부서</label> 
 									<form action="${hContext}/commuting/doSelectDeptList.do" method="get" id="deptFrm">
 									
@@ -53,19 +53,20 @@
 													<c:forEach var="vo" items="${deptList}">
 														<option value="${vo.deptNo}" 
 														<c:if test="${deptNo eq vo.deptNo}">selected="selected"</c:if>
-														>${vo.deptNm} (${vo.deptNo})</option>
+														>${vo.deptNm}</option>
 													</c:forEach>
 												</select>
 											</div>
-											<div style="width:10%;   display:inline-block;">
-												<button  type="submit" data-oper="search" class="btn btn-info btn-sm">Search</button>
-											</div >
-											<div style="width:10%;   display:inline-block;">
-												<button type="submit" data-oper="remove" class="btn btn-danger btn-sm">삭제</button>
+											<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
+												 <button  type="submit" data-oper="search" class="btn btn-info">Search</button>
 											</div>
-											<div style="width:10%;   display:inline-block;">
-												<button type="submit" data-oper="init" class="btn btn-danger btn-sm">근태 초기화</button>
+											<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
+												 <button type="submit" data-oper="remove" class="btn btn-danger">삭제</button>
 											</div>
+											<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
+												 <button type="submit" data-oper="init" id="init" class="btn btn-primary">근태 초기화</button>
+											</div>
+											
 									</form>
 								</div>
 								
@@ -76,15 +77,15 @@
 											class="table table-striped table-bordered table-hover table-condensed">
 											<thead>
 												<tr>
-													<th class="text-center" width="15%">근무일</th>
-													<th class="text-center" width="8%">사번</th>
-													<th class="text-center" width="8%">이름</th>
-													<th class="text-center" width="8%">부서번호</th>
-													<th class="text-center" width="12%">출근 시간</th>
-													<th class="text-center" width="12%">퇴근 시간</th>
-													<th class="text-center" width="10%">현재</th>
-													<th class="text-center" width="10%">출결 상태</th>
-													<th class="text-center" width="10%">선택</th>
+													<th class="text-center" width="20%">근무일</th>
+													<th class="text-center" width="15%">사번</th>
+													<th class="text-center" width="15%">이름</th>
+													<th class="text-center" width="15%">부서번호</th>
+													<th class="text-center" width="15%">출근시간</th>
+													<th class="text-center" width="15%">퇴근시간</th>
+													<th class="text-center" width="15%">현재</th>
+													<th class="text-center" width="15%">출결</th>
+													<th class="text-center" width="8%">선택</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -218,6 +219,8 @@
 				formObj.append(keyword); */
 			} else if (operation === 'init') {
 				formObj.attr("action", "${hContext}/commuting/doInit.do").attr("method", "post");
+				var btn = document.getElementById('init');
+				btn.disabled = 'disabled';
 			}
 	
 			formObj.submit();

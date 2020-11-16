@@ -30,15 +30,18 @@
 	</insert>
 	<!-- com.omg.commuting.doInit -->
 	<insert id="doInit">
-		INSERT INTO commuting (seq,employee_id,name,dept_no,present_state,state,reg_dt) 
-		SELECT TO_CHAR(sysdate,'yyyy-MM-dd') as seq, 
-		       employee_id,                                                             
-		       name,                                                                    
-		       dept_no,                                                                 
+		MERGE INTO commuting c
+		USING employee e
+		ON (c.employee_id = e.employee_id AND c.seq = TO_CHAR(sysdate,'yyyy-MM-dd'))
+		WHEN NOT MATCHED THEN
+		INSERT (seq,employee_id,name,dept_no,present_state,state,reg_dt)
+		VALUES (TO_CHAR(sysdate,'yyyy-MM-dd'),
+		       e.employee_id,                                                             
+		       e.name,                                                                    
+		       e.dept_no,                                                                 
 		       0,                                                                       
 		       0,                                                                       
-		       sysdate as reg_dt                                                        
-		FROM employee                                                                   
+		       SYSDATE  )                                                          
 	</insert>
 	<!-- com.omg.commuting.doDelete -->
 	<delete id="doDelete" parameterType="Commuting">
@@ -99,7 +102,7 @@
 		<choose>
 			<!-- 오늘 부서별-->
 			<when test="10 == searchDiv">
-				WHERE TO_CHAR(attend_time,'yyyyMMdd') = TO_CHAR(sysdate,'yyyyMMdd')
+				WHERE seq = TO_CHAR(sysdate,'YYYY-MM-DD')
 				AND dept_no = #{searchWord,jdbcType=VARCHAR}
 			</when>
 			<!-- seq-->

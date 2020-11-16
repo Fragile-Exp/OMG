@@ -65,7 +65,7 @@ public class CommutingController {
 			LOG.debug(">msgStrConfirm()>"+msgStrConfirm);
 			message.setMsgContents(msgStrConfirm);
 		}else {
-			message.setMsgContents("초기화 실패");
+			message.setMsgContents("전부 근무 준비중");
 		}
 		
 		rttr.addFlashAttribute("result", message.getMsgContents());
