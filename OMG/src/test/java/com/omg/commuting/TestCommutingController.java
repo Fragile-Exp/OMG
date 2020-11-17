@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.google.gson.Gson;
+import com.omg.cmn.Criteria;
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.commuting.domain.Commuting;
@@ -58,8 +59,8 @@ public class TestCommutingController {
 	List<Commuting> attends;
 	
 	private void makeList() {
-		Search search = new Search("40", "2020-11-12",300,1);
-		attends = commutingService.doSelectList(search);
+		Criteria criteria = new Criteria();
+		attends = commutingService.doSelectList(criteria);
 	}
 	
 	@Before

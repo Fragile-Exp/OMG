@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.omg.cmn.Criteria;
 import com.omg.cmn.Message;
+import com.omg.cmn.PageDTO;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
 import com.omg.commuting.domain.Commuting;
@@ -208,30 +210,19 @@ public class CommutingController {
 	
 	@RequestMapping(value="doSelectDeptList.do" , method = RequestMethod.GET)
 	public void doSelectDeptList(
-			@RequestParam(value="deptNo" ,defaultValue = "10000" ) String deptNo, Model model) {
+			Criteria criteria, Model model) {
 		
 		LOG.debug("******************************************************");
 		LOG.debug("=controller.doSelectDeptList.do=");
 		
-		Search search = new Search();
-		search.setPageSize(100);
-		search.setPageNum(1);
 		
-		LOG.debug(">param>" + deptNo);
-		
+		LOG.debug(">param>" + criteria);
 		
 		model.addAttribute("deptList",deptService.doSelectList());	
-		
-		if(deptNo.equals("10000") || deptNo == null) {
-			search.setSearchDiv("20");
-			search.setSearchWord(CURRENT_DAY);
-			model.addAttribute("list",commutingService.doSelectList(search));
-		} else {
-			search.setSearchDiv("10");
-			search.setSearchWord(deptNo);
-			model.addAttribute("deptNo",deptNo);
-			model.addAttribute("list",commutingService.doSelectList(search));
-		}
+		model.addAttribute("list", commutingService.doSelectList(criteria));
+		int count =  commutingService.getTotalCount(criteria);
+		LOG.debug("count :" + count);
+		model.addAttribute("pageMaker", new PageDTO(criteria, count));
 		
 		LOG.debug("******************************************************");
 	}

@@ -2,6 +2,7 @@ package com.omg.commuting.service;
 
 import java.util.List;
 
+import com.omg.cmn.Criteria;
 import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
 import com.omg.commuting.domain.Commuting;
@@ -55,7 +56,7 @@ public interface CommutingService {
 	 * @param search
 	 * @return
 	 */
-	public List<Commuting> doSelectList(Search search);
+	public List<Commuting> doSelectList(Criteria criteria);
 	
 	/**
 	 * 내 근무 환형
@@ -68,4 +69,6 @@ public interface CommutingService {
 	 * 전체 목록
 	 */
 	public List<Commuting> getAll();
+
+	public int getTotalCount(Criteria criteria);
 }

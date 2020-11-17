@@ -2,6 +2,7 @@ package com.omg.comutting.dao;
 
 import java.util.List;
 
+import com.omg.cmn.Criteria;
 import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
 import com.omg.commuting.domain.Commuting;
@@ -17,7 +18,7 @@ public interface CommutingDao {
 	
 	public DTO doSelectOne(DTO dto);
 	
-	public List<Commuting> doSelectList(Search search);
+	public List<Commuting> doSelectList(Criteria criteria);
 	
 	public List<Commuting> doSelectMyList(DTO dto);
 	
@@ -27,6 +28,6 @@ public interface CommutingDao {
 	
 	public List<Commuting> getAll();
 	
-	
+	public int getTotalCount(Criteria criteria);
 	
 }
