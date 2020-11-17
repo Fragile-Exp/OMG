@@ -28,7 +28,7 @@
 				<div align="center">
 				<!-- Page Heading -->
 				<h1 class="h3 mb-4 text-gray-800">채팅방 목록</h1>
-					<div id="mainbody" class="card shadow mb-4" style="width: 1000px; height: 800px overflow: auto;"" >
+					<div id="mainbody" class="card shadow mb-4" style="width: 1000px; height: 680px" >
 						<div class="card-header py-3">
 							<div class="row">
 								<div class="col-lg-6">
@@ -44,7 +44,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="card-body">
+						<div class="card-body" style="height: 600px; overflow: auto;">
 							<div class="table-responsive">
 								<table id="roomList" class="table table-striped table-bordered table-hover table-condensed">
 									<thead>
@@ -61,7 +61,11 @@
 													<tr>
 														<td>${vo.roomNo}</td>
 														<td>${vo.roomNm}</td>
-														<td><input type="button" class="btn btn-primary" onclick="goRoom('${vo.roomNo}','${vo.roomNm}');" value="참여" /></td>
+														<td><input type="button" class="btn btn-primary btn-sm" onclick="goRoom('${vo.roomNo}','${vo.roomNm}');" value="참여" />
+														<c:if test="${(vo.regId eq sessionScope.employee.employee_id) || (sessionScope.employee.auth == 9) }">
+														<input type="button" class="btn btn-primary btn-sm" onclick="deleteRoom('${vo.roomNo}'); return false;" value="삭제" />
+														</c:if>
+														</td>
 													</tr>
 												</c:forEach>
 											</c:when>
@@ -101,6 +105,31 @@
 	function goRoom(no,nm){
 		window.location.href="${hContext}/chat/moveChat.do?roomNo="+no+"&roomNm="+nm;
 		}
+
+	function deleteRoom(no){
+		$.ajax({
+            type:"GET",
+            url:"${hContext}/chat/doDelete.do",
+            dataType:"html",
+            async: true,
+            data:{
+                "roomNo" : no
+                },
+         success: function(data){
+           var parseData = JSON.parse(data)
+           if(parseData.msgId == "1"){
+        	    alert(parseData.msgContents);
+				window.location.reload();
+           } else{
+				alert(parseData.msgContents);
+           }
+           
+		},
+         error:function(xhr,status,error){
+             alert("error:"+error);
+         }
+        }); 
+		}
 	
 	$("#createRoom").on("click",function(){
 		var roomNm = $("#roomNm").val();
@@ -111,7 +140,8 @@
             dataType:"html",
             async: true,
             data:{
-                "roomNm" : roomNm 
+                "roomNm" : roomNm ,
+                "regId" : "${sessionScope.employee.employee_id}"
                 },
          success: function(data){
            var parseData = JSON.parse(data)
@@ -128,6 +158,8 @@
         }); 
 		
 		})
+	
+	
 	
 	</script>
 </body>
