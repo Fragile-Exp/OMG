@@ -38,6 +38,9 @@
 					<div class="card-header py-3">
 						<div class="panel-heading">
 							<label class="h4 m-0 font-weight bold text-primary">일정 리스트</label>
+							<select id="deptDiv">
+								<option>a</option>
+							</select>
 							<button id="regBtn" type="button" class="btn btn-primary pull-right" style="float: right;">일정 추가</button>
 						</div>
 					</div>				
@@ -96,10 +99,7 @@
 											<option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : ''}"/>>--</option>
 											<option value="T" <c:out value="${pageMaker.cri.type eq 'T' ? 'selected' : ''}"/>>제목</option>
 											<option value="C" <c:out value="${pageMaker.cri.type eq 'C' ? 'selected' : ''}"/>>내용</option>
-											<option value="E" <c:out value="${pageMaker.cri.type eq 'E' ? 'selected' : ''}"/>>작성자</option>
 											<option value="TC" <c:out value="${pageMaker.cri.type eq 'TC' ? 'selected' : ''}"/>>제목+내용</option>
-											<option value="TE" <c:out value="${pageMaker.cri.type eq 'TE' ? 'selected' : ''}"/>>제목+작성자</option>
-											<option value="TCE" <c:out value="${pageMaker.cri.type eq 'TCE' ? 'selected' : ''}"/>>제목+내용+작성자</option>
 										</select>
 										
 										<input type="text" name="keyword" value="${pageMaker.cri.keyword}">
@@ -216,7 +216,7 @@
 			$(".move").on("click", function(e) {
 				e.preventDefault();
 				actionForm.append("<input type='hidden' name='schedule_no' value='"+$(this).attr("href")+"'> ");
-				actionForm.attr("action", "/schedule/doSelectOne.do");
+				actionForm.attr("action", "${hContext}/schedule/doSelectOne.do");
 				actionForm.submit();
 			});
 		
@@ -240,8 +240,10 @@
 		
 				searchForm.submit();
 			});
-			
+
 		});
+
+		//부서필터
 	</script>
 </body>
 </html>

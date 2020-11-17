@@ -17,9 +17,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						<when test="type == 'C'.toString()">
 							content like '%'||#{keyword}||'%'
 						</when>
-						<when test="type == 'E'.toString()">
-							employee_id like '%'||#{keyword}||'%'
-						</when>
 					</choose>
 				</trim>
 			</foreach>
@@ -58,16 +55,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 단건검색 -->
 	<select id="read" resultType="ScheduleVO">
-		SELECT schedule_no,
-			   dept_no,
-			   employee_id,
-			   category_id,
-			   title,
-			   content,
-			   TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') start_dt,
-			   TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') end_dt
+		SELECT A.*,
+       		   B.dept_nm
+		FROM(SELECT schedule_no,
+			   		dept_no,
+			   		employee_id,
+			   		category_id,
+			   		title,
+			   		content,
+			   		TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') start_dt,
+			   		TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') end_dt
 		FROM schedule
-		WHERE schedule_no = #{schedule_no}
+		WHERE schedule_no = #{schedule_no}) A, DEPT B
+		WHERE A.dept_no = B.dept_no
 	</select>
 
 	<!-- 다건검색 -->
@@ -84,7 +84,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') start_dt,
 					TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') end_dt
 		 	 FROM schedule
-		 	 WHERE category_id = #{category_id}
+		 	 WHERE <include refid="criteria"></include> <!-- 검색기준 -->
+		 	 	   category_id = #{category_id}
 		 	 <![CDATA[
 		 	 AND rownum <= #{pageNum} * #{amount}
 		 	 ]]>
@@ -96,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					AND employee_id = #{employee_id}
 				</when> 
 			</choose> 
-		 	 AND (SUBSTR(TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI:SS'), 0, 7) = 
+		 	 <!-- AND (SUBSTR(TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI:SS'), 0, 7) = 
 		 	 	<choose>
 					<when test="start_dt != null">
 						#{start_dt}
@@ -114,7 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						SUBSTR(TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI'), 0, 7)
 					</when>
 				</choose>
-			 )
+			 ) -->
 		 	 ORDER BY start_dt ASC, end_dt ASC) A, DEPT B
 		<![CDATA[
 		WHERE rn > (#{pageNum} - 1) * #{amount}
@@ -125,7 +126,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getTotalCount" resultType="int">
 		SELECT count(*)
 		FROM schedule
-		WHERE category_id = #{category_id}
+		WHERE <include refid="criteria"></include> <!-- 검색기준 -->
+			  category_id = #{category_id}
 		<choose>
 			<when test="category_id == 2">
 				AND dept_no = #{dept_no}
