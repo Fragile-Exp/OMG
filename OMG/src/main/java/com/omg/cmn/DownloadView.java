@@ -54,28 +54,28 @@ public class DownloadView extends AbstractView {
 		}
 		else if( (userAgent.indexOf("Chrome") >-1)  ) 
 		{
-			//LOG.debug("[2]");
-			//originName = URLEncoder.encode(originName,"utf-8");
+			LOG.debug("[2]");
+			originName = URLEncoder.encode(originName,"utf-8");
 			
-			StringBuffer sb = new StringBuffer();
-
-            for (int i = 0; i < originName.length(); i++) {
-
-                   char c = originName.charAt(i);
-
-                   if (c > '~') {
-
-                         sb.append(URLEncoder.encode("" + c, "UTF-8"));
-
-                   } else {
-
-                         sb.append(c);
-
-                   }
-
-            }
-
-            encodedFilename = sb.toString();
+//			StringBuffer sb = new StringBuffer();
+//
+//            for (int i = 0; i < originName.length(); i++) {
+//
+//                   char c = originName.charAt(i);
+//
+//                   if (c > '~') {
+//
+//                         sb.append(URLEncoder.encode("" + c, "UTF-8"));
+//
+//                   } else {
+//
+//                         sb.append(c);
+//
+//                   }
+//
+//            }
+//
+//            encodedFilename = sb.toString();
 			
 		//그외	
 		}else 
