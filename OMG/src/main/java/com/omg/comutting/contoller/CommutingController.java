@@ -222,6 +222,7 @@ public class CommutingController {
 		model.addAttribute("list", commutingService.doSelectList(criteria));
 		int count =  commutingService.getTotalCount(criteria);
 		LOG.debug("count :" + count);
+		LOG.debug(" new PageDTO(criteria, count) :" +  new PageDTO(criteria, count));
 		model.addAttribute("pageMaker", new PageDTO(criteria, count));
 		
 		LOG.debug("******************************************************");

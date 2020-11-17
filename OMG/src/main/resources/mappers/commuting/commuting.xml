@@ -121,7 +121,7 @@
 						  SELECT *                                                           
 						  FROM  commuting
 						  WHERE seq = TO_CHAR(sysdate,'YYYY-MM-DD')
-						  <if test="dept_no != 0">AND dept_no = #{dept_no}</if>
+						  <if test="dept_no != 0 and dept_no != 10000">AND dept_no = #{dept_no}</if>
 			              )A 
 			    	  WHERE                                                                                  
 					  <![CDATA[rownum <= #{pageNum} * #{amount}]]>  
@@ -133,7 +133,8 @@
 	<select id="getTotalCount" resultType="int">
 		SELECT count(*)
 		FROM commuting
-		WHERE  dept_no = #{dept_no} 
+		WHERE seq = TO_CHAR(sysdate,'YYYY-MM-DD')
+		<if test="dept_no != 0 and dept_no != 10000">AND dept_no = #{dept_no}</if>
 	</select>
 	
 	<!-- com.omg.commuting.doSelectMyList -->
