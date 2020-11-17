@@ -27,7 +27,8 @@
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-primary" onkeydown="javascript:onEnterLogin();">
+
 
     <div class="container">
 
@@ -89,10 +90,24 @@
 
     <!-- Core plugin JavaScript-->
     <script type="text/javascript">
-   
+
+    //엔터 로그인 
+    function onEnterLogin(){
+		var keyCode = window.event.keyCode;
+		if (keyCode == 13) { //엔테키 이면
+			loginAjax();
+		}
+	} //onEnterLogin()
+
+
+	//버튼 로그인
     $("#loginBtn").on("click",function(){
-    	//alert("#loginBtn");
-    	//아이디(사원번호) 필수 체크
+		loginAjax();
+        });
+
+
+    function loginAjax(){
+    	//alert("enter");
 		if($("#employee_id").val()==false || $("#employee_id").val() ==""){
 			alert("아이디(사원번호)를 확인하세요.");
 			return ;
@@ -102,7 +117,8 @@
 			alert("비밀번호를 확인하세요.");
 			return ;
 		}
-		//ajax
+        
+    	//ajax
         $.ajax({
            type:"POST",
            url:"${hContext}/employee/doLogin.do",
@@ -128,7 +144,7 @@
         }
        }); 
        //--ajax 
-        });
+        }
     </script>
 </body>
 
