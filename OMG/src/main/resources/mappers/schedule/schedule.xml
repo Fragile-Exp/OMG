@@ -17,6 +17,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						<when test="type == 'C'.toString()">
 							content like '%'||#{keyword}||'%'
 						</when>
+						<when test="type == 'E'.toString()">
+							employee_id like '%'||#{keyword}||'%'
+						</when>
 					</choose>
 				</trim>
 			</foreach>

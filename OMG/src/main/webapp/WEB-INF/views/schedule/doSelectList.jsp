@@ -37,30 +37,29 @@
 					<!-- /header -->
 					<div class="card-header py-3">
 						<div class="panel-heading">
-							<label class="h4 m-0 font-weight bold text-primary">일정 리스트</label>
-							<select id="deptDiv">
-								<option>a</option>
-							</select>
+							
+							<!-- 부서목록 -->					
+							<c:choose>
+								<c:when test="${pageMaker.cri.category_id == 2}">
+									<div class="btn-group">
+										<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+											부서선택<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<c:forEach items="${deptDiv}" var="dept">
+												<li><a href="${dept.deptNo}">${dept.deptNm}</a></li>
+											</c:forEach>
+										</ul>
+									</div>
+								</c:when>
+							</c:choose>
+							
 							<button id="regBtn" type="button" class="btn btn-primary pull-right" style="float: right;">일정 추가</button>
 						</div>
 					</div>				
 				
 					<div class="card-body">
 						<div class="table-responsive">
-							<!-- search dept -->
-							<div class="row">
-								<div class="col-lg-12 col-md-7">
-									<!-- 
-									<form id="searchDept" action="/schedule/doSelectList.do" method="get">
-										<select name="keyword">
-											<c:forEach items="${dept}" var="dept">
-												<option value="${dept.deptNo}">${dept.dept_nm}(${dept.dept_no})</option>
-											</c:forEach>
-										</select>
-									</form> 
-									 -->
-								</div>
-							</div>
 						
 							<!-- table -->
 							<table class="table table-striped table-bordered table-hover" id="dateTable" width="100%" cellspacing="0">
@@ -99,17 +98,30 @@
 											<option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : ''}"/>>--</option>
 											<option value="T" <c:out value="${pageMaker.cri.type eq 'T' ? 'selected' : ''}"/>>제목</option>
 											<option value="C" <c:out value="${pageMaker.cri.type eq 'C' ? 'selected' : ''}"/>>내용</option>
+											<c:choose>
+												<c:when test="${pageMaker.cri.category_id != 3}">
+													<option value="E" <c:out value="${pageMaker.cri.type eq 'E' ? 'selected' : ''}"/>>작성자</option>
+												</c:when>
+											</c:choose>
+											
 											<option value="TC" <c:out value="${pageMaker.cri.type eq 'TC' ? 'selected' : ''}"/>>제목+내용</option>
+											<c:choose>
+												<c:when test="${pageMaker.cri.category_id != 3}">
+													<option value="TE" <c:out value="${pageMaker.cri.type eq 'TE' ? 'selected' : ''}"/>>제목+작성자</option>
+													<option value="TCE" <c:out value="${pageMaker.cri.type eq 'TCE' ? 'selected' : ''}"/>>제목+내용+작성자</option>
+												</c:when>
+											</c:choose>
+											
 										</select>
 										
 										<input type="text" name="keyword" value="${pageMaker.cri.keyword}">
 										<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 										<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
 										
-										<button class="btn btn-primary">Search</button>
+										<button class="btn btn-primary">검색</button>
 								
 										<!-- paging -->
-										<div class="dataTables_paginate paging_simple_numbers pull-right" style="float: right;" id="dataTable_paginate">
+										<div class="dataTables_paginate paging_simple_numbers" style="float: right;" id="dataTable_paginate">
 											<ul class="pagination">
 												<c:if test="${pageMaker.prev}">
 													<li class="paginate_button page-item previous" id="dataTable_previous">
@@ -209,6 +221,16 @@
 				e.preventDefault();			
 				console.log('click');			
 				actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+				actionForm.submit();
+			});
+
+			//부서변경 이벤트
+			var actionForm = $("#actionForm");
+		
+			$(".dropdown-menu a").on("click", function(e) {
+				e.preventDefault();			
+				console.log('click');			
+				actionForm.find("input[name='dept_no']").val($(this).attr("href"));
 				actionForm.submit();
 			});
 		
