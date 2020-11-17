@@ -126,47 +126,64 @@
 						     </div>
 						   </div>
 						</div>
+						
+						<div class="col-xl-2 col-lg-3">
+							 <!-- Earnings (Monthly) Card Example -->
+							    <div class="card border-left-success shadow h-100 py-2">
+							      <div class="card-body">
+							        <div class="row no-gutters align-items-center">
+							          <div class="col mr-2">
+							            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">부서 출근 현황</div>
+							            
+							            <label class="h5 mb-0 font-weight-bold text-gray-800">전체 : text</label>
+							            <label class="h5 mb-0 font-weight-bold text-gray-800">출근 : text</label>
+							            <label class="h5 mb-0 font-weight-bold text-gray-800">결근 : text</label>
+							            
+							          </div>
+							          <div class="col-auto">
+							            <i class="far fa-calendar-check fa-2x text-gray-300"></i>
+							          </div>
+							        </div>
+							      </div>
+							    </div>
+						</div>
 					</div>	
 					<section class="schedule">
-						<!-- card -->
-						<div class="card shadow mb-4">
-						
-							<!-- header-->
-						    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						      <h6 class="m-0 font-weight-bold text-primary">내 일정</h6>
-						    </div>
-						    <!-- header-->
-						    
-							<!-- table -->
-							<table class="table table-striped table-bordered table-hover" id="dateTable" width="100%" cellspacing="0">
-								<thead>
-									<tr>
-										<th>#번호</th>
-										<th>제목</th>
-										<th>시작일</th>
-										<th>종료일</th>
-										<th>부서</th>
-										<th>작성자</th>
-									</tr>
-								</thead>
-								<c:forEach items="${scheduleList}" var="schedule">
-									<tr>
-										<td><c:out value="${schedule.schedule_no}"/></td>
-										<td>
-											<a class="move" href="<c:out value='${schedule.schedule_no}'/>">
-												<c:out value="${schedule.title}"/>
-											</a>
-										</td>
-										<td><c:out value="${schedule.start_dt}"/></td>
-										<td><c:out value="${schedule.end_dt}"/></td>
-										<td><c:out value="${schedule.dept_nm}"/></td>
-										<td><c:out value="${schedule.employee_id}"/></td>
-									</tr>
-								</c:forEach>
-							</table>
-							<!-- /table -->
+						<div class="col-xl-4 col-lg-5">
+							<!-- card -->
+							<div class="card shadow mb-4" style="font-size: 10px">
+								<!-- header-->
+							    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+							      <h6 class="m-0 font-weight-bold text-primary">내 일정</h6>
+							    </div>
+							    <!-- header-->
+							    <div class="card-body">
+									<!-- table -->
+									<table class="table table-striped table-bordered table-hover" id="dateTable" width="100%" cellspacing="0">
+										<thead>
+											<tr>
+												<th>제목</th>
+												<th>시작일</th>
+												<th>종료일</th>
+											</tr>
+										</thead>
+										<c:forEach items="${scheduleList}" var="schedule">
+											<tr>
+												<td>
+													<a class="move" href="<c:out value='${schedule.schedule_no}'/>">
+														<c:out value="${schedule.title}"/>
+													</a>
+												</td>
+												<td><c:out value="${schedule.start_dt}"/></td>
+												<td><c:out value="${schedule.end_dt}"/></td>
+											</tr>
+										</c:forEach>
+									</table>
+									<!-- /table -->
+								</div>
+							</div>
+							<!-- card -->
 						</div>
-						<!-- card -->
 					</section>
 					<!-- 게시판 -->
 					<section class="board row">
@@ -195,7 +212,7 @@
 							    <!-- Card Body -->
 							    <div class="card-body">
 									<div class="com-sm-12">
-										<table class="table table-bordered dataTable" id="noticeListTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%; font-size: 13px">
+										<table class="table table-bordered table-hover dataTable" id="noticeListTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%; font-size: 13px">
 											<thead>
 												<tr role="row">
 													<th class="text-center seq">번호</th>
@@ -258,7 +275,7 @@
 							    <!-- Card Body -->
 							    <div class="card-body">
 									<div class="com-sm-12">
-										<table class="table table-bordered dataTable" id="deptBoardListTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%; font-size: 13px">
+										<table class="table table-bordered table-hover dataTable" id="deptBoardListTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%; font-size: 13px">
 											<thead>
 												<tr role="row">
 													<th class="text-center seq">번호</th>

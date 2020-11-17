@@ -82,6 +82,9 @@ public class MainController {
 		List<ScheduleVO> scheduleList = scheduleService.doSelectList(criteria);
 		model.addAttribute("scheduleList", scheduleList);
 		return "index2";
+		
+		
+		//5. 부서 출근 현황 가져오기
 	}
 	
 
