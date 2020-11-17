@@ -37,7 +37,8 @@
 	            TO_CHAR(B.hire_date,'YYYYMMDD') hire_date,                     
 	            B.birth_day,                                                   
 	            B.holiday,                                                     
-	            B.img_code                                                     
+	            B.img_code  ,
+	            B.auth                                                   
 	     FROM (                                                                
 	         SELECT ROWNUM rnum, A.*                                           
 	         FROM(                                                             
@@ -104,7 +105,8 @@
 			email 		= #{email},           
 			address 	= #{address},                  
 			holiday 	= #{holiday},        
-			img_code 	= #{img_code}            
+			img_code 	= #{img_code},
+			auth		= #{auth}      
 		WHERE employee_id = #{employee_id}
 	</update>
 	
@@ -124,7 +126,8 @@
 		    TO_CHAR(hire_date,'YY/MM/DD ') AS hire_date,
 		    birth_day,
 		    holiday,
-		    img_code
+		    img_code,
+		    auth
 		FROM
 		    employee_view
 		WHERE employee_id = #{employee_id}		 
@@ -157,7 +160,8 @@
 		    hire_date,             
 		    birth_day,             
 		    holiday,               
-		    img_code               
+		    img_code       ,
+		    auth        
 		) VALUES (                 
 		    #{employee_id},         
 		    #{password},                     
@@ -170,7 +174,8 @@
 		    #{hire_date},                   
 		    #{birth_day},                   
 		    #{holiday},                    
-		    #{img_code}                  
+		    #{img_code}        ,
+		    #{auth}          
 		)       
 	</insert>
 	

@@ -1,6 +1,7 @@
 package com.omg.employee.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
+import com.omg.attachment.domain.AttachmentVO;
+import com.omg.attachment.service.AttachmentServiceImpl;
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
@@ -40,6 +44,9 @@ public class EmployeeController {
 	
 	@Autowired 
 	private JavaMailSenderImpl mailSenderImpl;
+	
+	@Autowired
+	AttachmentServiceImpl attachmentService;
 	 
 	
 	@Autowired
@@ -202,20 +209,30 @@ public class EmployeeController {
 			,produces = "application/json;charset=UTF-8"
 			)
 	@ResponseBody
-	public String doUpdate(EmployeeVO employee) {
+	public String doUpdate(MultipartHttpServletRequest multi,EmployeeVO employee) throws IllegalStateException, IOException {
 		LOG.debug("1==================");
         LOG.debug("=user="+employee);
         LOG.debug("==================");	
         
+        //수정
         int flag=this.employeeService.doUpdate(employee);
         LOG.debug("2==================");
         LOG.debug("=flag="+flag);
         LOG.debug("==================");     
         
+        //메세지 처리
         Message message=new Message();
         message.setMsgId(String.valueOf(flag));
         
         if(flag ==1 ) {
+        	String imgCode=employee.getImg_code();
+        	String dir="employee";
+        	List<AttachmentVO>list=StringUtil.fileUpload(multi, imgCode, dir); //파일 업로드
+        	LOG.debug("업로드 파일 개수="+list.size());
+        	int fileFlag=0;
+        	for(AttachmentVO vo:list) {
+        		fileFlag=attachmentService.doInsert(vo); //DB등록
+        	}
         	message.setMsgContents(employee.getName()+" 님이 수정 되었습니다.");
         }else {
         	message.setMsgContents(employee.getName()+" 님 수정 실패.");

@@ -56,7 +56,7 @@
 										<label for="password" >비밀번호</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="password" placeholder="비밀번호" />
+										<input type="password" class="form-control" id="password" placeholder="비밀번호" />
 									</div>
 								</div>
 								<div class="row py-2">
@@ -139,6 +139,17 @@
 										<input type="text" class="form-control" id="holiday" placeholder="휴가일" />
 									</div>
 								</div>
+								<div class="row py-2">
+									<div class="col-lg-2 text-center">
+										<label for="auth" >권한</label>
+									</div>
+									<div class="col-lg-9">
+										<select class="form-control input-sm" name="auth"  id="auth">
+											<option value="1">일반</option>
+											<option value="9">관리자</option>
+							    		</select>
+									</div>
+								</div>
 							</div>
 						</div>	
 					</div>		
@@ -202,7 +213,7 @@
 
 	//사원 추가
 	$("#employeeAdd").on("click", function(){
-		alert("#employeeAdd");
+		//alert("#employeeAdd");
 
 /* 		EMPLOYEE_ID
 		PASSWORD
@@ -260,6 +271,10 @@
 			return ;
 		}
 
+		if($("#auth").val()==false || $("#auth").val() ==""){
+			alert("관리자 권한 확인하세요.");
+			return ;
+		}
 		//ajax
         $.ajax({
            type:"POST",
@@ -277,7 +292,8 @@
 	           "hire_date":$("#hire_date").val(),
 	           "birth_day":$("#birth_day").val(),
 	           "holiday":$("#holiday").val(),
-	           "img_code":1
+	           "img_code":1,
+	           "auth":$("#auth").val()
           }, 
         success: function(data){
           var jData = JSON.parse(data);

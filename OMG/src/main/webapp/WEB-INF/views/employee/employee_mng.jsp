@@ -199,6 +199,17 @@
 								<input type="text" class="form-control" id="holiday_edit" placeholder="휴가일" />
 							</div>
 						</div>
+						<div class="row py-2">
+							<div class="col-lg-2 text-center">
+								<label for="auth" >권한</label>
+							</div>
+							<div class="col-lg-9">
+								<select class="form-control input-sm" name="auth"  id="auth">
+									<option value="1">일반</option>
+									<option value="9">관리자</option>
+					    		</select>
+							</div>
+						</div>
 			   		</div>
                 </div>
                 <!-- /.container-fluid -->
@@ -285,6 +296,11 @@
 			return ;
 		}
 
+		//holiday_edit 체크
+		if($("#auth").val()==false || $("#auth").val() ==""){
+			alert("관리자 권한을 확인하세요.");
+			return ;
+		}
 		if(confirm("수정 하시겠습니까?") ==false)return;
 
 		//ajax
@@ -304,7 +320,8 @@
 	           "hire_date":$("#hire_date_edit").val(),
 	           "birth_day":$("#birth_day_edit").val(),
 	           "holiday":$("#holiday_edit").val(),
-	           "img_code":1
+	           "img_code":1,
+	           "auth":$("#auth").val()
           }, 
         success: function(data){
           var jData = JSON.parse(data);

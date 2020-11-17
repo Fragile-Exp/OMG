@@ -26,7 +26,7 @@
 	      		<!-- //top_bar -->
 	      		
 	      		<!-- page Content -->
-	      		<form action=""></form>
+	      		<form action="" enctype="multipart/form-data">
 	      		<div class="container-fluid">
 		      		<div class="col-lg-10">
 						<div class="card shadow mb-4">
@@ -39,7 +39,7 @@
 								<div class="form-group">
 									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
 									<div class="col-lg-3">
-										<input type="file" onchange="img_upload(this)" id="input_image" name="input_image" accept="img/*" />
+										<input type="file" onchange="file_upload(this)" id="file" name="file" accept="img/*" />
 									</div>
 								</div>		
 								<div class="col-lg-10 text-center" id="img_preview">
@@ -154,6 +154,7 @@
 						</div>	
 					</div>		
 		        </div>
+		        </form>
 		        <!-- // page Content -->
 	      	
 	      	</div>
@@ -169,6 +170,8 @@
 <!-- //wrap -->
 	<script type="text/javascript">
 	$("#doUpdate").on("click",function(){
+		var frm=document.writeFrm;
+		var formData=new FormData(frm);
 		//console.log("doUpdate");
 		//cell_phone 필수 체크
 		if($("#cell_phone").val()==false || $("#cell_phone").val() ==""){
@@ -212,20 +215,10 @@
            type:"GET",
            url:"${hContext}/employee/doUpdate.do",
            dataType:"html",
-           data:{
-	           "employee_id":$("#employee_id").val(),
-	           "password":updatePasswd,
-	           "name":$("#name").val(),
-	           "dept_no":$("#dept_no").val(),
-	           "position_no":$("#position_no").val(),
-	           "cell_phone":$("#cell_phone").val(),
-	           "email":$("#email").val(),
-	           "address":$("#address").val(),
-	           "hire_date":$("#hire_date").val(),
-	           "birth_day":$("#birth_day").val(),
-	           "holiday":$("#holiday").val(),
-	           "img_code":1
-          }, 
+           enctype: 'multipart/form-data',
+           contentType: false,
+           precessData: false,
+           data:formData, 
         success: function(data){
           var jData = JSON.parse(data);
           if(null != jData && jData.msgId=="1"){
