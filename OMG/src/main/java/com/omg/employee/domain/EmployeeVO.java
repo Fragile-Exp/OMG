@@ -24,13 +24,6 @@ public class EmployeeVO extends DTO {
 	public EmployeeVO() {}
 
 
-	
-
-	
-	
-
-
-
 
 	public EmployeeVO(String employee_id, String password, String name, int dept_no, String dept_nm, String position_nm,
 			int position_no, int cell_phone, String email, String address, String hire_date, String birth_day,
@@ -56,53 +49,19 @@ public class EmployeeVO extends DTO {
 
 
 
-
-
-
-
-
-
-
 	public String getImg_name() {
 		return img_name;
 	}
-
-
-
-
-
-
-
-
-
-
 	public void setImg_name(String img_name) {
 		this.img_name = img_name;
 	}
 
-
-
-
-
-
-
-
-
-
 	public String getAuth() {
 		return auth;
 	}
-
-
-
-
 	public void setAuth(String auth) {
 		this.auth = auth;
 	}
-
-
-
-
 	public String getEmployee_id() {
 		return employee_id;
 	}
@@ -216,16 +175,6 @@ public class EmployeeVO extends DTO {
 	public void setPosition_nm(String position_nm) {
 		this.position_nm = position_nm;
 	}
-
-
-
-
-
-
-
-
-
-
 	@Override
 	public String toString() {
 		return "EmployeeVO [employee_id=" + employee_id + ", password=" + password + ", name=" + name + ", dept_no="
@@ -234,17 +183,5 @@ public class EmployeeVO extends DTO {
 				+ hire_date + ", birth_day=" + birth_day + ", holiday=" + holiday + ", img_code=" + img_code + ", auth="
 				+ auth + ", img_name=" + img_name + ", toString()=" + super.toString() + "]";
 	}
-
-
-
-
-	
-
-	
-	
-
-	
-	
-	
 	
 }

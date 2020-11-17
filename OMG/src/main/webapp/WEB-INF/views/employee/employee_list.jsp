@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <title>OMG</title>
 </head>
-<body id="page-top">
+<body id="page-top"   >
 <!-- wrap -->
 <div id="wrapper">
 	<!-- side_bar -->
@@ -50,11 +50,11 @@
 				    		  </select>	    		
 				    		  <select class="form-control input-sm" name="searchDiv" id="searchDiv">
 				    		    <option value="">전체</option>
-				    		  	<option value="10">아이디</option>
-				    		  	<option value="20">이름</option>
+				    		  	<option value="10">이름</option>
+				    		  	<option value="20">부서</option>
 				    		  </select>  
 				    		  <input  type="text" name="searchWord" id="searchWord"  class="form-control  input-sm"  placeholder="검색어"/>
-				    		  <input type="button" class="btn btn-info btn-sm" onclick="javascript:doSelectList(1);"  value="조회"  />
+				    		  <input type="button" class="btn btn-info btn-sm" id="searchBtn" name="searchBtn"  value="조회"  />
 				    		</div>
 				    	</form>
                         </div>
@@ -113,6 +113,14 @@
     	doSelectList(1);
     });
 
+
+	
+	$("#searchBtn").on("click",function(){
+		//alert("조회 버튼");
+		doSelectList(1);
+		});
+
+	
     function doSelectList(page){
     	var pageTotal = 1;
     	pageTotal=$.ajax({
@@ -155,7 +163,7 @@
 					  
 		      }else{
 		    	  html += "<tr>";
-				  html += "<td class='text-center' colspan='99'>등록된 게시글이 없습니다.</td>";
+				  html += "<td class='text-center' colspan='99'>등록된 사원이 없습니다.</td>";
 				  html += "</tr>";
 			  }
 		                  

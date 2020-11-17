@@ -88,7 +88,7 @@
 								<div class="row py-2">
 									<div class="col-lg-2 text-center">
 										<label for="dept_no" >부서명</label>
-										<input type="hidden" id="dept_no" value="${sessionScope.employee.dept_no}"/>
+										<input type="hidden" id="dept_no" name="dept_no" value="${sessionScope.employee.dept_no}"/>
 									</div>
 									<div class="col-lg-9">
 										<input readOnly type="text" class="form-control" name="dept_nm"  id="dept_nm" value="${sessionScope.employee.dept_nm}"/>
@@ -97,7 +97,7 @@
 								<div class="row py-2">
 									<div class="col-lg-2 text-center">
 										<label for="position_no" >직급</label>
-										<input type="hidden" id="position_no" value="${sessionScope.employee.position_no}"/>
+										<input type="hidden" id="position_no" name="position_no" value="${sessionScope.employee.position_no}"/>
 									</div>
 									<div class="col-lg-9">
 										<input readOnly type="text" class="form-control" name="position_nm"  id="position_nm" value="${sessionScope.employee.position_nm}"/>
