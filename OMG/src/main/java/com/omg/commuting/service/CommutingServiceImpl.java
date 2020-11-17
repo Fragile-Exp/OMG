@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.omg.cmn.Criteria;
 import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
@@ -137,11 +138,19 @@ public class CommutingServiceImpl implements CommutingService {
 	}
 
 	@Override
-	public List<Commuting> doSelectList(Search search) {
+	public List<Commuting> doSelectList(Criteria criteria) {
 		LOG.debug("-------------------------------");
 		LOG.debug("-doSelectList()");
 		LOG.debug("-------------------------------");
-		return commutingDao.doSelectList(search);
+		return commutingDao.doSelectList(criteria);
+	}
+	
+	@Override
+	public int getTotalCount(Criteria criteria) {
+		LOG.debug("-------------------------------");
+		LOG.debug("-doSelectList()");
+		LOG.debug("-------------------------------");
+		return commutingDao.getTotalCount(criteria);
 	}
 
 	@Override

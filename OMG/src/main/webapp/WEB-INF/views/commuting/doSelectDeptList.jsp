@@ -41,33 +41,41 @@
 								<!-- 관리자 검색, 삭제 -->
 								<div class="card-header"> 
 									<label for="start">부서</label> 
-									<form action="${hContext}/commuting/doSelectDeptList.do" method="get" id="deptFrm">
 									
-									
-											<!-- 삭제를 위한 hidden param -->
-											<input type="hidden" id="employeeId" name="employeeId" />
-											
-											
-											<div style="width:30%; display:inline-block;">										
-												<select class="form-control" name="deptNo"  >
-													<c:forEach var="vo" items="${deptList}">
-														<option value="${vo.deptNo}" 
-														<c:if test="${deptNo eq vo.deptNo}">selected="selected"</c:if>
-														>${vo.deptNm}</option>
-													</c:forEach>
-												</select>
-											</div>
-											<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
-												 <button  type="submit" data-oper="search" class="btn btn-info">Search</button>
-											</div>
-											<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
-												 <button type="submit" data-oper="remove" class="btn btn-danger">삭제</button>
-											</div>
-											<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
-												 <button type="submit" data-oper="init" id="init" class="btn btn-primary">근태 초기화</button>
-											</div>
-											
+									<!-- hidden -->
+									<form name="actionForm" id="actionForm" action="${hContext}/commuting/doSelectDeptList.do" method="get">
+										<input type="hidden" name="deptNo" id="dept_no"/>
+										<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}"/>
+										<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
+										<input type="hidden" name="type" value="${pageMaker.cri.type}"/>
+										<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
+										<input type="hidden" id="employeeId" name="employeeId" />
+										<input type="hidden" id="seq" name="seq" />
 									</form>
+											
+									<div style="width:30%; display:inline-block;">										
+										<select class="form-control" id="deptNo" >
+											<c:forEach var="vo" items="${deptList}">
+												<option value="${vo.deptNo}" 
+												<c:if test="${pageMaker.cri.dept_no eq vo.deptNo}">selected="selected"</c:if>
+												>${vo.deptNm}</option>
+										</c:forEach>
+										</select>
+									</div>
+									<!-- button : search -->
+									<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
+										 <button  type="submit" data-oper="search" class="btn btn-info">Search</button>
+									</div>
+									
+									<!-- button : remove -->
+									<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
+										 <button type="submit" data-oper="remove" class="btn btn-danger">삭제</button>
+									</div>
+									<!-- button : init -->
+									<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
+										 <button type="submit" data-oper="init" id="init" class="btn btn-primary">근태 초기화</button>
+									</div>
+											
 								</div>
 								
 								<div class="card-body">
@@ -102,7 +110,7 @@
 																<td class="text-center">${vo.presentState}</td>
 																<td class="text-center">${vo.state}</td>
 																<td class="text-center">
-																	<input type="radio" name="seq" id="${vo.employeeId}" value="${vo.seq}" form="deptFrm" />
+																	<input type="radio" name="deleteParam" id="${vo.employeeId}" value="${vo.seq}" form="deptFrm" />
 																</td>
 															</tr>
 														</c:forEach>
@@ -116,6 +124,31 @@
 											</tbody>
 										</table>
 										<!-- //table -->
+										
+										<!-- paging -->
+										<div class="dataTables_paginate paging_simple_numbers pull-right" style="float: right;" id="dataTable_paginate">
+											<ul class="pagination">
+												<c:if test="${pageMaker.prev}">
+													<li class="paginate_button page-item previous" id="dataTable_previous">
+														<a href="${pageMaker.startPage - 1}" aria-control="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+													</li>
+												</c:if>
+												
+												<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+													<li class="paginate_button page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
+														<a href="${num}" aria-control="dataTable" data-dt-idx="${num}" tabindex="0" class="page-link">${num}</a>
+													</li>
+												</c:forEach>
+												
+												<c:if test="${pageMaker.next}">
+													<li class="paginate_button page-item next">
+														<a href="${pageMaker.endPage + 1}" aria-control="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
+													</li>
+												</c:if>
+											</ul>
+										</div>
+										
+										
 										
 										<!-- Modal추가 -->
 										<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -187,42 +220,42 @@
 			
 			}
 			/*// Modal*/
+
+			//페이징 이벤트처리
+			var actionForm = $("#actionForm");
+		
+			$(".paginate_button a").on("click", function(e) {
+				e.preventDefault();			
+				actionForm.find("input[name='deptNo']").val($("#deptNo").val());			
+				actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+				actionForm.submit();
+			});
 			
 		});
 
 		/* Form Controll */
-		var formObj = $("form");
+		var formObj = $('form');
 
 		$('button').on("click", function(e) {
+			
 			e.preventDefault();
-
+			
 			var operation = $(this).data("oper");
 	
 			console.log(operation);
 	
 			if (operation === 'remove') {
-				$("#employeeId").val($(":input:radio[name=seq]:checked").attr("id"));
+				$("#employeeId").val($(":input:radio[name=deleteParam]:checked").attr("id"));
+				$("#seq").val($(":input:radio[name=deleteParam]:checked").val());
 				formObj.attr("action", "${hContext}/commuting/doDelete.do").attr("method","post");
 			} else if (operation === 'search') {
 				//move to list
-				formObj.attr("action", "${hContext}/commuting/doSelectDeptList.do").attr("method", "get");
-	
-				/* //폼 값 초기화하고 필요한 값만 리스트로 복사
-				var pageNumTag = $("input[name='pageNum']")	.clone();
-				var amountTag = $("input[name='amount']").clone();
-				var type = $("input[name='type']").clone();
-				var keyword = $("input[name='keyword']").clone(); */ 
-	
-				/* formObj.append(pageNumTag);
-				formObj.append(amountTag);
-				formObj.append(type);
-				formObj.append(keyword); */
+				$("#dept_no").val($("#deptNo").val());
+				formObj.attr("action", "${hContext}/commuting/doSelectDeptList.do").attr("method","get");
 			} else if (operation === 'init') {
 				formObj.attr("action", "${hContext}/commuting/doInit.do").attr("method", "post");
-				var btn = document.getElementById('init');
-				btn.disabled = 'disabled';
 			}
-	
+			
 			formObj.submit();
 
 			/*// Form Controll */

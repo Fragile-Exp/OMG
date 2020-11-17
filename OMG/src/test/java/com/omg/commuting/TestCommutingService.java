@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.omg.cmn.Criteria;
 import com.omg.cmn.Search;
 import com.omg.commuting.domain.Commuting;
 import com.omg.commuting.service.CommutingService;
@@ -50,8 +51,8 @@ public class TestCommutingService {
 	
 	
 	private void makeList() {
-		Search search = new Search("10", "ID02",20,1);
-		attendList = commutingService.doSelectList(search);
+		Criteria criteria = new Criteria();
+		attendList = commutingService.doSelectList(criteria);
 	}
 	
 	@Test
