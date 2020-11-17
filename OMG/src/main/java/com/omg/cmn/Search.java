@@ -28,8 +28,12 @@ public class Search extends DTO
 		this.pageSize = pageSize;
 		this.pageNum = pageNum;
 	}
-
-
+	
+	public Search(String div, int pageSize, int pageNum) {
+		super.setDiv(div);
+		this.pageSize = pageSize;
+		this.pageNum = pageNum;
+	}
 
 	public String getSearchDiv() 
 	{

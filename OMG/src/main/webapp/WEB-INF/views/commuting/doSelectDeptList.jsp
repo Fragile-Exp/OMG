@@ -40,7 +40,7 @@
 							<div class="card shadow mb-4 column">
 								<!-- header -->
 								<div class="card-header"> 
-									<label for="start">부서</label> 
+									
 									
 									<!-- hidden -->
 									<form name="actionForm" id="actionForm" action="${hContext}/commuting/doSelectDeptList.do" method="get">
@@ -54,7 +54,8 @@
 									</form>
 									<!-- //hidden -->
 									
-									<!-- deptList -->		
+									<!-- deptList -->	
+									<label for="dept">부서</label> 	
 									<div style="width:30%; display:inline-block;">										
 										<select class="form-control" id="deptNo" >
 											<c:forEach var="vo" items="${deptList}">
