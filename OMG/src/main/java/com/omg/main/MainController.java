@@ -15,19 +15,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.omg.board.domain.BoardVO;
 import com.omg.board.service.BoardService;
+import com.omg.cmn.Criteria;
 import com.omg.cmn.Search;
 import com.omg.code.dao.CodeDaoImpl;
 import com.omg.employee.domain.EmployeeVO;
+import com.omg.schedule.domain.ScheduleVO;
+import com.omg.schedule.service.ScheduleService;
 
 @Controller
 public class MainController {
 	final Logger LOG = LoggerFactory.getLogger(MainController.class);
 	
 	@Autowired
-	BoardService boardService;
+	private BoardService boardService;
 	
 	@Autowired
-	CodeDaoImpl codeDaoImpl;
+	private ScheduleService scheduleService;
+	
+	@Autowired
+	private CodeDaoImpl codeDaoImpl;
 	
 	@RequestMapping(value="view/main.do",method=RequestMethod.GET)
 	public String main_view() {
@@ -68,6 +74,13 @@ public class MainController {
 		model.addAttribute("noticeList", noticeList);
 		//3. 내 부서 스케줄 불러오기
 		
+		
+		//4. 내 스케줄 불러오기
+		Criteria criteria = new Criteria(1, 10, 3);
+		//criteria.setEmployee_id(sessionVO.getEmployee_id());
+		criteria.setEmployee_id("ID02");
+		List<ScheduleVO> scheduleList = scheduleService.doSelectList(criteria);
+		model.addAttribute("scheduleList", scheduleList);
 		return "index2";
 	}
 	

@@ -128,7 +128,45 @@
 						</div>
 					</div>	
 					<section class="schedule">
+						<!-- card -->
+						<div class="card shadow mb-4">
 						
+							<!-- header-->
+						    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+						      <h6 class="m-0 font-weight-bold text-primary">내 일정</h6>
+						    </div>
+						    <!-- header-->
+						    
+							<!-- table -->
+							<table class="table table-striped table-bordered table-hover" id="dateTable" width="100%" cellspacing="0">
+								<thead>
+									<tr>
+										<th>#번호</th>
+										<th>제목</th>
+										<th>시작일</th>
+										<th>종료일</th>
+										<th>부서</th>
+										<th>작성자</th>
+									</tr>
+								</thead>
+								<c:forEach items="${scheduleList}" var="schedule">
+									<tr>
+										<td><c:out value="${schedule.schedule_no}"/></td>
+										<td>
+											<a class="move" href="<c:out value='${schedule.schedule_no}'/>">
+												<c:out value="${schedule.title}"/>
+											</a>
+										</td>
+										<td><c:out value="${schedule.start_dt}"/></td>
+										<td><c:out value="${schedule.end_dt}"/></td>
+										<td><c:out value="${schedule.dept_nm}"/></td>
+										<td><c:out value="${schedule.employee_id}"/></td>
+									</tr>
+								</c:forEach>
+							</table>
+							<!-- /table -->
+						</div>
+						<!-- card -->
 					</section>
 					<!-- 게시판 -->
 					<section class="board row">
@@ -151,6 +189,7 @@
 							        </div>
 							      </div>
 							    </div>
+							    <!-- // Card Header - Dropdown -->
 							    <!-- Card Body -->
 							    <div class="card-body">
 									<div class="com-sm-12">
