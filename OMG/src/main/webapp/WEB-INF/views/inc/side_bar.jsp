@@ -62,6 +62,10 @@
 			<div class="bg-white py-2 collapse-inner rounded">
 				<a id="board_10" class="collapse-item" href="${hContext}/board/doSelectList.do?div=10">공지사항</a>
 				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=20">자유게시판</a>
+				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=11000">전략기획게시판</a>
+				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=12000">경영지원게시판</a>
+				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=13000">기술영업게시판</a>
+				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=14000">영업게시판</a>
 			<div class="collapse-divider"></div>
 			</div>
 		</div>
@@ -72,6 +76,20 @@
         Interface
       </div>
 
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Components</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Custom Components:</h6>
+            <a class="collapse-item" href="buttons.html">Buttons</a>
+            <a class="collapse-item" href="cards.html">Cards</a>
+          </div>
+        </div>
+      </li>
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
@@ -97,7 +115,7 @@
       <div class="sidebar-heading">
         Addons
       </div>
-<%-- 
+
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a id="Pages" class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -116,7 +134,7 @@
 			<a id="blank" class="collapse-item" href="${hContext}/view/blank.do">Blank Page</a>
          </div>
        </div>
-     </li> --%>
+     </li>
      
 	<!-- Nav Item - Charts -->
 	<li id="chattingPlace" class="nav-item">
@@ -127,33 +145,35 @@
      
      <!-- Divider -->
       <hr class="sidebar-divider">
-		
-		<c:if test="${sessionScope.employee.auth=='9' }">
-	      <!-- Heading -->
-	      <div class="sidebar-heading">
-	        관리자 메뉴
-	      </div>
-	
-	      <!-- Nav Item - Pages Collapse Menu -->
-	      <li class="nav-item">
-	        <a id="setting" class="nav-link" href="#" data-toggle="collapse" data-target="#adminSetting" aria-expanded="true" aria-controls="adminSetting">
-	          <i class="fas fa-fw fa-folder"></i>
-	          <span>관리</span>
-	        </a>
-	        <div id="adminSetting" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
-	          <div class="bg-white py-2 collapse-inner rounded">
-	          	<input type="hidden" id="auth" name="auth" value="${sessionScope.employee.auth}"/>
-				<a id="org" class="collapse-item" href="${hContext}/org/org.do">조직 관리</a>
-				<a id="employee_reg" class="collapse-item" href="${hContext}/employee/employee_reg.do">사원 추가</a>
-				<a id="employee_mng" class="collapse-item" href="${hContext}/employee/employee_mng.do">사원 정보 수정</a>
-				<a id="dept_commuting" class="collapse-item" href="${hContext}/commuting/doSelectDeptList.do">부서 근태 관리</a>
-				<div class="collapse-divider"></div>
-	         </div>
-	       </div>
-	     </li>
-     </c:if>
 
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        관리자 메뉴
+      </div>
 
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a id="setting" class="nav-link" href="#" data-toggle="collapse" data-target="#adminSetting" aria-expanded="true" aria-controls="adminSetting">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>관리</span>
+        </a>
+        <div id="adminSetting" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+			<a id="org" class="collapse-item" href="${hContext}/org/org.do">조직 관리</a>
+			<a id="employee_reg" class="collapse-item" href="${hContext}/employee/employee_reg.do">사원 추가</a>
+			<a id="employee_mng" class="collapse-item" href="${hContext}/employee/employee_mng.do">사원 정보 수정</a>
+			<a id="dept_commuting" class="collapse-item" href="${hContext}/commuting/doSelectDeptList.do">부서 근태 관리</a>
+			<div class="collapse-divider"></div>
+         </div>
+       </div>
+     </li>
+
+     <!-- Nav Item - Charts -->
+    <li class="nav-item">
+      <a class="nav-link" href="charts.html">
+        <i class="fas fa-fw fa-chart-area"></i>
+        <span>Charts</span></a>
+    </li>
 
     <!-- 일정 -->
     <li class="nav-item">
@@ -188,9 +208,7 @@
 
 <!-- Core plugin JavaScript-->
 <script src="${hContext}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
- <script type="text/javascript">
-	
- </script>
+
 <!-- Custom scripts for all pages-->
 <script src="${hContext}/resources/js/sb-admin-2.min.js"></script>
 <script src="${hContext}/resources/js/jquery.bootpag.min.js"></script>

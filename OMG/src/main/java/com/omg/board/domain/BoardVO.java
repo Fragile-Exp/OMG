@@ -15,11 +15,13 @@ public class BoardVO extends DTO
 	private String regId;
 	private String modDt;
 	private String modId;
+	//20201117 아이디 조회용
+	private String name;
 	
 	public BoardVO() {}
 
 	public BoardVO(int boardSeq, String div, String title, String contents, int readCnt, String filecode, String regDt,
-			String regId, String modDt, String modId) 
+			String regId, String modDt, String modId, String name) 
 	{
 		super();
 		this.boardSeq = boardSeq;
@@ -32,6 +34,7 @@ public class BoardVO extends DTO
 		this.regId = regId;
 		this.modDt = modDt;
 		this.modId = modId;
+		this.name = name;
 	}
 
 
@@ -135,14 +138,28 @@ public class BoardVO extends DTO
 	{
 		this.modId = modId;
 	}
+	
+	public String getName() 
+	{
+		return name;
+	}
+
+	public void setName(String name) 
+	{
+		this.name = name;
+	}
 
 	@Override
 	public String toString() 
 	{
 		return "BoardVO [boardSeq=" + boardSeq + ", div=" + div + ", title=" + title + ", contents=" + contents
 				+ ", readCnt=" + readCnt + ", filecode=" + filecode + ", regDt=" + regDt + ", regId=" + regId
-				+ ", modDt=" + modDt + ", modId=" + modId + ", toString()=" + super.toString() + "]";
+				+ ", modDt=" + modDt + ", modId=" + modId + ", name=" + name + ", toString()=" + super.toString() + "]";
 	}
+
+
+
+	
 
 
 	

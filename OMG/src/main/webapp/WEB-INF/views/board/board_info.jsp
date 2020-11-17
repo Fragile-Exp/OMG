@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %> 
-<c:set var="hContext" value="${pageContext.request.contextPath }"></c:set> 
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="hContext" value="${pageContext.request.contextPath }"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,123 +10,138 @@
 <title>게시판</title>
 </head>
 <body id="page-top">
-<!-- wrap -->
-<div id="wrapper">
-	<!-- side_bar -->
-	<%@include file="/WEB-INF/views/inc/side_bar.jsp"%>
-	<!-- //side_bar -->
-	
-	<!-- Content Wrapper -->
-	<div id="content-wrapper" class="d-flex flex-column">
+	<!-- wrap -->
+	<div id="wrapper">
+		<!-- side_bar -->
+		<%@include file="/WEB-INF/views/inc/side_bar.jsp"%>
+		<!-- //side_bar -->
 
-		<!-- Main Content -->
-		<div id="content">
-			<!-- top_bar -->
-			<%@include file="/WEB-INF/views/inc/top_bar.jsp"%>
-			<!-- //top_bar -->
-		
-			<!-- page Content -->
-			<div class="container-fluid">
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
 
-				<!-- Page Heading -->
-				<h1 class="h3 mb-4 text-gray-800">${vo.title}</h1>
-				<div class="btn-group btn-group-lg">
-					<input type="button" class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"  value="목록" id="moveList" style="float: right;  margin: 13px;" />
-					<c:if test="${vo.regId eq sessionScope.employee.name}">
-						<input type="button" class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"  value="삭제" id="doDeleteBtn"  style="float: right;  margin: 13px;" />
+			<!-- Main Content -->
+			<div id="content">
+				<!-- top_bar -->
+				<%@include file="/WEB-INF/views/inc/top_bar.jsp"%>
+				<!-- //top_bar -->
+
+				<!-- page Content -->
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<input type="button"
+						class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"
+						value="목록" id="moveList" style="float: right; margin: 13px;" />
+					<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
+						<input type="button"
+							class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"
+							value="삭제" id="doDeleteBtn" style="float: right; margin: 13px;" />
 					</c:if>
-					<c:if test="${vo.regId eq sessionScope.employee.name}">
-						<input type="button" class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"  value="수정"  id="doUpdateBtn" style="float: right;  margin: 13px;" />
+					<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
+						<input type="button"
+							class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"
+							value="수정" id="doUpdateBtn" style="float: right; margin: 13px;" />
 					</c:if>
-				</div>
-				<%-- <form class="form-horizontal" name="mngFrm" action="${hContext}/board/doSelectList.do" method="post"> --%>
-				<input type="hidden" name="boardSeq"     id="boardSeq"  value="${vo.boardSeq}" />
-				<input type="hidden" name="div"     id="div"  value="${vo.getDiv()}" />
-				<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
-				<div class="form-group">
+					<h1 class="h3 mb-4 text-gray-800"
+						style="padding-top: 20px; padding-left: 20px; width: 320px;">${vo.title}</h1>
+					<%-- <form class="form-horizontal" name="mngFrm" action="${hContext}/board/doSelectList.do" method="post"> --%>
+					<input type="hidden" name="boardSeq" id="boardSeq"
+						value="${vo.boardSeq}" /> <input type="hidden" name="div"
+						id="div" value="${vo.getDiv()}" />
+					<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
+					<%-- <div class="form-group">
 					<label for="" class="col-sm-2 control-label">제목</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control" name="title" id="title" placeholder="제목" maxlength="200"
 							   value="${vo.title}" readonly="readonly"
 						/>
 					</div>
-				</div>
-				<input type="hidden" class="form-control" name="modId" id="modId" placeholder="수정자" maxlength="20">		
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">첨부파일</label>
-					<div class="px-4">
-						<div class="card card-body" style="width: 1324px;">
-							<c:choose>
-								<c:when test="${0 ne fileList.size() }">
-									<c:forEach var="vo" items="${fileList}" >
-										<form method="post" action="${hContext}/file/download.do" >
-											<input type="hidden" name="originName"  id="originName" value="${vo.originName}" />
-											<input type="hidden" name="saveName" id="saveName" value="${vo.saveName}" />
-											<a href="#" onclick="this.parentNode.submit(); return false;">${vo.originName}</a>
-										</form>
-									</c:forEach>
-								</c:when>
-							</c:choose>
+				</div> --%>
+					<input type="hidden" class="form-control" name="modId" id="modId"
+						placeholder="수정자" maxlength="20">
+					<div class="form-group">
+						<label for="" class="col-sm-2 control-label">첨부파일</label>
+						<div class="px-4">
+							<div class="card card-body" style="width: 84%;">
+								<c:choose>
+									<c:when test="${0 ne fileList.size() }">
+										<c:forEach var="vo" items="${fileList}">
+											<form method="post" action="${hContext}/file/download.do">
+												<input type="hidden" name="originName" id="originName"
+													value="${vo.originName}" /> <input type="hidden"
+													name="saveName" id="saveName" value="${vo.saveName}" /> <a
+													href="#" onclick="this.parentNode.submit(); return false;">${vo.originName}</a>
+											</form>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">내용</label>
-					<div class="col-sm-10">
-						<textarea  class="form-control" rows="15" cols="40" name="contents" id="contents" readonly="readonly">${vo.contents}</textarea>
+					<div class="form-group">
+						<label for="" class="col-sm-2 control-label">내용</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" rows="15" cols="40"
+								name="contents" id="contents" readonly="readonly">${vo.contents}</textarea>
+						</div>
 					</div>
+					<!-- </form> -->
+					<!-- // page Content -->
 				</div>
-				<!-- </form> -->
 			</div>
-			<!-- // page Content -->
-		</div>
-		<div class="container col-lg-12" id="comment_list_div">
-			<div class="page-header">
-				<!-- h4>댓글</h4> -->
-				<label for="" class="col-sm-2 control-label">댓글</label>
+			<div class="container col-lg-12" id="comment_list_div">
+				<div class="page-header">
+					<!-- h4>댓글</h4> -->
+					<label for="" class="col-sm-2 control-label">댓글</label>
+				</div>
+				<ul class="list-group" id="comment_list">
+					<!-- 댓글 영역 -->
+				</ul>
+				<div class="panel panel-body panel-default">
+					<form class="form-horizontal" name="comment_reg_frm"
+						id="comment_reg_frm">
+						<div class="form-group col-lg-10">
+							<div>
+								<%-- <label>${employee.employee_id}</label> --%>
+							</div>
+							<div>
+								<textarea class="form-control" style="resize: none;"
+									id="write_contents" name="write_contents" rows="3" cols="100"
+									placeholder="댓글을 입력하세요."></textarea>
+							</div>
+							<div style="float: right;">
+								<input type="button" id="comment_reg_btn"
+									class="btn btn-primary btn-icon-split icon text-white-100"
+									value="등록" style="margin: 13px;" />
+							</div>
+							<!-- <input type="hidden" name="regId" id="regId" value="admin"/> -->
+							<input type="hidden" name="regId" id="regId"
+								value="${employee.employee_id}" />
+							<%-- <input type="hidden" name="boardSeq" id="boardSeq" value="${vo.getBoardSeq()}" /> --%>
+							<input type="hidden" name="boardSeq" id="boardSeq"
+								value="${vo.boardSeq}" /> <input type="hidden" name="upNum"
+								id="upNum" value="0" />
+							<!-- <input type="hidden" name="work_div" id="work_div" /> -->
+						</div>
+					</form>
+				</div>
 			</div>
-			<ul class="list-group" id="comment_list">
-				<!-- 댓글 영역 -->
-			</ul>
-			<div class="panel panel-body panel-default">
-				<form class="form-horizontal" name="comment_reg_frm" id="comment_reg_frm" >
-					<div class="form-group col-lg-10">
-						<div>
-							<%-- <label>${employee.employee_id}</label> --%>
-						</div>
-						<div>
-							<textarea class="form-control" style="resize:none;" id="write_contents" name="write_contents" rows="3" cols="100" placeholder="댓글을 입력하세요."></textarea>
-						</div>
-						<div style="float: right;">
-							<input type="button" id="comment_reg_btn" class="btn btn-primary btn-icon-split icon text-white-100"  value="등록" style="margin: 13px;" />
-						</div>
-						<!-- <input type="hidden" name="regId" id="regId" value="admin"/> -->
-						<input type="hidden" name="regId" id="regId" value="${employee.employee_id}"/>
-						<%-- <input type="hidden" name="boardSeq" id="boardSeq" value="${vo.getBoardSeq()}" /> --%>
-						<input type="hidden" name="boardSeq" id="boardSeq" value="${vo.boardSeq}" />
-						<input type="hidden" name="upNum" id="upNum" value="0"/>
-						<!-- <input type="hidden" name="work_div" id="work_div" /> -->
-					</div>
-				</form>
-			</div>
-		</div>
-		<!-- //Main Content -->
+			<!-- //Main Content -->
 
-		<!-- footer -->
-		<%@include file="/WEB-INF/views/inc/footer.jsp"%>
-		<!-- //footer -->
+			<!-- footer -->
+			<%@include file="/WEB-INF/views/inc/footer.jsp"%>
+			<!-- //footer -->
+		</div>
+		<!-- //Content Wrapper -->
+
 	</div>
-	<!-- //Content Wrapper -->
-	
-</div>
-<!-- //wrap -->
+	<!-- //wrap -->
 	<script type="text/javascript">
 	$(document).ready(function()
 	{
-		$("#Pages").attr("class","nav-link");
+		/* $("#Pages").attr("class","nav-link");
 		$("#Pages").attr("aria-expanded","true");
 		$("#collapsePages").attr("class","collapse show");
-		$("#blank").attr("class","collapse-item active");
+		$("#blank").attr("class","collapse-item active"); */
 		
 		drawComment();
 	});
@@ -244,8 +259,8 @@
 						html += "<div>"+vo.modDt+"<a href='#' onclick='reply(this); return false;' class='btn btn-link'>답글쓰기</a></div>";
 						html += "</div>";
 						// 세션 ID로 변경
-						if(vo.modId=="admin")
-						/* if(vo.modId==${employee.employee_id}) */
+						/* if(vo.modId=="admin") */
+						if(vo.modId=="${employee.employee_id}")
 						{
 						html += "<div class='dropdown col-lg-1 text-right'>";
 						html += "<button class='btn btn-default btn-xs dropdown-toggle' data-toggle='dropdown'>";
@@ -268,6 +283,9 @@
 				}
 				$("#comment_list").empty();
 				$("#comment_list").append(html);
+				console.log('1');
+				$("#write_contents").val('');
+				console.log('2');
 			},
 			error : function(xhr, status, error) {
 				alert("error:" + error);
@@ -287,7 +305,8 @@
 		html += '<div><textarea class="form-control" style="resize:none;" id="write_contents" name="write_contents" rows="6" cols="100" placeholder="댓글을 입력하세요."></textarea></div>';
 		html += '<input type="hidden" name="commentNum" id="commentNum" value="" />';
 		html += '<input type="hidden" name="upNum" id="upNum" value="" />';
-		html += '<input type="hidden" name="regId" id="regId" value="admin"/>';
+		/* html += '<input type="hidden" name="regId" id="regId" value="admin"/>'; */
+		html += '<input type="hidden" name="regId" id="regId" value="${employee.employee_id}"/>';
 		html += '<input type="hidden" name="boardSeq" id="boardSeq" value="${vo.getBoardSeq()}" />';
 		html += '</div>';
 		html += '</form>';
@@ -339,6 +358,7 @@
 		comment_frm.upNum.value = reply_frm.upNum.value;
 		comment_frm.write_contents.value = reply_frm.write_contents.value;
 		$("#comment_reg_btn").trigger('click');
+
 	}
 
 	// 댓글 등록
@@ -372,8 +392,9 @@
 				alert("error:" + error);
 			}
 		});//--ajax
-		
+
 		$("#write_contents").val('');
+		
 		
 	}); // 댓글 쓰기
 
@@ -442,7 +463,7 @@
 			url : "${hContext}/comments/doDelete.do",
 			dataType : "html",
 			data : {
-				"regId" : "admin",
+				"regId" : $("#regId").val(),
 				"commentNum" : commentNum
 			},
 			success : function(data) { //성공

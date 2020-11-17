@@ -50,7 +50,7 @@
 					<div class="form-group">
 						<label for="" class="col-sm-2 control-label">첨부파일</label>
 						<div class="px-4">
-							<div class="card card-body">
+							<div class="card card-body" style="width: 84%;">
 								<c:choose>
 									<c:when test="${0 ne fileList.size() }">
 										<c:forEach var="vo" items="${fileList}" >
@@ -118,10 +118,10 @@
 	<script type="text/javascript">
 	$(document).ready(function()
 	{
-		$("#Pages").attr("class","nav-link");
+		/* $("#Pages").attr("class","nav-link");
 		$("#Pages").attr("aria-expanded","true");
 		$("#collapsePages").attr("class","collapse show");
-		$("#blank").attr("class","collapse-item active");
+		$("#blank").attr("class","collapse-item active"); */
 		//drawComment();
 	});
 

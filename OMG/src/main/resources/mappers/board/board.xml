@@ -137,7 +137,12 @@
 		           DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.mod_dt,'YYYYMMDD')            
 		                                             ,TO_CHAR(B.mod_dt,'HH24:MI')             
 		                                             ,TO_CHAR(B.mod_dt,'YYYY-MM-DD')) modDt, 
-				   B.mod_id as modId                                                                      
+				   B.mod_id as modId,
+				   (SELECT 
+			        name 
+			        FROM employee 
+			        WHERE employee_id = B.reg_id
+			       ) as name                                                                  
 		    FROM                                                                              
 		    (                                                                                 
 		        SELECT ROWNUM rnum, A.*                                                       

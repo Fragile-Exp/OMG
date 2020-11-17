@@ -45,7 +45,7 @@
 						<div class="form-group">
 							<label for="" class="col-sm-2 control-label">작성자</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="regId" id="regId" placeholder="작성자" maxlength="20" value="${sessionScope.employee.name}" readonly="readonly">
+								<input type="text" class="form-control" name="regId" id="regId" placeholder="작성자" maxlength="20" value="${sessionScope.employee.employee_id}" readonly="readonly">
 							</div>
 						</div>
 						<div class="form-group">
@@ -94,10 +94,18 @@
 	<script type="text/javascript">
 	$(document).ready(function()
 	{
-		$("#Pages").attr("class","nav-link");
+		/* $("#Pages").attr("class","nav-link");
 		$("#Pages").attr("aria-expanded","true");
 		$("#collapsePages").attr("class","collapse show");
-		$("#blank").attr("class","collapse-item active");
+		$("#blank").attr("class","collapse-item active"); */
+	});
+
+	//게시판 초기화버튼
+	$("#doClearBtn").on("click",function()
+	{
+		$("#title").val('');
+		$("#contents").val('');
+		$("#title").focus();
 	});
 
 	//게시판 목록 이동
