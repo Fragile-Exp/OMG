@@ -301,7 +301,8 @@
 		html += '<div class="col-lg-1"></div>';
 		html += '<form class="form-horizontal" name="reply_reg_frm" id="reply_reg_frm" >';
 		html += '<div class="form-group col-lg-10">';
-		html += '<div><label>현재 로그인한 사용자 ID</label></div>';
+		/* html += '<div><label>현재 로그인한 사용자 ID</label></div>'; */
+		html += '<div><label>${employee.employee_id}</label></div>';
 		html += '<div><textarea class="form-control" style="resize:none;" id="write_contents" name="write_contents" rows="6" cols="100" placeholder="댓글을 입력하세요."></textarea></div>';
 		html += '<input type="hidden" name="commentNum" id="commentNum" value="" />';
 		html += '<input type="hidden" name="upNum" id="upNum" value="" />';

@@ -28,8 +28,24 @@
 	<!-- com.omg.comments.doDelete -->
 	<delete id="doDelete" parameterType="CommentsVO">
 		DELETE FROM comments   
+		WHERE comment_num = #{commentNum}
+		OR up_num = #{commentNum} 
+	</delete>
+	
+	<!-- com.omg.comments.doDeleteOne -->
+	<delete id="doDeleteOne" parameterType="CommentsVO">
+		DELETE FROM comments   
 		WHERE comment_num = #{commentNum}  
 	</delete>
+	
+	<!-- com.omg.comments.doCmtCnt -->
+	<select id="doCmtCnt" resultType="int">
+		SELECT count(*)
+		FROM comments
+		WHERE comment_num = #{commentNum}
+		OR up_num = #{commentNum}
+	</select>
+	
 	
 	<!-- com.omg.comments.doUpdate -->
 	<update id="doUpdate" parameterType="CommentsVO">

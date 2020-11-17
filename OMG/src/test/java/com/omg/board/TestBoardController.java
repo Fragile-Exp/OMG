@@ -65,11 +65,11 @@ public class TestBoardController
 	@Before
 	public void setUp() throws Exception 
 	{
-		boards =Arrays.asList( new BoardVO(1, "130", "H130_01_제목", "H130_01_내용", 10,"1", "20201112", "SAMGYOBI", "20201112", "SAMGYOBI")
-							  ,new BoardVO(2, "130", "H130_02_제목", "H130_02_내용", 11,"2", "20201112", "SAMGYOBI", "20201112", "SAMGYOBI")
-							  ,new BoardVO(3, "130", "H130_03_제목", "H130_03_내용", 49,"3", "20201112", "SAMGYOBI", "20201112", "SAMGYOBI")
-							  ,new BoardVO(4, "130", "H130_04_제목", "H130_04_내용", 51,"4", "20201112", "SAMGYOBI", "20201112", "SAMGYOBI")
-							  ,new BoardVO(5, "130", "H130_05_제목", "H130_05_내용", 99,"5", "20201112", "SAMGYOBI", "20201112", "SAMGYOBI")
+		boards =Arrays.asList( new BoardVO(1, "130", "H130_01_제목", "H130_01_내용", 10,"1", "20201112", "SAMGYOBI", "20201112", "SAMGYOBI","")
+							  ,new BoardVO(2, "130", "H130_02_제목", "H130_02_내용", 11,"2", "20201112", "SAMGYOBI", "20201112", "SAMGYOBI","")
+							  ,new BoardVO(3, "130", "H130_03_제목", "H130_03_내용", 49,"3", "20201112", "SAMGYOBI", "20201112", "SAMGYOBI","")
+							  ,new BoardVO(4, "130", "H130_04_제목", "H130_04_내용", 51,"4", "20201112", "SAMGYOBI", "20201112", "SAMGYOBI","")
+							  ,new BoardVO(5, "130", "H130_05_제목", "H130_05_내용", 99,"5", "20201112", "SAMGYOBI", "20201112", "SAMGYOBI","")
 							);
 
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();

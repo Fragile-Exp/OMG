@@ -7,13 +7,17 @@ import com.omg.comments.domain.CommentsVO;
 
 public interface CommentsService 
 {
-public int doInsert(CommentsVO board);
+public int doInsert(CommentsVO comments);
 	
-	public int doDelete(CommentsVO board);
+	public int doDelete(CommentsVO comments);
 	
-	public int doUpdate(CommentsVO board);
+	public int doDeleteOne(CommentsVO comments);
 	
-	public CommentsVO doSelectOne(CommentsVO board);
+	public int doCmtCnt(CommentsVO comments);
+	
+	public int doUpdate(CommentsVO comments);
+	
+	public CommentsVO doSelectOne(CommentsVO comments);
 	
 	public List<CommentsVO> doSelectList(CommentsVO comments);
 }

@@ -81,7 +81,19 @@ public class CommentsController
 		LOG.debug("=comments : "+comments);
 		LOG.debug("===========================");
 		
-		int flag = this.commentsService.doDelete(comments);
+		int cnt = this.commentsService.doCmtCnt(comments);
+		LOG.debug("cnt : "+cnt);
+		int flag = 0;
+		if(cnt >= 1)
+		{
+			flag = this.commentsService.doDelete(comments);
+		}
+		else
+		{
+			flag = this.commentsService.doDeleteOne(comments);
+		}
+		
+		//int flag = this.commentsService.doDelete(comments);
 		LOG.debug("===========================");
 		LOG.debug("=flag : "+flag);
 		LOG.debug("===========================");
@@ -90,7 +102,7 @@ public class CommentsController
 		Message message = new Message();
 		message.setMsgId(flag+"");
 		
-		if(flag==1)
+		if(flag>=1)
 		{
 			message.setMsgContents(" 댓글 삭제가 완료 되었습니다.");
 		}

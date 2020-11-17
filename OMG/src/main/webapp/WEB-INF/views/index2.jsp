@@ -217,7 +217,7 @@
 												<tr role="row">
 													<th class="text-center seq">번호</th>
 													<th class="text-left title" >제목</th>
-													<th class="text-left regId" >작성자(수정자)</th>
+													<th class="text-left regId" >작성자(ID)</th>
 													<th class="text-center regDt" >작성일</th>
 													<th class="text-center readCnt" >조회수</th>
 													<th class="hidden-lg hidden-sm hidden-xs" style="display:none;" >boardSeq</th>
@@ -230,7 +230,7 @@
 															<tr>
 																<td class="text-center seq">${vo.num}</td>
 																<td class="text-left title">${vo.title}</td>
-																<td class="text-left regId">${vo.regId} (${vo.modId} )</td>
+																<td class="text-left regId">${vo.name} (${vo.regId})</td>
 																<td class="text-center regDt">${vo.regDt}</td>
 																<td class="text-center readCnt">${vo.readCnt}</td>
 																<td class="hidden-lg hidden-sm hidden-xs" style="display:none;">${vo.boardSeq}</td>
@@ -280,7 +280,7 @@
 												<tr role="row">
 													<th class="text-center seq">번호</th>
 													<th class="text-left title" >제목</th>
-													<th class="text-left regId" >작성자(수정자)</th>
+													<th class="text-left regId" >작성자(ID)</th>
 													<th class="text-center regDt" >작성일</th>
 													<th class="text-center readCnt" >조회수</th>
 													<th class="hidden-lg hidden-sm hidden-xs" style="display:none;" >boardSeq</th>
@@ -293,7 +293,7 @@
 															<tr>
 																<td class="text-center seq">${vo.num}</td>
 																<td class="text-left title">${vo.title}</td>
-																<td class="text-left regId">${vo.regId} (${vo.modId} )</td>
+																<td class="text-left regId">${vo.name} (${vo.regId})</td>
 																<td class="text-center regDt">${vo.regDt}</td>
 																<td class="text-center readCnt">${vo.readCnt}</td>
 																<td class="hidden-lg hidden-sm hidden-xs" style="display:none;">${vo.boardSeq}</td>

@@ -33,6 +33,18 @@ public class CommentsServiceImpl implements CommentsService
 	{
 		return commentsDao.doDelete(comments);
 	}
+	
+	@Override
+	public int doDeleteOne(CommentsVO comments) 
+	{
+		return commentsDao.doDeleteOne(comments);
+	}
+	
+	@Override
+	public int doCmtCnt(CommentsVO comments) 
+	{
+		return commentsDao.doCmtCnt(comments);
+	}
 
 	@Override
 	public int doUpdate(CommentsVO comments) 
