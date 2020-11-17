@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %> 
-<c:set var="hContext" value="${pageContext.request.contextPath }" ></c:set>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,11 +72,11 @@
                         </div>
                         
 						<!-- pagenation -->
-						<div id="page-selection" class="pagination justify-content-center"></div>
+						<div id="page-selection" class="pagination d-flex justify-content-center"></div>
 				    	<!--// pagenation -->
 					    
 					    <!-- 입력 버튼 -->
-                        <div class="card-body">
+                        <div class="col-lg-11 text-right py-4">
                         	
 			    		  	<input type="button" class="btn btn-info btn-sm" id="doUpdate" value="수정"  />
 			    		  	<input type="button" class="btn btn-info btn-sm" id="doDelete" value="삭제"  />
@@ -115,19 +112,11 @@
 							</div>
 							<div class="col-lg-9">
 								<select class="form-control input-sm" name="dept_no_edit"  id="dept_no_edit">
-					    		  	<option value="10000">OMG</option>
-					    		  	<option value="11000">전략기획본부</option>
-					    		  	<option value="12000">경영관리본부</option>
-					    		  	<option value="13000">기술개발본부</option>
-					    		  	<option value="13100">연구소</option>
-					    		  	<option value="13110">제1연구소</option>
-					    		  	<option value="13120">제2연구소</option>
-					    		  	<option value="13200">기술부문</option>
-					    		  	<option value="13210">기술 1팀</option>
-					    		  	<option value="13210">기술 1팀</option>
-					    		  	<option value="13220">기술 2팀</option>
-					    		  	<option value="14000">영업본부</option>
-					    		  	<option value="14100">아시아영업부</option>
+					    		  	<c:if test="${deptList.size() >0}">
+												<c:forEach var="dept" items="${deptList}" >
+													<option value="${dept.deptNo }">${dept.deptNm}</option>
+												</c:forEach>
+											</c:if>
 					    		</select>
 							</div>
 						</div>
@@ -137,17 +126,11 @@
 							</div>
 							<div class="col-lg-9">
 								<select class="form-control input-sm" name="position_no_edit"  id="position_no_edit">
-									<option value="">선택하세요</option>
-									<option value="10000">사장</option>
-									<option value="11000">부사장</option>
-									<option value="11100">전무이사</option>
-									<option value="11200">상무이사</option>
-									<option value="11300">이사</option>
-					    		  	<option value="11310">수석</option>
-					    		  	<option value="11320">책임</option>
-					    		  	<option value="11330">선임</option>
-					    		  	<option value="11331">사원</option>
-					    		  	<option value="11332">인턴</option>
+									<c:if test="${positionList.size() >0}">
+										<c:forEach var="position" items="${positionList}" >
+											<option value="${position.positionNo }">${position.positionNm}</option>
+										</c:forEach>
+									</c:if>
 					    		</select>
 							</div>
 						</div>
@@ -228,12 +211,6 @@
 		<!-- //Content Wrapper -->
 </div>
 <!-- //wrap -->
-	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
-    <script src="${hContext}/resources/js/bootstrap.min.js"></script>
-    <!-- jquery bootpag -->
-    <script src="${hContext}/resources/js/jquery.bootpag.min.js"></script>
     
     <script type="text/javascript">
 	$(document).ready(function(){
@@ -556,7 +533,33 @@
         }); 
 	}
 
-   
+	$.datepicker.setDefaults({
+        dateFormat: 'yy/mm/dd',	//날짜 포맷이다. 보통 yy-mm-dd 를 많이 사용하는것 같다.
+        prevText: '이전 달',	// 마우스 오버시 이전달 텍스트
+        nextText: '다음 달',	// 마우스 오버시 다음달 텍스트
+        closeText: '닫기', // 닫기 버튼 텍스트 변경
+        currentText: '오늘', // 오늘 텍스트 변경
+        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],	//한글 캘린더중 월 표시를 위한 부분
+        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],	//한글 캘린더 중 월 표시를 위한 부분
+        dayNames: ['일', '월', '화', '수', '목', '금', '토'],	//한글 캘린더 요일 표시 부분
+        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],	//한글 요일 표시 부분
+        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],	// 한글 요일 표시 부분
+        showMonthAfterYear: true,	// true : 년 월  false : 월 년 순으로 보여줌
+        yearSuffix: '년',	//
+        showButtonPanel: true,	// 오늘로 가는 버튼과 달력 닫기 버튼 보기 옵션
+        showMonthAfterYear : true,
+		changeMonth : true,
+		changeYear : true,
+		yearRange: "-100:+0",
+//        buttonImageOnly: true,	// input 옆에 조그만한 아이콘으로 캘린더 선택가능하게 하기
+//        buttonImage: "images/calendar.gif",	// 조그만한 아이콘 이미지
+//        buttonText: "Select date"	// 조그만한 아이콘 툴팁
+    });
+
+	$( function() {
+	    $( "#hire_date_edit" ).datepicker();
+	    $( "#birth_day_edit" ).datepicker();
+	  } );
 
 	
 	

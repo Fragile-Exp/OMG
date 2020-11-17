@@ -27,6 +27,10 @@ import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
 import com.omg.employee.domain.EmployeeVO;
 import com.omg.employee.service.EmployeeService;
+import com.omg.organization.domain.DeptVO;
+import com.omg.organization.domain.PositionVO;
+import com.omg.organization.service.DeptServiceImpl;
+import com.omg.organization.service.PositionServiceImpl;
 
 
 @Controller
@@ -42,6 +46,12 @@ public class EmployeeController {
 	
 	@Autowired
 	AttachmentServiceImpl attachmentService;
+	
+	@Autowired
+	DeptServiceImpl deptService;
+	
+	@Autowired
+	PositionServiceImpl positionService;
 	 
 	
 	@Autowired
@@ -51,9 +61,14 @@ public class EmployeeController {
 	
 	//사원 추가
 	@RequestMapping(value="employee/employee_reg.do",method=RequestMethod.GET)
-	public String employee_view() {
+	public String employee_view(Model model) {
 		LOG.debug("== employee_view ==");
-		
+		// 부서 목록
+		List<DeptVO> deptList = deptService.doSelectList();
+		model.addAttribute("deptList",deptList);
+		// 직급 목록
+		List<PositionVO> positionList = positionService.doSelectList();
+		model.addAttribute("positionList",positionList);
 		return "employee/employee_reg";
 	}
 	
@@ -83,9 +98,14 @@ public class EmployeeController {
 	
 	//관리자모드 사원 수정
 	@RequestMapping(value="employee/employee_mng.do",method=RequestMethod.GET)
-	public String employee_mng() {
+	public String employee_mng(Model model) {
 		LOG.debug("== employee_mng ==");
-		
+		// 부서 목록
+		List<DeptVO> deptList = deptService.doSelectList();
+		model.addAttribute("deptList",deptList);
+		// 직급 목록
+		List<PositionVO> positionList = positionService.doSelectList();
+		model.addAttribute("positionList",positionList);
 		return "employee/employee_mng";
 	}
 	

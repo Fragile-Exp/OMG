@@ -40,7 +40,7 @@
 							</div>
 						</div>
 						<div class="col-lg-10">
-							<div class="card shadow mb-4">
+							<div class="card shadow mb-4" style="width:1000px;">
 								<div class="card-header py-3">
 									<a id="deleteBtn" href="#" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-trash"></i></span>

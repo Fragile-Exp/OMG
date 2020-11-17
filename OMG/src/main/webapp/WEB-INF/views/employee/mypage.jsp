@@ -28,25 +28,20 @@
 	      		<!-- page Content -->
 	      		<form action="" name="writeFrm" enctype="multipart/form-data">
 	      		<div class="container-fluid">
-		      		<div class="col-lg-10">
-						<div class="card shadow mb-4">
-							<div class="card-header py-3">
-								<input type="button" class="btn btn-info btn-sm" value="취소" id="cancel">
-								<input type="button" class="btn btn-info btn-sm" value="수정" id="doUpdate">
+		      		<div align="center">
+						<div class="card shadow mb-4" style="width:50%;">
+							<div class="card-header py-3 text-left">
+								<input type="button" class="btn btn-info btn-sm " value="취소" id="cancel">
+								<input type="button" class="btn btn-info btn-sm " value="수정" id="doUpdate">
 							</div>
 							<div class="card-body">
-								<input type="hidden"  name="img_code" id="img_code" value="${sessionScope.employee.img_code }" />	
+								<input type="hidden"  name="img_code" id="img_code" value="${sessionScope.employee.img_code }"  />	
 								<input type="hidden"  name="auth" id="auth" value="${sessionScope.employee.auth }" />	
-								<div class="form-group">
-									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-									<div class="col-lg-3">
-										<input type="file" onchange="file_upload(this)" id="file" name="file" accept="img/*" />
-									</div>
-								</div>		
-								<div class="col-lg-10 text-center" id="img_preview">
+								<div class="col-lg-10 text-center py-2" id="img_preview">
 									<div><img src="${sessionScope.employee.img_name}" id="img_name" name="img_name" alt="프로필" width=100 height=100 /></div>
-									<%-- <div><c:out value='${vo.regId}' /></div> --%>
+									
 								</div>	
+								<input type="file" onchange="file_upload(this)" id="file" name="file" accept="img/*" />
 								<div class="row">
 									<div class="col-lg-2 text-center">
 										<label for="employee_id" >아이디(사원번호)</label>
@@ -170,9 +165,29 @@
 </div>
 <!-- //wrap -->
 	<script type="text/javascript">
-	function file_upload(){
-		
-		}
+	
+	// 이미지 미리보기 
+	function file_upload(e){
+	    $('#img_preview').empty();
+	    var files = e.files;
+	    var fileArr = Array.prototype.slice.call(files);
+	    fileArr.forEach(function(f){
+	    	if(!f.type.match("image/.*")){
+	        	alert("이미지 확장자만 업로드 가능합니다.");
+	            return;
+	        }
+	        
+	        var reader = new FileReader();
+	        
+	        reader.onload = function(e){
+	        	var img = new Image();
+	        	img.src = e.target.result;
+	            $("#img_preview").append('<img src="'+e.target.result+'" width="100px" height="100px" style="margin: 5px"/>');
+	            
+	        }
+	        reader.readAsDataURL(f);
+	    }) // forEach
+	} // img_upload
 	
 	$("#doUpdate").on("click",function(){
 		var frm=document.writeFrm;
@@ -230,7 +245,7 @@
             alert(jData.msgContents);
             //다시조회
             //doSelectList(1);
-            
+            window.location.reload();
           }else{
             alert(jData.msgId+"|"+jData.msgContents);
           }

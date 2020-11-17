@@ -368,7 +368,8 @@ public class StringUtil {
 				fileVO.setFileNum(i++);
 				list.add(fileVO);
 				file.transferTo(new File(renameFile.getAbsolutePath()));
-				
+				LOG.debug("renameFile.getPath()" + renameFile.getPath());
+				LOG.debug("renameFile.getPath()" + renameFile.getAbsolutePath());
 			}
 		}
 		

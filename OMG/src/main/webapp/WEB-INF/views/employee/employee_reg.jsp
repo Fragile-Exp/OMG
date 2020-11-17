@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %> 
-<c:set var="hContext" value="${pageContext.request.contextPath }" ></c:set>     
+    pageEncoding="UTF-8"%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,10 +62,11 @@
 									</div>
 									<div class="col-lg-9">
 										<select class="form-control input-sm" name="dept_no"  id="dept_no">
-							    		  	<option value="11000">전략기획본부</option>
-							    		  	<option value="12000">경영관리본부</option>
-							    		  	<option value="13000">기술개발본부</option>
-							    		  	<option value="14000">영업본부</option>
+											<c:if test="${deptList.size() >0}">
+												<c:forEach var="dept" items="${deptList}" >
+													<option value="${dept.deptNo }">${dept.deptNm}</option>
+												</c:forEach>
+											</c:if>
 							    		</select>
 									</div>
 								</div>
@@ -78,16 +76,11 @@
 									</div>
 									<div class="col-lg-9">
 										<select class="form-control input-sm" name="position_no"  id="position_no">
-											<option value="10000">사장</option>
-											<option value="11000">부사장</option>
-											<option value="11100">전무이사</option>
-											<option value="11200">상무이사</option>
-											<option value="11300">이사</option>
-							    		  	<option value="11310">수석</option>
-							    		  	<option value="11320">책임</option>
-							    		  	<option value="11330">선임</option>
-							    		  	<option value="11331">사원</option>
-							    		  	<option value="11332">인턴</option>
+											<c:if test="${positionList.size() >0}">
+												<c:forEach var="position" items="${positionList}" >
+													<option value="${position.positionNo }">${position.positionNm}</option>
+												</c:forEach>
+											</c:if>
 							    		</select>
 									</div>
 								</div>
@@ -299,8 +292,7 @@
           var jData = JSON.parse(data);
           if(null != jData && jData.msgId=="1"){
             alert(jData.msgContents);
-            //다시조회
-            //doSelectList(1);
+            window.location.reload();
           }else{
             alert(jData.msgId+"|"+jData.msgContents);
           }
@@ -320,7 +312,34 @@
 		
 		
 	});
-	
+
+	$.datepicker.setDefaults({
+        dateFormat: 'yy/mm/dd',	//날짜 포맷이다. 보통 yy-mm-dd 를 많이 사용하는것 같다.
+        prevText: '이전 달',	// 마우스 오버시 이전달 텍스트
+        nextText: '다음 달',	// 마우스 오버시 다음달 텍스트
+        closeText: '닫기', // 닫기 버튼 텍스트 변경
+        currentText: '오늘', // 오늘 텍스트 변경
+        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],	//한글 캘린더중 월 표시를 위한 부분
+        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],	//한글 캘린더 중 월 표시를 위한 부분
+        dayNames: ['일', '월', '화', '수', '목', '금', '토'],	//한글 캘린더 요일 표시 부분
+        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],	//한글 요일 표시 부분
+        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],	// 한글 요일 표시 부분
+        showMonthAfterYear: true,	// true : 년 월  false : 월 년 순으로 보여줌
+        yearSuffix: '년',	//
+        showButtonPanel: true,	// 오늘로 가는 버튼과 달력 닫기 버튼 보기 옵션
+        showMonthAfterYear : true,
+		changeMonth : true,
+		changeYear : true,
+		yearRange: "-100:+0",
+//        buttonImageOnly: true,	// input 옆에 조그만한 아이콘으로 캘린더 선택가능하게 하기
+//        buttonImage: "images/calendar.gif",	// 조그만한 아이콘 이미지
+//        buttonText: "Select date"	// 조그만한 아이콘 툴팁
+    });
+
+	$( function() {
+	    $( "#hire_date" ).datepicker();
+	    $( "#birth_day" ).datepicker();
+	  } );
 
 	
 	

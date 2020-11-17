@@ -67,6 +67,10 @@
 
 	var ws;
 
+	$(window).bind("beforeunload", function (e){
+		exit();
+	});
+
 	function wsOpen(){
 		ws = new WebSocket("ws://"+location.host+"/cmn/chatting/${roomVO.roomNo}.do");
 		wsEvt();

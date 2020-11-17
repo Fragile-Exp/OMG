@@ -39,8 +39,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-10">
-							<div class="card shadow mb-4">
+						<div class="col-lg-10" >
+							<div class="card shadow mb-4" style="width:1000px;">
 								<div class="card-header py-3">
 									<a href="javascript:history.back();" class="btn btn-info btn-icon-split btn-sm">
 										<span class="icon text-white-50"> <i class="fas fa-arrow-left"></i></span>
@@ -51,7 +51,7 @@
 										<span class="text">등록</span>
 									</a>
 								</div>
-								<div class="card-body">
+								<div class="card-body " >
 									<%-- <form action="${hContext}/org/doInsert.do" name="save_frm" method="post"> --%>
 									<input type="hidden" id="orgDiv" name="orgDiv" value="${orgDiv}" />
 										<c:choose>
@@ -65,8 +65,8 @@
 										<h3>${orgName} 등록</h3>
 										<hr/>
 										<div class="row">
-											<div class="col-lg-4"></div>
-											<div class="col-lg-1">
+											<div class="col-lg-3"></div>
+											<div class="col-lg-2 text-right">
 												<label>상위 ${orgName}</label>
 											</div>
 											<div class="col-lg-3">
@@ -83,8 +83,8 @@
 											</div>
 										</div>
 										<div class="row py-4">
-											<div class="col-lg-4"></div>
-											<div class="col-lg-1">
+											<div class="col-lg-3"></div>
+											<div class="col-lg-2 text-right">
 												<label>${orgName} 코드</label>
 											</div>
 											<div class="col-lg-3">
@@ -92,8 +92,8 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-lg-4"></div>
-											<div class="col-lg-1">
+											<div class="col-lg-3"></div>
+											<div class="col-lg-2 text-right">
 												<label>${orgName} 명</label>
 											</div>
 											<div class="col-lg-3">
