@@ -205,11 +205,11 @@ public class EmployeeController {
 		return list;
 	}
 	
-	@RequestMapping(value="employee/doUpdate.do",method = RequestMethod.GET
+	@RequestMapping(value="employee/doUpdate.do",method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8"
 			)
 	@ResponseBody
-	public String doUpdate(MultipartHttpServletRequest multi,EmployeeVO employee) throws IllegalStateException, IOException {
+	public String doUpdate(MultipartHttpServletRequest multi,EmployeeVO employee,HttpServletRequest request) throws IllegalStateException, IOException {
 		LOG.debug("1==================");
         LOG.debug("=user="+employee);
         LOG.debug("==================");	
@@ -234,6 +234,18 @@ public class EmployeeController {
         		fileFlag=attachmentService.doInsert(vo); //DB등록
         	}
         	message.setMsgContents(employee.getName()+" 님이 수정 되었습니다.");
+        	 //세션처리
+            EmployeeVO sessionEmployee=this.employeeService.doSelectOne(employee);
+            LOG.debug("==================");
+            LOG.debug("=sessionEmployee="+sessionEmployee);
+            LOG.debug("==================");  
+            
+            HttpSession session=request.getSession();
+            session.setAttribute("employee", sessionEmployee);
+            
+            LOG.debug("==================");
+            LOG.debug("=session="+session.getAttribute("employee"));
+            LOG.debug("==================");  
         }else {
         	message.setMsgContents(employee.getName()+" 님 수정 실패.");
         }

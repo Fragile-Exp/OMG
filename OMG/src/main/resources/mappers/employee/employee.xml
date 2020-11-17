@@ -38,7 +38,8 @@
 	            B.birth_day,                                                   
 	            B.holiday,                                                     
 	            B.img_code  ,
-	            B.auth                                                   
+	            B.auth        ,
+	            B.img_name                                           
 	     FROM (                                                                
 	         SELECT ROWNUM rnum, A.*                                           
 	         FROM(                                                             
@@ -95,6 +96,12 @@
 		WHERE employee_id=#{employee_id}  
 	</select>
 	
+	<!-- 이미지 -->
+	<select id="getImgCode" resultType="String">
+		SELECT ATTACHMENT_SEQ.NEXTVAL
+		FROM dual
+	</select>
+	
 	<!-- 수정 -->
 	<update id="doUpdate" parameterType="EmployeeVO">
 		UPDATE employee            
@@ -127,7 +134,8 @@
 		    birth_day,
 		    holiday,
 		    img_code,
-		    auth
+		    auth,
+		    img_name
 		FROM
 		    employee_view
 		WHERE employee_id = #{employee_id}		 

@@ -61,9 +61,9 @@
                                                 <input type="checkbox" class="custom-control-input" id="customCheck">
                                                 <label class="custom-control-label" for="customCheck">Remember
                                                     Me</label>
-                                            </div>
+                                            </div> 
                                         </div>
-                                        <a class="btn btn-primary btn-user btn-block" id="loginBtn" name="loginBtn">
+                                        <a class="btn btn-primary btn-user btn-block" style="color:white;" id="loginBtn" name="loginBtn">
                                             로그인
                                         </a>
                                     </form>

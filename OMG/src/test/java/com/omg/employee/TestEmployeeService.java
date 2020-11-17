@@ -56,11 +56,11 @@ public class TestEmployeeService {
 		LOG.debug("=========================");
 		LOG.debug("=setUp()=");
 		//로그인 성공
-		employee01=new EmployeeVO("ID01","123456","유비_01",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1");
+		employee01=new EmployeeVO("ID01","123456","유비_01",1,"부서명","직급",1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1","1","1");
 		//없는 아이디
-		employee02=new EmployeeVO("noId","123456","유비_02",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1");
+		employee02=new EmployeeVO("noId","123456","유비_02",1,"부서명","직급",1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1","1","1");
 		//틀린 비밀번호
-		employee03=new EmployeeVO("ID03","123456_wrong","유비_03",1,1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1");
+		employee03=new EmployeeVO("ID03","123456_wrong","유비_03",1,"부서명","직급",1,123456789,"casse2045@naver.com","서울","20/10/28","201029",15,"1","1","1");
 		LOG.debug("=employee01()="+employee01);
 		LOG.debug("=========================");
 		

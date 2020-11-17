@@ -26,7 +26,7 @@
 	      		<!-- //top_bar -->
 	      		
 	      		<!-- page Content -->
-	      		<form action="" enctype="multipart/form-data">
+	      		<form action="" name="writeFrm" enctype="multipart/form-data">
 	      		<div class="container-fluid">
 		      		<div class="col-lg-10">
 						<div class="card shadow mb-4">
@@ -36,6 +36,7 @@
 							</div>
 							<div class="card-body">
 								<input type="hidden"  name="img_code" id="img_code" value="${sessionScope.employee.img_code }" />	
+								<input type="hidden"  name="auth" id="auth" value="${sessionScope.employee.auth }" />	
 								<div class="form-group">
 									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
 									<div class="col-lg-3">
@@ -43,7 +44,7 @@
 									</div>
 								</div>		
 								<div class="col-lg-10 text-center" id="img_preview">
-									<div><img src="/OMG/src/main/webapp/WEB-INF/images/basic.png" alt="프로필" width=100 height=100 /></div>
+									<div><img src="${sessionScope.employee.img_name}" id="img_name" name="img_name" alt="프로필" width=100 height=100 /></div>
 									<%-- <div><c:out value='${vo.regId}' /></div> --%>
 								</div>	
 								<div class="row">
@@ -51,7 +52,7 @@
 										<label for="employee_id" >아이디(사원번호)</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly class="form-control" id="employee_id" value="${sessionScope.employee.employee_id}"/>
+										<input readOnly class="form-control" name="employee_id" id="employee_id" value="${sessionScope.employee.employee_id}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -59,7 +60,7 @@
 										<label for="name" >이름</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="name" value="${sessionScope.employee.name}"/>
+										<input readOnly type="text" class="form-control" name="name" id="name" value="${sessionScope.employee.name}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -67,7 +68,7 @@
 										<label for="name" >기존 비밀번호</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="password" class="form-control" id="password" value="${sessionScope.employee.password}"/>
+										<input readOnly type="password" class="form-control" name="password" id="password" value="${sessionScope.employee.password}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -75,13 +76,13 @@
 										<label for="password" >새 비밀번호</label>
 									</div>
 									<div class="col-lg-3">
-										<input type="password" class="form-control" id="newPassword" placeholder="새 비밀번호" />
+										<input type="password" class="form-control"  name="newPassword" id="newPassword" placeholder="새 비밀번호" />
 									</div>
 									<div class="col-lg-2 text-center">
 										<label for="password" >새 비밀번호 확인</label>
 									</div>
 									<div class="col-lg-4">
-										<input type="password" class="form-control" id="newPasswordConfirm" placeholder="새 비밀번호 확인" />
+										<input type="password" class="form-control" name="newPasswordConfirm" id="newPasswordConfirm" placeholder="새 비밀번호 확인" />
 									</div>
 								</div>
 								<div class="row py-2">
@@ -90,7 +91,7 @@
 										<input type="hidden" id="dept_no" value="${sessionScope.employee.dept_no}"/>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="dept_nm" value="${sessionScope.employee.dept_nm}"/>
+										<input readOnly type="text" class="form-control" name="dept_nm"  id="dept_nm" value="${sessionScope.employee.dept_nm}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -99,7 +100,7 @@
 										<input type="hidden" id="position_no" value="${sessionScope.employee.position_no}"/>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="position_nm" value="${sessionScope.employee.position_nm}"/>
+										<input readOnly type="text" class="form-control" name="position_nm"  id="position_nm" value="${sessionScope.employee.position_nm}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -107,7 +108,7 @@
 										<label for="cell_phone" >핸드폰</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="cell_phone" value="${sessionScope.employee.cell_phone}"/>
+										<input type="text" class="form-control" name="cell_phone" id="cell_phone" value="${sessionScope.employee.cell_phone}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -115,7 +116,7 @@
 										<label for="email" >이메일</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="email" value="${sessionScope.employee.email}"/>
+										<input type="text" class="form-control" name="email" id="email" value="${sessionScope.employee.email}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -123,7 +124,7 @@
 										<label for="address" >주소</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="address" value="${sessionScope.employee.address}"/>
+										<input type="text" class="form-control" name="address" id="address" value="${sessionScope.employee.address}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -131,7 +132,7 @@
 										<label for="hire_date" >입사일 EX)20/11/19</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="hire_date" value="${sessionScope.employee.hire_date}"/>
+										<input readOnly type="text" class="form-control" name="hire_date"  id="hire_date" value="${sessionScope.employee.hire_date}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -139,7 +140,7 @@
 										<label for="birth_day" >생년월일 EX)20/11/19</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="birth_day" value="${sessionScope.employee.birth_day}"/>
+										<input readOnly type="text" class="form-control" name="birth_day" id="birth_day" value="${sessionScope.employee.birth_day}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -147,7 +148,7 @@
 										<label for="holiday" >휴가일</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="holiday" value="${sessionScope.employee.holiday}"/>
+										<input readOnly type="text" class="form-control" name="holiday" id="holiday" value="${sessionScope.employee.holiday}"/>
 									</div>
 								</div>
 							</div>
@@ -169,6 +170,10 @@
 </div>
 <!-- //wrap -->
 	<script type="text/javascript">
+	function file_upload(){
+		
+		}
+	
 	$("#doUpdate").on("click",function(){
 		var frm=document.writeFrm;
 		var formData=new FormData(frm);
@@ -212,12 +217,12 @@
 		
 		//ajax
         $.ajax({
-           type:"GET",
+           type:"POST",
            url:"${hContext}/employee/doUpdate.do",
            dataType:"html",
            enctype: 'multipart/form-data',
            contentType: false,
-           precessData: false,
+           processData: false,
            data:formData, 
         success: function(data){
           var jData = JSON.parse(data);
