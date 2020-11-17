@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.omg.chat.domain.ChattingRoom;
 import com.omg.chat.service.ChattingRoomService;
 import com.omg.cmn.Message;
@@ -82,5 +83,26 @@ public class ChatController {
 			mv.setViewName("chat/room");
 		}
 		return mv;
+	}
+	
+	@RequestMapping(value="/chat/doDelete.do", method = RequestMethod.GET
+			,produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doDelete(ChattingRoom room) {
+		LOG.debug("== doDelete ==");
+		LOG.debug("room = "+room);
+		
+		int flag = service.doDelete(room);
+		Message message = new Message();
+		message.setMsgId(flag+"");
+		if(flag==1) {
+			message.setMsgContents("채팅방이 삭제 되었습니다.");
+		} else {
+			message.setMsgContents("채팅방 삭제에 실패 하였습니다.");
+		}
+		Gson gson = new Gson();
+		String json = gson.toJson(message);
+		
+		return json;
 	}
 }

@@ -114,14 +114,6 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	<!-- Locale : 사용자언어, 국가, 정보가 들어가 있는 경우 -->
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="ko"></property>

@@ -75,5 +75,14 @@ public class ChattingRoomDaoImpl {
 		
 		return flag;
 	}
+	
+	public int doDelete(ChattingRoom room) {
+		LOG.debug("== doDelete ==");
+		String statement = NAMESPACE+".doDelete";
+		int flag = sqlSessionTemplate.delete(statement,room);
+		LOG.debug(" flag : "+ flag);
+		
+		return flag;
+	}
 
 }

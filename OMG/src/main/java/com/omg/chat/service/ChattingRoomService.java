@@ -12,5 +12,7 @@ public interface ChattingRoomService {
 	public ChattingRoom doSelectOne(ChattingRoom room);
 	
 	public Message doInsert(ChattingRoom room);
+	
+	public int doDelete(ChattingRoom room) ;
 
 }
