@@ -17,16 +17,24 @@ public class EmployeeVO extends DTO {
 	private String birth_day;
 	private int holiday;
 	private String img_code;
+	private String auth;
+	
 	
 	public EmployeeVO() {}
 
-	public EmployeeVO(String employee_id, String password, String name, int dept_no, int position_no, int cell_phone,
-			String email, String address, String hire_date, String birth_day, int holiday, String img_code) {
+
+	
+
+	public EmployeeVO(String employee_id, String password, String name, int dept_no, String dept_nm, String position_nm,
+			int position_no, int cell_phone, String email, String address, String hire_date, String birth_day,
+			int holiday, String img_code, String auth) {
 		super();
 		this.employee_id = employee_id;
 		this.password = password;
 		this.name = name;
 		this.dept_no = dept_no;
+		this.dept_nm = dept_nm;
+		this.position_nm = position_nm;
 		this.position_no = position_no;
 		this.cell_phone = cell_phone;
 		this.email = email;
@@ -35,7 +43,25 @@ public class EmployeeVO extends DTO {
 		this.birth_day = birth_day;
 		this.holiday = holiday;
 		this.img_code = img_code;
+		this.auth = auth;
 	}
+
+
+
+
+	public String getAuth() {
+		return auth;
+	}
+
+
+
+
+	public void setAuth(String auth) {
+		this.auth = auth;
+	}
+
+
+
 
 	public String getEmployee_id() {
 		return employee_id;
@@ -151,15 +177,19 @@ public class EmployeeVO extends DTO {
 		this.position_nm = position_nm;
 	}
 
+
+
+
 	@Override
 	public String toString() {
 		return "EmployeeVO [employee_id=" + employee_id + ", password=" + password + ", name=" + name + ", dept_no="
 				+ dept_no + ", dept_nm=" + dept_nm + ", position_nm=" + position_nm + ", position_no=" + position_no
 				+ ", cell_phone=" + cell_phone + ", email=" + email + ", address=" + address + ", hire_date="
-				+ hire_date + ", birth_day=" + birth_day + ", holiday=" + holiday + ", img_code=" + img_code
-				+ ", toString()=" + super.toString() + "]";
+				+ hire_date + ", birth_day=" + birth_day + ", holiday=" + holiday + ", img_code=" + img_code + ", auth="
+				+ auth + ", toString()=" + super.toString() + "]";
 	}
 
+	
 	
 
 	
