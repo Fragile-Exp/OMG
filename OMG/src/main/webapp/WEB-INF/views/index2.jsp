@@ -170,8 +170,10 @@
 					</section>
 					<!-- 게시판 -->
 					<section class="board row">
+						<input type="hidden" name="boardSeq"	id="boardSeq" />
 						<!--공지사항-->
 						<div class="board__notice col-xl-6 col-lg-6" >
+						
 							<div class="card shadow mb-4">
 							    <!-- Card Header - Dropdown -->
 							    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -193,7 +195,7 @@
 							    <!-- Card Body -->
 							    <div class="card-body">
 									<div class="com-sm-12">
-										<table class="table table-bordered dataTable" id="boardListTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%; font-size: 13px">
+										<table class="table table-bordered dataTable" id="noticeListTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%; font-size: 13px">
 											<thead>
 												<tr role="row">
 													<th class="text-center seq">번호</th>
@@ -256,7 +258,7 @@
 							    <!-- Card Body -->
 							    <div class="card-body">
 									<div class="com-sm-12">
-										<table class="table table-bordered dataTable" id="boardListTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%; font-size: 13px">
+										<table class="table table-bordered dataTable" id="deptBoardListTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%; font-size: 13px">
 											<thead>
 												<tr role="row">
 													<th class="text-center seq">번호</th>
@@ -295,7 +297,6 @@
 							</div>
 						</div>
 						<!-- //부서게시판 -->
-							
 					</section>
 					<!-- //게시판 -->
 		        </div>
@@ -312,5 +313,39 @@
 		<!-- //Content Wrapper -->
 </div>
 <!-- //wrap -->
+	<script type="text/javascript">
+	$(document).ready(function()
+	{
+		console.log("document ready!!");
+		
+	});
+
+	$("#noticeListTable>tbody").on("click","tr" ,function() {
+    	//console.log("#boardListTable>tbody");
+    	var trs = $(this);
+    	var tds = trs.children();
+    	var boardSeq = tds.eq(5).text();
+    	
+    	console.log("boardSeq:"+boardSeq);
+    	//get방식 형태 call
+    	window.location.href="${hContext}/board/doSelectOne.do?boardSeq="+boardSeq;
+
+    });
+
+	$("#deptBoardListTable>tbody").on("click","tr" ,function() {
+    	//console.log("#boardListTable>tbody");
+    	var trs = $(this);
+    	var tds = trs.children();
+    	var boardSeq = tds.eq(5).text();
+    	
+    	console.log("boardSeq:"+boardSeq);
+    	//get방식 형태 call
+    	window.location.href="${hContext}/board/doSelectOne.do?boardSeq="+boardSeq;
+  
+
+    });
+	
+	</script>
+	
 </body>
 </html>

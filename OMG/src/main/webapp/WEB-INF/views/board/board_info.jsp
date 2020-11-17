@@ -358,6 +358,7 @@
 		comment_frm.upNum.value = reply_frm.upNum.value;
 		comment_frm.write_contents.value = reply_frm.write_contents.value;
 		$("#comment_reg_btn").trigger('click');
+		comment_frm.upNum.value = 0;
 
 	}
 
@@ -471,6 +472,7 @@
 				var msg = JSON.parse(data);
 				alert(msg.msgContents);
 				drawComment();
+				$("#upNum").val('0');
 			},
 			error : function(xhr, status, error) {
 				alert("error:" + error);
