@@ -117,8 +117,30 @@
 			alert("비밀번호를 확인하세요.");
 			return ;
 		}
-        
-    	//ajax
+
+		let employeeId=$("#employee_id").val();
+		let password=$("#password").val();
+		//console.log("employeeId:"+employeeId);
+
+		//console.log("#customCheck");
+		var employee_id=$("#employee_id").val().trim();
+		//check되면 : 쿠키에 ID저장
+        if($("#customCheck").is(":checked")){
+           //console.log("check");
+            
+           if(employee_id !=null){
+              setCookie("employee_Id",employee_id,7);
+              setCookie()
+           }
+
+        }else{//그렇치 않으면 쿠키에 ID삭제
+           if(employee_id !=null){
+             deleteCookie("id");
+           }
+        }
+
+
+      //ajax
         $.ajax({
            type:"POST",
            url:"${hContext}/employee/doLogin.do",
@@ -130,7 +152,7 @@
         success: function(data){
           var jData = JSON.parse(data);
           if(null != jData && jData.msgId=="1"){
-            console.log(jData.msgContents);
+            //console.log(jData.msgContents);
             //다시조회
             //doSelectList(1);
             window.location.href="${hContext}/view/main.do"
@@ -144,7 +166,63 @@
         }
        }); 
        //--ajax 
+        
+    	
         }
+
+  	//id cookie에 저장
+    //cookieValue:j124_146;expires=Mon, 05 Oct 2020 05:39:49 GMT
+     function setCookie(cookie_name,value,expire_day){
+        //cookie생성
+        //Get and set the cookies associated with the current document.
+        var expire_date = new Date();//현재 날짜
+        //console.log("expire_date.getDate():"+expire_date.getDate());
+        expire_date.setDate(expire_date.getDate() +expire_day);
+        var cookieValue = this.escape(value) + ((expire_day==null)?"":";expires="+expire_date.toUTCString())
+        //j124_146;expires=Mon, 05 Oct 2020 05:39:49 GMT
+        //console.log("setCookie cookieValue:"+cookieValue);
+       // console.log("setCookie"+cookie_name +"="+value);
+        document.cookie = cookie_name +"="+cookieValue;
+ 
+	     }
+	    $(document).ready(function(){    
+	      var employeeId = getCookie("employee_id");
+	       $("#employee_id").val(employeeId);
+	
+	       if($("#employeeId").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
+	            $("#customCheck").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+	        }
+     }); 
+
+	    //cookie정보 가지고 오기
+	     function getCookie(cookie_name){
+	        cookie_name = cookie_name +"=";
+	        //j124_146;expires=Mon, 05 Oct 2020 05:39:49 GMT
+	        var cookie_data = document.cookie;
+	        //console.log("cookie_data="+cookie_data);
+	        var start = cookie_data.indexOf(cookie_name);
+	        //console.log("start="+start);
+	        var cookie_value = "";
+	        if(start !=-1){
+	           start += cookie_name.length;
+	           var end = cookie_data.indexOf(";",start);
+	           
+	           if(end ==-1)end = cookie_data.length;
+	           
+	           cookie_value = cookie_data.substring(start,end);
+	        }
+	        
+	        return unescape( cookie_value );
+	     }
+	    
+	   function deleteCookie(cookie_name){
+	      var expire_date = new Date();//현재 날짜
+	      expire_date.setDate(expire_date.getDate()-1);//현재 날짜 -1(전날)
+	      //console.log("expire_date.getDate():"+expire_date.getDate());
+	      document.cookie  = cookie_name+"="+";expires="+expire_date.toUTCString();
+	   }
+    
+    
     </script>
 </body>
 
