@@ -21,6 +21,8 @@ import com.omg.code.dao.CodeDaoImpl;
 import com.omg.commuting.domain.Commuting;
 import com.omg.commuting.domain.PresentState;
 import com.omg.commuting.service.CommutingService;
+import com.omg.document.domain.DocumentVO;
+import com.omg.document.service.DocumentService;
 import com.omg.employee.domain.EmployeeVO;
 import com.omg.employee.service.EmployeeService;
 import com.omg.schedule.domain.ScheduleVO;
@@ -44,6 +46,9 @@ public class MainController {
 	
 	@Autowired
 	CommutingService commutingService;
+	
+	@Autowired
+	DocumentService documentService;
 
 	@RequestMapping(value = "view/main.do", method = RequestMethod.GET)
 	public String main_view(HttpServletRequest req,Search search,Model model) {
@@ -83,9 +88,27 @@ public class MainController {
 				attendCount++;
 			}
 		}
-		model.addAttribute("totalCount",totalCount); model.addAttribute("attendCount",attendCount);
+		model.addAttribute("totalCount",totalCount); 
+		model.addAttribute("attendCount",attendCount);
 		LOG.debug((attendCount/totalCount)*100.0+"");
 		model.addAttribute("attendRate",(attendCount/totalCount)*100);
+		
+		
+		//6.문서 결재 현황
+		
+		DocumentVO documentVO = new DocumentVO();
+		
+		documentVO.setEmployeeId(sessionVO.getEmployee_id());
+		int enroll = this.documentService.dodocumentenroll(documentVO);
+		model.addAttribute("enroll", enroll);
+		
+		documentVO.setOkUser(sessionVO.getEmployee_id());
+		int app = this.documentService.dodocumentapp(documentVO);
+		model.addAttribute("app", app);
+		
+		
+		
+		
 		
 		return "index";
 	}

@@ -40,12 +40,9 @@ public class DocumentController {
 	@Autowired
 	DocumentService documentService;
 
-	
 	@Autowired
 	AttachmentServiceImpl attachmentServiceImpl;
-	
-	
-	
+
 	@Autowired
 	MessageSource messageSource;
 
@@ -55,10 +52,10 @@ public class DocumentController {
 	// --문서 목록 page
 	@RequestMapping(value = "document/document.do", method = RequestMethod.GET)
 	public String document_view(DocumentVO documentVO, Model model, HttpServletRequest req) {
-		
+
 		HttpSession session = req.getSession();
 		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
-		
+
 		String Id = sessionVO.getEmployee_id();
 		// 공통값 받아오기
 		documentVO.setEmployeeId(Id);
@@ -93,51 +90,46 @@ public class DocumentController {
 
 	// --문서 상세 page
 	@RequestMapping(value = "document/document_info.do", method = RequestMethod.GET)
-	public String document_info(DocumentVO documentVO, Model model ) {
-		
-		
+	public String document_info(DocumentVO documentVO, Model model) {
+
 		EmployeeVO empVO = new EmployeeVO();
-		
+
 		DocumentVO SeleteOne = documentService.doSelectOne(documentVO);
-		
-		
-		 LOG.debug("===========================");
-		 LOG.debug("=doSelectOne()="+SeleteOne);
-		 LOG.debug("=documentVO : "+documentVO);
-		 LOG.debug("===========================");
-		
+
+		LOG.debug("===========================");
+		LOG.debug("=doSelectOne()=" + SeleteOne);
+		LOG.debug("=documentVO : " + documentVO);
+		LOG.debug("===========================");
+
 		AttachmentVO inFileVO = new AttachmentVO();
 		inFileVO.setFileCode(SeleteOne.getFileCode());
 		List<AttachmentVO> fileList = attachmentServiceImpl.doSelectList(inFileVO);
-		
+
 		empVO.setEmployee_id(SeleteOne.getOkUser());
-		LOG.debug("empVO"+empVO);
-		empVO= documentService.doempIdSelete(empVO);
-		LOG.debug("emp"+empVO);
-		
-		model.addAttribute("fileList",fileList);
+		LOG.debug("empVO" + empVO);
+		EmployeeVO  emp = documentService.doempIdSelete(empVO);
+		LOG.debug("emp" + emp);
+
+		model.addAttribute("fileList", fileList);
 		model.addAttribute("SeleteOne", SeleteOne);
-		model.addAttribute("emp",empVO);
-		
+		model.addAttribute("emp", empVO);
+
 		LOG.debug("SeleteOne" + SeleteOne);
 
 		return "document/document_info";
 	}
 
-	
-
 	// --관리자 목록 page
 	@RequestMapping(value = "document/document_manager.do", method = RequestMethod.GET)
 	public String document_manager(DocumentVO documentVO, Model model, HttpServletRequest req) {
-		
 
 		HttpSession session = req.getSession();
 		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
-		
+
 		String Id = sessionVO.getEmployee_id();
-		
+
 		documentVO.setOkUser(Id);
-		
+
 		int flag = documentService.domanagerIdcheck(documentVO);
 		model.addAttribute("flag", flag);
 		LOG.debug("=domanagerIdcheck=" + flag);
@@ -157,13 +149,31 @@ public class DocumentController {
 	// --관리자 산세 page
 	@RequestMapping(value = "document/document_manager_info.do", method = RequestMethod.GET)
 	public String document_manager_info(DocumentVO documentVO, Model model) {
-
+		EmployeeVO empVO = new EmployeeVO();
 		DocumentVO SeleteOne = documentService.doSelectOne(documentVO);
 
 		model.addAttribute("SeleteOne", SeleteOne);
 		LOG.debug("SeleteOne" + SeleteOne);
 
+		AttachmentVO inFileVO = new AttachmentVO();
+		inFileVO.setFileCode(SeleteOne.getFileCode());
+		List<AttachmentVO> fileList = attachmentServiceImpl.doSelectList(inFileVO);
+
+		empVO.setEmployee_id(SeleteOne.getOkUser());
+		LOG.debug("empVO" + empVO);
+		empVO = documentService.doempIdSelete(empVO);
+		LOG.debug("emp" + empVO);
+
+		model.addAttribute("fileList", fileList);
+		model.addAttribute("SeleteOne", SeleteOne);
+		model.addAttribute("emp", empVO);
+
+		LOG.debug("SeleteOne" + SeleteOne);
+		
 		return "document/document_manager_info";
+	
+	
+	
 	}
 
 	// --기능-----------------------------------------------------------------------------
@@ -219,7 +229,7 @@ public class DocumentController {
 	// -- 문서 사원 ID 기준 검색
 	@RequestMapping(value = "document/doempIdSelectList.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doempIdSelectList(DocumentVO documentVO  ) {
+	public String doempIdSelectList(DocumentVO documentVO) {
 		LOG.debug("==================");
 		LOG.debug("=documentVO=" + documentVO);
 		LOG.debug("==================");
@@ -243,21 +253,19 @@ public class DocumentController {
 	// -- 삽입
 	@RequestMapping(value = "document/doInsert.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doInsert(DocumentVO documentVO, HttpSession session, MultipartHttpServletRequest multi) throws IllegalStateException, IOException {
+	public String doInsert(DocumentVO documentVO, HttpSession session, MultipartHttpServletRequest multi)throws IllegalStateException, IOException {
 		LOG.debug("==================");
 		LOG.debug("=documentVO=" + documentVO);
 		LOG.debug("==================");
-		
+
 		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
-		
+
 		String Id = sessionVO.getEmployee_id();
 		// 공통값 받아오기
-		
-		
+
 		// 세션으로 받기
 		documentVO.setEmployeeId(Id);
 
-		
 		int flag = documentService.doInsert(documentVO);
 
 		LOG.debug("=doInsert=" + flag);
@@ -269,10 +277,10 @@ public class DocumentController {
 			String dir = "document";
 			List<AttachmentVO> list = StringUtil.fileUpload(multi, fileCode, dir);
 			int fileFlag = 0;
-			for(AttachmentVO vo : list) {
+			for (AttachmentVO vo : list) {
 				fileFlag = attachmentServiceImpl.doInsert(vo);
 			}
-			
+
 			message.setMsgContents(documentVO.getTitle() + "문서가 등록 되었습니다.");
 		} else {
 			message.setMsgContents(documentVO.getTitle() + "문서가 등록 실패 하였습니다.");
@@ -317,9 +325,9 @@ public class DocumentController {
 	}
 
 	// -- 수정
-	@RequestMapping(value = "document/doUpdate.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "document/doUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doUpdate(DocumentVO documentVO) {
+	public String doUpdate(DocumentVO documentVO, HttpSession session, MultipartHttpServletRequest multi) throws IllegalStateException, IOException {
 		LOG.debug("==================");
 		LOG.debug("=documentVO=" + documentVO);
 		LOG.debug("==================");
@@ -332,9 +340,17 @@ public class DocumentController {
 		message.setMsgId(flag + "");
 
 		if (flag == 1) {
-			message.setMsgContents(documentVO.getTitle() + "문서 수정 하였습니다.");
+			String fileCode = documentVO.getFileCode();
+			String dir = "document";
+			List<AttachmentVO> list = StringUtil.fileUpload(multi, fileCode, dir);
+			int fileFlag = 0;
+			for (AttachmentVO vo : list) {
+				fileFlag = attachmentServiceImpl.doUpdate(vo);
+			}
+
+			message.setMsgContents(documentVO.getTitle() + "문서가 수정 되었습니다.");
 		} else {
-			message.setMsgContents(documentVO.getTitle() + "문서 수정 실패 하였습니다.");
+			message.setMsgContents(documentVO.getTitle() + "문서가 수정 실패 하였습니다.");
 		}
 
 		Gson gson = new Gson();
@@ -346,48 +362,40 @@ public class DocumentController {
 		return json;
 	}
 
-	
-	 @RequestMapping(value="document/doempName.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
-	 @ResponseBody 
-	 public String doempName(EmployeeVO employee, Model model) {
-		 String Id= documentService.doempName(employee );
-		LOG.debug("Id : "+Id);
-		 model.addAttribute("Id", Id);
-		 
-		 LOG.debug("=Id=" + Id);
-		 Message message = new Message();
-		 message.setMsgId(Id + "");
-		 
-		 Gson gson=new Gson(); 
-		 String json = gson.toJson(Id);
-		 LOG.debug("==================");
-		 LOG.debug("=json="+json);
-		 LOG.debug("==================");
-		 
-		 return json; 
-	 }
+	@RequestMapping(value = "document/doempName.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doempName(EmployeeVO employee, Model model) {
+		String Id = documentService.doempName(employee);
+		LOG.debug("Id : " + Id);
+		model.addAttribute("Id", Id);
 
-	
+		LOG.debug("=Id=" + Id);
+		Message message = new Message();
+		message.setMsgId(Id + "");
 
-	 @RequestMapping(value="document/doempNameget.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
-	 @ResponseBody 
-	 public  List<String>  doempNameget(EmployeeVO employee) {
-		 List<String> nameList = documentService.doempNameget(employee);
-		 LOG.debug("nameList" + nameList);
-	
-		 
-		 Gson gson = new Gson();
-		 String json = gson.toJson(nameList);
-		 LOG.debug("==================");
-		 LOG.debug("=json=" + json);
-		 LOG.debug("==================");
-		 
-	
+		Gson gson = new Gson();
+		String json = gson.toJson(Id);
+		LOG.debug("==================");
+		LOG.debug("=json=" + json);
+		LOG.debug("==================");
+
+		return json;
+	}
+
+	@RequestMapping(value = "document/doempNameget.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public List<String> doempNameget(EmployeeVO employee) {
+		List<String> nameList = documentService.doempNameget(employee);
+		LOG.debug("nameList" + nameList);
+
+		Gson gson = new Gson();
+		String json = gson.toJson(nameList);
+		LOG.debug("==================");
+		LOG.debug("=json=" + json);
+		LOG.debug("==================");
+
 		return nameList;
 
-		 
-	 }
-	 
-	 
+	}
 
 }

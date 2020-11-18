@@ -135,4 +135,18 @@ public class DocumentService {
 	public List<String> doempNameget(EmployeeVO employee) {
 		return documentDaoImpl.doempNameget(employee);
 	}
+
+	
+	
+	public int dodocumentenroll(DocumentVO documentVO) {
+		return documentDaoImpl.dodocumentenroll(documentVO);
+	}
+	public int dodocumentapp(DocumentVO documentVO) {
+		return documentDaoImpl.dodocumentapp(documentVO);
+	}
+
+
+
+
+
 }

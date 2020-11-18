@@ -81,4 +81,16 @@
 	</select>
 	
 	
+	<!-- 결재 받을문서 -->
+	<select id="dodocumentenroll" parameterType="DocumentVO"  resultType="int">
+		SELECT COUNT(*)FROM (SELECT * FROM document WHERE document_set = 0)WHERE employee_id = #{employeeId}
+	</select>
+	
+	
+	<!-- 결재 해야 할 문서 -->
+	<select id="dodocumentapp" parameterType="DocumentVO"  resultType="int">
+		SELECT COUNT(*) FROM (SELECT *FROM document WHERE document_set = 0) WHERE ok_User = #{okUser}
+	</select>
+	
+	
 </mapper>
