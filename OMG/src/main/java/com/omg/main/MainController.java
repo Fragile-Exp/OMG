@@ -95,7 +95,7 @@ public class MainController {
 		Criteria criteria2 = new Criteria(1, 50, 1);
 		criteria2.setDept_no(sessionVO.getDept_no());
 		List<Commuting> commutingList = this.commutingService.doSelectList(criteria2);
-		int totalCount = commutingService.getTotalCount(criteria2);
+		int totalCount = commutingService.getTotalCount(cri);
 		int attendCount = 0;
 		for(Commuting vo : commutingList) {
 			if(vo.getPresentState() ==PresentState.근무중) {
@@ -103,8 +103,7 @@ public class MainController {
 			}
 		}
 		model.addAttribute("totalCount",totalCount); model.addAttribute("attendCount",attendCount);
-		LOG.debug((attendCount/totalCount)*100.0+"");
-		model.addAttribute("attendRate",(attendCount/totalCount)*100);
+		model.addAttribute("attendRate",(attendCount/totalCount)*100.0);
 		
 		return "index2";
 
