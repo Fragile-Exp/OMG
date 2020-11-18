@@ -156,9 +156,9 @@
 					
 					<!-- 내 일정 -->
 					<section class="schedule">
-						<div class="col-xl-4 col-lg-5">
+						<div class="col-xl-6 col-lg-6">
 							<!-- card -->
-							<div class="card shadow mb-4" style="font-size: 10px">
+							<div class="card shadow mb-4" style="font-size: 12px">
 								<!-- header-->
 							    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 							      <h6 class="m-0 font-weight-bold text-primary">내 일정</h6>
@@ -166,7 +166,7 @@
 							    <!-- header-->
 							    <div class="card-body">
 									<!-- table -->
-									<table class="table table-striped table-bordered table-hover" id="dateTable" width="100%" cellspacing="0">
+									<table class="table table-striped table-bordered table-hover" id="toDoListTable" width="100%" cellspacing="0">
 										<thead>
 											<tr>
 												<th>제목</th>
@@ -174,19 +174,22 @@
 												<th>종료일</th>
 											</tr>
 										</thead>
-										<c:forEach items="${scheduleList}" var="schedule">
-											<tr>
-												<td>
-													<a class="move" href="<c:out value='${schedule.schedule_no}'/>">
-														<c:out value="${schedule.title}"/>
-													</a>
-												</td>
-												<td><c:out value="${schedule.start_dt}"/></td>
-												<td><c:out value="${schedule.end_dt}"/></td>
-											</tr>
-										</c:forEach>
+										<tbody>
+											<c:forEach items="${scheduleList}" var="schedule">
+												<tr>
+													<td>
+														<a class="move" href="<c:out value='${schedule.schedule_no}'/>">
+															<c:out value="${schedule.title}"/>
+														</a>
+													</td>
+													<td><c:out value="${schedule.start_dt}"/></td>
+													<td><c:out value="${schedule.end_dt}"/></td>
+												</tr>
+											</c:forEach>
+										</tbody>
 									</table>
 									<!-- /table -->
+									
 								</div>
 							</div>
 							<!-- card -->
@@ -195,7 +198,7 @@
 					<!-- //내 일정 -->
 					<!-- 게시판 -->
 					<section class="board row">
-						<input type="hidden" name="boardSeq"	id="boardSeq" />
+						<input type="hidden" name="boardSeq" id="boardSeq" />
 						<!--공지사항-->
 						<div class="board__notice col-xl-6 col-lg-6" >
 						
@@ -342,8 +345,7 @@
 	<script type="text/javascript">
 	$(document).ready(function()
 	{
-		console.log("document ready!!");
-		
+		console.log("document ready!!");			
 	});
 
 	$("#noticeListTable>tbody").on("click","tr" ,function() {
@@ -367,9 +369,18 @@
     	console.log("boardSeq:"+boardSeq);
     	//get방식 형태 call
     	window.location.href="${hContext}/board/doSelectOne.do?boardSeq="+boardSeq;
-  
 
     });
+
+	//게시물 조회를 위한 이벤트 처리
+	$(".move").on("click", function(e) {
+		e.preventDefault();
+		var scheduleNo = $(this).attr("href")
+		console.log(scheduleNo);
+
+		window.location.href="${hContext}/schedule/doSelectOne.do?schedule_no=" + scheduleNo;
+	});
+	
 	
 	</script>
 	

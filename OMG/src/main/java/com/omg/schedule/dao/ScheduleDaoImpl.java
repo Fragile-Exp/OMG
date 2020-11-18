@@ -151,4 +151,21 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		return count;
 	}
 
+	@Override
+	public List<ScheduleVO> toDoList(Criteria cri) {
+		LOG.debug("doSelectList.....");
+		LOG.debug("[List]Param: " + cri);
+
+		String statement = NAMESPACE + ".toDoList";
+		
+		List<ScheduleVO> list = sqlSessionTemplate.selectList(statement, cri);
+		LOG.debug("cri: " + cri);
+		
+		LOG.debug("=========================");
+		list.forEach(outVO -> LOG.debug("= [list]outVO: " + outVO));
+		LOG.debug("=========================");
+		
+		return list;
+	}
+
 }

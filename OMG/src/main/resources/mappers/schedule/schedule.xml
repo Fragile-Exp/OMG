@@ -125,6 +125,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 		AND A.dept_no = B.dept_no
 	</select>
+	
+	<!-- toDoList -->
+	<select id="toDoList" resultType="ScheduleVO">
+		SELECT A.*,
+	   		   B.dept_nm
+		FROM(SELECT rownum rn,
+					schedule_no,
+					dept_no,
+					employee_id,
+					category_id,
+					title,
+					content,
+					TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') start_dt,
+					TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') end_dt
+ 	 		FROM schedule
+			WHERE category_id = 3
+			<![CDATA[
+			AND rownum <= #{pageNum} * #{amount}
+			]]>
+			AND employee_id = #{employee_id}
+			AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') 
+     			BETWEEN TO_CHAR(start_dt, 'YYYY-MM-DD') AND TO_CHAR(end_dt, 'YYYY-MM-DD')
+     		ORDER BY start_dt ASC, end_dt ASC) A, DEPT B
+     	<![CDATA[
+		WHERE rn > (#{pageNum} - 1) * #{amount}
+		]]>
+		AND A.dept_no = B.dept_no
+	</select>
 
 	<select id="getTotalCount" resultType="int">
 		SELECT count(*)

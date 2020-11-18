@@ -17,6 +17,8 @@ public interface ScheduleDao {
     
     public List<ScheduleVO> doSelectList(Criteria cri);
     
+    public List<ScheduleVO> toDoList(Criteria cri);
+    
     public  int getTotalCount(Criteria cri);
 
 }
