@@ -34,10 +34,7 @@
 					<!-- Page Heading -->
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
 					  <h1 class="h3 mb-0 text-gray-800">문서 등록 페이지</h1>
-					  <div class="btn-box">
-					  	<a id="Insert"  onClick="insertDcoument()" class="btn btn-sm btn-primary shadow-sm" style="color:white"> <i class="fas fa-file-upload fa-sm text-white-50"></i>등록</a>
-					  	<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
-					  </div>
+					  
 					</div>
 					
 				
@@ -52,17 +49,9 @@
 					      <!-- Card Header - Dropdown -->
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					        <h6 class="m-0 font-weight-bold text-primary">문서 등록</h6>
-					        <div class="dropdown no-arrow">
-					          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-					          </a>
-					          <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-					            <div class="dropdown-header">Dropdown Header:</div>
-					            <a class="dropdown-item" href="#">Action</a>
-					            <a class="dropdown-item" href="#">Another action</a>
-					            <div class="dropdown-divider"></div>
-					            <a class="dropdown-item" href="#">Something else here</a>
-					          </div>
+					        <div style=" float: right;">
+								<a id="Insert"  onClick="insertDcoument()" class="btn btn-sm btn-primary shadow-sm" style="color:white"> <i class="fas fa-file-upload fa-sm text-white-50"></i>등록</a>
+					  			<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
 					        </div>
 					      </div>
 					      <!-- Card Body -->
@@ -75,6 +64,7 @@
 						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
 						      			<div class="title-header bg-primary text-white btn-sm" style="text-align:center;" >
 						      				제목
+						      				
 						      			</div>
 						      		</div>
 						      		<div class="title-body" style="display: inline-block;">
@@ -137,10 +127,7 @@
 										</tbody>
 									</table>
 						      		
-						      		
-						      		
-						      		
-					        	</div>
+						      	</div>
 					        	<!--// 파일 등록 -->
 					        	<!-- 결재자 -->
 					        	<div>
@@ -151,7 +138,7 @@
 						      		</div>
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select id="approval-dept"  name="dept_no" class="approval-body-select" style="width:200px;">
+						      			<select id="approval-dept"  name="dept_no" class="approval-body-select" style="width:200px;"  onchange="empNameget()">
 							      			<option >부서</option>
 							      			<option value="10000">omg</option>
 							      			<option value="11000">전력기획본부</option>
@@ -167,41 +154,27 @@
 							      			<option value="14100">아시아영업부</option>
 							      		</select>
 						      		</div>
-						      		<div class="approval-body" style="display: inline-block;">
+						      		<input id="emplist" type="hidden" value="">
+						      		<div id="approval-lever"class="approval-body" style="display: inline-block;">
+						      			
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select id="approval-lever"  name="position_no" class="approval-body-select" style="width:200px;"  >
-							      			<option >직책</option>
-							      			<option value="10000">사장</option>
-							      			<option value="11000">부사장</option>
-							      			<option value="11100">전무이사</option>
-							      			<option value="11200">상무이사</option>
-							      			<option value="11300">이사</option>
-							      			<option value="11310">수석</option>
-							      			<option value="11320">책임</option>
-							      			<option value="11330">선임</option>
-							      			<option value="11331">사원</option>
-							      			<option value="11332">인턴</option>
-							      			<option value="11333">인턴2</option>
-							      		</select>
+						      			
 						      		</div>
 						      		
-						      		<div class="approval-body" style="display: inline-block;">
-						      			<input  id="approval-name" name="name" type="text" style="width:100px;" placeholder="이름" >
-						      			<input  id="okUser" name="okUser"  type="hidden">	 
-						      		</div>
 						      		<div style="display: inline-block;">
-						      			<input id="approval-button" type="button" style="width:100px;" onclick="selectClick()" value="검색"> 
+						      			<input id="approval-button" type="button" style="width:100px;" onclick="selectClick()" value="확인"> 
 						      		</div>
 						      	</div>
+						      	
 					        	<div class="card-body-label" style="width:7%; margin-bottom:10px;">
 						      			<div class="cont-header bg-primary text-white btn-sm" style="text-align:center; width:100px;" >
 						      				문서 내용
 						      			</div>
 						      	</div>
-						      	<input id="cont" name="documentCont" class="cont-body" type="text" style="width:900px; height:100px;">
+						      		<input id="cont" name="documentCont" class="cont-body" type="text" style="width:900px; height:100px;">
 						      	</form>
 					        </div>
-					      
+					      	
 					      </div>
 					    </div>
 					  </div>
@@ -227,25 +200,92 @@
 </body>
 
 <script type="text/javascript">
+	var emplist;
+	
+	
+		function empNameget(){
+			$.ajax({
+				url : "${hContext}/document/doempNameget.do",
+				type : "GET",
+				data:{
+					"dept_no" : $("#approval-dept").val()
+					},
+			dataType:"html",
+			async: true,
+			success:function(data){
+				alert("검색 성공");
+				
+				var list = JSON.parse(data);
+				console.log(list);
 
+				var html ="";
+				html +="<select >";
+				
+				
+				for(var i=0; i<list.length; i++){
+
+					html += "<option>";
+					html +=list[i];
+					html +="</option>";
+				}
+
+				html += "</select>";	
+				$("#approval-lever").append(html);
+				
+
+			},
+			error:function(data){
+					
+			}
+				
+			});
+		}
+
+	function file_upload(e)	
+		{
+			var files = e.files;
+		    var fileArr = Array.prototype.slice.call(files);
+	 		html = "";
+	 		if(fileArr.length != 0){
+	 			for(var file of fileArr){
+	 				html += '<tr>';
+					html += '<td>';
+					html += file.name;
+					html += '</td>';
+					html += '</tr>';
+	 			}
+	 	 	} else{
+	 	 		html += '<tr>';
+				html += '<td class="text-center">';
+				html += '등록된 데이터가 없습니다.';
+				html += '</td>';
+				html += '</tr>';
+	 	 	 	}
+			
+			$("#fileListTable>tbody").empty();
+			$("#fileListTable>tbody").append(html);
+		}
+
+
+
+		
 	var Id;
 	function selectClick(){
-
+		
 		
 		$.ajax({
 			url:"${hContext}/document/doempName.do",
 			type:"GET",
 			data:{
 				  "dept_no": $('#approval-dept').val(),
-				  "position_no": $('#approval-lever').val(),
-				  "name" : $("#approval-name").val()
+				  "name" : $("#approval-lever>select").val()
 				  },
 			dataType:"json",
 		success:function(data){
 		 	alert("존재합니다.");
-		 	alert(data.employee_id);
-		 	Id = data.employee_id;
-		 	$("#okUser").val(Id);
+		 	alert(data);
+		 	Id = data;
+
 		 	
 		},
 		error:function(err){
@@ -266,7 +306,9 @@
 		
 		var frm = document.writeFrm;
 		var formData = new FormData(frm);
-
+		formData.append("okUser",Id);
+		
+		alert(formData );
 		$.ajax({
 			url:"${hContext}/document/doInsert.do",
 			type:"POST",
@@ -276,82 +318,21 @@
 			contentType : false,
 			processData : false,
 		success:function(data){
-			
-		 	alert("등록이 성공 하였습니다.")
-		 	
+			alert("등록이 성공 하였습니다.")
+			window.location.href="${hContext}/document/document.do";
 		},
 		error:function(err){
 			alert("등록이 실패 하였습니다.")
+			
 		}
 
 		});					
 
-	/* 	
-		$.ajax({
-			type:"POST",
-			url:"${hContext}/board/doInsert.do",
-			dataType:"html", 
-			enctype : 'multipart/form-data',
-			contentType : false,
-			processData : false,
-			data: formData,
-		success:function(data)
-			{ //성공
-			var jsonObj = JSON.parse(data);
-			console.log("msgId="+jsonObj.msgId);
-			console.log("msgContents="+jsonObj.msgContents);
-
-				// msgId (fileCOde) 가 1보다 크거나 같으면
-				if(null !=jsonObj && jsonObj.msgId >=1)
-				{
-					alert(jsonObj.msgContents);
-					//board_list.jsp로 이동 
-					//window.location.href="/EJDBC/board/board.do?work_div=doSelectList";
-					moveToListView();
-				}
-			},
-			error:function(xhr,status,error)
-			{//실패
-			 alert("error:"+error);
-			},
-			complete:function(data)
-			{
-				
-			}
-
-		});//--ajax */
-
-
-
-
 		
 		
 	}
 
-	function file_upload(e)	
-	{
-		var files = e.files;
-	    var fileArr = Array.prototype.slice.call(files);
- 		html = "";
- 		if(fileArr.length != 0){
- 			for(var file of fileArr){
- 				html += '<tr>';
-				html += '<td>';
-				html += file.name;
-				html += '</td>';
-				html += '</tr>';
- 			}
- 	 	} else{
- 	 		html += '<tr>';
-			html += '<td class="text-center">';
-			html += '등록된 데이터가 없습니다.';
-			html += '</td>';
-			html += '</tr>';
- 	 	 	}
-		
-		$("#fileListTable>tbody").empty();
-		$("#fileListTable>tbody").append(html);
-	}
+
 
 	
 </script>

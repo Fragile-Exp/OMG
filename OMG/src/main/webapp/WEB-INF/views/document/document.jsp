@@ -48,15 +48,16 @@
 					  <div class="col-xl-15 col-lg-10">
 					    <div class="card shadow mb-4">
 					      <!-- Card Header - Dropdown -->
-					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-					        <h6 class="m-0 font-weight-bold text-primary">등록 결재 목록</h6>
-					    	<div style="float: right;">
-					    	<a href="${hContext}/document/document_reg.do" class="btn btn-sm btn-primary shadow-sm" style="color:white "><i class="fas fa-file-invoice fa-sm text-white-50"></i>등록 페이지</a>
+					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" ">
+					        <h6 class="m-0 font-weight-bold text-primary">문서 등록 목록</h6>
+					    		<div style=" float: right;">
+					    			<a href="${hContext}/document/document_reg.do" class="btn btn-sm btn-primary shadow-sm" style="color:white; "><i class="fas fa-file-invoice fa-sm text-white-50"></i>등록 페이지</a>
+					  				<a id="delete" onClick="deleteDcoument()" class="btn btn-sm btn-primary shadow-sm" style="color:white; "><i class="fas fa-trash fa-sm text-white-50"></i> 삭제</a>
+					  			</div>
 					  		</div>
-					  		<div style="float: right;">
-					  		<a id="delete" onClick="deleteDcoument()" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-trash fa-sm text-white-50"></i> 삭제</a>
-					  		</div>
-					      </div>
+					      
+					      
+					      
 					      <!-- Card Body -->
 					      <div class="card-body">
 					        <div class="chart-area"  style=" height:100%; ">

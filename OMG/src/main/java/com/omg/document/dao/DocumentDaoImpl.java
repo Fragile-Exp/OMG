@@ -185,7 +185,7 @@ public class DocumentDaoImpl {
 	}
 	
 	
-	public EmployeeVO doempName(EmployeeVO employee) {
+	public String doempName(EmployeeVO employee) {
 		LOG.debug("=doempName=");
 		
 		String statement = NAMESPACE+".doempName";
@@ -193,7 +193,7 @@ public class DocumentDaoImpl {
 		LOG.debug("=statement ="+statement );
 		LOG.debug("=serach="+employee);
 		
-		EmployeeVO Id= this.sqlSessionTemplate.selectOne(statement, employee);
+		String Id= this.sqlSessionTemplate.selectOne(statement, employee);
 		
 		return Id;
 	}
@@ -218,6 +218,17 @@ public class DocumentDaoImpl {
 		
 	}
 	
+	public List<String> doempNameget(EmployeeVO employee) {
+		LOG.debug("=doempNameget=");
+		
+		String statement = NAMESPACE+".doempNameget";
+		
+		 List<String>  list = sqlSessionTemplate.selectList(statement, employee);
+		
+		
+		return list;
+		
+	}
 	
 	
 	
