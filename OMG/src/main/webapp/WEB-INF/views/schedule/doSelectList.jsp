@@ -57,6 +57,7 @@
 							</c:choose>
 							
 							<button id="regBtn" type="button" class="btn btn-primary pull-right" style="float: right;">일정 추가</button>
+
 						</div>
 					</div>				
 				
@@ -262,11 +263,11 @@
 				searchForm.submit();
 			});
 
+			//사이드바 컬랩스
 			$("#setting").attr("class","nav-link");
 			$("#setting").attr("aria-expanded","true");
 			$("#scheduler").attr("class","collapse show");
 
-			//사이드바 컬랩스
 			var categoryId = $("input[name='category_id']").val();
 
 			if(categoryId == 1) {
@@ -276,7 +277,6 @@
 			} else if(categoryId == 3) {
 				$("#schedule_private").attr("class","collapse-item active");
 			}
-
 		});
 	</script>
 </body>
