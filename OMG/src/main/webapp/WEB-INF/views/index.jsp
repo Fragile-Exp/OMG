@@ -35,7 +35,7 @@
 					        <div class="row no-gutters align-items-center">
 					          <div class="col mr-2">
 					            <div class="text-sm mb-0 font-weight-bold text-primary text-uppercase mb-1">문서 결재 현황</div>
-					            <div class="h6 mb-0 font-weight-bold text-gray-800">결재 받을 문서 : x 건</div>
+					            <div class="h6 mb-0 font-weight-bold text-gray-800">결재 받을 문서 : ${enroll} 건</div>
 					          </div>
 					          <div class="col-auto">
 					            <i class="fas fa-folder fa-2x text-gray-300"></i>
@@ -52,7 +52,11 @@
 					        <div class="row no-gutters align-items-center">
 					          <div class="col mr-2">
 					            <div class="text-sm mb-0 font-weight-bold text-primary text-uppercase mb-1">문서 결재 현황</div>
+<<<<<<< HEAD
 					            <div class="h6 mb-0 font-weight-bold text-gray-800">결재 할 문서 : x 건</div>
+=======
+					            <div class="h6 mb-0 font-weight-bold text-gray-800">결재 해야 할 문서 : ${app} 건</div>
+>>>>>>> bd484808f79b6a9171a11889892c24004798306a
 					          </div>
 					          <div class="col-auto">
 					            <i class="fas fa-folder fa-2x text-gray-300"></i>
