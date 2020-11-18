@@ -74,7 +74,7 @@
 							<input type="hidden" name="boardSeq"	id="boardSeq" />
 							<input type="hidden" name="pageNum" id="pageNum" />
 							<div class="com-sm-12">
-								<table class="table table-bordered dataTable" id="boardListTable" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 95%; margin-left: 30px;margin-top: 30px;">
+								<table class="table table-bordered dataTable" id="boardListTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 									<thead>
 										<tr role="row">
 											<th class="text-center seq" style="width: 60px;">번호</th>
