@@ -317,11 +317,13 @@ public class StringUtil {
 		
 			// 파일 save Directory
 			String uploadDir = multi.getSession().getServletContext().getRealPath("/resources/upload/")+dir;
+			String uploadDir2 = multi.getContextPath()+"/resources/upload/"+dir;
 			LOG.debug("uploadDir = " + uploadDir);
+			LOG.debug("uploadDir2 = " + uploadDir2);
 			//파일 root Directory() 생성
 			File  fileRootDir = new File(uploadDir);
-			if(fileRootDir.isDirectory()==false) {
-				boolean flag =fileRootDir.mkdir();
+			if(fileRootDir.exists()==false) {
+				boolean flag =fileRootDir.mkdirs();
 				LOG.debug("fileRootDir 생성 = "+flag);
 			}
 			// 년도
@@ -330,10 +332,12 @@ public class StringUtil {
 			String month = formatDate("MM");
 			
 			String datePath = uploadDir+File.separator+year+File.separator+month;
+			String datePath2 = uploadDir2+File.separator+year+File.separator+month;
 			LOG.debug("datePath = " + datePath);
-			
+			LOG.debug("datePath2 = " + datePath2);
 			File dateFilePath=new File(datePath);
-			if(dateFilePath.isDirectory()==false) {
+			File dateFilePath2=new File(datePath2);
+			if(dateFilePath.exists()==false) {
 				boolean flag =dateFilePath.mkdirs();
 				LOG.debug("dataFilePath 생성 = "+flag);
 			}
@@ -345,7 +349,7 @@ public class StringUtil {
 				
 				// 원본 파일명
 				String originName = file.getOriginalFilename();
-				
+				originName = originName.replaceAll(" ", "_");
 				if(null == originName || "".equals(originName)) continue;
 				LOG.debug("원본 파일명 = "+originName);
 				fileVO.setOriginName(originName);
@@ -363,17 +367,20 @@ public class StringUtil {
 				
 				// 저장명으로 파일 변경
 				File renameFile = new File(dateFilePath,saveName);
-				String renameFilePath = renameFile.getAbsolutePath().replaceAll("\\\\", "/");
+				File renameFile2 = new File(dateFilePath2,saveName);
+				String renameFilePath = renameFile.getPath().replaceAll("\\\\", "/");
+				String renameFilePath2 = renameFile2.getPath().replaceAll("\\\\", "/");
 				
 				//renameFilePath = renameFilePath.replaceAll();
 				LOG.debug("=renameFilePath="+renameFilePath);
-				fileVO.setSaveName(renameFilePath);
+				fileVO.setSaveName(renameFilePath2);
 				fileVO.setFileCode(fileCode);
 				fileVO.setFileNum(i++);
 				list.add(fileVO);
 				file.transferTo(new File(renameFile.getAbsolutePath()));
-				LOG.debug("renameFile.getPath()" + renameFile.getPath());
-				LOG.debug("renameFile.getPath()" + renameFile.getAbsolutePath());
+//				file.transferTo(new File(renameFile.getPath()));
+//				LOG.debug("renameFile.getPath()" + renameFile.getPath());
+				//LOG.debug("renameFile.getPath()" + renameFile.getAbsolutePath());
 			}
 		}
 		

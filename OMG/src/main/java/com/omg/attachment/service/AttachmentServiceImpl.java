@@ -42,8 +42,14 @@ public class AttachmentServiceImpl
 	
 	public int doInsert(AttachmentVO attachment)
 	{
+		
 		return attachmentDao.doInsert(attachment);
 	}
 	
+	public int doUpdate(AttachmentVO attachment)
+	{
+		attachmentDao.doDelete(attachment);
+		return attachmentDao.doInsert(attachment);
+	}
 	
 }
