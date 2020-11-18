@@ -138,6 +138,13 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		return list;
 	}
 
+	/**
+	 * 게시판별 게시글 수 조회
+	 * 
+	 * @param cri
+	 * @return flag
+	 * @author 박정민
+	 */
 	@Override
 	public int getTotalCount(Criteria cri) {
 		LOG.debug("getTotalCount.....");
@@ -151,6 +158,13 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		return count;
 	}
 
+	/**
+	 * toDoList 리스트 조회
+	 * 
+	 * @param cri
+	 * @return list
+	 * @author 박정민
+	 */
 	@Override
 	public List<ScheduleVO> toDoList(Criteria cri) {
 		LOG.debug("doSelectList.....");

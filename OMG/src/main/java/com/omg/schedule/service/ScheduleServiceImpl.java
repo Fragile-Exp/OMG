@@ -24,36 +24,85 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     public ScheduleServiceImpl() {}
     
+    /**
+	 * 생성
+	 * 
+	 * @param schedule
+	 * @return flag
+	 * @author 박정민
+	 */
     @Override
     public int doInsert(ScheduleVO schedule) {
 	return scheduleDao.doInsert(schedule);
     }
 
+    /**
+	 * 삭제
+	 * 
+	 * @param schedule
+	 * @return flag
+	 * @author 박정민
+	 */
     @Override
     public int doDelete(ScheduleVO schedule) {
 	return scheduleDao.doDelete(schedule);
     }
 
+    /**
+	 * 수정
+	 * 
+	 * @param schedule
+	 * @return flag
+	 * @author 박정민
+	 */
     @Override
     public int doUpdate(ScheduleVO schedule) {
 	return scheduleDao.doUpdate(schedule);
     }
 
+    /**
+	 * 단건조회
+	 * 
+	 * @param schedule
+	 * @return outVO
+	 * @author 박정민
+	 */
     @Override
     public ScheduleVO doSelectOne(ScheduleVO schedule) {
 	return scheduleDao.doSelectOne(schedule);
     }
 
+    /**
+	 * 다건조회
+	 * 
+	 * @param schedule
+	 * @return list
+	 * @author 박정민
+	 */
     @Override
     public List<ScheduleVO> doSelectList(Criteria cri) {
 	return scheduleDao.doSelectList(cri);
     }
 
+    /**
+	 * 게시판별 게시글 수 조회
+	 * 
+	 * @param cri
+	 * @return flag
+	 * @author 박정민
+	 */
 	@Override
 	public int getTotalCount(Criteria cri) {
 		return scheduleDao.getTotalCount(cri);
 	}
 
+	/**
+	 * toDoList 리스트 조회
+	 * 
+	 * @param cri
+	 * @return list
+	 * @author 박정민
+	 */
 	@Override
 	public List<ScheduleVO> toDoList(Criteria cri) {
 		return scheduleDao.toDoList(cri);

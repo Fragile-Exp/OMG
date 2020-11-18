@@ -63,7 +63,7 @@
 									</div>
 									
 									<c:choose>
-										<c:when test="${schedule.employee_id == cri.employee_id }">
+										<c:when test="${schedule.employee_id == cri.employee_id}">
 											<button data-oper="update" class="btn btn-primary">수정</button>
 										</c:when>
 									</c:choose>
