@@ -19,7 +19,8 @@ public class ChatHandler extends TextWebSocketHandler {
 	
 	//HashMap<String, WebSocketSession> sessionMap = new HashMap<String, WebSocketSession>();
 	List<HashMap<String, Object>> sessionListMap = new ArrayList<>();
-	
+	HashMap<String,List<String>> userMap = new HashMap<String,List<String>>();
+	// 방 번호를 키값으로. 해당 방에 존재하는 사용자 아이디를 list에
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		// 메시지 발송
@@ -27,13 +28,30 @@ public class ChatHandler extends TextWebSocketHandler {
 		JSONObject obj = jsonToObjectParser(msg);
 		
 		String rN = (String) obj.get("roomNo");
-		HashMap<String, Object> temp = new HashMap<String, Object>();
+		// 받은 사용자 리스트.
+		List<String> userList = userMap.get(rN);
 		
+		HashMap<String, Object> temp = new HashMap<String, Object>();
 		if(sessionListMap.size() > 0) {
 			for(int i=0; i<sessionListMap.size(); i++) {
 				String roomNo = (String) sessionListMap.get(i).get("roomNo"); //세션리스트의 저장된 방번호를 가져와서
 				if(roomNo.equals(rN)) { //같은값의 방이 존재한다면
 					temp = sessionListMap.get(i); //해당 방번호의 세션리스트의 존재하는 모든 object값을 가져온다.
+					
+					
+					String userName = (String) obj.get("userName");
+					String type = (String) obj.get("type");
+					if(type.equals("exit")) {
+						userList.remove(userName);
+					}else if(type.equals("enter")) {// 같은 방에 사용자가 없으면 사용자를 추가한다.
+						
+						if(!userList.contains(userName)) {
+							userList.add(userName);
+						}
+					}
+						
+				}
+					userMap.put(rN, userList);
 					break;
 				}
 			}
@@ -47,6 +65,7 @@ public class ChatHandler extends TextWebSocketHandler {
 				WebSocketSession wss = (WebSocketSession) temp.get(k);
 				if(wss != null) {
 					try {
+						obj.put("userList", userList);
 						wss.sendMessage(new TextMessage(obj.toJSONString()));
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -55,7 +74,6 @@ public class ChatHandler extends TextWebSocketHandler {
 			}
 		
 		}
-	}
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -88,6 +106,8 @@ public class ChatHandler extends TextWebSocketHandler {
 			map.put("roomNo", roomNo);
 			map.put(session.getId(), session);
 			sessionListMap.add(map);
+			List<String> list = new ArrayList<String>();
+			userMap.put(roomNo, list);
 		}
 		
 		//세션등록이 끝나면 발급받은 세션ID값의 메시지를 발송한다.
