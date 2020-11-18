@@ -128,26 +128,27 @@
 						</section>
 						<!-- 부서 출근율 -->
 						<section class="commuting col-xl-3 col-md-6 mb-4">
-							 <!-- Earnings (Monthly) Card Example -->
-							    <div class="card border-left-info shadow h-100 py-2">
-							      <div class="card-body">
-							      	<label for="deptattedence" class="deptattendence">부서인원 : ${totalCount}</label>
-							        <div class="row no-gutters align-items-center">
-							          <div class="col-auto">
-						                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${attendCount}명</div>
-						              </div>
-						              <div class="col">
-						              <div class="progress">
-										  <div class="progress-bar progress-bar-striped active" role="progressbar"
-										  aria-valuenow="${attendRate}" aria-valuemin="0" aria-valuemax="100" style="width:40%"></div>
-									  </div>	
-						              </div>
-							          <div class="col-auto">
-							            <i class="far fa-calendar-check fa-2x text-gray-300"></i>
-							          </div>
-							        </div>
-							      </div>
-							    </div>
+						    <div class="card border-left-info shadow h-100 py-2">
+						      <div class="card-body">
+						      	<label for="deptattedence" class="deptattendence">부서인원 : ${totalCount}</label>
+						        <div class="row no-gutters align-items-center">
+						          <div class="col-auto">
+					                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${attendCount}명</div>
+					              </div>
+					              <div class="col">
+					              <div class="progress">
+									  <div class="progress-bar progress-bar-striped active" role="progressbar"
+									  aria-valuenow="${attendRate}" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+									  출석
+									  </div>
+								  </div>	
+					              </div>
+						          <div class="col-auto">
+						            <i class="far fa-calendar-check fa-2x text-gray-300"></i>
+						          </div>
+						        </div>
+						      </div>
+						    </div>
 						</section>
 						<!-- 부서 출근율 -->	
 					</div>
@@ -199,7 +200,7 @@
 						<div class="board__notice col-xl-6 col-lg-6" >
 						
 							<div class="card shadow mb-4">
-							    <!-- Card Header - Dropdown -->
+							    <!-- Card Header -->
 							    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 							      <h6 class="m-0 font-weight-bold text-primary">공지사항</h6>
 							      <div class="dropdown no-arrow">
@@ -215,7 +216,7 @@
 							        </div>
 							      </div>
 							    </div>
-							    <!-- // Card Header - Dropdown -->
+							    <!-- // Card Header -->
 							    <!-- Card Body -->
 							    <div class="card-body">
 									<div class="com-sm-12">
@@ -263,7 +264,7 @@
 						<!--부서게시판-->
 						<div class="board__dept col-xl-6 col-lg-6" >
 							<div class="card shadow mb-4">
-							    <!-- Card Header - Dropdown -->
+							    <!-- Card Header -->
 							    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 							      <h6 class="m-0 font-weight-bold text-primary">내 부서 게시판</h6>
 							      <div class="dropdown no-arrow">
@@ -279,6 +280,7 @@
 							        </div>
 							      </div>
 							    </div>
+							    <!-- //Card Header -->
 							    <!-- Card Body -->
 							    <div class="card-body">
 									<div class="com-sm-12">
@@ -317,7 +319,7 @@
 										</table>
 									</div>
 							    </div>
-							    <!-- Card Body -->
+							    <!--// Card Body -->
 							</div>
 						</div>
 						<!-- //부서게시판 -->

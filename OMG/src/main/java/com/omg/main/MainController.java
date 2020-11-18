@@ -96,12 +96,12 @@ public class MainController {
 		int totalCount = commutingService.getTotalCount(criteria2);
 		int attendCount = 0;
 		for(Commuting vo : commutingList) {
-			if(vo.getPresentState() != PresentState.대기중 || vo.getPresentState() != PresentState.자리비움) {
+			if(vo.getPresentState() ==PresentState.근무중) {
 				attendCount++;
 			}
 		}
 		model.addAttribute("totalCount",totalCount); model.addAttribute("attendCount",attendCount);
-		model.addAttribute("attendRate",((double)attendCount/(double)totalCount)*100.0);
+		model.addAttribute("attendRate",(attendCount/totalCount)*100.0);
 		
 		return "index2";
 		
