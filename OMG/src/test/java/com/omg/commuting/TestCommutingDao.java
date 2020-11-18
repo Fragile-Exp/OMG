@@ -58,40 +58,28 @@ public class TestCommutingDao {
 	public void setUp() throws Exception {
 		LOG.debug("=setUp()=");
 	}
-	/**
-	 * update 근무?���?
-	 * @throws Exception
-	 */
+	
+	
 	@Test
 	public void rollingTest() throws Exception {
 		
-//		//1.조회/?��?��
-//		doSelectList();
-//		doDelete();
-		
-		//2.초기 ?��?��?�� 주입
-		//doInit();
-		
-//		//3. 출퇴근시�?, ?��?��?���? ?��?��?��?��
-//		doSelectList();
-//		doUpdate();
-//		
-//		//4. ?��?��
 		doSelectList();
-//		doSelectMyList();
+		doDelete();
+		
+		doInit();
+		
+		doSelectList();
+		doUpdate();
+		
 	}
 	
-	private void doSelectMyList() {
-		Commuting vo = attendList.get(0);
-		commutingDao.doSelectMyList(vo);
-	}
+	
 	
 	/**
 	 * getAll
 	 */
 	private void doSelectList() {
-		Criteria  criteria = new Criteria();
-		attendList = commutingDao.doSelectList(criteria);
+		attendList = commutingDao.getAll();
 	}
 	
 	/**

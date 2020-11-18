@@ -69,6 +69,11 @@ public interface CommutingService {
 	 * 전체 목록
 	 */
 	public List<Commuting> getAll();
-
+	
+	/**
+	 * 부서 총 인원 불러오기
+	 * @param criteria
+	 * @return
+	 */
 	public int getTotalCount(Criteria criteria);
 }
