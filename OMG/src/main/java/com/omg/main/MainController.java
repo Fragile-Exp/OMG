@@ -1,5 +1,6 @@
 package com.omg.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,9 @@ import com.omg.board.service.BoardService;
 import com.omg.cmn.Criteria;
 import com.omg.cmn.Search;
 import com.omg.code.dao.CodeDaoImpl;
+import com.omg.commuting.domain.Commuting;
+import com.omg.commuting.domain.PresentState;
+import com.omg.commuting.service.CommutingService;
 import com.omg.employee.domain.EmployeeVO;
 import com.omg.schedule.domain.ScheduleVO;
 import com.omg.schedule.service.ScheduleService;
@@ -34,6 +38,9 @@ public class MainController {
 	
 	@Autowired
 	private CodeDaoImpl codeDaoImpl;
+	
+	@Autowired
+	CommutingService commutingService;
 	
 	@RequestMapping(value="view/main.do",method=RequestMethod.GET)
 	public String main_view() {
@@ -72,19 +79,32 @@ public class MainController {
 		//3. 공지사항 게시판 불러오기
 		List<BoardVO> noticeList = this.boardService.doSelectList(new Search("10",5,1));
 		model.addAttribute("noticeList", noticeList);
-		//3. 내 부서 스케줄 불러오기
 		
 		
 		//4. 내 스케줄 불러오기
 		Criteria criteria = new Criteria(1, 10, 3);
 		//criteria.setEmployee_id(sessionVO.getEmployee_id());
 		criteria.setEmployee_id("ID02");
-		List<ScheduleVO> scheduleList = scheduleService.doSelectList(criteria);
+		List<ScheduleVO> scheduleList = this.scheduleService.doSelectList(criteria);
 		model.addAttribute("scheduleList", scheduleList);
+		
+		
+		//5. 내 부서 출근율
+		Criteria criteria2 = new Criteria(1, 5, 1);
+		criteria.setDept_no(sessionVO.getDept_no());
+		List<Commuting> commutingList = this.commutingService.doSelectList(criteria2);
+		int totalCount = commutingService.getTotalCount(criteria2);
+		int attendCount = 0;
+		for(Commuting vo : commutingList) {
+			if(vo.getPresentState() != PresentState.대기중 || vo.getPresentState() != PresentState.자리비움) {
+				attendCount++;
+			}
+		}
+		model.addAttribute("totalCount",totalCount); model.addAttribute("attendCount",attendCount);
+		model.addAttribute("attendRate",((double)attendCount/(double)totalCount)*100.0);
+		
 		return "index2";
 		
-		
-		//5. 부서 출근 현황 가져오기
 	}
 	
 

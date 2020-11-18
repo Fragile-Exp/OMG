@@ -111,10 +111,10 @@
 					  </div>
 					</div>
 					
-					<!-- Content Row -->
+					<!-- SECOND LINE -->
 					<div class="row">
 					
-						<div class="col-xl-4 col-lg-5">
+						<section class="col-xl-4 col-lg-5">
 						   <!-- Illustrations -->
 						   <div class="card shadow mb-4">
 						     <div class="card-body">
@@ -125,29 +125,35 @@
 						       <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a> -->
 						     </div>
 						   </div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3">
+						</section>
+						<!-- 부서 출근율 -->
+						<section class="commuting col-xl-3 col-md-6 mb-4">
 							 <!-- Earnings (Monthly) Card Example -->
-							    <div class="card border-left-success shadow h-100 py-2">
+							    <div class="card border-left-info shadow h-100 py-2">
 							      <div class="card-body">
+							      	<label for="deptattedence" class="deptattendence">부서인원 : ${totalCount}</label>
 							        <div class="row no-gutters align-items-center">
-							          <div class="col mr-2">
-							            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">부서 출근 현황</div>
-							            
-							            <label class="h5 mb-0 font-weight-bold text-gray-800">전체 : text</label>
-							            <label class="h5 mb-0 font-weight-bold text-gray-800">출근 : text</label>
-							            <label class="h5 mb-0 font-weight-bold text-gray-800">결근 : text</label>
-							            
-							          </div>
+							          <div class="col-auto">
+						                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${attendCount}명</div>
+						              </div>
+						              <div class="col">
+						              <div class="progress">
+										  <div class="progress-bar progress-bar-striped active" role="progressbar"
+										  aria-valuenow="${attendRate}" aria-valuemin="0" aria-valuemax="100" style="width:40%"></div>
+									  </div>	
+						              </div>
 							          <div class="col-auto">
 							            <i class="far fa-calendar-check fa-2x text-gray-300"></i>
 							          </div>
 							        </div>
 							      </div>
 							    </div>
-						</div>
-					</div>	
+						</section>
+						<!-- 부서 출근율 -->	
+					</div>
+					<!-- SECOND LINE -->
+					
+					<!-- 내 일정 -->
 					<section class="schedule">
 						<div class="col-xl-4 col-lg-5">
 							<!-- card -->
@@ -185,6 +191,7 @@
 							<!-- card -->
 						</div>
 					</section>
+					<!-- //내 일정 -->
 					<!-- 게시판 -->
 					<section class="board row">
 						<input type="hidden" name="boardSeq"	id="boardSeq" />
