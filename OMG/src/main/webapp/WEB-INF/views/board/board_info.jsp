@@ -27,107 +27,109 @@
 
 				<!-- page Content -->
 				<div class="container-fluid">
-					<div class="card shadow col-lg-12">
-					
-					
-						<!-- Page Heading -->
-						<div class="card-header py-3 ">
-							<div class="text-right">
-								<input type="button" class="btn btn-primary text-white-100" value="목록" id="moveList" />
-								<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
-									<input type="button" class="btn btn-primary text-white-100" value="삭제" id="doDeleteBtn" />
-								</c:if>
-								<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
-									<input type="button" class="btn btn-primary text-white-100" value="수정" id="doUpdateBtn" />
-								</c:if>
-							</div>
-						</div>
-						<div class="card-body">
-							<h1 class="h3 mb-4 text-gray-800" style="padding-top: 20px; padding-left: 20px; width: 320px;">${vo.title}</h1>
-							<%-- <form class="form-horizontal" name="mngFrm" action="${hContext}/board/doSelectList.do" method="post"> --%>
-							<input type="hidden" name="boardSeq" id="boardSeq"
-								value="${vo.boardSeq}" /> <input type="hidden" name="div"
-								id="div" value="${vo.getDiv()}" />
-							<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
-							<input type="hidden" class="form-control" name="modId" id="modId"
-								placeholder="수정자" maxlength="20">
-							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">첨부파일</label>
-								<div class="px-4">
-									<div class="card card-body">
-										<c:choose>
-											<c:when test="${0 ne fileList.size() }">
-												<c:forEach var="vo" items="${fileList}">
-													<form method="post" action="${hContext}/file/download.do">
-														<input type="hidden" name="originName" id="originName"
-															value="${vo.originName}" /> <input type="hidden"
-															name="saveName" id="saveName" value="${vo.saveName}" /> <a
-															href="#" onclick="this.parentNode.submit(); return false;">${vo.originName}</a>
-													</form>
-												</c:forEach>
-											</c:when>
-										</c:choose>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">내용</label>
-								<div>
-									<textarea class="form-control" rows="15" cols="40"
-										name="contents" id="contents" readonly="readonly">${vo.contents}</textarea>
-								</div>
-							</div>
-							<!-- </form> -->
-							<!-- // page Content -->
-							
-							<div id="comment_list_div">
-								<div class="page-header">
-									<!-- h4>댓글</h4> -->
-									<label for="" class="col-sm-2 control-label">댓글</label>
-								</div>
-								<ul class="list-group" id="comment_list">
-									<!-- 댓글 영역 -->
-								</ul>
-								<div class="panel panel-body panel-default">
-									<form class="form-horizontal" name="comment_reg_frm"
-										id="comment_reg_frm">
-										<div class="form-group">
-											<div>
-												<%-- <label>${employee.employee_id}</label> --%>
-											</div>
-											<div class="py-4">
-												<textarea class="form-control" style="resize: none;"
-													id="write_contents" name="write_contents" rows="3" cols="100"
-													placeholder="댓글을 입력하세요."></textarea>
-											</div>
-											<div style="float: right;">
-												<input type="button" id="comment_reg_btn"
-													class="btn btn-primary text-white-100"
-													value="등록" style="margin: 13px;" />
-											</div>
-											<!-- <input type="hidden" name="regId" id="regId" value="admin"/> -->
-											<input type="hidden" name="regId" id="regId"
-												value="${employee.employee_id}" />
-											<%-- <input type="hidden" name="boardSeq" id="boardSeq" value="${vo.getBoardSeq()}" /> --%>
-											<input type="hidden" name="boardSeq" id="boardSeq"
-												value="${vo.boardSeq}" /> <input type="hidden" name="upNum"
-												id="upNum" value="0" />
-											<!-- <input type="hidden" name="work_div" id="work_div" /> -->
-										</div>
-									</form>
-								</div>
+					<!-- Page Heading -->
+					<input type="button"
+						class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"
+						value="목록" id="moveList" style="float: right; margin: 13px;" />
+					<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
+						<input type="button"
+							class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"
+							value="삭제" id="doDeleteBtn" style="float: right; margin: 13px;" />
+					</c:if>
+					<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
+						<input type="button"
+							class="btn btn-primary btn-group-lg btn-icon-split icon text-white-100"
+							value="수정" id="doUpdateBtn" style="float: right; margin: 13px;" />
+					</c:if>
+					<h1 class="h3 mb-4 text-gray-800"
+						style="padding-top: 20px; padding-left: 20px; width: 320px;">${vo.title}</h1>
+					<%-- <form class="form-horizontal" name="mngFrm" action="${hContext}/board/doSelectList.do" method="post"> --%>
+					<input type="hidden" name="boardSeq" id="boardSeq"
+						value="${vo.boardSeq}" /> <input type="hidden" name="div"
+						id="div" value="${vo.getDiv()}" />
+					<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
+					<%-- <div class="form-group">
+					<label for="" class="col-sm-2 control-label">제목</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" name="title" id="title" placeholder="제목" maxlength="200"
+							   value="${vo.title}" readonly="readonly"
+						/>
+					</div>
+				</div> --%>
+					<input type="hidden" class="form-control" name="modId" id="modId"
+						placeholder="수정자" maxlength="20">
+					<div class="form-group">
+						<label for="" class="col-sm-2 control-label">첨부파일</label>
+						<div class="px-4">
+							<div class="card card-body" style="width: 84%;">
+								<c:choose>
+									<c:when test="${0 ne fileList.size() }">
+										<c:forEach var="vo" items="${fileList}">
+											<form method="post" action="${hContext}/file/download.do">
+												<input type="hidden" name="originName" id="originName"
+													value="${vo.originName}" /> <input type="hidden"
+													name="saveName" id="saveName" value="${vo.saveName}" /> <a
+													href="#" onclick="this.parentNode.submit(); return false;">${vo.originName}</a>
+											</form>
+										</c:forEach>
+									</c:when>
+								</c:choose>
 							</div>
 						</div>
 					</div>
-			
-			
-			<!-- //Main Content -->
+					<div class="form-group">
+						<label for="" class="col-sm-2 control-label">내용</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" rows="15" cols="40"
+								name="contents" id="contents" readonly="readonly">${vo.contents}</textarea>
+						</div>
+					</div>
+					<!-- </form> -->
+					<!-- // page Content -->
+				</div>
 			</div>
-			</div>	
+			<div class="container col-lg-12" id="comment_list_div">
+				<div class="page-header">
+					<!-- h4>댓글</h4> -->
+					<label for="" class="col-sm-2 control-label">댓글</label>
+				</div>
+				<ul class="list-group" id="comment_list">
+					<!-- 댓글 영역 -->
+				</ul>
+				<div class="panel panel-body panel-default">
+					<form class="form-horizontal" name="comment_reg_frm"
+						id="comment_reg_frm">
+						<div class="form-group col-lg-10">
+							<div>
+								<%-- <label>${employee.employee_id}</label> --%>
+							</div>
+							<div>
+								<textarea class="form-control" style="resize: none;"
+									id="write_contents" name="write_contents" rows="3" cols="100"
+									placeholder="댓글을 입력하세요."></textarea>
+							</div>
+							<div style="float: right;">
+								<input type="button" id="comment_reg_btn"
+									class="btn btn-primary btn-icon-split icon text-white-100"
+									value="등록" style="margin: 13px;" />
+							</div>
+							<!-- <input type="hidden" name="regId" id="regId" value="admin"/> -->
+							<input type="hidden" name="regId" id="regId"
+								value="${employee.employee_id}" />
+							<%-- <input type="hidden" name="boardSeq" id="boardSeq" value="${vo.getBoardSeq()}" /> --%>
+							<input type="hidden" name="boardSeq" id="boardSeq"
+								value="${vo.boardSeq}" /> <input type="hidden" name="upNum"
+								id="upNum" value="0" />
+							<!-- <input type="hidden" name="work_div" id="work_div" /> -->
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- //Main Content -->
+
 			<!-- footer -->
 			<%@include file="/WEB-INF/views/inc/footer.jsp"%>
 			<!-- //footer -->
-			
 		</div>
 		<!-- //Content Wrapper -->
 
@@ -237,7 +239,7 @@
 					for(var vo of commentList)
 					{
 						var col = 10;
-						html += "<li class='list-group-item' style='border-left-width: 1px;left: 10px;'>";
+						html += "<li class='list-group-item' style='width: 1335px;border-left-width: 1px;left: 10px;'>";
 						html += "<div class='row'>";
 						html += "<input type='hidden' name='commentNum' id ='commentNum' value='"+vo.commentNum+"'/>";
 						html += "<input type='hidden' name='upNum' id ='upNum' value='"+vo.upNum+"'/>";

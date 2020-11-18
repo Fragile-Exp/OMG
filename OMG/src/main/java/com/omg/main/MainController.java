@@ -84,7 +84,8 @@ public class MainController {
 			}
 		}
 		model.addAttribute("totalCount",totalCount); model.addAttribute("attendCount",attendCount);
-		model.addAttribute("attendRate",(attendCount/totalCount)*100.0);
+		LOG.debug((attendCount/totalCount)*100.0+"");
+		model.addAttribute("attendRate",(attendCount/totalCount)*100);
 		
 		return "index";
 	}
