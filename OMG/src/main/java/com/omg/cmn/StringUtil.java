@@ -373,6 +373,7 @@ public class StringUtil {
 				String filePath = renameFilePath.substring(renameFilePath.indexOf("resources"));
 				//renameFilePath = renameFilePath.replaceAll();
 				LOG.debug("=renameFilePath="+renameFilePath);
+				LOG.debug("=filePath="+filePath);
 				fileVO.setSaveName(renameFilePath);
 				fileVO.setFileCode(fileCode);
 				fileVO.setFilePath(filePath);

@@ -105,25 +105,25 @@
 							<!-- Wrapper for slides -->
 							<div class="carousel-inner" role="listbox">
 								<div class="carousel-item active">
-							    	<img src="${hContext}/resources/images/coding.jpg" width="100%" height="520" alt="...">
+							    	<img src="${hContext}/resources/images/coding.jpg" width="100%" height="100%" alt="...">
 								    <div class="carousel-caption">
 								    	<h3>Image 1</h3>
 									</div>
 								</div>
 								<div class="carousel-item">
-								    <img src="${hContext}/resources/images/laptop.jpg" width="100%" height="520" alt="...">
+								    <img src="${hContext}/resources/images/laptop.jpg" width="100%" height="100%" alt="...">
 								    <div class="carousel-caption">
 								    <h3>Image 2</h3>
 								    </div>
 								</div>
 								<div class="carousel-item">
-								    <img src="${hContext}/resources/images/man.jpg" width="100%" height="520" alt="...">
+								    <img src="${hContext}/resources/images/man.jpg" width="100%" height="100%" alt="...">
 								    <div class="carousel-caption">
 								    <h3>Image 3</h3>
 								    </div>
 								</div>
 								<div class="carousel-item">
-								    <img src="${hContext}/resources/images/office.jpg" width="100%" height="520" alt="...">
+								    <img src="${hContext}/resources/images/office.jpg" width="100%" height="100%" alt="...">
 								    <div class="carousel-caption">
 								    <h3>Image 4</h3>
 								    </div>

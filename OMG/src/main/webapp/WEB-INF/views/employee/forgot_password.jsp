@@ -50,7 +50,7 @@
                                                 id="employee_id" name="employee_id"
                                                 placeholder="사원번호를 입력하세요">
                                         </div>
-                                        <a id="mailSenderBtn" style="color:white;"  class="btn btn-primary btn-user btn-block">
+                                        <a id="mailSenderBtn" class="btn btn-primary btn-user btn-block">
                                             메일 보내기
                                         </a>
                                     </form>
@@ -70,14 +70,13 @@
     <script src="../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 	<script type="text/javascript">
-	$("#mailSenderBtn").on("click",function(){
-		//alert($("#employee_id").val());
-		if($("#employee_id").val() ==""){
+	$("#mailSenderBtn").one("click",function(){
+		//alert("#mailSenderBtn");
+		if($("#employee_id").val()==false || $("#employee_id").val() ==""){
 			alert("아이디(사원번호)를 확인하세요.");
 			return ;
 		}	
-
-
+		jQuery.ajaxSettings.traditional = true;
 		//ajax
         $.ajax({
            type:"GET",
@@ -105,7 +104,6 @@
         }
        }); 
        //--ajax 
-		
 		
 		
 		});
