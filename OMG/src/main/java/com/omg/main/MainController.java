@@ -42,35 +42,7 @@ public class MainController {
 	CommutingService commutingService;
 
 	@RequestMapping(value = "view/main.do", method = RequestMethod.GET)
-	public String main_view() {
-		LOG.debug("== main ==");
-
-		return "index";
-	}
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String startPage() {
-		LOG.debug("== main ==");
-
-		return "index";
-	}
-
-	@RequestMapping(value = "view/blank.do", method = RequestMethod.GET)
-	public String blank_view() {
-		LOG.debug("== user_view ==");
-
-		return "blank";
-	}
-
-	
-	@RequestMapping(value="view/main45.do",method=RequestMethod.GET)
-	public String main45_view() {
-		LOG.debug("== main45_view ==");
-		return "index45";
-	}
-	
-	@RequestMapping(value="view/main2.do",method=RequestMethod.GET)
-	public String main2_view(HttpServletRequest req,Search search,Model model) {
+	public String main_view(HttpServletRequest req,Search search,Model model) {
 		LOG.debug("== main2_view ==");
 
 		// 1. 세션 GET
@@ -95,7 +67,7 @@ public class MainController {
 		Criteria criteria2 = new Criteria(1, 50, 1);
 		criteria2.setDept_no(sessionVO.getDept_no());
 		List<Commuting> commutingList = this.commutingService.doSelectList(criteria2);
-		int totalCount = commutingService.getTotalCount(cri);
+		int totalCount = commutingService.getTotalCount(criteria2);
 		int attendCount = 0;
 		for(Commuting vo : commutingList) {
 			if(vo.getPresentState() ==PresentState.근무중) {
@@ -105,8 +77,24 @@ public class MainController {
 		model.addAttribute("totalCount",totalCount); model.addAttribute("attendCount",attendCount);
 		model.addAttribute("attendRate",(attendCount/totalCount)*100.0);
 		
-		return "index2";
-
+		return "index";
 	}
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String startPage() {
+		LOG.debug("== main ==");
+
+		return "index";
+	}
+
+	@RequestMapping(value = "view/blank.do", method = RequestMethod.GET)
+	public String blank_view() {
+		LOG.debug("== user_view ==");
+
+		return "blank";
+	}
+
+	
+
 
 }
