@@ -41,7 +41,9 @@ public class CommutingDaoImpl implements CommutingDao {
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		this.sqlSessionTemplate = sqlSessionTemplate;
 	}
-
+	
+	
+	
 	public CommutingDaoImpl() {
 		// TODO Auto-generated constructor stub
 	}
@@ -52,15 +54,10 @@ public class CommutingDaoImpl implements CommutingDao {
 		LOG.debug("=DAO=");
 		LOG.debug("=doDelete=");
 		Commuting inVO = (Commuting) dto;
-
-
 		String statement = NAMESPACE + ".doDelete";
-
 		LOG.debug(">statement>" + statement);
 		LOG.debug(">param>" + inVO);
-		
 		int verify = this.sqlSessionTemplate.delete(statement, inVO);
-
 		LOG.debug("=verify=" + verify);
 		LOG.debug("====================================");
 
