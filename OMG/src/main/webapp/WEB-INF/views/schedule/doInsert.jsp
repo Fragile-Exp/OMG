@@ -35,7 +35,7 @@
 							</div>	
 			
 							<div class="card-body">
-								<form role="form" action="/schedule/doInsert.do" method="post">
+								<form role="form" action="${hContext}/schedule/doInsert.do" method="post">
 									<input type="hidden" name="category_id" value="${cri.category_id}"/>
 									<input type="hidden" name="dept_no" value="${cri.dept_no}"/>
 									<input type="hidden" name="employee_id" value="${cri.employee_id}"/>
@@ -78,7 +78,7 @@
 			<!-- //footer -->
 		</div>
 	</div>
-	<script src="../../../resources/js/schedule/schedule.js"></script>
+	<script src="${hContext}/resources/js/schedule/schedule.js"></script>
 	<script>
 		$(document).ready(function() {
 			today();
