@@ -142,7 +142,7 @@
 		
 		<!-- Divider -->
 		<hr class="sidebar-divider d-none d-md-block">
-
+	<c:if test="${sessionScope.employee.auth==9 }">
       <!-- Heading -->
       <div class="sidebar-heading">
         관리자 메뉴
@@ -169,6 +169,7 @@
          </div>
        </div>
      </li>
+     </c:if>
 
     
 
