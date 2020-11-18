@@ -76,6 +76,7 @@
 			alert("아이디(사원번호)를 확인하세요.");
 			return ;
 		}	
+		jQuery.ajaxSettings.traditional = true;
 		//ajax
         $.ajax({
            type:"GET",

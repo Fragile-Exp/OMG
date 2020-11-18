@@ -38,7 +38,7 @@
 								<input type="hidden"  name="img_code" id="img_code" value="${sessionScope.employee.img_code }"  />	
 								<input type="hidden"  name="auth" id="auth" value="${sessionScope.employee.auth }" />	
 								<div class="col-lg-10 text-center py-2" id="img_preview">
-									<div><img src="${sessionScope.employee.img_name}" id="img_name" name="img_name" alt="프로필" width=100 height=100 /></div>
+									<div><img src="${hContext}/${sessionScope.employee.img_name}" id="img_name" name="img_name" alt="프로필" width=100 height=100 /></div>
 									
 								</div>	
 								<input type="file" onchange="file_upload(this)" id="file" name="file" accept="img/*" />

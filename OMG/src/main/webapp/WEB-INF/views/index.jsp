@@ -92,8 +92,8 @@
 					
 					
 					<section class="board row py-4">
-					<div  class="col-xl-6 col-lg-6">
-						<div id="carousel-example-generic" class="carousel slide text-left" data-ride="carousel" data-interval=5000>
+					<div  class="col-xl-6 col-lg-6 text-center">
+						<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval=5000>
 							<!-- Indicators -->
 							<ol class="carousel-indicators">
 								<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -105,25 +105,25 @@
 							<!-- Wrapper for slides -->
 							<div class="carousel-inner" role="listbox">
 								<div class="carousel-item active">
-							    	<img src="${hContext}/resources/images/coding.jpg" width="800" height="520" alt="...">
+							    	<img src="${hContext}/resources/images/coding.jpg" height="520" alt="...">
 								    <div class="carousel-caption">
 								    	<h3>Image 1</h3>
 									</div>
 								</div>
 								<div class="carousel-item">
-								    <img src="${hContext}/resources/images/laptop.jpg" width="800" height="520" alt="...">
+								    <img src="${hContext}/resources/images/laptop.jpg" height="520" alt="...">
 								    <div class="carousel-caption">
 								    <h3>Image 2</h3>
 								    </div>
 								</div>
 								<div class="carousel-item">
-								    <img src="${hContext}/resources/images/man.jpg" width="800" height="520" alt="...">
+								    <img src="${hContext}/resources/images/man.jpg" height="520" alt="...">
 								    <div class="carousel-caption">
 								    <h3>Image 3</h3>
 								    </div>
 								</div>
 								<div class="carousel-item">
-								    <img src="${hContext}/resources/images/office.jpg" width="800" height="520" alt="...">
+								    <img src="${hContext}/resources/images/office.jpg" height="520" alt="...">
 								    <div class="carousel-caption">
 								    <h3>Image 4</h3>
 								    </div>
@@ -144,7 +144,7 @@
 					
 					
 					<!-- 내 일정 -->
-					<div class="schedule col-xl-6 col-lg-6">
+					<div class="schedule col-xl-6 col-lg-6" style="height:520px;">
 						<!-- card -->
 						<div class="card shadow mb-4" style="font-size: 12px">
 							<!-- header-->
@@ -201,11 +201,7 @@
 							          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
 							        </a>
 							        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-							          <div class="dropdown-header">Dropdown Header:</div>
-							          <a class="dropdown-item" href="#">Action</a>
-							          <a class="dropdown-item" href="#">Another action</a>
-							          <div class="dropdown-divider"></div>
-							          <a class="dropdown-item" href="#">Something else here</a>
+							          <div class="dropdown-item"><a href="${hContext}/board/doSelectList.do?div=10">더 보기</a></div>
 							        </div>
 							      </div>
 							    </div>
@@ -259,17 +255,13 @@
 							<div class="card shadow mb-4">
 							    <!-- Card Header -->
 							    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-							      <h6 class="m-0 font-weight-bold text-primary">내 부서 게시판</h6>
+							      <h6 class="m-0 font-weight-bold text-primary">자유 게시판</h6>
 							      <div class="dropdown no-arrow">
 							        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
 							        </a>
 							        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-							          <div class="dropdown-header">Dropdown Header:</div>
-							          <a class="dropdown-item" href="#">Action</a>
-							          <a class="dropdown-item" href="#">Another action</a>
-							          <div class="dropdown-divider"></div>
-							          <a class="dropdown-item" href="#">Something else here</a>
+							          <div class="dropdown-item"><a href="${hContext}/board/doSelectList.do?div=20">더 보기</a></div>
 							        </div>
 							      </div>
 							    </div>
