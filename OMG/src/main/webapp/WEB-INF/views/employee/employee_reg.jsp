@@ -22,7 +22,7 @@
 	      		<!-- //top_bar -->
 	      		
 	      		<!-- page Content -->
-	      		<form id="userFrm">
+	      		<form id="userFrm" name="userFrm" action="">
 		      		<div class="container-fluid">
 			      		<div class="col-lg-8">
 							<div class="card shadow mb-4">
@@ -230,7 +230,7 @@
 		HOLIDAY
 		IMG_CODE */
 
-		if($("#userFrm").validate()==false) return;
+		if($("#userFrm").valid()==false) return;
 		
 		
 		//ajax
@@ -422,10 +422,14 @@
 				
 			},errorPlacement:function (error, element) {
 				
-				error.insertAfter(element);
+				//error.insertAfter(element);
 				
 			},invalidHandler: function	(form,validator){
 				var errors = validator.numberOfInvalids();
+				if(errors) {
+					alert(validator.errorList[0].message);
+					validator.errorList[0].element.focus();
+				}
 			}			
 		});
 	}
