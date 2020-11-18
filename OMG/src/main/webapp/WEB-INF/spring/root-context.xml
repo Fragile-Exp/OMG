@@ -44,7 +44,7 @@
 			<value>casse2045@naver.com</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>dbql2549$$</value>
+			<value>dbql2549..</value>
 		</constructor-arg>
 	</bean>
 	<!-- //javax.mail.PasswordAuthentication -->

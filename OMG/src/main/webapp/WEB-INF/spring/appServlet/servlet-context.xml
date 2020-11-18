@@ -20,6 +20,8 @@
  			<exclude-mapping path="/employee/login.do"/>
  			<exclude-mapping path="/employee/doLogin.do"/>
  			<exclude-mapping path="/employee/forgot_password.do"/>
+ 			<exclude-mapping path="/employee/idConfirm.do"/>
+ 			<exclude-mapping path="/employee/sendMail.do"/>
  			<exclude-mapping path="/resources/**"/>
  			
  			<beans:ref bean="authLoginInterceptor" />
