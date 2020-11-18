@@ -370,11 +370,12 @@ public class StringUtil {
 				File renameFile2 = new File(dateFilePath2,saveName);
 				String renameFilePath = renameFile.getPath().replaceAll("\\\\", "/");
 				String renameFilePath2 = renameFile2.getPath().replaceAll("\\\\", "/");
-				
+				String filePath = renameFilePath.substring(renameFilePath.indexOf("resources"));
 				//renameFilePath = renameFilePath.replaceAll();
 				LOG.debug("=renameFilePath="+renameFilePath);
-				fileVO.setSaveName(renameFilePath2);
+				fileVO.setSaveName(renameFilePath);
 				fileVO.setFileCode(fileCode);
+				fileVO.setFilePath(filePath);
 				fileVO.setFileNum(i++);
 				list.add(fileVO);
 				file.transferTo(new File(renameFile.getAbsolutePath()));

@@ -254,7 +254,7 @@ public class EmployeeController {
         	LOG.debug("업로드 파일 개수="+list.size());
         	int fileFlag=0;
         	for(AttachmentVO vo:list) {
-        		fileFlag=attachmentService.doInsert(vo); //DB등록
+        		fileFlag=attachmentService.doUpdate(vo); //DB등록
         	}
         	message.setMsgContents(employee.getName()+" 님이 수정 되었습니다.");
         	 //세션처리
