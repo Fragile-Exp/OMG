@@ -17,7 +17,6 @@
 		<typeAlias type="com.omg.note.domain.NoteVO" alias="NoteVO"/>
 		<typeAlias type="com.omg.employee.domain.EmployeeVO" alias="EmployeeVO"/>
 		<typeAlias type="com.omg.schedule.domain.ScheduleVO" alias="ScheduleVO"/>
-		<typeAlias type="com.omg.schedule.domain.ScheduleCatVO" alias="ScheduleCatVO"/>
 		
 		<!-- board -->
 		<typeAlias type="com.omg.board.domain.BoardVO" alias="BoardVO"/>
@@ -32,6 +31,8 @@
 		<!-- document -->
 		<typeAlias type="com.omg.document.domain.DocumentVO" alias="DocumentVO"/>
 		<typeAlias type="com.omg.car.domain.CarVO" alias="CarVO"/>
+		<typeAlias type="com.omg.documentfile.domain.DocumentFileVO"  alias="DocumentFileVO" />
+		
 		<!-- chat -->
 		<typeAlias type="com.omg.chat.domain.ChattingRoom" alias="RoomVO"/>
 		

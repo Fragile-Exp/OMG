@@ -5,7 +5,11 @@
 	
 	<!-- 등록 -->
 	<insert id="doInsert" parameterType="DocumentVO">
-		INSERT INTO DOCUMENT (  document_id, employee_id , kind, title, d_day, document_cont, document_set, ok_user) VALUES (#{documentId}, #{employeeId}, #{kind}, #{title}, #{dDay}, #{documentCont}, #{documentSet}, #{okUser})                        
+		<selectKey resultType="String" keyProperty="fileCode" order="BEFORE"> 
+			SELECT ATTACHMENT_SEQ.nextval FROM dual
+		</selectKey>
+		INSERT INTO DOCUMENT (  document_id, employee_id , kind, title, d_day, document_cont, document_set, ok_user, file_code) 
+		VALUES (DOCUMENT_SEQ.nextval, #{employeeId}, #{kind}, #{title}, #{dDay}, #{documentCont}, #{documentSet}, #{okUser}, #{fileCode})                        
 	</insert>
 	
 	<!-- 삭제 -->
@@ -15,12 +19,12 @@
 	
 	<!-- 수정 -->
 	<update id="doUpdate" parameterType="DocumentVO">
-		UPDATE document SET document_id = #{documentId}, employee_id = #{employeeId}, kind = #{kind}, title = #{title}, d_day = #{dDay}, document_cont = #{documentCont}, document_set = #{documentSet}, ok_user = #{okUser} WHERE document_id = #{documentId} 
+		UPDATE document SET document_id = #{documentId}, employee_id = #{employeeId}, kind = #{kind}, title = #{title}, d_day = #{dDay}, document_cont = #{documentCont}, document_set = #{documentSet}, ok_user = #{okUser}, file_code = #{fileCode} WHERE document_id = #{documentId} 
 	</update>
 	
 	<!-- 단건 검색-->
 	<select id="doSelectOne" parameterType="DocumentVO" resultType="DocumentVO">
-		SELECT document_id AS documentId, employee_id AS employeeId,kind AS kind, title AS title, TO_CHAR(d_day, 'YYYY-MM-DD') AS dDay, document_cont AS documentCont, document_set AS documentSet, ok_user AS okUser FROM document WHERE document_id = #{documentId} 
+		SELECT document_id AS documentId, employee_id AS employeeId,kind AS kind, title AS title, TO_CHAR(d_day, 'YYYY-MM-DD') AS dDay, document_cont AS documentCont, document_set AS documentSet, ok_user AS okUser ,file_code AS fileCode FROM document WHERE document_id = #{documentId} order by TO_NUMBER(file_code) desc
 	</select>
 	
 	<!-- 전체 검색 -->
@@ -30,7 +34,7 @@
 	
 	<!-- 사번 ID 기준 검색 -->
 	<select id="doempIdSelectList" parameterType="DocumentVO" resultType="DocumentVO">
-		SELECT document_id AS documentId, employee_id AS employeeId,kind AS kind, title AS title, TO_CHAR(d_day, 'YYYY-MM-DD') AS dDay, document_cont AS documentCont, document_set AS documentSet, ok_user AS okUser FROM document WHERE employee_id = #{employeeId} 
+		SELECT document_id AS documentId, employee_id AS employeeId,kind AS kind, title AS title, TO_CHAR(d_day, 'YYYY-MM-DD') AS dDay, document_cont AS documentCont, document_set AS documentSet, ok_user AS okUser ,file_code AS fileCode FROM document WHERE employee_id = #{employeeId}  order by TO_NUMBER(file_code) desc 
 	</select>
 	
 	<select id="doempIdcheck" parameterType="DocumentVO" resultType="int">
