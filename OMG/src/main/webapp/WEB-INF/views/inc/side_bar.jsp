@@ -191,3 +191,4 @@
 <script src="${hContext}/resources/js/sb-admin-2.min.js"></script>
 <script src="${hContext}/resources/js/jquery.bootpag.min.js"></script>
 <script src="${hContext}/resources/js/jquery-ui.min.js"></script>
+<script src="${hContext}/resources/js/jquery.validate.js"></script>

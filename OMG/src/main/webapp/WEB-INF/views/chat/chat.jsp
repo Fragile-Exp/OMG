@@ -30,7 +30,16 @@
 				<div align="center">
 					<!-- Page Heading -->
 					<h1 class="h3 mb-4 text-gray-800">${roomVO.roomNm}</h1>
-					<div id="chating" class="jumbotron" style="width: 800px; height: 800px; overflow:auto;" ></div>
+					<div class="row d-flex justify-content-center">
+						<div id="chating" class="jumbotron" style="width: 1000px; height: 800px; overflow:auto;" ></div>
+						<div>
+							<div class="card" style="width:200px; height: 800px; overflow:auto;">
+								<div id="userList" class="card-body">
+									
+								</div>
+							</div>
+						</div>
+					</div>
 					<input type="hidden" name="userName" id="userName" value="${sessionScope.employee.name} ${sessionScope.employee.position_nm}" />
 
 					<div id="yourMsg">
@@ -44,6 +53,7 @@
 						</table>
 					</div>
 				</div>
+				
 	
 	        </div>
 	        <!-- // page Content -->
@@ -96,19 +106,29 @@
 					}
 				} else if(d.type == "message"){
 					if(d.sessionId == $("#sessionId").val()){
-						$("#chating").append("<p class='text-right'>나 :" + d.msg + "</p>");	
+						$("#chating").append("<p class='text-right''>나 :" + d.msg + "</p>");	
 					}else{
-						$("#chating").append("<p class='text-left'>" + d.userName + " :" + d.msg + "</p>");
+						$("#chating").append("<p class='text-left''>" + d.userName + " :" + d.msg + "</p>");
 					}
 				} else if(d.type == "enter"){
-					$("#chating").append("<p class='text-center font-weight-bold'>" +d.userName + d.msg + "</p>");
+					$("#chating").append("<p class='text-center font-weight-bold''>" +d.userName + d.msg + "</p>");
 					// 채팅방 참여 인원수
 					//$("#enterCnt").text(Number($("#enterCnt").text())+1);
 				} else if(d.type == "exit"){
-					$("#chating").append("<p class='text-center font-weight-bold'>" +d.userName + d.msg + "</p>");
+					$("#chating").append("<p class='text-center font-weight-bold''>" +d.userName + d.msg + "</p>");
 				} else{
 					console.warn("unknown type!");
-				} 
+				}
+				//alert(d.userList[0]);
+				
+					$("#userList").empty();
+					$.each(d.userList, function(i, value) {
+						$("#userList").append("<p calss='h6'>"+value+"</p>");
+					});
+					
+
+
+				
 				$("#chating").scrollTop($("#chating")[0].scrollHeight);
 			}
 		}
