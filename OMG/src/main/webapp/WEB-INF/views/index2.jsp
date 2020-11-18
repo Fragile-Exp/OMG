@@ -61,8 +61,6 @@
 					      </div>
 					    </div>
 					  </div>
-					  
-<<<<<<< HEAD
 					  <!-- 부서 출근율 -->
 						<section class="commuting col-xl-4 col-md-6 mb-4">
 						    <div class="card border-left-info shadow h-100 py-2">
@@ -74,7 +72,6 @@
 						               <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${attendCount}명</div>
 						             </div>
 						             <div class="col">
-=======
 					  <!-- 부서 출근 Card Example -->
 					  <div class="col-xl-4 col-md-6 mb-4">
 					     <div class="card border-left-info shadow h-100 py-2">
@@ -89,7 +86,6 @@
 					          </div>
 					        </div>
 					        <div class="col">
->>>>>>> parent of 6b57914... Revert "메인화면 출근률 완료"
 						             <div class="progress">
 										  <div class="progress-bar progress-bar-striped active" role="progressbar"
 										  aria-valuenow="${attendRate}" aria-valuemin="0" aria-valuemax="100" style="width:${attendCount/totalCount*100}%">
