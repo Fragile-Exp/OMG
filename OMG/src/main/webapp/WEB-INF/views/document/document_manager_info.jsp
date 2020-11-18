@@ -33,13 +33,8 @@
 
 					<!-- Page Heading -->
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
-					  
-					  <div class="btn-box">
-					  	<!-- 상태 업데이트  -->
-					  	<a  onClick="okay()"   class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>승인</a>
-					  	<a  onClick="unokay()" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>미승인</a>
+					   <h1 class="h3 mb-0 text-gray-800">문서 결재 페이지</h1>
 					  </div>
-					</div>
 					
 				
 					<!-- Content Row -->
@@ -51,19 +46,12 @@
 					    <div class="card shadow mb-4">
 					      <!-- Card Header - Dropdown -->
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-					        <h6 class="m-0 font-weight-bold text-primary">문서 상세(관리자)</h6>	
+					        <h6 class="m-0 font-weight-bold text-primary">문서 결재 페이지</h6>	
 					       
-					        <div class="dropdown no-arrow">
-					          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-					          </a>
-					          <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-					            <div class="dropdown-header">Dropdown Header:</div>
-					            <a class="dropdown-item" href="#">Action</a>
-					            <a class="dropdown-item" href="#">Another action</a>
-					            <div class="dropdown-divider"></div>
-					            <a class="dropdown-item" href="#">Something else here</a>
-					          </div>
+					        <div style="float: right;">
+					        		<a  onClick="okay()"   class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>승인</a>
+					  				<a  onClick="unokay()" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>불승인</a>
+					  
 					        </div>
 					      </div>
 					      <!-- Card Body -->
@@ -71,6 +59,7 @@
 					        <div class="chart-area" style=" height:100%; ">
 					      		<!-- to do : 값들 name/id 부여 -->
 					      		<!-- 제목  -->
+					      		<form name="writeFrm" action="" method="post" enctype="multipart/form-data">
 					      		<div>
 						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
 						      			<div class="title-header bg-primary text-white btn-sm" style="text-align:center;"  >
@@ -78,7 +67,7 @@
 						      			</div>
 						      		</div>
 						      		<div class="title-body" style="display: inline-block;">
-						      			<input id="title" class="title-input" type="text" style=" width :900px;" value="${SeleteOne.title}" disabled>
+						      			<input id="title" name="title" class="title-input" type="text" style=" width :900px;" value="${SeleteOne.title}" disabled>
 						      		</div>
 					        	</div>
 					        	<!-- //제목  -->
@@ -91,7 +80,7 @@
 						      		</div>
 						      		<div class="kind-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 문서 종류 데이터 입력   -->
-						      			<select id="kind" class="kind-body-select" style="width:400px;" disabled>
+						      			<select id="kind" name="kind" class="kind-body-select" style="width:400px;" disabled>
 							      			<!-- to do : if문 사용해서 데이터 동일 이면 option에 selected 추가  -->
 							      			<c:choose>
 							      				<c:when test="${SeleteOne.kind == 0}"><option value="0">휴가</option></c:when>
@@ -114,7 +103,7 @@
 						      		</div>
 						      		<div class="dDay-body" style="display: inline-block;">
 						      			<!-- to do : value값 데이터 가져와서 입력 -->
-						      			<input id="day" type="date" style="width:400px;" value="${SeleteOne.dDay}" disabled >
+						      			<input  id="dDay" name="dDay" type="date" style="width:400px;" value="${SeleteOne.dDay}" disabled >
 						      		</div>
 						      	</div>
 						      	<!--// 종류 / 기간   -->
@@ -126,9 +115,28 @@
 						      			</div>
 						      		</div>
 						      		<!-- to do : 파일 등록 모양 만들기  -->
-						      		<div class="file-body" style="display: inline-block;">
-						      			<input class="file-input" multiple="multiple"   type="file" multiple style=" width :300px;">
+									<div class="file-body" style="display: inline-block;"> 
+						      			<input id="file" name="file" class="file-input" multiple="multiple"   type="hidden" onchange="file_upload(this)"  multiple  style=" width :300px;">
 						      		</div>
+						      		<div class="card card-body" style="width: 900px;">
+										<c:choose>
+											<c:when test="${0 ne fileList.size() }">
+												<c:forEach var="vo" items="${fileList}" >
+													
+													<input type="hidden" name="originName"  id="originName" value="${vo.originName}" />
+													<input type="hidden" name="saveName" id="saveName" value="${vo.saveName}" />
+													<c:set var="originName" value="${vo.originName}" />
+													<c:set var="saveName" value="${vo.saveName}"/>
+													
+													
+													<a href="#" onclick='filedown("${originName}","${saveName}"); return false;'>${vo.originName}</a>
+													
+												</c:forEach>
+											</c:when>
+										</c:choose>
+									</div>
+										
+						      		
 					        	</div>
 					        	<!--// 파일 등록 -->
 					        	
@@ -145,6 +153,7 @@
 					        	<input id="employeeId" type="hidden" value="${SeleteOne.employeeId}">
 					        	<input id="documentSet" type="hidden" value="${SeleteOne.documentSet}">
 					        	<input id="okUser" type="hidden" value="${SeleteOne.okUser}">
+					        	</form>
 					        </div>
 					      </div>
 					    </div>
@@ -231,6 +240,91 @@
 				}
 		});	
 	}
+
+
+	function filedown(originName, saveName){
+		var form = document.createElement("form");
+		form.method = 'post';
+		form.action = "${hContext}/file/download.do" ;
+
+		var input01 = document.createElement('input');
+		var input02 = document.createElement('input');
+
+		input01.setAttribute("type","hidden");
+		input01.setAttribute("name","originName");
+		input01.setAttribute("value",originName);
+
+		input02.setAttribute("type","hidden");
+		input02.setAttribute("name","saveName");
+		input02.setAttribute("value",saveName);
+		
+		form.appendChild(input01);
+		form.appendChild(input02);
+
+		document.body.appendChild(form);
+
+		form.submit();
+		
+		
+	}
+
+
+	function update(){
+
+		var frm = document.writeFrm;
+		var formData = new FormData(frm);
+		
+		$.ajax({
+			url:"${hContext}/document/doUpdate.do",
+			type:"POST",
+			data: formData,
+			dataType:"html", 
+			enctype : 'multipart/form-data',
+			contentType : false,
+			processData : false,
+		success:function(data){
+			
+			if(confirm("수정이 성공하였습니다. 목록 페이지로 이동합니다.")==true){
+				window.location.href="${hContext}/document/document.do";
+			}
+		},
+		error:function(err){
+			alert("수정이 실패 하였습니다.");
+			
+		}
+		});	
+
+
+
+
+		}
+
+	function file_upload(e)	
+	{
+		var files = e.files;
+	    var fileArr = Array.prototype.slice.call(files);
+ 		html = "";
+ 		if(fileArr.length != 0){
+ 			for(var file of fileArr){
+ 				html += '<tr>';
+				html += '<td>';
+				html += file.name;
+				html += '</td>';
+				html += '</tr>';
+ 			}
+ 	 	} else{
+ 	 		html += '<tr>';
+			html += '<td class="text-center">';
+			html += '등록된 데이터가 없습니다.';
+			html += '</td>';
+			html += '</tr>';
+ 	 	 	}
+		
+		$("#fileListTable>tbody").empty();
+		$("#fileListTable>tbody").append(html);
+	}
+	
+
 	
 		
 </script>

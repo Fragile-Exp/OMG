@@ -230,6 +230,23 @@ public class DocumentDaoImpl {
 		
 	}
 	
+	public int dodocumentenroll(DocumentVO documentVO) {
+		LOG.debug("=dodocumentenroll=");
+		
+		String statement = NAMESPACE+".dodocumentenroll";
+		
+		int flag = sqlSessionTemplate.selectOne(statement, documentVO);
+		return flag;
+	}
 	
+	
+	public int dodocumentapp(DocumentVO documentVO) {
+		LOG.debug("=dodocumentapp=");
+		
+		String statement = NAMESPACE+".dodocumentapp";
+		
+		int flag = sqlSessionTemplate.selectOne(statement, documentVO);
+		return flag;
+	}
 	
 }

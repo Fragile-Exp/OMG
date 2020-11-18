@@ -48,7 +48,7 @@
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					        <h6 class="m-0 font-weight-bold text-primary">문서 상세</h6>	
 					        <div style=" float: right;">
-					        	<a  onClick="update()"  href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>수정</a>
+					        	<a  onClick="update()"  class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>수정</a>
 					  			<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
 					  	    </div>
 					       
@@ -66,7 +66,7 @@
 						      			</div>
 						      		</div>
 						      		<div class="title-body" style="display: inline-block;">
-						      			<input id="title" class="title-input" type="text" style=" width :900px;" value="${SeleteOne.title}">
+						      			<input id="title" name="title"class="title-input" type="text" style=" width :900px;" value="${SeleteOne.title}">
 						      		</div>
 					        	</div>
 					        	<!-- //제목  -->
@@ -78,7 +78,7 @@
 						      			</div>
 						      		</div>
 						      		<div class="kind-body" style="display: inline-block;">
-						      			<select id="kind" class="kind-body-select" style="width:400px;">
+						      			<select id="kind" name="kind" class="kind-body-select" style="width:400px;">
 							      			<c:choose>
 							      				<c:when test="${SeleteOne.kind == 0}"><option value="0">휴가</option></c:when>
 							      				<c:when test="${SeleteOne.kind == 1}"><option value="1">실험<option></c:when>
@@ -111,7 +111,7 @@
 						      		</div>
 						      		<div class="dDay-body" style="display: inline-block;">
 						      			<!-- to do : value값 데이터 가져와서 입력 -->
-						      			<input id="day" type="date" style="width:400px;" value="${SeleteOne.dDay}" >
+						      			<input id="dDay" name="dDay" type="date" style="width:400px;" value="${SeleteOne.dDay}" >
 						      		</div>
 						      	</div>
 						      	<!--// 종류 / 기간   -->
@@ -149,15 +149,15 @@
 					        	<div>
 						        	<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
 						      			<div class="approval-header bg-primary text-white btn-sm" style="text-align:center;" >
-						      				승인자
+						      				결재자
 						      			</div>
 						      		</div>
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select class="approval-postion" style="width:200px;" disabled>
+						      			<select class="approval-dept" name="dept_no" style="width:200px;" disabled>
 							      			<c:choose>
 							      				<c:when test="${emp.dept_no==10000}"><option selected>omg</option></c:when>
-							      				<c:when test="${emp.dept_no==11000}"><option selected>전력기획본부</option></c:when>
+							      				<c:when test="${emp.dept_no==11000}"><option selected>전략기획본부</option></c:when>
 							      				<c:when test="${emp.dept_no==12000}"><option selected>경영관리본부</option></c:when>
 							      				<c:when test="${emp.dept_no==13000}"><option selected>기술개발본부</option></c:when>
 							      				<c:when test="${emp.dept_no==14000}"><option selected>영업본부</option></c:when>
@@ -189,6 +189,9 @@
 							      			</c:choose>
 							      		</select>
 						      		</div>
+						      		<div style="display: inline-block;">
+						      			<input type="text" value="${emp.name}" disabled>
+						      		</div>
 						      		
 						      	</div>
 					        	<div class="card-body-label" style="width:7%; margin-bottom:10px;">
@@ -197,13 +200,15 @@
 						      			</div>
 						      	</div>
 						    
-						      	<input id="cont" class="cont-body" type="text" style="width:900px; height:100px;" value="${SeleteOne.documentCont}">
+						      	<input id="cont" name="documentCont" class="cont-body" type="text" style="width:900px; height:100px;" value="${SeleteOne.documentCont}">
 					        
 					        
-					        	<input id="documentId" type="hidden" value="${SeleteOne.documentId}">
-					        	<input id="employeeId" type="hidden" value="${SeleteOne.employeeId}">
-					        	<input id="documentSet" type="hidden" value="${SeleteOne.documentSet}">
-					        	<input id="okUser" type="hidden" value="${SeleteOne.okUser}">
+					        	<input id="documentId" name="documentId" type="hidden" value="${SeleteOne.documentId}">
+					        	<input id="employeeId" name="employeeId" type="hidden" value="${SeleteOne.employeeId}">
+					        	<input id="documentSet" name="" type="hidden" value="${SeleteOne.documentSet}">
+					        	<input id="okUser" name="documentSet" type="hidden" value="${SeleteOne.okUser}">
+					        	<input id="fileCode" name="fileCode" type="hidden" value="${SeleteOne.fileCode}">
+					        	
 					        	</form>
 					        </div>
 					      </div>
@@ -260,32 +265,31 @@
 
 
 	function update(){
-	
-			$.ajax({
-				url:"${hContext}/document/doUpdate.do",
-				type:"GET",
-				data:{
-					"documentId" : $("#documentId").val(), 
-					"employeeId" : $("#employeeId").val(), 
-					"kind" : $("#kind").val(),
-					"title" : $("#title").val(),
-					"dDay" : $("#day").val(),
-					"documentCont" : $("#cont").val(),	
-					"documentSet" : $("#documentSet").val(),
-					"okUser" : $("#okUser").val()
-						 },
-					dataType:"json",
-					success:function(data){
-						
-						if(confirm("수정이 성공하였습니다. 목록 페이지로 이동합니다.")==true){
-							window.location.href="${hContext}/document/document.do";
-						}
-					},
-					error:function(err){
-						alert("수정이 실패 하였습니다.");
-				
-					}
-			});	
+
+		var frm = document.writeFrm;
+		var formData = new FormData(frm);
+		
+		$.ajax({
+			url:"${hContext}/document/doUpdate.do",
+			type:"POST",
+			data: formData,
+			dataType:"html", 
+			enctype : 'multipart/form-data',
+			contentType : false,
+			processData : false,
+		success:function(data){
+			
+			if(confirm("수정이 성공하였습니다. 목록 페이지로 이동합니다.")==true){
+				window.location.href="${hContext}/document/document.do";
+			}
+		},
+		error:function(err){
+			alert("수정이 실패 하였습니다.");
+			
+		}
+		});	
+
+
 
 
 		}
@@ -315,6 +319,10 @@
 		$("#fileListTable>tbody").append(html);
 	}
 	
+
+
+
+
 	
 		
 </script>
