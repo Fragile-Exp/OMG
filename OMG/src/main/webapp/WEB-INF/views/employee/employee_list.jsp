@@ -26,9 +26,6 @@
 	      		
 	      		<!-- page Content -->
 	      		
-	      		
-	      		<form action=""></form>
-	      		
 	      		<!-- Begin Page Content -->
                 <div class="container-fluid">
 
@@ -37,26 +34,23 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <form action="" method="get" name="user_frm"  
-				    	      class="form-inline  col-lg-12 col-md-12 text-right">
-				    	    <input type="hidden" name="pageNum" id="pageNum" >  
-				    		<div class="form-group">
-				    		  <select class="form-control input-sm" name="pageSize"  id="pageSize">
-				    		  	<option value="10">10</option>
-				    		  	<option value="20">20</option>
-				    		  	<option value="30">30</option>
-				    		  	<option value="50">50</option>
-				    		  	<option value="100">100</option>
-				    		  </select>	    		
-				    		  <select class="form-control input-sm" name="searchDiv" id="searchDiv">
-				    		    <option value="">전체</option>
-				    		  	<option value="10">이름</option>
-				    		  	<option value="20">부서</option>
-				    		  </select>  
-				    		  <input  type="text" name="searchWord" id="searchWord"  class="form-control  input-sm"  placeholder="검색어"/>
-				    		  <input type="button" class="btn btn-info btn-sm" id="searchBtn" name="searchBtn"  value="조회"  />
-				    		</div>
-				    	</form>
+                            <form name="user_frm" class="form-inline  col-lg-12 col-md-12 text-right" onsubmit="return false" >
+					    	    <input type="hidden" name="pageNum" id="pageNum" >  
+					    		<div class="form-group px-1">
+						    		<select class="form-control input-sm" name="pageSize"  id="pageSize">
+							    		<c:forEach var="pageSzie" items="${pageSizeList}">
+							    			<option value="${pageSzie.detCode}">${pageSzie.detNm}</option>
+							    		</c:forEach>
+						    		</select>
+						    		<select class="form-control input-sm" name="searchDiv" id="searchDiv">
+						    		  	<c:forEach var="empCondition" items="${empConditionList}">
+							    			<option value="${empCondition.detCode}">${empCondition.detNm}</option>
+							    		</c:forEach>
+						    		</select>
+					    		  <input  type="text" name="searchWord" id="searchWord"  class="form-control  input-sm"  placeholder="검색어"/>
+					    		  <input id="searchBtn" type="button" class="btn btn-info btn-sm" id="searchBtn" name="searchBtn"  value="조회"  />
+					    		</div>
+					    	</form>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -106,6 +100,15 @@
         //화면이 로딩 되면서 데이터 조회
     	doSelectList(1);
     });
+
+	//검색 Enter Event처리
+	$("#searchWord").keypress(function(event) {
+		//alert("#searchWord"+key.keyCode)
+		if(event.keyCode==13){
+			$("#searchBtn").trigger("click");
+		}
+	});
+    
 
 
 	

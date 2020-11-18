@@ -39,6 +39,8 @@ public class NoteVO extends DTO {
 	private String sendDt;
 	/** 읽은 시간 */
 	private String readDt;
+	/** 유저 프로필 */
+	private String imgName;
 	
 	public NoteVO() {}
 
@@ -61,7 +63,7 @@ public class NoteVO extends DTO {
 	
 	
 	public NoteVO(int noteDiv, String senderId, String senderNm, int receiveDiv, String receiveId,
-			String receiveRef, String receiveNm, String title, String contents, int upNote) {
+			String receiveRef, String receiveNm, String title, String contents, int upNote, String imgName) {
 		super();
 		this.noteDiv = noteDiv;
 		this.senderId = senderId;
@@ -73,11 +75,12 @@ public class NoteVO extends DTO {
 		this.title = title;
 		this.contents = contents;
 		this.upNote = upNote;
+		this.imgName = imgName;
 	}
 
 	public NoteVO(int noteNo, int noteDiv, String senderId, String senderNm, int receiveDiv, String receiveId,
 			String receiveNm, int receiveRefDiv, String receiveRef, String receiveRefNm, String employeeId,
-			String employeeNm, String title, String contents, int upNote, int read, String sendDt, String readDt) {
+			String employeeNm, String title, String contents, int upNote, int read, String sendDt, String readDt,String imgName) {
 		super();
 		this.noteNo = noteNo;
 		this.noteDiv = noteDiv;
@@ -97,6 +100,17 @@ public class NoteVO extends DTO {
 		this.read = read;
 		this.sendDt = sendDt;
 		this.readDt = readDt;
+		this.imgName = imgName;
+	}
+
+	
+	
+	public String getImgName() {
+		return imgName;
+	}
+
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
 	}
 
 	public int getNoteNo() {
@@ -252,9 +266,10 @@ public class NoteVO extends DTO {
 				+ ", receiveRefDiv=" + receiveRefDiv + ", receiveRef=" + receiveRef + ", receiveRefNm=" + receiveRefNm
 				+ ", employeeId=" + employeeId + ", employeeNm=" + employeeNm + ", title=" + title + ", contents="
 				+ contents + ", upNote=" + upNote + ", read=" + read + ", sendDt=" + sendDt + ", readDt=" + readDt
-				+ ", toString()=" + super.toString() + "]";
-	} 
+				+ ", imgName=" + imgName + ", toString()=" + super.toString() + "]";
+	}
 
+	
 
 	
 }

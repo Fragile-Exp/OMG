@@ -13,7 +13,7 @@ public interface BoardService
 	
 	public int doUpdate(BoardVO board);
 	
-	public BoardVO doSelectOne(BoardVO board);
+	public BoardVO doSelectOne(BoardVO board, String userId);
 	
 	public List<BoardVO> doSelectList(Search search);
 }

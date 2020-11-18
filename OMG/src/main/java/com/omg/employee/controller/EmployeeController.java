@@ -25,6 +25,8 @@ import com.omg.attachment.service.AttachmentServiceImpl;
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
+import com.omg.code.dao.CodeDaoImpl;
+import com.omg.code.domain.Code;
 import com.omg.employee.domain.EmployeeVO;
 import com.omg.employee.service.EmployeeService;
 import com.omg.organization.domain.DeptVO;
@@ -53,6 +55,8 @@ public class EmployeeController {
 	@Autowired
 	PositionServiceImpl positionService;
 	 
+	@Autowired
+	CodeDaoImpl codeDao;
 	
 	@Autowired
 	EmployeeService employeeService;
@@ -90,8 +94,16 @@ public class EmployeeController {
 	
 	//사원목록
 	@RequestMapping(value="employee/employee_list.do",method=RequestMethod.GET)
-	public String employee_list() {
+	public String employee_list(Model model) {
 		LOG.debug("== employee_list ==");
+		
+		String codeList = "PAGE_SIZE,EMP_CONDITION";
+		List<Code> list = codeDao.doSelectList(codeList);
+		
+		List<Code> pageSizeList = StringUtil.getCodeSearch(list, "PAGE_SIZE");
+		List<Code> empConditionList = StringUtil.getCodeSearch(list, "EMP_CONDITION");
+		model.addAttribute("pageSizeList", pageSizeList);
+		model.addAttribute("empConditionList", empConditionList);
 		
 		return "employee/employee_list";
 	}
@@ -106,6 +118,15 @@ public class EmployeeController {
 		// 직급 목록
 		List<PositionVO> positionList = positionService.doSelectList();
 		model.addAttribute("positionList",positionList);
+		
+		String codeList = "PAGE_SIZE,EMP_CONDITION";
+		List<Code> list = codeDao.doSelectList(codeList);
+		
+		List<Code> pageSizeList = StringUtil.getCodeSearch(list, "PAGE_SIZE");
+		List<Code> empConditionList = StringUtil.getCodeSearch(list, "EMP_CONDITION");
+		model.addAttribute("pageSizeList", pageSizeList);
+		model.addAttribute("empConditionList", empConditionList);
+		
 		return "employee/employee_mng";
 	}
 	

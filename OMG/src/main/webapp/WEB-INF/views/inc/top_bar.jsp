@@ -99,8 +99,14 @@
            if(list.length >0){
         	   $("#messageListArea").empty();
 	           $("#msgCnt").text(list.length);
+	           
+	           var cnt = 4;
+	           
+	           if(list.length<4){
+		           cnt = list.length;
+		       }
  	           var html = "";
-	           for(var i=0;i<4;i++){
+	           for(var i=0;i<cnt;i++){
 	               	html += '<form action="${hContext}/note/note_info.do" method="GET">';
 	               	html += '<input type="hidden" name="noteNo" value="'+list[i].noteNo+'" />';
 	               	html += '<input type="hidden" name="employeeId" value="'+list[i].employeeId+'" />';
@@ -109,7 +115,7 @@
 	               	html += '<input type="hidden" name="noteDiv" value="'+list[i].noteDiv+'" />';
 					html += '<a class="dropdown-item d-flex align-items-center" href="#" onclick="this.parentNode.submit(); return false">';
 					html += '<div class="dropdown-list-image mr-3">';
-					html += '<img class="rounded-circle" src="${hContext}/resources/images/basic.png" alt="">';
+					html += '<img class="rounded-circle" src="${hContext}/'+list[i].imgName+'" alt="">';
 					html += '<div class="status-indicator bg-success"></div>';
 					html += '</div>';
 					html += '<div class="font-weight-bold">';

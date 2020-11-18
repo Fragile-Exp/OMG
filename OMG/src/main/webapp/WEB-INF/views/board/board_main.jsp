@@ -44,10 +44,13 @@
 						<form action="${hContext}/board/doSelectList.do" name="searchFrm">
 							<input type="hidden" name="pageNum" id="pageNum" />
 							<div class="card-header py-3">
-								<c:if test="{vo.div!=10 || sessionScope.employee.auth==9|">
-									<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="등록"  id="doInsertBtn" style="width: 55px;"/>
-								</c:if>
-								<div class="row" align="right">
+								<div class="row">
+									<div class="col-lg-6">
+										<c:if test="${vo.getDiv()!=10 || sessionScope.employee.auth==9}">
+											<input type="button" class="btn btn-secondary text-white-100"  value="등록"  id="doInsertBtn" style="width: 55px;"/>
+										</c:if>
+									</div>
+								<div class="col-lg-6 text-right">
 									<input type="hidden" name="div"	 id="div"	value="${vo.getDiv()}" />
 									<div class="col">
 										<!-- <h6 class="m-0 font-weight-bold text-primary" >OO게시판</h6> -->
@@ -69,6 +72,7 @@
 											</button>
 										</div>
 									</div>
+								</div>
 								</div>
 							</div>
 						</form>

@@ -23,13 +23,13 @@
 		SELECT note_no as noteNo, note_div as noteDiv, sender_id as senderId, sender_nm as senderNm, receive_div as receiveDiv,
 				receive_id as receiveId, receive_ref_div as receiveRefDiv, receive_ref as receiveRef, receive_ref_nm as receiveRefNm,
 				receive_nm as receiveNm, employee_id as employeeId, employee_nm as employeeNm,
-				title, contents, up_note as upNote, read,      	  	     											
+				title, contents, up_note as upNote, read, img_name as imgName      	  	     											
         		--등록일이 당일이면:HH24MI 그렇치 않으면: YYYY-MM-DD   
         		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(send_dt,'YYYYMMDD'),
         				TO_CHAR(send_dt,'HH24:MI'),TO_CHAR(send_dt,'YYYY-MM-DD')) sendDt,
         		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(read_dt,'YYYYMMDD'),
         				TO_CHAR(read_dt,'HH24:MI'),TO_CHAR(read_dt,'YYYY-MM-DD')) readDt                       
-		FROM note
+		FROM note_view
 		WHERE note_no = #{noteNo}
 		AND note_div = #{noteDiv}
 		AND employee_id = #{employeeId}
@@ -97,12 +97,13 @@
 		        		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.send_dt,'YYYYMMDD'),
 		        				TO_CHAR(B.send_dt,'HH24:MI'),TO_CHAR(B.send_dt,'YYYY-MM-DD')) sendDt,
 		        		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.read_dt,'YYYYMMDD'),
-		        				TO_CHAR(B.read_dt,'HH24:MI'),TO_CHAR(B.read_dt,'YYYY-MM-DD')) readDt
+		        				TO_CHAR(B.read_dt,'HH24:MI'),TO_CHAR(B.read_dt,'YYYY-MM-DD')) readDt,
+		        		B.img_name as imgName
 			    FROM
 					(SELECT ROWNUM rnum, A.*                                           
 			        FROM                                                             
 			            (SELECT *                                                      
-			            FROM  note
+			            FROM  note_view
 			            WHERE note_div = #{noteVO.noteDiv}
 						AND employee_id = #{noteVO.employeeId}
 						--동적 쿼리
@@ -115,7 +116,7 @@
 				)T1                                                                   
 			NATURAL JOIN                                                                
 				(SELECT COUNT(*) totalCnt                                            
-				FROM  note
+				FROM  note_view
 				WHERE note_div = #{noteVO.noteDiv}
 				AND employee_id = #{noteVO.employeeId}
 				--동적 쿼리
@@ -138,8 +139,9 @@
         				TO_CHAR(send_dt,'HH24:MI'),TO_CHAR(send_dt,'YYYY-MM-DD')) sendDt,
         		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(read_dt,'YYYYMMDD'),
         				TO_CHAR(read_dt,'HH24:MI'),TO_CHAR(read_dt,'YYYY-MM-DD')) readDt,
-        		COUNT(*) OVER() as totalCnt
-		FROM note 
+        		COUNT(*) OVER() as totalCnt,
+        		img_name as imgName
+		FROM note_view
 		where note_div= 2
 		AND employee_id= #{value}
 		AND read = 0

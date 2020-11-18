@@ -29,42 +29,52 @@
 	
 					<!-- Page Heading -->
 					<h1 class="h3 mb-4 text-gray-800">게시글 등록</h1>
-					
-					<form class="form-horizontal" name="writeFrm" action="" method="post" enctype="multipart/form-data">
-						<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="등록"  id="doInsertBtn" style="float: right;  margin: 13px;" />
-						<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="목록" id="moveList"  style="float: right;  margin: 13px;" />
-						<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="초기화" id="doClearBtn"  style="float: right;  margin: 13px;" />
-						<input type="hidden" name="div"     id="div"  value="${boardDiv}" />
-						<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
-						<div class="form-group">
-							<label for="" class="col-sm-2 control-label">제목</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="title" id="title" placeholder="제목" maxlength="200">
+						<div class="card shadow mb-4" style="width:70%">
+							<!-- Page Heading -->
+							<div class="card-header py-3 ">
+								<div class="row">
+									<div class="col-lg-6">
+										<input type="button" class="btn btn-primary text-white-100"  value="목록" id="moveList" />
+										
+									</div>
+									<div class="col-lg-6 text-right">
+										<input type="button" class="btn btn-primary text-white-100"  value="등록"  id="doInsertBtn"/>
+										<input type="button" class="btn btn-primary text-white-100"  value="초기화" id="doClearBtn"  />
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="" class="col-sm-2 control-label">작성자</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="regId" id="regId" placeholder="작성자" maxlength="20" value="${sessionScope.employee.employee_id}" readonly="readonly">
+							<div class="card-body">
+								<form class="form-horizontal" name="writeFrm" action="" method="post" enctype="multipart/form-data">
+									<input type="hidden" name="div"     id="div"  value="${boardDiv}" />
+									<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
+									<div class="form-group">
+										<label for="" class="col-sm-2 control-label">제목</label>
+										<div>
+											<input type="text" class="form-control" name="title" id="title" placeholder="제목" maxlength="200">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="" class="col-sm-2 control-label">작성자</label>
+										<div>
+											<input type="text" class="form-control" name="regId" id="regId" placeholder="작성자" maxlength="20" value="${sessionScope.employee.employee_id}" readonly="readonly">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="" class="col-sm-2 control-label">내용</label>
+										<div >
+											<textarea  class="form-control" rows="15" cols="40" name="contents" id="contents"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<div>
+											<input type="file" onchange="file_upload(this)" id="file" name="file" multiple />
+										</div>
+									</div>
+								</form>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="" class="col-sm-2 control-label">내용</label>
-							<div class="col-sm-10">
-								<textarea  class="form-control" rows="15" cols="40" name="contents" id="contents"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-10">
-								<input type="file" onchange="file_upload(this)" id="file" name="file" multiple />
-							</div>
-						</div>
-					</form>
-					<ul class="list-group" id="">
-						<li class="list-group-item" style="width: 1335px;border-left-width: 1px;left: 10px;">
-							<div class="row">
-								<div id="" class="col-lg-10">
-									
+						
+							<ul class="list-group" >
+								<li class="list-group-item  col-lg-6" style="border-width: 0px;left: 5px;">
 									<table class="table table-striped table-bordered" id="fileListTable">
 										<thead>
 											<tr>
@@ -74,14 +84,14 @@
 										<tbody>
 										</tbody>
 									</table>
-								</div>
-							</div>
-						</li>
-					</ul>
+								</li>
+							</ul>
+						</div>	
+					</div>
 				</div>
 				<!-- // page Content -->
 				
-			</div>
+			
 			<!-- //Main Content -->
 
 			<!-- footer -->

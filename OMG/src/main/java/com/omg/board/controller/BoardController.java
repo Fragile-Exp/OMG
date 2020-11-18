@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.transform.impl.InterceptFieldFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
 import com.omg.code.dao.CodeDaoImpl;
 import com.omg.code.domain.Code;
+import com.omg.employee.domain.EmployeeVO;
 
 @Controller
 public class BoardController 
@@ -157,7 +159,7 @@ public class BoardController
 			   								,produces = "application/json;charset=UTF-8"
 				   )
 	@ResponseBody
-	public String doUpdate(BoardVO board)
+	public String doUpdate(MultipartHttpServletRequest multi, BoardVO board) throws IllegalStateException, IOException
 	{
 		LOG.debug("===========================");
 		LOG.debug("=doUpdate()=");
@@ -174,6 +176,18 @@ public class BoardController
 		
 		if(flag==1)
 		{
+			String fileCode = board.getFilecode();
+			String dir = "board";
+			List<AttachmentVO> list = StringUtil.fileUpload(multi, fileCode, dir);
+			LOG.debug("업로드 파일 개수 = " + list.size());
+			int fileFlag = 0;
+			if(list.size()>0) {
+				attachmentService.doDelete(list.get(0));
+				for(AttachmentVO vo : list) {
+					fileFlag = attachmentService.doInsert(vo);
+				}
+			}
+			
 			message.setMsgContents(" 게시글 수정이 완료 되었습니다.");
 		}
 		else
@@ -191,7 +205,7 @@ public class BoardController
 	}
 	
 	@RequestMapping(value="board/doSelectOne.do", method = RequestMethod.GET)
-	public String doSelectOne(BoardVO boardVO, Locale locale,Model model)
+	public String doSelectOne(BoardVO boardVO, Locale locale,Model model,HttpSession session)
 	{
 		LOG.debug("===========================");
 		LOG.debug("=doSelectOne()=");
@@ -201,8 +215,9 @@ public class BoardController
 		if(0 == boardVO.getBoardSeq()) {
 			throw new IllegalArgumentException("게시글 seq를 확인하세요");
 		}
+		EmployeeVO empVO = (EmployeeVO) session.getAttribute("employee");
 		
-		BoardVO outVO = (BoardVO) this.boardService.doSelectOne(boardVO);
+		BoardVO outVO = this.boardService.doSelectOne(boardVO, empVO.getEmployee_id());
 		model.addAttribute("vo", outVO);
 		
 		AttachmentVO inFileVO = new AttachmentVO();
@@ -217,7 +232,7 @@ public class BoardController
 	}
 	
 	@RequestMapping(value="board/doSelectOneMng.do", method = RequestMethod.GET)
-	public String doSelectOneMng(BoardVO boardVO, Locale locale,Model model)
+	public String doSelectOneMng(BoardVO boardVO, Locale locale,Model model,HttpSession session)
 	{
 		LOG.debug("===========================");
 		LOG.debug("=doSelectOneMng()=");
@@ -227,8 +242,9 @@ public class BoardController
 		if(0 == boardVO.getBoardSeq()) {
 			throw new IllegalArgumentException("게시글 seq를 확인하세요");
 		}
+		EmployeeVO empVO = (EmployeeVO) session.getAttribute("employee");
 		
-		BoardVO outVO = (BoardVO) this.boardService.doSelectOne(boardVO);
+		BoardVO outVO = this.boardService.doSelectOne(boardVO, empVO.getEmployee_id());
 		model.addAttribute("vo", outVO);
 		
 		AttachmentVO inFileVO = new AttachmentVO();

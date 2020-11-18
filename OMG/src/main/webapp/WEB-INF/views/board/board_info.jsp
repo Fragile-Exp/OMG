@@ -27,42 +27,39 @@
 
 				<!-- page Content -->
 				<div class="container-fluid">
-					<div class="card shadow col-lg-12">
-					
-					
+					<div class="card shadow mb-4" style="width:70%">
 						<!-- Page Heading -->
 						<div class="card-header py-3 ">
-							<div class="text-right">
-								<input type="button" class="btn btn-primary text-white-100" value="목록" id="moveList" />
-								<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
-									<input type="button" class="btn btn-primary text-white-100" value="삭제" id="doDeleteBtn" />
-								</c:if>
-								<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
-									<input type="button" class="btn btn-primary text-white-100" value="수정" id="doUpdateBtn" />
-								</c:if>
+							<div class="row">
+								<div class="col-lg-6 text-left">
+									<input type="button" class="btn btn-primary text-white-100" value="목록" id="moveList" />
+									</div>
+								
+								<div class="col-lg-6 text-right">
+									<c:if test="${vo.regId eq sessionScope.employee.employee_id}">
+										<input type="button" class="btn btn-primary text-white-100" value="삭제" id="doDeleteBtn" />
+										<input type="button" class="btn btn-primary text-white-100" value="수정" id="doUpdateBtn" />
+									</c:if>
+								</div>
 							</div>
 						</div>
 						<div class="card-body">
-							<h1 class="h3 mb-4 text-gray-800" style="padding-top: 20px; padding-left: 20px; width: 320px;">${vo.title}</h1>
+							<h1 class="h3 mb-4 text-gray-800" style="padding-top: 20px; padding-left: 20px; width: 320px;">제목 : ${vo.title}</h1>
 							<%-- <form class="form-horizontal" name="mngFrm" action="${hContext}/board/doSelectList.do" method="post"> --%>
-							<input type="hidden" name="boardSeq" id="boardSeq"
-								value="${vo.boardSeq}" /> <input type="hidden" name="div"
-								id="div" value="${vo.getDiv()}" />
-							<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
-							<input type="hidden" class="form-control" name="modId" id="modId"
-								placeholder="수정자" maxlength="20">
+							<input type="hidden" name="boardSeq" id="boardSeq" value="${vo.boardSeq}" />
+							<input type="hidden" name="div" id="div" value="${vo.getDiv()}" />
+							<input type="hidden" class="form-control" name="modId" id="modId" placeholder="수정자" maxlength="20">
 							<div class="form-group">
 								<label for="" class="col-sm-2 control-label">첨부파일</label>
-								<div class="px-4">
-									<div class="card card-body">
+								<div class="px-4 card card-body">
+									<div>
 										<c:choose>
 											<c:when test="${0 ne fileList.size() }">
 												<c:forEach var="vo" items="${fileList}">
 													<form method="post" action="${hContext}/file/download.do">
-														<input type="hidden" name="originName" id="originName"
-															value="${vo.originName}" /> <input type="hidden"
-															name="saveName" id="saveName" value="${vo.saveName}" /> <a
-															href="#" onclick="this.parentNode.submit(); return false;">${vo.originName}</a>
+														<input type="hidden" name="originName" value="${vo.originName}" />
+														<input type="hidden" name="saveName" value="${vo.saveName}" />
+														<a href="#" onclick="this.parentNode.submit(); return false;">${vo.originName}</a>
 													</form>
 												</c:forEach>
 											</c:when>
@@ -79,7 +76,7 @@
 							</div>
 							<!-- </form> -->
 							<!-- // page Content -->
-							
+							<hr/><hr/>
 							<div id="comment_list_div">
 								<div class="page-header">
 									<!-- h4>댓글</h4> -->
@@ -89,12 +86,8 @@
 									<!-- 댓글 영역 -->
 								</ul>
 								<div class="panel panel-body panel-default">
-									<form class="form-horizontal" name="comment_reg_frm"
-										id="comment_reg_frm">
+									<form class="form-horizontal" name="comment_reg_frm" id="comment_reg_frm">
 										<div class="form-group">
-											<div>
-												<%-- <label>${employee.employee_id}</label> --%>
-											</div>
 											<div class="py-4">
 												<textarea class="form-control" style="resize: none;"
 													id="write_contents" name="write_contents" rows="3" cols="100"
@@ -119,7 +112,6 @@
 							</div>
 						</div>
 					</div>
-			
 			
 			<!-- //Main Content -->
 			</div>

@@ -30,49 +30,61 @@
 
 				<!-- Page Heading -->
 				<h1 class="h3 mb-4 text-gray-800">게시글 수정</h1>
-				
-				<form class="form-horizontal" name="mngFrm" action="${hContext}/board/doSelectLsit.do" method="post">
-					<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="목록" id="moveList"  style="float: right;  margin: 13px;" />
-					<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="삭제" id="doDeleteBtn"  style="float: right;  margin: 13px;" />
-					<input type="button" class="btn btn-primary btn-icon-split icon text-white-100"  value="수정"  id="doUpdateBtn" style="float: right;  margin: 13px;" />
-					<input type="hidden" name="boardSeq"     id="boardSeq"  value="${vo.boardSeq}" />
-					<input type="hidden" name="div"     id="div"  value="${vo.getDiv()}" />
-					<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
-					<div class="form-group">
-						<label for="" class="col-sm-2 control-label">제목</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="title" id="title" placeholder="제목" maxlength="200"
-								   value="${vo.title}"
-							/>
-						</div>
-					</div>
-					<input type="hidden" class="form-control" name="modId" id="modId" placeholder="수정자" value="${sessionScope.employee.name}" maxlength="20">		
-					<div class="form-group">
-						<label for="" class="col-sm-2 control-label">첨부파일</label>
-						<div class="px-4">
-							<div class="card card-body" style="width: 84%;">
-								<c:choose>
-									<c:when test="${0 ne fileList.size() }">
-										<c:forEach var="vo" items="${fileList}" >
-											<form method="post" action="${hContext}/file/download.do" >
-												<input type="hidden" name="originName"  id="originName" value="${vo.originName}" />
-												<input type="hidden" name="saveName" id="saveName" value="${vo.saveName}" />
-												<a href="#" onclick="this.parentNode.submit(); return false;">${vo.originName}</a>
-											</form>
-										</c:forEach>
-									</c:when>
-								</c:choose>
+				<div class="card shadow mb-4" style="width:70%">
+					<!-- Page Heading -->
+					<div class="card-header py-3 ">
+						<div class="row">
+							<div class="col-lg-12 text-right">
+								<input type="button" class="btn btn-primary text-white-100"  value="목록" id="moveList" />
+								<input type="button" class="btn btn-primary text-white-100"  value="삭제" id="doDeleteBtn" />
+								<input type="button" class="btn btn-primary text-white-100"  value="수정"  id="doUpdateBtn" />
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="" class="col-sm-2 control-label">내용</label>
-						<div class="col-sm-10">
-							<textarea  class="form-control" rows="15" cols="40" name="contents" id="contents">${vo.contents}</textarea>
-						</div>
+					<div class="card-doby">
+						<form class="form-horizontal" name="mngFrm" action="${hContext}/board/doSelectLsit.do" method="post">
+							<input type="hidden" name="boardSeq"     id="boardSeq"  value="${vo.boardSeq}" />
+							<input type="hidden" name="div"     id="div"  value="${vo.getDiv()}" />
+							<input type="hidden" name="filecode"     id="filecode"  value="${vo.filecode}" />
+						<!-- <input type="hidden" name="boardSeq" 	id="boardSeq" /> -->
+							<div class="form-group">
+								<label for="" class="col-sm-2 control-label">제목</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="title" id="title" placeholder="제목" maxlength="200" value="${vo.title}" />
+								</div>
+							</div>
+							<input type="hidden" class="form-control" name="modId" id="modId" placeholder="수정자" value="${sessionScope.employee.name}" maxlength="20">		
+							<div class="form-group">
+								<label for="" class="col-sm-2 control-label">기존파일</label>
+								<div class="px-4 ">
+									<div id="changeFile" class="card card-body" style="width: 84%;">
+										<c:choose>
+											<c:when test="${0 ne fileList.size() }">
+												<c:forEach var="vo" items="${fileList}" >
+													<a href="#" onclick="fileDown({vo.originName},${vo.saveName}); return false;">${vo.originName}</a>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="" class="col-sm-2 control-label">새 파일</label>
+								<div class="px-4 ">
+									<div id="newFile" class="card card-body" style="width: 84%;"></div>
+									<input class="py-2" type="file" onchange="file_upload(this)" id="file" name="file" multiple />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="" class="col-sm-2 control-label">내용</label>
+								<div class="col-sm-10">
+									<textarea  class="form-control" rows="15" cols="40" name="contents" id="contents">${vo.contents}</textarea>
+								</div>
+							</div>
+						</form>
 					</div>
-				</form>
-			</div>
+					
+				</div>
 			<!-- // page Content -->
 		</div>
 		<%-- <div class="container col-lg-12" id="comment_list_div">
@@ -203,17 +215,17 @@
 
 			if(false==confirm("수정 하시겠습니까?"))return;
 
+			var frm = document.mngFrm;
+			var formData = new FormData(frm);
+
 			$.ajax({
 				type:"POST",
 				url:"${hContext}/board/doUpdate.do",
 				dataType:"html", 
-				data:{
-						"boardSeq" : $("#boardSeq").val(),
-						"div" :$("#div").val(),
-						"title":$("#title").val(),
-						"contents":$("#contents").val(),
-						"modId":$("#modId").val()
-				},
+				enctype : 'multipart/form-data',
+				contentType : false,
+				processData : false,
+				data: formData,
 				success:function(data)
 				{//성공
 				//console.log("data="+data);
@@ -244,6 +256,30 @@
 			
 	});
 
+	function file_upload(e)	
+	{
+		var files = e.files;
+	    var fileArr = Array.prototype.slice.call(files);
+ 		html = "";
+ 		if(fileArr.length != 0){
+ 			for(var file of fileArr){
+ 				html += '<tr>';
+				html += '<td>';
+				html += file.name;
+				html += '</td>';
+				html += '</tr>';
+ 			}
+ 	 	} else{
+ 	 		html += '<tr>';
+			html += '<td class="text-center">';
+			html += '등록된 데이터가 없습니다.';
+			html += '</td>';
+			html += '</tr>';
+ 	 	 	}
+		
+		$("#newFile").empty();
+		$("#newFile").append(html);
+	}
 	
 	
 	</script>

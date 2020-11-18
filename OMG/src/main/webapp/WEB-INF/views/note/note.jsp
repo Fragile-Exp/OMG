@@ -45,22 +45,18 @@
 								<div class="card-header py-3">
 									<div class="row">
 										<div class="col-lg-6">
-										<a href="${hContext}/note/note_reg.do" class="btn btn-secondary btn-sm">
-											<span class="text">쪽지쓰기</span>
-										</a>
-										<a id="readBtn" href="#" class="btn btn-info btn-icon-split btn-sm">
-											<span class="icon text-white-50"> <i class="fas fa-check"></i></span>
-											<span class="text">읽음 처리</span>
-										</a>
-										<a id="deleteBtn" href="#" class="btn btn-info btn-icon-split btn-sm">
-											<span class="icon text-white-50"> <i class="fas fa-trash"></i></span>
-											<span class="text">삭제</span>
-										</a>
-										<a href="${hContext}/note/note_reply.do" class="btn btn-info btn-icon-split btn-sm">
-											<span class="icon text-white-50"> <i class="fas fa-arrow-right"></i></span>
-											<span class="text">답장하기</span>
-										</a>
-										<input type="checkbox" id="onlyNotRead" onclick="drawNote($('#noteDiv').val(),1);"/> 읽지 않음
+											<a href="${hContext}/note/note_reg.do" class="btn btn-secondary btn-sm">
+												<span class="text">쪽지쓰기</span>
+											</a>
+											<a id="readBtn" href="#" class="btn btn-info btn-icon-split btn-sm">
+												<span class="icon text-white-50"> <i class="fas fa-check"></i></span>
+												<span class="text">읽음 처리</span>
+											</a>
+											<a id="deleteBtn" href="#" class="btn btn-info btn-icon-split btn-sm">
+												<span class="icon text-white-50"> <i class="fas fa-trash"></i></span>
+												<span class="text">삭제</span>
+											</a>
+											<input type="checkbox" id="onlyNotRead" onclick="drawNote($('#noteDiv').val(),1);"/> 읽지 않음
 										</div>
 										<div class="col-lg-6" align="right">
 										

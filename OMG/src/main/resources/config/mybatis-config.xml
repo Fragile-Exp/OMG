@@ -34,6 +34,7 @@
 		
 		<!-- chat -->
 		<typeAlias type="com.omg.chat.domain.ChattingRoom" alias="RoomVO"/>
+		<typeAlias type="com.omg.readcnt.domain.ReadCntVO" alias="ReadCntVO" />
 		
 	</typeAliases>
 </configuration>  

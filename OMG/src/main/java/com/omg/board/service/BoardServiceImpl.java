@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.omg.board.dao.BoardDaoImpl;
 import com.omg.board.domain.BoardVO;
 import com.omg.cmn.Search;
+import com.omg.readcnt.dao.ReadCntDaoImpl;
+import com.omg.readcnt.domain.ReadCntVO;
 
 @Service("BoardServiceImpl")
 public class BoardServiceImpl implements BoardService
@@ -18,6 +20,9 @@ public class BoardServiceImpl implements BoardService
 	
 	@Autowired
 	private BoardDaoImpl  boardDao;
+	
+	@Autowired
+	private ReadCntDaoImpl readCntDao;
 	 
 	public BoardServiceImpl() {}
 	
@@ -40,9 +45,18 @@ public class BoardServiceImpl implements BoardService
 	}
 	
 	@Override
-	public BoardVO doSelectOne(BoardVO board)
+	public BoardVO doSelectOne(BoardVO board, String userId)
 	{
-		boardDao.readCount(board);
+		ReadCntVO cntVO = new ReadCntVO();
+		cntVO.setSeq(board.getBoardSeq());
+		cntVO.setUserId(userId);
+		
+		int readCnt = readCntDao.doSelectOne(cntVO);
+		
+		if(readCnt == 0) {
+			readCntDao.doInsert(cntVO);
+			boardDao.readCount(board);
+		}
 		
 		return boardDao.doSelectOne(board);
 	}

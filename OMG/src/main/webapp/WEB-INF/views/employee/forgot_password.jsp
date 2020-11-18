@@ -51,6 +51,8 @@
                                                 placeholder="사원번호를 입력하세요">
                                         </div>
                                         <a id="mailSenderBtn" style="color:white;" class="btn btn-primary btn-user btn-block">
+                                        <a id="mailSenderBtn" style="color:white;"  class="btn btn-primary btn-user btn-block">
+                                        <a id="mailSenderBtn" style="color:white;" class="btn btn-primary btn-user btn-block">
                                             메일 보내기
                                         </a>
                                     </form>
@@ -76,7 +78,6 @@
 			alert("아이디(사원번호)를 확인하세요.");
 			return ;
 		}	
-		jQuery.ajaxSettings.traditional = true;
 		//ajax
         $.ajax({
            type:"GET",

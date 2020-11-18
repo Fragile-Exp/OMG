@@ -30,22 +30,23 @@
                 <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-2">
-                            <form action="" method="get" name="user_frm"  class="form-inline  col-lg-12 col-md-12 text-right">
+                            <form name="user_frm"  class="form-inline  col-lg-12 col-md-12 text-right" onsubmit="return false">
 				    	    	<input type="hidden" name="pageNum" id="pageNum" >  
 				    			<div class="form-group">
-					    		  	<select class="form-control input-sm" name="pageSize"  id="pageSize">
-						    		  	<option value="10">10</option>
-						    		  	<option value="20">20</option>
-						    		  	<option value="30">30</option>
-						    		  	<option value="50">50</option>
-						    		  	<option value="100">100</option>
-					    		 	</select>	    		
-					    		  	<select class="form-control input-sm" name="searchDiv" id="searchDiv">
-						    		  	<option value="10">이름</option>
-						    		  	<option value="20">부서</option>
-					    		  	</select>  
+					    		  	<div class="px-1">
+							    		<select class="form-control input-sm" name="pageSize"  id="pageSize">
+								    		<c:forEach var="pageSzie" items="${pageSizeList}">
+								    			<option value="${pageSzie.detCode}">${pageSzie.detNm}</option>
+								    		</c:forEach>
+							    		</select>
+							    		<select class="form-control input-sm" name="searchDiv" id="searchDiv">
+							    		  	<c:forEach var="empCondition" items="${empConditionList}">
+								    			<option value="${empCondition.detCode}">${empCondition.detNm}</option>
+								    		</c:forEach>
+							    		</select> 
+						    		</div>
 					    		  	<input  type="text" name="searchWord" id="searchWord"  class="form-control  input-sm"  placeholder="검색어"/>
-					    		  	<input type="button" class="btn btn-info btn-sm" onclick="javascript:doSelectList(1);"  value="조회"  />
+					    		  	<input id="searchBtn" type="button" class="btn btn-info btn-sm" onclick="javascript:doSelectList(1);"  value="조회"  />
 				    			</div>
 				    		</form>
                         </div>
@@ -220,6 +221,14 @@
 		$("#employee_mng").attr("class","collapse-item active");
 		doSelectList(1);
 		});
+
+	//검색 Enter Event처리
+	$("#searchWord").keypress(function(event) {
+		//alert("#searchWord"+key.keyCode)
+		if(event.keyCode==13){
+			$("#searchBtn").trigger("click");
+		}
+	});
 
 	//수정
 	$("#doUpdate").on("click",function(){

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.readCnt">
+
+	
+	<!-- 등록 -->
+	<insert id="doInsert" parameterType="ReadCntVO">
+		INSERT INTO readcnt (seq, user_id)
+				VALUES(#{seq},#{userId})
+	</insert>
+	
+	<!-- 단건 조회 -->
+	<select id="doSelectOne" parameterType="ReadCntVO" resultType="int">
+		SELECT COUNT(*)
+		FROM readcnt
+		WHERE seq = #{seq}
+		AND user_id = #{userId}
+	</select>
+	
+
+</mapper>
