@@ -45,7 +45,7 @@
 											<label for="name" >이름</label>
 										</div>
 										<div class="col-lg-9">
-											<input type="text" class="form-control" id="name" name="name" placeholder="이름" />
+											<input type="text" class="form-control" id="name" name="name" placeholder="이름" maxlength="15"/>
 										</div>
 									</div>
 									<div class="row py-2">
@@ -53,7 +53,7 @@
 											<label for="password" >비밀번호</label>
 										</div>
 										<div class="col-lg-9">
-											<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" />
+											<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" maxlength="15"/>
 										</div>
 									</div>
 									<div class="row py-2">
@@ -61,7 +61,7 @@
 											<label for="passwordConf" >비밀번호 확인</label>
 										</div>
 										<div class="col-lg-9">
-											<input type="password" class="form-control" id="passwordConf" name="passwordConf" placeholder="비밀번호" />
+											<input type="password" class="form-control" id="passwordConf" name="passwordConf" placeholder="비밀번호확인" maxlength="15"/>
 										</div>
 									</div>
 									<div class="row py-2">
@@ -97,7 +97,7 @@
 											<label for="cell_phone" >핸드폰</label>
 										</div>
 										<div class="col-lg-9">
-											<input type="text" class="form-control" id="cell_phone" name="cell_phone" placeholder="핸드폰 EX)01012341234" />
+											<input type="text" class="form-control" id="cell_phone" name="cell_phone" placeholder="핸드폰 EX)01012341234" maxlength="11"/>
 										</div>
 									</div>
 									<div class="row py-2">
@@ -105,7 +105,7 @@
 											<label for="email" >이메일</label>
 										</div>
 										<div class="col-lg-9">
-											<input type="text" class="form-control" id="email" name="email" placeholder="이메일 EX)omg@omg.com" />
+											<input type="text" class="form-control" id="email" name="email" placeholder="이메일 EX)omg@omg.com" maxlength="15"/>
 										</div>
 									</div>
 									<div class="row py-2">
@@ -113,7 +113,7 @@
 											<label for="address" >주소</label>
 										</div>
 										<div class="col-lg-9">
-											<input type="text" class="form-control" id="address" name="address" placeholder="주소" />
+											<input type="text" class="form-control" id="address" name="address" placeholder="주소" maxlength="15"/>
 										</div>
 									</div>
 									<div class="row py-2">
@@ -258,7 +258,7 @@
           var jData = JSON.parse(data);
           if(null != jData && jData.msgId=="1"){
             alert(jData.msgContents);
-            window.location.reload();
+            //window.location.reload();
           }else{
             alert(jData.msgId+"|"+jData.msgContents);
           }
@@ -359,8 +359,7 @@
 					minlength:3
 				},
 				password : {
-					required: true,
-					rangelength: [5,15]
+					required: true
 				},
 				passwordConf : {
 					required: true,
@@ -394,12 +393,10 @@
 					minlength: $.validator.format("이름은 최소 {0}글자 이상 입력하세요.")
 				},
 				password : {
-					required: "패스워드를 입력하세요",
-					rangelength :  $.validator.format("패스워드는 {0}자 에서 {1}자 이하로 입력하세요")
+					required: "패스워드를 입력하세요"
 				},
 				passwordConf: {
 					required: "비밀번호확인을 입력하세요",
-					rangelength :  $.validator.format("패스워드는 {0}자 에서 {1}자 이하로 입력하세요"),
 					equalTo : "비밀번호 항목과 일치하지 않습니다."
 				},
 				cell_phone : {
