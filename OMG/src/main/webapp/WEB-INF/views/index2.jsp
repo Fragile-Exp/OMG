@@ -68,7 +68,7 @@
 						<section class="commuting col-xl-4 col-md-6 mb-4">
 						    <div class="card border-left-info shadow h-100 py-2">
 						      <div class="card-body">
-						      	<label for="deptattedence" class="deptattendence">부서인원 : ${totalCount}</label>
+						      	<label for="deptattedence" class="deptattendence">${sessionScope.employee.dept_nm} : ${totalCount}</label>
 						        <div class="row no-gutters align-items-center">
 						          <div class="col-auto">
 						               <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${attendCount}명</div>
@@ -76,7 +76,7 @@
 						             <div class="col">
 						             <div class="progress">
 									  <div class="progress-bar progress-bar-striped active" role="progressbar"
-									  aria-valuenow="${attendRate}" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+									  aria-valuenow="${attendCount}" aria-valuemin="0" aria-valuemax="${totalCount}" style="width:40%">
 									  출석
 									  </div>
 								  </div>	
