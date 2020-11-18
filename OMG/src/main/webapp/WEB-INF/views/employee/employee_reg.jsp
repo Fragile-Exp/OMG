@@ -36,7 +36,7 @@
 											<label for="employee_id" >아이디(사원번호)</label>
 										</div>
 										<div class="col-lg-8">
-											<input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="아이디(사원번호)" />
+											<input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="아이디(사원번호)"/>
 										</div>
 										<button type="button" class="btn btn-info btn-sm" value="idConfirm" id="idConfirm">아이디 중복 확인</button>
 									</div>
@@ -176,7 +176,8 @@
 		$("#setting").attr("aria-expanded","true");
 		$("#adminSetting").attr("class","collapse show");
 		$("#employee_reg").attr("class","collapse-item active");
-		bindEventHandler();
+		bindEventHandler()
+		
 		});
 
 	//아이디 존재 여부 확인
@@ -306,9 +307,9 @@
 	    $( "#birth_day" ).datepicker();
 	  } );
 
-	
 
 	function bindEventHandler() {
+		
 		/* 
 	 		validation 감지 및 메세지 
 	 		onfocusout : onblur  시 해당 항목을 validation할 것인지 여부 : default
@@ -345,6 +346,7 @@
 		*/   	
 		
 		$("#userFrm").validate({
+			onkeyup: function(element) {$(element).valid()},
 			onfocusout: false,
 			errorClass : "invalid",
 			rules: {
@@ -421,17 +423,18 @@
 				
 				
 			},errorPlacement:function (error, element) {
-				
-				//error.insertAfter(element);
-				
+				 error.insertAfter(element);	
 			},invalidHandler: function	(form,validator){
 				var errors = validator.numberOfInvalids();
-				if(errors) {
+				if (errors) {
 					alert(validator.errorList[0].message);
 					validator.errorList[0].element.focus();
-				}
-			}			
+				} 
+
+			}		 
 		});
+
+		
 	}
 	
 	
