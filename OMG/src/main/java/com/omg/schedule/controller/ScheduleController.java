@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.omg.cmn.Criteria;
 import com.omg.cmn.PageDTO;
 import com.omg.employee.domain.EmployeeVO;
+import com.omg.organization.service.DeptService;
 import com.omg.schedule.domain.ScheduleVO;
 import com.omg.schedule.service.ScheduleService;
 
@@ -28,6 +29,9 @@ public class ScheduleController {
     @Autowired
     private ScheduleService service;
 
+    @Autowired
+    private DeptService deptService;
+
     /**
      * 일정 추가
      * 
@@ -36,26 +40,29 @@ public class ScheduleController {
      * @author 박정민
      */
     @RequestMapping(value = "/doInsert.do", method = RequestMethod.POST)
-    public String doInsert(ScheduleVO inVO, RedirectAttributes rttr) {
+    public String doInsert(ScheduleVO inVO, RedirectAttributes rttr, 
+	    @RequestParam("category_id") int category_id) {
 
 	log.debug("[Insert]ScheduleVO: " + inVO);
 	int flag = service.doInsert(inVO);
 
 	rttr.addFlashAttribute("result", flag);
 
-	return "redirect:/schedule/doSelectList.do"; // 생성 완료되면 일정관리 페이지로 리다이렉트
+	return "redirect:/schedule/doSelectList.do?category_id=" + category_id; // 생성 완료되면 일정관리 페이지로 리다이렉트
     }
 
     @RequestMapping(value = "/doInsert.do", method = RequestMethod.GET)
-    public void insert(@RequestParam("category_id")int category_id, HttpServletRequest req, Model model) {
+    public void insert(@RequestParam("category_id") int category_id, 
+	    HttpServletRequest req, Model model) {
+	
 	HttpSession session = req.getSession();
 	EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
-	
+
 	Criteria cri = new Criteria();
 	cri.setEmployee_id(sessionVO.getEmployee_id());
 	cri.setDept_no(sessionVO.getDept_no());
 	cri.setCategory_id(category_id);
-	
+
 	model.addAttribute("cri", cri);
     }
 
@@ -67,7 +74,9 @@ public class ScheduleController {
      * @author 박정민
      */
     @RequestMapping(value = "/doDelete.do", method = RequestMethod.POST)
-    public String doDelete(@RequestParam("schedule_no") int schedule_no, RedirectAttributes rttr) {
+    public String doDelete(@RequestParam("schedule_no") int schedule_no, 
+	    RedirectAttributes rttr, @RequestParam("category_id") int category_id) {
+	
 	log.debug("[Delete]scheduleNo: " + schedule_no);
 
 	ScheduleVO inVO = new ScheduleVO();
@@ -77,7 +86,7 @@ public class ScheduleController {
 	    rttr.addFlashAttribute("result", "success");
 	}
 
-	return "redirect:/schedule/doSelectList.do";
+	return "redirect:/schedule/doSelectList.do?category_id=" + category_id;
     }
 
     /**
@@ -87,8 +96,10 @@ public class ScheduleController {
      * @param rttr
      * @author 박정민
      */
-    @RequestMapping(value = "/doUpdate.do", method = RequestMethod.POST)
-    public String doUpdate(ScheduleVO inVO, RedirectAttributes rttr) {
+    @RequestMapping(value = "/doUpdate.do", method = { RequestMethod.POST })
+    public String doUpdate(ScheduleVO inVO, RedirectAttributes rttr, 
+	    @RequestParam("category_id") int category_id) {
+	
 	log.debug("doUpdate loading.....");
 	log.debug("[Update]ScheduleVO: " + inVO);
 
@@ -96,7 +107,7 @@ public class ScheduleController {
 	    rttr.addFlashAttribute("result", "success");
 	}
 
-	return "redirect:/schedule/doSelectList.do";
+	return "redirect:/schedule/doSelectList.do?category_id=" + category_id;
     }
 
     /**
@@ -107,16 +118,23 @@ public class ScheduleController {
      * @author 박정민
      */
     @RequestMapping(value = { "/doSelectOne.do", "/doUpdate.do" }, method = RequestMethod.GET)
-    public void doSelectOne(@RequestParam("schedule_no") int schedule_no, Criteria cri, Model model) {
+    public void doSelectOne(@RequestParam("schedule_no") int schedule_no, Criteria cri, HttpServletRequest req,
+	    Model model) {
 	log.debug("doSelectOne or doUpdate.....");
+
+	HttpSession session = req.getSession();
+	EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
 
 	ScheduleVO inVO = new ScheduleVO();
 	inVO.setSchedule_no(schedule_no);
 
 	ScheduleVO outVO = service.doSelectOne(inVO);
 
+	log.debug("doSelectOne outVO: " + outVO);
+
 	outVO.setStart_dt(outVO.getStart_dt().replace(" ", "T"));
 	outVO.setEnd_dt(outVO.getEnd_dt().replace(" ", "T"));
+	cri.setEmployee_id(sessionVO.getEmployee_id());
 
 	model.addAttribute("schedule", outVO);
 	model.addAttribute("cri", cri);
@@ -124,27 +142,39 @@ public class ScheduleController {
 
     /**
      * 
-     * 일정 검색 deptNo: 0(전체검색) or 부서별검색
+     * 일정 검색
      * 
      * @param deptNo
      * @param model
      * @author 박정민
      */
-    @RequestMapping(value = "/doSelectList.do", method = RequestMethod.GET)
-    public void doSelectList(Criteria cri, Model model, HttpServletRequest req) {
+    @RequestMapping(value = "/doSelectList.do", 
+	    method = { RequestMethod.POST, RequestMethod.GET })
+    public void doSelectList(@RequestParam(value="dept_no", defaultValue="0") int dept_no, 
+	    Criteria cri, Model model, HttpServletRequest req) {
 	log.debug("doSelectList loading.....");
-	
+
+	// 세션정보
 	HttpSession session = req.getSession();
 	EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
 	
+	//부서 리스트
+	model.addAttribute("deptDiv", deptService.doSelectList());
+
+	// 검색 리스트
 	cri.setEmployee_id(sessionVO.getEmployee_id());
-	cri.setDept_no(sessionVO.getDept_no());
 	
-	
+	if(cri.getDept_no() == 0) {
+	    cri.setDept_no(sessionVO.getDept_no());
+	} else {
+	    cri.setDept_no(dept_no);
+	}
+
 	log.debug("Data: " + cri);
 
 	model.addAttribute("list", service.doSelectList(cri));
-	
+
+	// 페이징
 	int total = service.getTotalCount(cri);
 	model.addAttribute("pageMaker", new PageDTO(cri, total));
 

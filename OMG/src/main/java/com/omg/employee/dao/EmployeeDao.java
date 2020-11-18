@@ -175,6 +175,21 @@ public class EmployeeDao  {
 		return flag;
 	}
 	
+	public String getImgCode( ) {
+		LOG.debug("==================");
+	    LOG.debug("getImgCode");
+	    LOG.debug("==================");
+	    
+	    String statement = NAMESPACE + ".getImgCode";
+	    LOG.debug("statement:" + statement);
+	    
+	    String outVO=this.sqlSessionTemplate.selectOne(statement);
+	    LOG.debug("outVO" + outVO);
+	    
+		return outVO;
+	}
+	
+	
 	public EmployeeVO doSelectOne(EmployeeVO employee) {
 		LOG.debug("==================");
 	    LOG.debug("doSelectOne");

@@ -98,26 +98,12 @@
 		AND c.employee_id = #{employeeId}                                                       
 	</select>
 	
-	<sql id="searchCondition">
-		<choose>
-			<!-- 오늘 부서별-->
-			<when test="10 == searchDiv">
-				WHERE seq = TO_CHAR(sysdate,'YYYY-MM-DD')
-				AND dept_no = #{searchWord,jdbcType=VARCHAR}
-			</when>
-			<!-- seq-->
-			<when test="20 == searchDiv">
-				WHERE seq = #{searchWord,jdbcType=VARCHAR}
-				ORDER BY attend_time
-			</when>
-		</choose>
-	</sql>
 	<!-- com.omg.commuting.doSelectList -->
-	<select id="doSelectList" parameterType="Search" resultType="Commuting">
+	<select id="doSelectList"  resultType="Commuting">
 		SELECT C.*                                                                       
 		FROM                                                                             
 		  (                                                                              
-				SELECT B.rnum as num,                                                           
+				SELECT B.rn as num,                                                           
 					 B.seq as seq,                                                              
 					 B.employee_id as employeeId,                                                      
 					 B.name,                                                             
@@ -130,16 +116,25 @@
 					 B.reg_dt as regDt,
 					 SUM(B.work_time) OVER(PARTITION BY B.employee_id ORDER BY B.work_time) as totalCnt                      
 				FROM (                                                                   
-					  SELECT ROWNUM rnum, A.*                                                
+					  SELECT rownum rn, A.*                                                
 					  FROM(                                                                  
 						  SELECT *                                                           
-						  FROM  commuting                                                    
-			              <include refid="searchCondition"/>
-			              )A                                                                         
-			  		  WHERE ROWNUM <![CDATA[<=]]> (#{pageSize} *(#{pageNum}-1)+#{pageSize})                    						     
+						  FROM  commuting
+						  WHERE seq = TO_CHAR(sysdate,'YYYY-MM-DD')
+						  <if test="dept_no != 0 and dept_no != 10000">AND dept_no = #{dept_no}</if>
+			              )A 
+			    	  WHERE                                                                                  
+					  <![CDATA[rownum <= #{pageNum} * #{amount}]]>  
 					)B                                                                           
-				WHERE B.rnum <![CDATA[>=]]> (#{pageSize} *(#{pageNum}-1)+1)                                					 
+				<![CDATA[WHERE rn > (#{pageNum} - 1) * #{amount}]]>                          					 
 		 ) C                                                                                             
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT count(*)
+		FROM commuting
+		WHERE seq = TO_CHAR(sysdate,'YYYY-MM-DD')
+		<if test="dept_no != 0 and dept_no != 10000">AND dept_no = #{dept_no}</if>
 	</select>
 	
 	<!-- com.omg.commuting.doSelectMyList -->
@@ -163,6 +158,8 @@
 		ORDER BY reg_dt
 	</select>
 	
+	
+	
 	<!-- com.omg.commuting.getAll -->
 	<select id="getAll" resultType="Commuting">
 		SELECT                                                                     
@@ -181,6 +178,7 @@
 		    commuting   
 		ORDER BY dept_no                    
 	</select>
+	
 	
 	
 </mapper>

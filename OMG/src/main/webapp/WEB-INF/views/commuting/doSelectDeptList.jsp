@@ -38,54 +38,94 @@
 						<div class="col-lg-50">
 							
 							<div class="card shadow mb-4 column">
-								<!-- 관리자 검색, 삭제 -->
+								<!-- header -->
 								<div class="card-header"> 
-									<label for="start">부서</label> 
-									<form action="${hContext}/commuting/doSelectDeptList.do" method="get" id="deptFrm">
 									
 									
-											<!-- 삭제를 위한 hidden param -->
-											<input type="hidden" id="employeeId" name="employeeId" />
-											
-											
-											<div style="width:30%; display:inline-block;">										
-												<select class="form-control" name="deptNo"  >
-													<c:forEach var="vo" items="${deptList}">
-														<option value="${vo.deptNo}" 
-														<c:if test="${deptNo eq vo.deptNo}">selected="selected"</c:if>
-														>${vo.deptNm}</option>
-													</c:forEach>
-												</select>
-											</div>
-											<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
-												 <button  type="submit" data-oper="search" class="btn btn-info">Search</button>
-											</div>
-											<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
-												 <button type="submit" data-oper="remove" class="btn btn-danger">삭제</button>
-											</div>
-											<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
-												 <button type="submit" data-oper="init" id="init" class="btn btn-primary">근태 초기화</button>
-											</div>
-											
+									<!-- hidden -->
+									<form name="actionForm" id="actionForm" action="${hContext}/commuting/doSelectDeptList.do" method="get">
+										<input type="hidden" name="dept_no" id="dept_no"/>
+										<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}"/>
+										<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
+										<input type="hidden" name="type" value="${pageMaker.cri.type}"/>
+										<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
+										<input type="hidden" id="employeeId" name="employeeId" />
+										<input type="hidden" id="seq" name="seq" />
 									</form>
-								</div>
+									<!-- //hidden -->
+									
+									<!-- deptList -->	
+									<label for="dept">부서</label> 	
+									<div style="width:30%; display:inline-block;">										
+										<select class="form-control" id="deptNo" >
+											<c:forEach var="vo" items="${deptList}">
+												<option value="${vo.deptNo}" 
+												<c:if test="${pageMaker.cri.dept_no eq vo.deptNo}">selected="selected"</c:if>
+												>${vo.deptNm}</option>
+										</c:forEach>
+										</select>
+									</div>
+									<!-- //deptList -->		
+									
+									<!-- BUTTON -->
+									<!-- button : search -->
+									<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
+										 <button  type="submit" data-oper="search" class="btn btn-outline-success">Search</button>
+									</div>
+									
+									<!-- button : remove -->
+									<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
+										 <button type="submit" data-oper="remove" class="btn btn-outline-success">삭제</button>
+									</div>
+									<!-- button : init -->
+									<div class="btn-group btn-group-justified  btn-group-sm" role="group" >
+										 <button type="submit" data-oper="init" id="init" class="btn btn-outline-success">대기열 갱신</button>
+									</div>
+									<!-- //BUTTON -->
 								
+									<!-- paging -->
+									<div class="dataTables_paginate paging_simple_numbers pull-right"  id="dataTable_paginate" style="width:30%; display:inline-block;">
+										<ul class="pagination" style="display: flex; align-items: start; ">
+											<c:if test="${pageMaker.prev}">
+												<li class="paginate_button page-item previous" id="dataTable_previous">
+													<a href="${pageMaker.startPage - 1}" aria-control="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+												</li>
+											</c:if>
+											
+											<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+												<li class="paginate_button page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
+													<a href="${num}" aria-control="dataTable" data-dt-idx="${num}" tabindex="0" class="page-link">${num}</a>
+												</li>
+											</c:forEach>
+											
+											<c:if test="${pageMaker.next}">
+												<li class="paginate_button page-item next">
+													<a href="${pageMaker.endPage + 1}" aria-control="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
+												</li>
+											</c:if>
+										</ul>
+									</div>	
+									<!-- paging -->
+										
+								</div>
+								<!-- // header -->
+								
+								<!-- body -->
 								<div class="card-body">
-									<div class="table-responsive">
 										<!-- table -->
 										<table id="myAttendList"
-											class="table table-striped table-bordered table-hover table-condensed">
+											class="table table-hover table-condensed table-borderless"  style="font-size: 15px">
 											<thead>
-												<tr>
-													<th class="text-center" width="20%">근무일</th>
-													<th class="text-center" width="15%">사번</th>
-													<th class="text-center" width="15%">이름</th>
-													<th class="text-center" width="15%">부서번호</th>
-													<th class="text-center" width="15%">출근시간</th>
-													<th class="text-center" width="15%">퇴근시간</th>
-													<th class="text-center" width="15%">현재</th>
-													<th class="text-center" width="15%">출결</th>
-													<th class="text-center" width="8%">선택</th>
+												<tr class="table-success">
+													<th class="text-center " >근무일</th>
+													<th class="text-center" >사번</th>
+													<th class="text-center" >이름</th>
+													<th class="text-center" >부서</th>
+													<th class="text-center" >출근</th>
+													<th class="text-center" >퇴근</th>
+													<th class="text-center" >현재</th>
+													<th class="text-center" >출결</th>
+													<th class="text-center" >선택</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -101,8 +141,8 @@
 																<td class="text-center">${vo.leaveTime}</td>
 																<td class="text-center">${vo.presentState}</td>
 																<td class="text-center">${vo.state}</td>
-																<td class="text-center">
-																	<input type="radio" name="seq" id="${vo.employeeId}" value="${vo.seq}" form="deptFrm" />
+																<td class="text-center " >
+																	<input type="radio" name="deleteParam" id="${vo.employeeId}" value="${vo.seq}" />
 																</td>
 															</tr>
 														</c:forEach>
@@ -113,6 +153,7 @@
 														</tr>
 													</c:otherwise>
 												</c:choose>
+												<caption>금일 출결 목록</caption>
 											</tbody>
 										</table>
 										<!-- //table -->
@@ -136,9 +177,10 @@
 												</div>
 											</div>
 										</div>
-										<!-- /modal -->
-									</div>
+										<!-- //modal -->
 								</div>
+								<!-- // body -->
+								
 							</div>
 						</div>
 					</div>
@@ -167,6 +209,7 @@
 			$("#adminSetting").attr("class", "collapse show");
 			$("#dept_commuting").attr("class", "collapse-item active");
 
+			
 
 			/* Modal*/
 			var result = '<c:out value="${result}"/>';
@@ -187,42 +230,54 @@
 			
 			}
 			/*// Modal*/
+
+			//페이징 이벤트처리
+			var actionForm = $("#actionForm");
+
+			
+			actionForm.find("input[name='dept_no']").val("0");	
+			
+			
+			$(".paginate_button a").on("click", function(e) {
+				e.preventDefault();	
+				actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+				actionForm.submit();
+			});
 			
 		});
 
 		/* Form Controll */
-		var formObj = $("form");
+		var formObj = $('form');
 
 		$('button').on("click", function(e) {
-			e.preventDefault();
-
+			
+			
+			
 			var operation = $(this).data("oper");
 	
 			console.log(operation);
 	
 			if (operation === 'remove') {
-				$("#employeeId").val($(":input:radio[name=seq]:checked").attr("id"));
+				$("#employeeId").val($(":input:radio[name=deleteParam]:checked").attr("id"));
+				$("#seq").val($(":input:radio[name=deleteParam]:checked").val());
 				formObj.attr("action", "${hContext}/commuting/doDelete.do").attr("method","post");
 			} else if (operation === 'search') {
 				//move to list
-				formObj.attr("action", "${hContext}/commuting/doSelectDeptList.do").attr("method", "get");
-	
-				/* //폼 값 초기화하고 필요한 값만 리스트로 복사
-				var pageNumTag = $("input[name='pageNum']")	.clone();
-				var amountTag = $("input[name='amount']").clone();
-				var type = $("input[name='type']").clone();
-				var keyword = $("input[name='keyword']").clone(); */ 
-	
-				/* formObj.append(pageNumTag);
-				formObj.append(amountTag);
-				formObj.append(type);
-				formObj.append(keyword); */
+				if($("#deptNo").val() == "10000"){
+					formObj.find("input[name='dept_no']").val("0");	
+				}else {
+					formObj.find("input[name='dept_no']").val($("#deptNo").val());	
+				}
+				formObj.find("input[name='pageNum']").val("1");
+				
+				formObj.attr("action", "${hContext}/commuting/doSelectDeptList.do").attr("method","get");
 			} else if (operation === 'init') {
+				
 				formObj.attr("action", "${hContext}/commuting/doInit.do").attr("method", "post");
-				var btn = document.getElementById('init');
-				btn.disabled = 'disabled';
 			}
-	
+
+			e.preventDefault();
+			
 			formObj.submit();
 
 			/*// Form Controll */

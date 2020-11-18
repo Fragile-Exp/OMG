@@ -37,7 +37,9 @@
 	            TO_CHAR(B.hire_date,'YYYYMMDD') hire_date,                     
 	            B.birth_day,                                                   
 	            B.holiday,                                                     
-	            B.img_code                                                     
+	            B.img_code  ,
+	            B.auth        ,
+	            B.img_name                                           
 	     FROM (                                                                
 	         SELECT ROWNUM rnum, A.*                                           
 	         FROM(                                                             
@@ -94,6 +96,12 @@
 		WHERE employee_id=#{employee_id}  
 	</select>
 	
+	<!-- 이미지 -->
+	<select id="getImgCode" resultType="String">
+		SELECT ATTACHMENT_SEQ.NEXTVAL
+		FROM dual
+	</select>
+	
 	<!-- 수정 -->
 	<update id="doUpdate" parameterType="EmployeeVO">
 		UPDATE employee            
@@ -104,7 +112,8 @@
 			email 		= #{email},           
 			address 	= #{address},                  
 			holiday 	= #{holiday},        
-			img_code 	= #{img_code}            
+			img_code 	= #{img_code},
+			auth		= #{auth}      
 		WHERE employee_id = #{employee_id}
 	</update>
 	
@@ -124,7 +133,9 @@
 		    TO_CHAR(hire_date,'YY/MM/DD ') AS hire_date,
 		    birth_day,
 		    holiday,
-		    img_code
+		    img_code,
+		    auth,
+		    img_name
 		FROM
 		    employee_view
 		WHERE employee_id = #{employee_id}		 
@@ -157,7 +168,8 @@
 		    hire_date,             
 		    birth_day,             
 		    holiday,               
-		    img_code               
+		    img_code       ,
+		    auth        
 		) VALUES (                 
 		    #{employee_id},         
 		    #{password},                     
@@ -170,7 +182,8 @@
 		    #{hire_date},                   
 		    #{birth_day},                   
 		    #{holiday},                    
-		    #{img_code}                  
+		    #{img_code}        ,
+		    #{auth}          
 		)       
 	</insert>
 	

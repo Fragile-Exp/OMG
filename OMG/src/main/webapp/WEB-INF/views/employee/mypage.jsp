@@ -26,32 +26,28 @@
 	      		<!-- //top_bar -->
 	      		
 	      		<!-- page Content -->
-	      		<form action=""></form>
+	      		<form action="" name="writeFrm" enctype="multipart/form-data">
 	      		<div class="container-fluid">
-		      		<div class="col-lg-10">
-						<div class="card shadow mb-4">
-							<div class="card-header py-3">
-								<input type="button" class="btn btn-info btn-sm" value="취소" id="cancel">
-								<input type="button" class="btn btn-info btn-sm" value="수정" id="doUpdate">
+		      		<div align="center">
+						<div class="card shadow mb-4" style="width:50%;">
+							<div class="card-header py-3 text-left">
+								<input type="button" class="btn btn-info btn-sm " value="취소" id="cancel">
+								<input type="button" class="btn btn-info btn-sm " value="수정" id="doUpdate">
 							</div>
 							<div class="card-body">
-								<input type="hidden"  name="img_code" id="img_code" value="${sessionScope.employee.img_code }" />	
-								<div class="form-group">
-									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-									<div class="col-lg-3">
-										<input type="file" onchange="img_upload(this)" id="input_image" name="input_image" accept="img/*" />
-									</div>
-								</div>		
-								<div class="col-lg-10 text-center" id="img_preview">
-									<div><img src="/OMG/src/main/webapp/WEB-INF/images/basic.png" alt="프로필" width=100 height=100 /></div>
-									<%-- <div><c:out value='${vo.regId}' /></div> --%>
+								<input type="hidden"  name="img_code" id="img_code" value="${sessionScope.employee.img_code }"  />	
+								<input type="hidden"  name="auth" id="auth" value="${sessionScope.employee.auth }" />	
+								<div class="col-lg-10 text-center py-2" id="img_preview">
+									<div><img src="${sessionScope.employee.img_name}" id="img_name" name="img_name" alt="프로필" width=100 height=100 /></div>
+									
 								</div>	
+								<input type="file" onchange="file_upload(this)" id="file" name="file" accept="img/*" />
 								<div class="row">
 									<div class="col-lg-2 text-center">
 										<label for="employee_id" >아이디(사원번호)</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly class="form-control" id="employee_id" value="${sessionScope.employee.employee_id}"/>
+										<input readOnly class="form-control" name="employee_id" id="employee_id" value="${sessionScope.employee.employee_id}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -59,7 +55,7 @@
 										<label for="name" >이름</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="name" value="${sessionScope.employee.name}"/>
+										<input readOnly type="text" class="form-control" name="name" id="name" value="${sessionScope.employee.name}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -67,7 +63,7 @@
 										<label for="name" >기존 비밀번호</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="password" class="form-control" id="password" value="${sessionScope.employee.password}"/>
+										<input readOnly type="password" class="form-control" name="password" id="password" value="${sessionScope.employee.password}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -75,31 +71,31 @@
 										<label for="password" >새 비밀번호</label>
 									</div>
 									<div class="col-lg-3">
-										<input type="password" class="form-control" id="newPassword" placeholder="새 비밀번호" />
+										<input type="password" class="form-control"  name="newPassword" id="newPassword" placeholder="새 비밀번호" />
 									</div>
 									<div class="col-lg-2 text-center">
 										<label for="password" >새 비밀번호 확인</label>
 									</div>
 									<div class="col-lg-4">
-										<input type="password" class="form-control" id="newPasswordConfirm" placeholder="새 비밀번호 확인" />
+										<input type="password" class="form-control" name="newPasswordConfirm" id="newPasswordConfirm" placeholder="새 비밀번호 확인" />
 									</div>
 								</div>
 								<div class="row py-2">
 									<div class="col-lg-2 text-center">
 										<label for="dept_no" >부서명</label>
-										<input type="hidden" id="dept_no" value="${sessionScope.employee.dept_no}"/>
+										<input type="hidden" id="dept_no" name="dept_no" value="${sessionScope.employee.dept_no}"/>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="dept_nm" value="${sessionScope.employee.dept_nm}"/>
+										<input readOnly type="text" class="form-control" name="dept_nm"  id="dept_nm" value="${sessionScope.employee.dept_nm}"/>
 									</div>
 								</div>
 								<div class="row py-2">
 									<div class="col-lg-2 text-center">
 										<label for="position_no" >직급</label>
-										<input type="hidden" id="position_no" value="${sessionScope.employee.position_no}"/>
+										<input type="hidden" id="position_no" name="position_no" value="${sessionScope.employee.position_no}"/>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="position_nm" value="${sessionScope.employee.position_nm}"/>
+										<input readOnly type="text" class="form-control" name="position_nm"  id="position_nm" value="${sessionScope.employee.position_nm}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -107,7 +103,7 @@
 										<label for="cell_phone" >핸드폰</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="cell_phone" value="${sessionScope.employee.cell_phone}"/>
+										<input type="text" class="form-control" name="cell_phone" id="cell_phone" value="${sessionScope.employee.cell_phone}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -115,7 +111,7 @@
 										<label for="email" >이메일</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="email" value="${sessionScope.employee.email}"/>
+										<input type="text" class="form-control" name="email" id="email" value="${sessionScope.employee.email}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -123,7 +119,7 @@
 										<label for="address" >주소</label>
 									</div>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" id="address" value="${sessionScope.employee.address}"/>
+										<input type="text" class="form-control" name="address" id="address" value="${sessionScope.employee.address}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -131,7 +127,7 @@
 										<label for="hire_date" >입사일 EX)20/11/19</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="hire_date" value="${sessionScope.employee.hire_date}"/>
+										<input readOnly type="text" class="form-control" name="hire_date"  id="hire_date" value="${sessionScope.employee.hire_date}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -139,7 +135,7 @@
 										<label for="birth_day" >생년월일 EX)20/11/19</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="birth_day" value="${sessionScope.employee.birth_day}"/>
+										<input readOnly type="text" class="form-control" name="birth_day" id="birth_day" value="${sessionScope.employee.birth_day}"/>
 									</div>
 								</div>
 								<div class="row py-2">
@@ -147,13 +143,14 @@
 										<label for="holiday" >휴가일</label>
 									</div>
 									<div class="col-lg-9">
-										<input readOnly type="text" class="form-control" id="holiday" value="${sessionScope.employee.holiday}"/>
+										<input readOnly type="text" class="form-control" name="holiday" id="holiday" value="${sessionScope.employee.holiday}"/>
 									</div>
 								</div>
 							</div>
 						</div>	
 					</div>		
 		        </div>
+		        </form>
 		        <!-- // page Content -->
 	      	
 	      	</div>
@@ -168,7 +165,33 @@
 </div>
 <!-- //wrap -->
 	<script type="text/javascript">
+	
+	// 이미지 미리보기 
+	function file_upload(e){
+	    $('#img_preview').empty();
+	    var files = e.files;
+	    var fileArr = Array.prototype.slice.call(files);
+	    fileArr.forEach(function(f){
+	    	if(!f.type.match("image/.*")){
+	        	alert("이미지 확장자만 업로드 가능합니다.");
+	            return;
+	        }
+	        
+	        var reader = new FileReader();
+	        
+	        reader.onload = function(e){
+	        	var img = new Image();
+	        	img.src = e.target.result;
+	            $("#img_preview").append('<img src="'+e.target.result+'" width="100px" height="100px" style="margin: 5px"/>');
+	            
+	        }
+	        reader.readAsDataURL(f);
+	    }) // forEach
+	} // img_upload
+	
 	$("#doUpdate").on("click",function(){
+		var frm=document.writeFrm;
+		var formData=new FormData(frm);
 		//console.log("doUpdate");
 		//cell_phone 필수 체크
 		if($("#cell_phone").val()==false || $("#cell_phone").val() ==""){
@@ -209,30 +232,20 @@
 		
 		//ajax
         $.ajax({
-           type:"GET",
+           type:"POST",
            url:"${hContext}/employee/doUpdate.do",
            dataType:"html",
-           data:{
-	           "employee_id":$("#employee_id").val(),
-	           "password":updatePasswd,
-	           "name":$("#name").val(),
-	           "dept_no":$("#dept_no").val(),
-	           "position_no":$("#position_no").val(),
-	           "cell_phone":$("#cell_phone").val(),
-	           "email":$("#email").val(),
-	           "address":$("#address").val(),
-	           "hire_date":$("#hire_date").val(),
-	           "birth_day":$("#birth_day").val(),
-	           "holiday":$("#holiday").val(),
-	           "img_code":1
-          }, 
+           enctype: 'multipart/form-data',
+           contentType: false,
+           processData: false,
+           data:formData, 
         success: function(data){
           var jData = JSON.parse(data);
           if(null != jData && jData.msgId=="1"){
             alert(jData.msgContents);
             //다시조회
             //doSelectList(1);
-            
+            window.location.reload();
           }else{
             alert(jData.msgId+"|"+jData.msgContents);
           }

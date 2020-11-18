@@ -28,7 +28,7 @@
 					<div class="row">
 						<div class="col-lg-2">
 							<div class="card mb-4 py-3 border-left-primary">
-								<div class="card-body">
+								<div class="card-body" style="width:1000px;">
 									<form action="${hContext}/org/org.do" name="move_frm" method="get">
 										<div class="list-group-flush">
 											<input type="hidden" id="moveDiv" name="moveDiv" />

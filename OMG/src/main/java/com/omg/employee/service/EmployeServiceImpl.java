@@ -39,6 +39,9 @@ public class EmployeServiceImpl implements EmployeeService {
 
 	@Override
 	public int doUpdate(EmployeeVO employee) {
+		if(employee.getImg_code().equals("1")) {
+			employee.setImg_code(employeeDao.getImgCode());
+		}
 		return employeeDao.doUpdate(employee);
 	}
 

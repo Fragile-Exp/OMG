@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.omg.cmn.Criteria;
 import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
@@ -88,21 +89,39 @@ public class CommutingDaoImpl implements CommutingDao {
 	}
 
 	@Override
-	public List<Commuting> doSelectList(Search search) {
+	public List<Commuting> doSelectList(Criteria criteria) {
 		LOG.debug("====================================");
 		LOG.debug("=DAO=");
 		LOG.debug("=doSelectList=");
 
 		String statement = NAMESPACE +".doSelectList";
 		
-		LOG.debug("=selectlist.param=" + search);
+		LOG.debug("=selectlist.param=" + criteria);
 		LOG.debug("=statement=" + statement);
-		List<Commuting> cList = this.sqlSessionTemplate.selectList(statement, search);
+		List<Commuting> cList = this.sqlSessionTemplate.selectList(statement, criteria);
 
 		LOG.debug("=cList=" + cList);
 
 		LOG.debug("====================================");
 		return cList;
+	}
+	
+	@Override
+	public int getTotalCount(Criteria criteria) {
+		LOG.debug("====================================");
+		LOG.debug("=DAO=");
+		LOG.debug("=getTotalCount=");
+		
+		String statement = NAMESPACE + ".getTotalCount";
+
+		LOG.debug(">statement>" + statement);
+		
+		int verify = this.sqlSessionTemplate.selectOne(statement, criteria);
+
+		LOG.debug("=verify=" + verify);
+		LOG.debug("====================================");
+
+		return verify;
 	}
 
 	@Override

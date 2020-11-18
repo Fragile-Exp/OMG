@@ -1,10 +1,8 @@
 package com.omg.employee.controller;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
-import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,20 +12,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
+import com.omg.attachment.domain.AttachmentVO;
+import com.omg.attachment.service.AttachmentServiceImpl;
 import com.omg.cmn.Message;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
 import com.omg.employee.domain.EmployeeVO;
 import com.omg.employee.service.EmployeeService;
+import com.omg.organization.domain.DeptVO;
+import com.omg.organization.domain.PositionVO;
+import com.omg.organization.service.DeptServiceImpl;
+import com.omg.organization.service.PositionServiceImpl;
 
 
 @Controller
@@ -40,6 +43,15 @@ public class EmployeeController {
 	
 	@Autowired 
 	private JavaMailSenderImpl mailSenderImpl;
+	
+	@Autowired
+	AttachmentServiceImpl attachmentService;
+	
+	@Autowired
+	DeptServiceImpl deptService;
+	
+	@Autowired
+	PositionServiceImpl positionService;
 	 
 	
 	@Autowired
@@ -49,9 +61,14 @@ public class EmployeeController {
 	
 	//사원 추가
 	@RequestMapping(value="employee/employee_reg.do",method=RequestMethod.GET)
-	public String employee_view() {
+	public String employee_view(Model model) {
 		LOG.debug("== employee_view ==");
-		
+		// 부서 목록
+		List<DeptVO> deptList = deptService.doSelectList();
+		model.addAttribute("deptList",deptList);
+		// 직급 목록
+		List<PositionVO> positionList = positionService.doSelectList();
+		model.addAttribute("positionList",positionList);
 		return "employee/employee_reg";
 	}
 	
@@ -60,6 +77,14 @@ public class EmployeeController {
 	public String login_view() {
 		LOG.debug("== login_view ==");
 		
+		return "employee/login";
+	}
+	
+	//로그아웃
+	@RequestMapping(value="employee/logout.do",method=RequestMethod.GET)
+	public String logout(HttpSession session) {
+		LOG.debug("== logout ==");
+		session.invalidate();
 		return "employee/login";
 	}
 	
@@ -73,9 +98,14 @@ public class EmployeeController {
 	
 	//관리자모드 사원 수정
 	@RequestMapping(value="employee/employee_mng.do",method=RequestMethod.GET)
-	public String employee_mng() {
+	public String employee_mng(Model model) {
 		LOG.debug("== employee_mng ==");
-		
+		// 부서 목록
+		List<DeptVO> deptList = deptService.doSelectList();
+		model.addAttribute("deptList",deptList);
+		// 직급 목록
+		List<PositionVO> positionList = positionService.doSelectList();
+		model.addAttribute("positionList",positionList);
 		return "employee/employee_mng";
 	}
 	
@@ -198,25 +228,47 @@ public class EmployeeController {
 		return list;
 	}
 	
-	@RequestMapping(value="employee/doUpdate.do",method = RequestMethod.GET
+	@RequestMapping(value="employee/doUpdate.do",method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8"
 			)
 	@ResponseBody
-	public String doUpdate(EmployeeVO employee) {
+	public String doUpdate(MultipartHttpServletRequest multi,EmployeeVO employee,HttpServletRequest request) throws IllegalStateException, IOException {
 		LOG.debug("1==================");
         LOG.debug("=user="+employee);
         LOG.debug("==================");	
         
+        //수정
         int flag=this.employeeService.doUpdate(employee);
         LOG.debug("2==================");
         LOG.debug("=flag="+flag);
         LOG.debug("==================");     
         
+        //메세지 처리
         Message message=new Message();
         message.setMsgId(String.valueOf(flag));
         
         if(flag ==1 ) {
+        	String imgCode=employee.getImg_code();
+        	String dir="employee";
+        	List<AttachmentVO>list=StringUtil.fileUpload(multi, imgCode, dir); //파일 업로드
+        	LOG.debug("업로드 파일 개수="+list.size());
+        	int fileFlag=0;
+        	for(AttachmentVO vo:list) {
+        		fileFlag=attachmentService.doInsert(vo); //DB등록
+        	}
         	message.setMsgContents(employee.getName()+" 님이 수정 되었습니다.");
+        	 //세션처리
+            EmployeeVO sessionEmployee=this.employeeService.doSelectOne(employee);
+            LOG.debug("==================");
+            LOG.debug("=sessionEmployee="+sessionEmployee);
+            LOG.debug("==================");  
+            
+            HttpSession session=request.getSession();
+            session.setAttribute("employee", sessionEmployee);
+            
+            LOG.debug("==================");
+            LOG.debug("=session="+session.getAttribute("employee"));
+            LOG.debug("==================");  
         }else {
         	message.setMsgContents(employee.getName()+" 님 수정 실패.");
         }

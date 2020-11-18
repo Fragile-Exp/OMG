@@ -16,6 +16,7 @@
 
 <!-- Custom styles for this template-->
 <link href="${hContext}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="${hContext}/resources/css/jquery-ui.min.css" rel="stylesheet">
 
 	<!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -48,49 +49,46 @@
       <!-- Nav Item - Tables -->
     <li class="nav-item">
       <a class="nav-link" href="${hContext}/employee/employee_list.do">
-        <i class="fas fa-fw fa-table"></i>
+        <i class="fas fa-fw fa-search"></i>
         <span>사원 검색</span></a>
     </li>
     
 	<div class="sidebar-heading">board</div>
 	<li class="nav-item">
-		<a id="boardMemu" class="nav-link" href="#" data-toggle="collapse" data-target="#boardCategory" aria-expanded="true" aria-controls="boardCategory">
-			<i class="fas fa-fw fa-folder"></i>
+		<a id="boardMemu" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#boardCategory" aria-expanded="true" aria-controls="boardCategory">
+			<i class="fas fa-fw fa-table"></i>
 			<span>게시판</span>
 		</a>
 		<div id="boardCategory" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<a id="board_10" class="collapse-item" href="${hContext}/board/doSelectList.do?div=10">공지사항</a>
 				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=20">자유게시판</a>
+				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=11000">전략기획게시판</a>
+				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=12000">경영지원게시판</a>
+				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=13000">기술영업게시판</a>
+				<a id="board_20" class="collapse-item" href="${hContext}/board/doSelectList.do?div=14000">영업게시판</a>
 			<div class="collapse-divider"></div>
 			</div>
 		</div>
 	</li>
+	<!-- Nav Item - Charts -->
+	<li id="chattingPlace" class="nav-item">
+		<a class="nav-link" href="${hContext}/chat/room.do">
+		<i class="fas fa-fw fa-comments"></i>
+		<span>채팅</span></a>
+	</li>
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Interface
+        Approval
       </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Components</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
-          </div>
-        </div>
-      </li>
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
+          <i class="fas fa-fw fa-folder"></i>
           <span>문서 메뉴</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -98,22 +96,13 @@
             <h6 class="collapse-header">Custom Utilities:</h6>
             <a class="collapse-item" href="${hContext}/document/document.do">등록</a>
             <a class="collapse-item" href="${hContext}/document/document_manager.do">결재</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
           </div>
         </div>
       </li>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Addons
-      </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
+      <%-- <li class="nav-item">
         <a id="Pages" class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
           <span>Pages</span>
@@ -130,17 +119,29 @@
 			<a id="blank" class="collapse-item" href="${hContext}/view/blank.do">Blank Page</a>
          </div>
        </div>
-     </li>
-     
-	<!-- Nav Item - Charts -->
-	<li id="chattingPlace" class="nav-item">
-		<a class="nav-link" href="${hContext}/chat/room.do">
-		<i class="fas fa-fw fa-comments"></i>
-		<span>채팅</span></a>
-	</li>
-     
-     <!-- Divider -->
-      <hr class="sidebar-divider">
+     </li> --%>
+	<!-- Heading -->
+	<div class="sidebar-heading">
+		Schedule
+	</div>
+     <!-- 일정 -->
+		<li class="nav-item">
+		  	<a id="setting" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#scheduler" aria-expanded="true" aria-controls="scheduler">
+		    	<i class="fas fa-fw fa-calendar-check"></i>
+		    	<span>일정관리</span>
+			</a>
+			<div id="scheduler" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+		      	<div class="bg-white py-2 collapse-inner rounded">
+					<a id="schedule_all" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=1">사내 일정</a>
+					<a id="schedule_dept" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=2">부서 일정</a>
+					<a id="schedule_private" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=3">개인 일정</a>
+					<div class="collapse-divider"></div>
+		     	</div>
+		   </div>
+		</li>
+		
+		<!-- Divider -->
+		<hr class="sidebar-divider d-none d-md-block">
 
       <!-- Heading -->
       <div class="sidebar-heading">
@@ -149,46 +150,27 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a id="setting" class="nav-link" href="#" data-toggle="collapse" data-target="#adminSetting" aria-expanded="true" aria-controls="adminSetting">
-          <i class="fas fa-fw fa-folder"></i>
+        <a id="setting" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#adminSetting" aria-expanded="true" aria-controls="adminSetting">
+          <i class="fas fa-fw fa-wrench"></i>
           <span>관리</span>
         </a>
         <div id="adminSetting" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-			<a id="org" class="collapse-item" href="${hContext}/org/org.do">조직 관리</a>
+			<h6 class="collapse-header">조직 관리:</h6>
+			<a id="org" class="collapse-item" href="${hContext}/org/org.do">부서(직급) 관리</a>
+			<div class="collapse-divider"></div>
+			<h6 class="collapse-header">사원 관리:</h6>
 			<a id="employee_reg" class="collapse-item" href="${hContext}/employee/employee_reg.do">사원 추가</a>
 			<a id="employee_mng" class="collapse-item" href="${hContext}/employee/employee_mng.do">사원 정보 수정</a>
+			<div class="collapse-divider"></div>
+			<h6 class="collapse-header">근태 관리:</h6>
 			<a id="dept_commuting" class="collapse-item" href="${hContext}/commuting/doSelectDeptList.do">부서 근태 관리</a>
 			<div class="collapse-divider"></div>
          </div>
        </div>
      </li>
 
-     <!-- Nav Item - Charts -->
-    <li class="nav-item">
-      <a class="nav-link" href="charts.html">
-        <i class="fas fa-fw fa-chart-area"></i>
-        <span>Charts</span></a>
-    </li>
-
-    <!-- 일정 -->
-    <li class="nav-item">
-      	<a id="setting" class="nav-link" href="#" data-toggle="collapse" data-target="#scheduler" aria-expanded="true" aria-controls="scheduler">
-        	<i class="fas fa-fw fa-folder"></i>
-        	<span>일정관리</span>
-    	</a>
-    	<div id="scheduler" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
-          	<div class="bg-white py-2 collapse-inner rounded">
-				<a id="schedule_all" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=1">사내 일정</a>
-				<a id="schedule_dept" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=2">부서 일정</a>
-				<a id="schedule_private" class="collapse-item" href="${hContext}/schedule/doSelectList.do?category_id=3">개인 일정</a>
-				<div class="collapse-divider"></div>
-         	</div>
-       </div>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
@@ -208,3 +190,4 @@
 <!-- Custom scripts for all pages-->
 <script src="${hContext}/resources/js/sb-admin-2.min.js"></script>
 <script src="${hContext}/resources/js/jquery.bootpag.min.js"></script>
+<script src="${hContext}/resources/js/jquery-ui.min.js"></script>

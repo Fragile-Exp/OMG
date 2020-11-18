@@ -16,4 +16,8 @@ public interface CommentsDao
 	public CommentsVO doSelectOne(CommentsVO Comments);
 	
 	public List<CommentsVO> doSelectList(CommentsVO Comments);
+
+	public int doDeleteOne(CommentsVO comments);
+	
+	public int doCmtCnt(CommentsVO comments);
 }

@@ -52,11 +52,11 @@ public class TestBoardDao
 		LOG.debug("=setUp()=");
 		LOG.debug("=============================");
 		list = Arrays.asList(
-							 new BoardVO(18,"10","제목테스트1","내용테스트1",10,"1","","SAMGYOBI","","SAMGYOBI"),
-							 new BoardVO(19,"10","제목테스트2","내용테스트2",11,"2","","SAMGYOBI","","SAMGYOBI"),
-							 new BoardVO(20,"10","제목테스트3","내용테스트3",49,"3","","SAMGYOBI","","SAMGYOBI"),
-							 new BoardVO(21,"10","제목테스트4","내용테스트4",51,"4","","SAMGYOBI","","SAMGYOBI"),
-							 new BoardVO(22,"10","제목테스트5","내용테스트5",99,"5","","SAMGYOBI","","SAMGYOBI")
+							 new BoardVO(18,"10","제목테스트1","내용테스트1",10,"1","","SAMGYOBI","","SAMGYOBI",""),
+							 new BoardVO(19,"10","제목테스트2","내용테스트2",11,"2","","SAMGYOBI","","SAMGYOBI",""),
+							 new BoardVO(20,"10","제목테스트3","내용테스트3",49,"3","","SAMGYOBI","","SAMGYOBI",""),
+							 new BoardVO(21,"10","제목테스트4","내용테스트4",51,"4","","SAMGYOBI","","SAMGYOBI",""),
+							 new BoardVO(22,"10","제목테스트5","내용테스트5",99,"5","","SAMGYOBI","","SAMGYOBI","")
 							);
 				   
 	}

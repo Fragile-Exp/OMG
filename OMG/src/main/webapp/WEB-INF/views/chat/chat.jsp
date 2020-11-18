@@ -24,29 +24,22 @@
       		
       		<!-- page Content -->
       		<div class="container-fluid">
-
-				<!-- Page Heading -->
-				<h1 class="h3 mb-4 text-gray-800">${roomVO.roomNm}(<span id="enterCnt" class="label label-default"></span>)</h1>
 				
 				<input type="hidden" id="sessionId" value="" />
-				<input type="hidden" id="roomNo" value="${roomVo.roomNo}" />
+				<input type="hidden" id="roomNo" value="${roomVO.roomNo}" />
 				<div align="center">
-						<div id="chating" class="jumbotron" style="width: 800px; height: 800px; overflow:auto;" ></div>
-<!-- 					<div id="yourName">
-						<table class="inputTable">
-							<tr>
-								<th>사용자명</th> -->
-								<input type="hidden" name="userName" id="userName" value="${sessionScope.employee.name} ${sessionScope.employee.position_nm}" />
-<!-- 								<th><input type="button" onclick="chatName();" id="startBtn" value="이름 등록" /></th>
-							</tr>
-						</table>
-					</div> -->
+					<!-- Page Heading -->
+					<h1 class="h3 mb-4 text-gray-800">${roomVO.roomNm}</h1>
+					<div id="chating" class="jumbotron" style="width: 800px; height: 800px; overflow:auto;" ></div>
+					<input type="hidden" name="userName" id="userName" value="${sessionScope.employee.name} ${sessionScope.employee.position_nm}" />
+
 					<div id="yourMsg">
 						<table class="inputTable">
 							<tr>
 								<th>메시지</th>
 								<th><input type="text" id="chatting" size="30" placeholder="보내실 메시지를 입력하세요." /></th>
 								<th><input type="button" onclick="send()" id="sendBtn" value="보내기" /></th>
+								<th><input type="button" onclick="exit()" id="sendBtn" value="나가기" /></th>
 							</tr>
 						</table>
 					</div>
@@ -74,8 +67,12 @@
 
 	var ws;
 
+	$(window).bind("beforeunload", function (e){
+		exit();
+	});
+
 	function wsOpen(){
-		ws = new WebSocket("ws://"+location.host+"/cmn/chatting/"+$("#roomNo").val()+".do");
+		ws = new WebSocket("ws://"+location.host+"/cmn/chatting/${roomVO.roomNo}.do");
 		wsEvt();
 	}
 
@@ -109,7 +106,6 @@
 					//$("#enterCnt").text(Number($("#enterCnt").text())+1);
 				} else if(d.type == "exit"){
 					$("#chating").append("<p class='text-center font-weight-bold'>" +d.userName + d.msg + "</p>");
-					$("#enterCnt").text($("#enterCnt").text()-1);
 				} else{
 					console.warn("unknown type!");
 				} 
@@ -135,6 +131,8 @@
 		ws.send(JSON.stringify(option));
 		$('#chatting').val("");
 		$('#chatting').focus();
+		ws.close();
+		window.location.href="${hContext}/chat/room.do";
 		}
 	
 	

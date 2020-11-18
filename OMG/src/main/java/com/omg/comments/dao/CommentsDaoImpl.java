@@ -103,6 +103,44 @@ public class CommentsDaoImpl implements CommentsDao
 	}
 	
 	@Override
+	public int doDeleteOne(CommentsVO CommentsVO) 
+	{
+		LOG.debug("===========================");
+		LOG.debug("=doDelete=");
+		LOG.debug("===========================");
+		
+		String statement = NAMESPACE + ".doDeleteOne";
+		LOG.debug("===========================");
+		LOG.debug("=statement : "+statement);
+		LOG.debug("=CommentsVO : "+CommentsVO);
+		LOG.debug("===========================");
+		
+		int flag = sqlSessionTemplate.delete(statement, CommentsVO);
+		LOG.debug("=flag : "+flag);
+		
+		return flag;
+	}
+	
+	@Override
+	public int doCmtCnt(CommentsVO comments) 
+	{
+		LOG.debug("===========================");
+		LOG.debug("=doCmtCnt=");
+		LOG.debug("===========================");
+		
+		String statement = NAMESPACE + ".doCmtCnt";
+		LOG.debug("===========================");
+		LOG.debug("=statement : "+statement);
+		LOG.debug("=CommentsVO : "+comments);
+		LOG.debug("===========================");
+		
+		int flag = sqlSessionTemplate.selectOne(statement, comments);
+		LOG.debug("=flag : "+flag);
+		
+		return flag;
+	}
+	
+	@Override
 	public int doInsert(CommentsVO CommentsVO) 
 	{
 		LOG.debug("===========================");

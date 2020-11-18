@@ -34,13 +34,14 @@
 								</div>
 
 								<div class="card-body">
-									<form role="form" action="/schedule/doUpdate.do" method="post">
+									<form role="form" action="${hContext}/schedule/doUpdate.do" method="post">
 										<!-- hidden -->
 										<input type="hidden" name="schedule_no" value='<c:out value="${schedule.schedule_no}"/>'>
 										<input type="hidden" name="pageNum" value='<c:out value="${cri.pageNum}"/>'>
 										<input type="hidden" name="amount" value='<c:out value="${cri.amount}"/>'>
 										<input type="hidden" name="type" value='<c:out value="${cri.type}"/>'>
 										<input type="hidden" name="keyword" value='<c:out value="${cri.keyword}"/>'>
+										<input type="hidden" name="category_id" value='<c:out value="${cri.category_id}"/>'/>
 
 										<div class="form-group">
 											<label>제목</label>
@@ -53,17 +54,12 @@
 										
 										<div class="form-group">
 											<label>작성자</label>
-											<input class="form-control" name="employee_id" value="<c:out value="${schedule.employee_id}"/>"/>
-										</div>
-										
-										<div class="form-group">
-											<label>카테고리</label>
-											<input class="form-control" name="category_id" value="<c:out value="${schedule.category_id}"/>"/>
+											<input class="form-control" name="employee_id" value="<c:out value="${schedule.employee_id}"/>" readonly="readonly"/>
 										</div>
 					
 										<div class="form-group">
 											<label>부서</label>
-											<input class="form-control" name="dept_no" value="<c:out value="${schedule.dept_no}"/>" readonly="readonly"/>
+											<input class="form-control" name="dept_nm" value="<c:out value="${schedule.dept_nm}"/>" readonly="readonly"/>
 										</div>
 										
 										<div class="form-group">
@@ -108,10 +104,10 @@
 				console.log(operation);
 		
 				if (operation === 'remove') {
-					formObj.attr("action", "/schedule/doDelete.do");
+					formObj.attr("action", "${hContext}/schedule/doDelete.do");
 				} else if (operation === 'list') {
 					//move to list
-					formObj.attr("action", "/schedule/doSelectList.do").attr("method", "get");
+					formObj.attr("action", "${hContext}/schedule/doSelectList.do").attr("method", "get");
 		
 					//폼 값 초기화하고 필요한 값만 리스트로 복사
 					var pageNumTag = $("input[name='pageNum']")	.clone();

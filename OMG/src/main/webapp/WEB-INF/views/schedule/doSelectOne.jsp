@@ -49,7 +49,7 @@
 									
 									<div class="form-group">
 										<label>부서</label>
-										<input class="form-control" name="dept_no" value="<c:out value="${schedule.dept_no}"/>" readonly="readonly"/>
+										<input class="form-control" name="dept_nm" value="<c:out value="${schedule.dept_nm}"/>" readonly="readonly"/>
 									</div>
 									
 									<div class="form-group">
@@ -62,7 +62,12 @@
 										<input type="datetime-local" class="form-control" name="end_dt" value="<c:out value="${schedule.end_dt}"/>" id="end_dt" readonly="readonly">
 									</div>
 									
-									<button data-oper="update" class="btn btn-primary">수정</button>
+									<c:choose>
+										<c:when test="${schedule.employee_id == cri.employee_id }">
+											<button data-oper="update" class="btn btn-primary">수정</button>
+										</c:when>
+									</c:choose>
+									
 									<button data-oper="list" class="btn btn-info">목록</button>
 									
 									<form id="operForm" action="/schedule/doUpdate.do" method="get">
@@ -95,13 +100,13 @@
 			var operForm = $("#operForm");
 	
 			$("button[data-oper='update']").on("click", function(e) {
-				operForm.attr("action", "/schedule/doUpdate.do").submit();
+				operForm.attr("action", "${hContext}/schedule/doUpdate.do").submit();
 			});
 	
 			$("button[data-oper='list']").on("click", function(e) {
 				//move to list
 				operForm.find("#schedule_no").remove();
-				operForm.attr("action", "/schedule/doSelectList.do");
+				operForm.attr("action", "${hContext}/schedule/doSelectList.do");
 
 				operForm.submit();
 			});

@@ -24,6 +24,26 @@ public class BoardDaoImpl
 	SqlSessionTemplate sqlSessionTemplate;
 	public BoardDaoImpl() {}
 	
+	/**
+	 * 조회 count증가
+	 * @param boardVO
+	 * @return int
+	 */
+	public int readCount(BoardVO boardVO) 
+	{
+		LOG.debug("=====================");
+		LOG.debug("=readCount=");
+		LOG.debug("=====================");
+		//등록 : namespace+id = com.sist.ehr.board.readCount
+		String statement = NAMESPACE +".readCount";		
+		LOG.debug("=statement="+statement);		
+		LOG.debug("=param="+boardVO);	
+		int flag = this.sqlSessionTemplate.update(statement, boardVO);
+		LOG.debug("=flag="+flag);
+		
+		return flag;
+	}
+	
 	public List<BoardVO> doSelectList(Search search)
 	{
 		LOG.debug("===========================");

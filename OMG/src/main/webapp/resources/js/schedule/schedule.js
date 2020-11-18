@@ -26,6 +26,8 @@ function inputStartDay() {
     var yyyy = nowYear;
     var mm;
     var dd;
+    var hh = hour;
+    var mi = minute;
     
     if(month < 10) {
         mm = "0" + month;
@@ -37,10 +39,17 @@ function inputStartDay() {
     } else if(day >= 10) {
         dd = day;
     }
-    var today = yyyy + "-" + mm + "-" + dd;
+    if(hh < 10){
+    	hh = "0" + hour;
+    }
+    if(mi < 10) {
+    	mi = "0" + minute;
+    }
 
-    $("#startDt").val(today);
-    $("#endDt").val(today);
+    var todayTime = yyyy + "-" + mm + "-" + dd + "T" + hh + ":" + mi;
+
+    $("#start_dt").val(todayTime);
+    $("#end_dt").val(todayTime);
 }
 
 //일정추가 시간 및 분 구하기
@@ -67,8 +76,9 @@ function inputHourAndMinute() {
     }
 }
 
+
 //달력 년도, 월 구하기
-function getYearMonth() {
+function getTimes() {
     var str;
 
     str = year + "년 " + month + "월";

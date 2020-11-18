@@ -46,4 +46,9 @@ public class ChattingRoomServiceImpl implements ChattingRoomService {
 		return message;
 	}
 
+	@Override
+	public int doDelete(ChattingRoom room) {
+		return dao.doDelete(room);
+	}
+
 }

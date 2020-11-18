@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.omg.cmn.Criteria;
 import com.omg.cmn.DTO;
 import com.omg.cmn.Search;
 import com.omg.cmn.StringUtil;
@@ -62,7 +63,6 @@ public class TestCommutingDao {
 	 * @throws Exception
 	 */
 	@Test
-	@Ignore
 	public void rollingTest() throws Exception {
 		
 //		//1.조회/?��?��
@@ -70,14 +70,14 @@ public class TestCommutingDao {
 //		doDelete();
 		
 		//2.초기 ?��?��?�� 주입
-		doInit();
+		//doInit();
 		
 //		//3. 출퇴근시�?, ?��?��?���? ?��?��?��?��
 //		doSelectList();
 //		doUpdate();
 //		
 //		//4. ?��?��
-//		doSelectList();
+		doSelectList();
 //		doSelectMyList();
 	}
 	
@@ -90,8 +90,8 @@ public class TestCommutingDao {
 	 * getAll
 	 */
 	private void doSelectList() {
-		Search search = new Search("","",30,1);
-		attendList = commutingDao.doSelectList(search);
+		Criteria  criteria = new Criteria();
+		attendList = commutingDao.doSelectList(criteria);
 	}
 	
 	/**
