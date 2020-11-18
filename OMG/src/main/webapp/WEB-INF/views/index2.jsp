@@ -25,10 +25,7 @@
 	      		<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					  <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-					  <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-					</div>
+					
 					
 					<!-- Content Row -->
 					<div class="row">
@@ -111,10 +108,10 @@
 					  </div>
 					</div>
 					
-					<!-- Content Row -->
+					<!-- SECOND LINE -->
 					<div class="row">
 					
-						<div class="col-xl-4 col-lg-5">
+						<section class="col-xl-4 col-lg-5">
 						   <!-- Illustrations -->
 						   <div class="card shadow mb-4">
 						     <div class="card-body">
@@ -125,33 +122,40 @@
 						       <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a> -->
 						     </div>
 						   </div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3">
-							 <!-- Earnings (Monthly) Card Example -->
-							    <div class="card border-left-success shadow h-100 py-2">
-							      <div class="card-body">
-							        <div class="row no-gutters align-items-center">
-							          <div class="col mr-2">
-							            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">부서 출근 현황</div>
-							            
-							            <label class="h5 mb-0 font-weight-bold text-gray-800">전체 : text</label>
-							            <label class="h5 mb-0 font-weight-bold text-gray-800">출근 : text</label>
-							            <label class="h5 mb-0 font-weight-bold text-gray-800">결근 : text</label>
-							            
-							          </div>
-							          <div class="col-auto">
-							            <i class="far fa-calendar-check fa-2x text-gray-300"></i>
-							          </div>
-							        </div>
-							      </div>
-							    </div>
-						</div>
-					</div>	
+						</section>
+						<!-- 부서 출근율 -->
+						<section class="commuting col-xl-3 col-md-6 mb-4">
+						    <div class="card border-left-info shadow h-100 py-2">
+						      <div class="card-body">
+						      	<label for="deptattedence" class="deptattendence">부서인원 : ${totalCount}</label>
+						        <div class="row no-gutters align-items-center">
+						          <div class="col-auto">
+					                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${attendCount}명</div>
+					              </div>
+					              <div class="col">
+					              <div class="progress">
+									  <div class="progress-bar progress-bar-striped active" role="progressbar"
+									  aria-valuenow="${attendRate}" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+									  출석
+									  </div>
+								  </div>	
+					              </div>
+						          <div class="col-auto">
+						            <i class="far fa-calendar-check fa-2x text-gray-300"></i>
+						          </div>
+						        </div>
+						      </div>
+						    </div>
+						</section>
+						<!-- 부서 출근율 -->	
+					</div>
+					<!-- SECOND LINE -->
+					
+					<!-- 내 일정 -->
 					<section class="schedule">
-						<div class="col-xl-4 col-lg-5">
+						<div class="col-xl-6 col-lg-6">
 							<!-- card -->
-							<div class="card shadow mb-4" style="font-size: 10px">
+							<div class="card shadow mb-4" style="font-size: 12px">
 								<!-- header-->
 							    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 							      <h6 class="m-0 font-weight-bold text-primary">내 일정</h6>
@@ -159,7 +163,7 @@
 							    <!-- header-->
 							    <div class="card-body">
 									<!-- table -->
-									<table class="table table-striped table-bordered table-hover" id="dateTable" width="100%" cellspacing="0">
+									<table class="table table-striped table-bordered table-hover" id="toDoListTable" width="100%" cellspacing="0">
 										<thead>
 											<tr>
 												<th>제목</th>
@@ -167,32 +171,36 @@
 												<th>종료일</th>
 											</tr>
 										</thead>
-										<c:forEach items="${scheduleList}" var="schedule">
-											<tr>
-												<td>
-													<a class="move" href="<c:out value='${schedule.schedule_no}'/>">
-														<c:out value="${schedule.title}"/>
-													</a>
-												</td>
-												<td><c:out value="${schedule.start_dt}"/></td>
-												<td><c:out value="${schedule.end_dt}"/></td>
-											</tr>
-										</c:forEach>
+										<tbody>
+											<c:forEach items="${scheduleList}" var="schedule">
+												<tr>
+													<td>
+														<a class="move" href="<c:out value='${schedule.schedule_no}'/>">
+															<c:out value="${schedule.title}"/>
+														</a>
+													</td>
+													<td><c:out value="${schedule.start_dt}"/></td>
+													<td><c:out value="${schedule.end_dt}"/></td>
+												</tr>
+											</c:forEach>
+										</tbody>
 									</table>
 									<!-- /table -->
+									
 								</div>
 							</div>
 							<!-- card -->
 						</div>
 					</section>
+					<!-- //내 일정 -->
 					<!-- 게시판 -->
 					<section class="board row">
-						<input type="hidden" name="boardSeq"	id="boardSeq" />
+						<input type="hidden" name="boardSeq" id="boardSeq" />
 						<!--공지사항-->
 						<div class="board__notice col-xl-6 col-lg-6" >
 						
 							<div class="card shadow mb-4">
-							    <!-- Card Header - Dropdown -->
+							    <!-- Card Header -->
 							    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 							      <h6 class="m-0 font-weight-bold text-primary">공지사항</h6>
 							      <div class="dropdown no-arrow">
@@ -208,7 +216,7 @@
 							        </div>
 							      </div>
 							    </div>
-							    <!-- // Card Header - Dropdown -->
+							    <!-- // Card Header -->
 							    <!-- Card Body -->
 							    <div class="card-body">
 									<div class="com-sm-12">
@@ -256,7 +264,7 @@
 						<!--부서게시판-->
 						<div class="board__dept col-xl-6 col-lg-6" >
 							<div class="card shadow mb-4">
-							    <!-- Card Header - Dropdown -->
+							    <!-- Card Header -->
 							    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 							      <h6 class="m-0 font-weight-bold text-primary">내 부서 게시판</h6>
 							      <div class="dropdown no-arrow">
@@ -272,6 +280,7 @@
 							        </div>
 							      </div>
 							    </div>
+							    <!-- //Card Header -->
 							    <!-- Card Body -->
 							    <div class="card-body">
 									<div class="com-sm-12">
@@ -310,7 +319,7 @@
 										</table>
 									</div>
 							    </div>
-							    <!-- Card Body -->
+							    <!--// Card Body -->
 							</div>
 						</div>
 						<!-- //부서게시판 -->
@@ -333,8 +342,7 @@
 	<script type="text/javascript">
 	$(document).ready(function()
 	{
-		console.log("document ready!!");
-		
+		console.log("document ready!!");			
 	});
 
 	$("#noticeListTable>tbody").on("click","tr" ,function() {
@@ -358,9 +366,18 @@
     	console.log("boardSeq:"+boardSeq);
     	//get방식 형태 call
     	window.location.href="${hContext}/board/doSelectOne.do?boardSeq="+boardSeq;
-  
 
     });
+
+	//게시물 조회를 위한 이벤트 처리
+	$(".move").on("click", function(e) {
+		e.preventDefault();
+		var scheduleNo = $(this).attr("href")
+		console.log(scheduleNo);
+
+		window.location.href="${hContext}/schedule/doSelectOne.do?schedule_no=" + scheduleNo;
+	});
+	
 	
 	</script>
 	

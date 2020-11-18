@@ -11,7 +11,18 @@ public class DocumentVO extends DTO {
 	private String documentCont;//문서내용
 	private int    documentSet; //문서상태
 	private String okUser;      //결재자사번    fk
+	private String fileCode;
 	
+	
+	
+	public String getFileCode() {
+		return fileCode;
+	}
+
+	public void setFileCode(String fileCode) {
+		this.fileCode = fileCode;
+	}
+
 	public DocumentVO() {}
 
 	public String getDocumentId() {
@@ -79,7 +90,7 @@ public class DocumentVO extends DTO {
 	}
 
 	public DocumentVO(String documentId, String employeeId, int kind, String title, String dDay, String documentCont,
-			int documentSet, String okUser) {
+			int documentSet, String okUser, String fileCode) {
 		super();
 		this.documentId = documentId;
 		this.employeeId = employeeId;
@@ -89,14 +100,16 @@ public class DocumentVO extends DTO {
 		this.documentCont = documentCont;
 		this.documentSet = documentSet;
 		this.okUser = okUser;
+		this.fileCode = fileCode;
 	}
 
 	@Override
 	public String toString() {
 		return "DocumentVO [documentId=" + documentId + ", employeeId=" + employeeId + ", kind=" + kind + ", title="
 				+ title + ", dDay=" + dDay + ", documentCont=" + documentCont + ", documentSet=" + documentSet
-				+ ", okUser=" + okUser + ", toString()=" + super.toString() + "]";
+				+ ", okUser=" + okUser + ", fileCode=" + fileCode + ", toString()=" + super.toString() + "]";
 	}
+
 	
 	
 	

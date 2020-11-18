@@ -54,4 +54,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return scheduleDao.getTotalCount(cri);
 	}
 
+	@Override
+	public List<ScheduleVO> toDoList(Criteria cri) {
+		return scheduleDao.toDoList(cri);
+	}
+
 }

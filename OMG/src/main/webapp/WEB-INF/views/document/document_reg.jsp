@@ -35,14 +35,15 @@
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
 					  <h1 class="h3 mb-0 text-gray-800">문서 등록 페이지</h1>
 					  <div class="btn-box">
-					  	<a id="Insert"  onClick="insertDcoument()" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>등록</a>
-					  	<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
+					  	<a id="Insert"  onClick="insertDcoument()" class="btn btn-sm btn-primary shadow-sm" style="color:white"> <i class="fas fa-file-upload fa-sm text-white-50"></i>등록</a>
+					  	<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
 					  </div>
 					</div>
 					
 				
 					<!-- Content Row -->
 					
+						      	
 					<div class="row">
 					
 					  <!-- Area Chart -->
@@ -66,9 +67,10 @@
 					      </div>
 					      <!-- Card Body -->
 					      <div class="card-body">
-					        <div class="chart-area">
+					        <div class="chart-area" style=" height:100%; ">
 					      		<!-- to do : 값들 name/id 부여 -->
 					      		<!-- 제목  -->
+					      		<form  name="writeFrm" action="" method="post" enctype="multipart/form-data">
 					      		<div>
 						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
 						      			<div class="title-header bg-primary text-white btn-sm" style="text-align:center;" >
@@ -76,7 +78,7 @@
 						      			</div>
 						      		</div>
 						      		<div class="title-body" style="display: inline-block;">
-						      			<input id="title" class="title-input" type="text" style=" width :900px;">
+						      			<input id="title" name="title" class="title-input" type="text" style=" width :900px;">
 						      		</div>
 					        	</div>
 					        	<!-- //제목  -->
@@ -87,9 +89,9 @@
 						      				종류
 						      			</div>
 						      		</div>
-						      		<div class="kind-body" style="display: inline-block;">
+						      		<div class="kind-body"    style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 문서 종류 데이터 입력   -->
-						      			<select id="kind" class="kind-body-select" style="width:400px;">
+						      			<select id="kind"  name="kind" class="kind-body-select" style="width:400px;">
 							      			<option >----------</option>
 							      			<option value="0">휴가</option>
 							      			<option value="1">실험</option>
@@ -110,7 +112,7 @@
 						      			</div>
 						      		</div>
 						      		<div class="dDay-body" style="display: inline-block;">
-						      			<input id="dDay" type="date" style="width:400px;">
+						      			<input id="dDay" name="dDay" type="date" style="width:400px;">
 						      		</div>
 						      	</div>
 						      	<!--// 종류 / 기간   -->
@@ -122,9 +124,22 @@
 						      			</div>
 						      		</div>
 						      		<!-- to do : 파일 등록 모양 만들기  -->
-						      		<div class="file-body" style="display: inline-block;">
-						      			<input class="file-input" multiple="multiple"   type="file" multiple style=" width :300px;">
+						      		<div class="file-body" style="display: inline-block;"> 
+						      			<input id="file" name="file" class="file-input" multiple="multiple"   type="file" onchange="file_upload(this)"  multiple  style=" width :300px;">
 						      		</div>
+						      		<table class="table table-striped table-bordered" id="fileListTable"  >
+										<thead>
+											<tr>
+												<th>첨부 파일명</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+						      		
+						      		
+						      		
+						      		
 					        	</div>
 					        	<!--// 파일 등록 -->
 					        	<!-- 결재자 -->
@@ -136,7 +151,7 @@
 						      		</div>
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select id="approval-dept"  class="approval-body-select" style="width:200px;">
+						      			<select id="approval-dept"  name="dept_no" class="approval-body-select" style="width:200px;">
 							      			<option >부서</option>
 							      			<option value="10000">omg</option>
 							      			<option value="11000">전력기획본부</option>
@@ -154,7 +169,7 @@
 						      		</div>
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select id="approval-lever"  class="approval-body-select" style="width:200px;"  >
+						      			<select id="approval-lever"  name="position_no" class="approval-body-select" style="width:200px;"  >
 							      			<option >직책</option>
 							      			<option value="10000">사장</option>
 							      			<option value="11000">부사장</option>
@@ -171,10 +186,11 @@
 						      		</div>
 						      		
 						      		<div class="approval-body" style="display: inline-block;">
-						      			<input  id="approval-name" type="text" style="width:100px;" placeholder="이름" >	 
+						      			<input  id="approval-name" name="name" type="text" style="width:100px;" placeholder="이름" >
+						      			<input  id="okUser" name="okUser"  type="hidden">	 
 						      		</div>
 						      		<div style="display: inline-block;">
-						      			<input id="approval-button" type="submit" style="width:100px;" onclick="selectClick()" value="검색"> 
+						      			<input id="approval-button" type="button" style="width:100px;" onclick="selectClick()" value="검색"> 
 						      		</div>
 						      	</div>
 					        	<div class="card-body-label" style="width:7%; margin-bottom:10px;">
@@ -182,7 +198,8 @@
 						      				문서 내용
 						      			</div>
 						      	</div>
-						      	<input id="cont" class="cont-body" type="text" style="width:900px; height:100px;">
+						      	<input id="cont" name="documentCont" class="cont-body" type="text" style="width:900px; height:100px;">
+						      	</form>
 					        </div>
 					      
 					      </div>
@@ -190,6 +207,8 @@
 					  </div>
 					</div>
 					
+					
+					        	
 		        </div>
 		        <!-- // page Content -->
 	      	
@@ -226,6 +245,7 @@
 		 	alert("존재합니다.");
 		 	alert(data.employee_id);
 		 	Id = data.employee_id;
+		 	$("#okUser").val(Id);
 		 	
 		},
 		error:function(err){
@@ -241,18 +261,22 @@
 
 	//title : 제목 ,  kind : 종류 ,dDay :기간 , approval : 결재자, cont : 내용
 	function insertDcoument (){
+		//널체크 필수값 체크
+		
+		
+		var frm = document.writeFrm;
+		var formData = new FormData(frm);
 
 		$.ajax({
 			url:"${hContext}/document/doInsert.do",
-			type:"GET",
-			data:{"title" :  $("#title").val(), 
-				  "kind" :	$("#kind option:selected").val(),
-				  "dDay" :	$("#dDay").val(),
-				  "okUser" : Id	,	
-				  "documentCont" : $("#cont").val()	
-				},
-			dataType:"json",
+			type:"POST",
+			data: formData,
+			dataType:"html", 
+			enctype : 'multipart/form-data',
+			contentType : false,
+			processData : false,
 		success:function(data){
+			
 		 	alert("등록이 성공 하였습니다.")
 		 	
 		},
@@ -262,8 +286,72 @@
 
 		});					
 
+	/* 	
+		$.ajax({
+			type:"POST",
+			url:"${hContext}/board/doInsert.do",
+			dataType:"html", 
+			enctype : 'multipart/form-data',
+			contentType : false,
+			processData : false,
+			data: formData,
+		success:function(data)
+			{ //성공
+			var jsonObj = JSON.parse(data);
+			console.log("msgId="+jsonObj.msgId);
+			console.log("msgContents="+jsonObj.msgContents);
+
+				// msgId (fileCOde) 가 1보다 크거나 같으면
+				if(null !=jsonObj && jsonObj.msgId >=1)
+				{
+					alert(jsonObj.msgContents);
+					//board_list.jsp로 이동 
+					//window.location.href="/EJDBC/board/board.do?work_div=doSelectList";
+					moveToListView();
+				}
+			},
+			error:function(xhr,status,error)
+			{//실패
+			 alert("error:"+error);
+			},
+			complete:function(data)
+			{
+				
+			}
+
+		});//--ajax */
+
+
+
+
+		
+		
 	}
 
+	function file_upload(e)	
+	{
+		var files = e.files;
+	    var fileArr = Array.prototype.slice.call(files);
+ 		html = "";
+ 		if(fileArr.length != 0){
+ 			for(var file of fileArr){
+ 				html += '<tr>';
+				html += '<td>';
+				html += file.name;
+				html += '</td>';
+				html += '</tr>';
+ 			}
+ 	 	} else{
+ 	 		html += '<tr>';
+			html += '<td class="text-center">';
+			html += '등록된 데이터가 없습니다.';
+			html += '</td>';
+			html += '</tr>';
+ 	 	 	}
+		
+		$("#fileListTable>tbody").empty();
+		$("#fileListTable>tbody").append(html);
+	}
 
 	
 </script>

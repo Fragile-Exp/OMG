@@ -24,10 +24,10 @@ public class Commuting extends DTO {
 	/* 등록자*/
 	private String regDt;
 	
-	/* presentStateIntValue*/
+	/* 현재상태 숫자코드*/
 	private int presentStateIntValue;
 	
-	/* stateIntValue*/
+	/* 금일 출결상태 숫자코드*/
 	private int stateIntValue;
 	
 	public Commuting() {

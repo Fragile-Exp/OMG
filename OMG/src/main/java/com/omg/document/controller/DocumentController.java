@@ -1,5 +1,6 @@
 package com.omg.document.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,13 +19,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
+import com.omg.attachment.domain.AttachmentVO;
+import com.omg.attachment.service.AttachmentServiceImpl;
+import com.omg.board.domain.BoardVO;
 import com.omg.cmn.Message;
+import com.omg.cmn.StringUtil;
 import com.omg.document.domain.DocumentVO;
 import com.omg.document.service.DocumentService;
+import com.omg.documentfile.domain.DocumentFileVO;
+import com.omg.documentfile.service.DocumentFileService;
 import com.omg.employee.domain.EmployeeVO;
 
 @Controller
@@ -34,6 +42,14 @@ public class DocumentController {
 	@Autowired
 	DocumentService documentService;
 
+	@Autowired
+	DocumentFileService documentFileService;
+	
+	@Autowired
+	AttachmentServiceImpl attachmentServiceImpl;
+	
+	
+	
 	@Autowired
 	MessageSource messageSource;
 
@@ -88,14 +104,24 @@ public class DocumentController {
 		
 		DocumentVO SeleteOne = documentService.doSelectOne(documentVO);
 		
+		
+		 LOG.debug("===========================");
+		 LOG.debug("=doSelectOne()="+SeleteOne);
+		 LOG.debug("=documentVO : "+documentVO);
+		 LOG.debug("===========================");
+		
+		AttachmentVO inFileVO = new AttachmentVO();
+		inFileVO.setFileCode(SeleteOne.getFileCode());
+		List<AttachmentVO> fileList = attachmentServiceImpl.doSelectList(inFileVO);
+		
 		empVO.setEmployee_id(SeleteOne.getOkUser());
-		
 		LOG.debug("empVO"+empVO);
+		empVO= documentService.doempIdSelete(empVO);
+		LOG.debug("emp"+empVO);
 		
-		EmployeeVO emp= documentService.doempIdSelete(empVO);
-		LOG.debug("emp"+emp);
+		model.addAttribute("fileList",fileList);
 		model.addAttribute("SeleteOne", SeleteOne);
-		model.addAttribute("emp",emp);
+		model.addAttribute("emp",empVO);
 		
 		LOG.debug("SeleteOne" + SeleteOne);
 
@@ -197,7 +223,7 @@ public class DocumentController {
 	// -- 문서 사원 ID 기준 검색
 	@RequestMapping(value = "document/doempIdSelectList.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doempIdSelectList(DocumentVO documentVO) {
+	public String doempIdSelectList(DocumentVO documentVO  ) {
 		LOG.debug("==================");
 		LOG.debug("=documentVO=" + documentVO);
 		LOG.debug("==================");
@@ -219,22 +245,19 @@ public class DocumentController {
 	}
 
 	// -- 삽입
-	@RequestMapping(value = "document/doInsert.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "document/doInsert.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doInsert(DocumentVO documentVO, HttpServletRequest req) {
+	public String doInsert(DocumentVO documentVO, HttpSession session, MultipartHttpServletRequest multi) throws IllegalStateException, IOException {
 		LOG.debug("==================");
 		LOG.debug("=documentVO=" + documentVO);
 		LOG.debug("==================");
 		
-		HttpSession session = req.getSession();
 		EmployeeVO sessionVO = (EmployeeVO) session.getAttribute("employee");
 		
 		String Id = sessionVO.getEmployee_id();
 		// 공통값 받아오기
 		
 		
-		int row = documentService.doMaxNumberId(documentVO);
-		documentVO.setDocumentId(row + 1 + "");
 		// 세션으로 받기
 		documentVO.setEmployeeId(Id);
 
@@ -246,6 +269,14 @@ public class DocumentController {
 		message.setMsgId(flag + "");
 
 		if (flag == 1) {
+			String fileCode = documentVO.getFileCode();
+			String dir = "document";
+			List<AttachmentVO> list = StringUtil.fileUpload(multi, fileCode, dir);
+			int fileFlag = 0;
+			for(AttachmentVO vo : list) {
+				fileFlag = attachmentServiceImpl.doInsert(vo);
+			}
+			
 			message.setMsgContents(documentVO.getTitle() + "문서가 등록 되었습니다.");
 		} else {
 			message.setMsgContents(documentVO.getTitle() + "문서가 등록 실패 하였습니다.");
@@ -339,6 +370,24 @@ public class DocumentController {
 		 return json; 
 	 }
 
-	
+	 @RequestMapping(value="document/documentFileInsert.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
+	 @ResponseBody 
+	 public String documentFileInsert(DocumentFileVO documentFileVO ) {
+		 
+		 int flag = documentFileService.doInsert(documentFileVO);
+		 LOG.debug("=doInsert=" + flag);
+     	 Message message = new Message();
+		 message.setMsgId(flag + "");
+		
+		 Gson gson = new Gson();
+		 String json = gson.toJson(message);
+		 LOG.debug("==================");
+		 LOG.debug("=json=" + json);
+		 LOG.debug("==================");
+		 
+		 
+		 return null;
+	 }
+
 
 }

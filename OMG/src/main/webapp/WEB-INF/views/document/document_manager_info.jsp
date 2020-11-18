@@ -36,8 +36,8 @@
 					  
 					  <div class="btn-box">
 					  	<!-- 상태 업데이트  -->
-					  	<a  onClick="okay()"   class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>승인</a>
-					  	<a  onClick="unokay()" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-backspace fa-sm text-white-50"></i>미승인</a>
+					  	<a  onClick="okay()"   class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>승인</a>
+					  	<a  onClick="unokay()" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>미승인</a>
 					  </div>
 					</div>
 					
@@ -68,7 +68,7 @@
 					      </div>
 					      <!-- Card Body -->
 					      <div class="card-body">
-					        <div class="chart-area">
+					        <div class="chart-area" style=" height:100%; ">
 					      		<!-- to do : 값들 name/id 부여 -->
 					      		<!-- 제목  -->
 					      		<div>

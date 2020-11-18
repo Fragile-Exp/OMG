@@ -363,7 +363,11 @@ public class StringUtil {
 				
 				// 저장명으로 파일 변경
 				File renameFile = new File(dateFilePath,saveName);
-				fileVO.setSaveName(renameFile.getAbsolutePath());
+				String renameFilePath = renameFile.getAbsolutePath().replaceAll("\\\\", "/");
+				
+				//renameFilePath = renameFilePath.replaceAll();
+				LOG.debug("=renameFilePath="+renameFilePath);
+				fileVO.setSaveName(renameFilePath);
 				fileVO.setFileCode(fileCode);
 				fileVO.setFileNum(i++);
 				list.add(fileVO);
