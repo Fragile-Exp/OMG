@@ -50,7 +50,7 @@
                                                 id="employee_id" name="employee_id"
                                                 placeholder="사원번호를 입력하세요">
                                         </div>
-                                        <a id="mailSenderBtn" class="btn btn-primary btn-user btn-block">
+                                        <a id="mailSenderBtn" style="color:white;" class="btn btn-primary btn-user btn-block">
                                             메일 보내기
                                         </a>
                                     </form>
