@@ -42,35 +42,7 @@ public class MainController {
 	CommutingService commutingService;
 
 	@RequestMapping(value = "view/main.do", method = RequestMethod.GET)
-	public String main_view() {
-		LOG.debug("== main ==");
-
-		return "index";
-	}
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String startPage() {
-		LOG.debug("== main ==");
-
-		return "index";
-	}
-
-	@RequestMapping(value = "view/blank.do", method = RequestMethod.GET)
-	public String blank_view() {
-		LOG.debug("== user_view ==");
-
-		return "blank";
-	}
-
-	
-	@RequestMapping(value="view/main45.do",method=RequestMethod.GET)
-	public String main45_view() {
-		LOG.debug("== main45_view ==");
-		return "index45";
-	}
-	
-	@RequestMapping(value="view/main2.do",method=RequestMethod.GET)
-	public String main2_view(HttpServletRequest req,Search search,Model model) {
+	public String main_view(HttpServletRequest req,Search search,Model model) {
 		LOG.debug("== main2_view ==");
 
 		// 1. 세션 GET
@@ -106,8 +78,24 @@ public class MainController {
 		LOG.debug((attendCount/totalCount)*100.0+"");
 		model.addAttribute("attendRate",(attendCount/totalCount)*100);
 		
-		return "index2";
-
+		return "index";
 	}
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String startPage() {
+		LOG.debug("== main ==");
+
+		return "index";
+	}
+
+	@RequestMapping(value = "view/blank.do", method = RequestMethod.GET)
+	public String blank_view() {
+		LOG.debug("== user_view ==");
+
+		return "blank";
+	}
+
+	
+
 
 }
