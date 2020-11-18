@@ -25,45 +25,46 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="panel panel-default">
-							
-							<!-- /header -->
-							<div class="card-header py-3">
-								<div class="panel-heading">
-									<label class="h4 m-0 font-weight bold text-primary">일정 추가</label>
-									
+							<div class="card shadow mb-4">
+								<!-- /header -->
+								<div class="card-header py-3">
+									<div class="panel-heading">
+										<label class="h4 m-0 font-weight bold text-primary">일정 추가</label>
+										
+									</div>
+								</div>	
+				
+								<div class="card-body">
+									<form role="form" action="${hContext}/schedule/doInsert.do" method="post">
+										<input type="hidden" name="category_id" value="${cri.category_id}"/>
+										<input type="hidden" name="dept_no" value="${cri.dept_no}"/>
+										<input type="hidden" name="employee_id" value="${cri.employee_id}"/>
+										
+										<div class="form-group">
+											<label>제목</label><input class="form-control" name="title" placeholder="제목을 입력하세요."/>
+										</div>
+				
+										<div class="form-group">
+											<label>내용</label>
+											<textarea class="form-control" rows="7" name="content"></textarea>
+										</div>
+										
+										<div class="form-group">
+											<label>시작일</label>
+											<input type="datetime-local" class="form-control" name="start_dt" id="start_dt" value=""/>
+										</div>
+										
+										<div class="form-group">
+											<label>종료일</label>
+											<input type="datetime-local" class="form-control" name="end_dt" id="end_dt" value=""/>
+										</div>
+	
+										<button type="submit" id="scheduleInsert" class="btn btn-primary">저장</button>
+										<button type="reset" class="btn btn-danger">리셋</button>
+	
+										
+									</form>
 								</div>
-							</div>	
-			
-							<div class="card-body">
-								<form role="form" action="${hContext}/schedule/doInsert.do" method="post">
-									<input type="hidden" name="category_id" value="${cri.category_id}"/>
-									<input type="hidden" name="dept_no" value="${cri.dept_no}"/>
-									<input type="hidden" name="employee_id" value="${cri.employee_id}"/>
-									
-									<div class="form-group">
-										<label>제목</label> <input class="form-control" name="title"/>
-									</div>
-			
-									<div class="form-group">
-										<label>내용</label>
-										<textarea class="form-control" row="5" name="content"></textarea>
-									</div>
-									
-									<div class="form-group">
-										<label>시작일</label>
-										<input type="datetime-local" class="form-control" name="start_dt" id="start_dt" value=""/>
-									</div>
-									
-									<div class="form-group">
-										<label>종료일</label>
-										<input type="datetime-local" class="form-control" name="end_dt" id="end_dt" value=""/>
-									</div>
-
-									<button type="submit" id="scheduleInsert" class="btn btn-primary">저장</button>
-									<button type="reset" class="btn btn-danger">리셋</button>
-
-									
-								</form>
 							</div>
 							<!-- end panel-body -->
 						</div>
@@ -140,10 +141,31 @@
 
 			$("#scheduleInsert").on("click", function(e) {
 				if($("#start_dt").val() > $("#end_dt").val()) {
-					alert("날짜를 확인하세요.");
+					alert("날짜를 확인하세요!");
 					return false;
 				}
+
+				if(!$("#title").val()) {
+					alert("제목을 입력하세요!");
+					return false;
+				}
+				
 			});
+
+			//사이드바 컬랩스
+			$("#setting").attr("class","nav-link");
+			$("#setting").attr("aria-expanded","true");
+			$("#scheduler").attr("class","collapse show");
+
+			var categoryId = $("input[name='category_id']").val();
+
+			if(categoryId == 1) {
+				$("#schedule_all").attr("class","collapse-item active");
+			} else if(categoryId == 2) {
+				$("#schedule_dept").attr("class","collapse-item active");
+			} else if(categoryId == 3) {
+				$("#schedule_private").attr("class","collapse-item active");
+			}
 			
 		});
 	</script>

@@ -111,6 +111,21 @@
 				operForm.submit();
 			});
 
+			//사이드바 컬랩스
+			$("#setting").attr("class","nav-link");
+			$("#setting").attr("aria-expanded","true");
+			$("#scheduler").attr("class","collapse show");
+
+			var categoryId = $("input[name='category_id']").val();
+
+			if(categoryId == 1) {
+				$("#schedule_all").attr("class","collapse-item active");
+			} else if(categoryId == 2) {
+				$("#schedule_dept").attr("class","collapse-item active");
+			} else if(categoryId == 3) {
+				$("#schedule_private").attr("class","collapse-item active");
+			}
+
 		});
 	</script>
 </body>
