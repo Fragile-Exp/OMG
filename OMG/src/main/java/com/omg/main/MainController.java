@@ -22,6 +22,7 @@ import com.omg.commuting.domain.Commuting;
 import com.omg.commuting.domain.PresentState;
 import com.omg.commuting.service.CommutingService;
 import com.omg.employee.domain.EmployeeVO;
+import com.omg.employee.service.EmployeeService;
 import com.omg.schedule.domain.ScheduleVO;
 import com.omg.schedule.service.ScheduleService;
 
@@ -37,6 +38,9 @@ public class MainController {
 
 	@Autowired
 	private CodeDaoImpl codeDaoImpl;
+	
+	@Autowired
+	EmployeeService employeeService;
 	
 	@Autowired
 	CommutingService commutingService;
@@ -64,12 +68,17 @@ public class MainController {
 		model.addAttribute("scheduleList", scheduleList);
 		
 		//5. 내 부서 출근율
+		
+		// 5.1 부서 총 인원 가져오기
+		int totalCount = this.employeeService.doSelectList(new Search("20", sessionVO.getDept_nm())).get(0).getTotalCnt();
+		
+		// 5.2 부서 중 출근중인 인원 가져오기
 		Criteria criteria2 = new Criteria(1, 50, 1);
 		criteria2.setDept_no(sessionVO.getDept_no());
-		List<Commuting> commutingList = this.commutingService.doSelectList(criteria2);
-		int totalCount = commutingService.getTotalCount(criteria2);
+		
 		int attendCount = 0;
-		for(Commuting vo : commutingList) {
+		
+		for(Commuting vo : this.commutingService.doSelectList(criteria2)) {
 			if(vo.getPresentState() ==PresentState.근무중) {
 				attendCount++;
 			}
