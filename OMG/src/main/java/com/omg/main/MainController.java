@@ -61,27 +61,9 @@ public class MainController {
 
 		return "blank";
 	}
-<<<<<<< Updated upstream
 
 	@RequestMapping(value = "view/main2.do", method = RequestMethod.GET)
 	public String main2_view(HttpServletRequest req, Search search, Model model) {
-=======
-<<<<<<< HEAD
-	
-	@RequestMapping(value="view/main45.do",method=RequestMethod.GET)
-	public String main45_view() {
-		LOG.debug("== main45_view ==");
-		return "index45";
-	}
-	
-	@RequestMapping(value="view/main2.do",method=RequestMethod.GET)
-	public String main2_view(HttpServletRequest req,Search search,Model model) {
-=======
-
-	@RequestMapping(value = "view/main2.do", method = RequestMethod.GET)
-	public String main2_view(HttpServletRequest req, Search search, Model model) {
->>>>>>> bf2f08434449167462b10e60fb9cb5c2b47c82ad
->>>>>>> Stashed changes
 		LOG.debug("== main2_view ==");
 
 		// 1. 세션 GET
@@ -103,14 +85,7 @@ public class MainController {
 		model.addAttribute("scheduleList", scheduleList);
 		
 		//5. 내 부서 출근율
-<<<<<<< HEAD
-		Criteria criteria2 = new Criteria(1, 50, 1);
-=======
 		Criteria criteria2 = new Criteria(1, 5, 1);
-<<<<<<< Updated upstream
-=======
->>>>>>> bf2f08434449167462b10e60fb9cb5c2b47c82ad
->>>>>>> Stashed changes
 		criteria2.setDept_no(sessionVO.getDept_no());
 		List<Commuting> commutingList = this.commutingService.doSelectList(criteria2);
 		int totalCount = commutingService.getTotalCount(cri);
