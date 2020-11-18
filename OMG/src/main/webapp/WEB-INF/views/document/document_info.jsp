@@ -33,11 +33,7 @@
 
 					<!-- Page Heading -->
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
-					  
-					  <div class="btn-box">
-					  	<a  onClick="update()"  href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>수정</a>
-					  	<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
-					  </div>
+					  <h1 class="h3 mb-0 text-gray-800">문서 수정 페이지</h1>
 					</div>
 					
 				
@@ -51,19 +47,11 @@
 					      <!-- Card Header - Dropdown -->
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					        <h6 class="m-0 font-weight-bold text-primary">문서 상세</h6>	
+					        <div style=" float: right;">
+					        	<a  onClick="update()"  href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>수정</a>
+					  			<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
+					  	    </div>
 					       
-					        <div class="dropdown no-arrow">
-					          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-					          </a>
-					          <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-					            <div class="dropdown-header">Dropdown Header:</div>
-					            <a class="dropdown-item" href="#">Action</a>
-					            <a class="dropdown-item" href="#">Another action</a>
-					            <div class="dropdown-divider"></div>
-					            <a class="dropdown-item" href="#">Something else here</a>
-					          </div>
-					        </div>
 					      </div>
 					      <!-- Card Body -->
 					      <div class="card-body">
@@ -137,7 +125,7 @@
 						      		<div class="file-body" style="display: inline-block;"> 
 						      			<input id="file" name="file" class="file-input" multiple="multiple"   type="file" onchange="file_upload(this)"  multiple  style=" width :300px;">
 						      		</div>
-						      		<div class="card card-body" style="width: 1324px;">
+						      		<div class="card card-body" style="width: 900px;">
 										<c:choose>
 											<c:when test="${0 ne fileList.size() }">
 												<c:forEach var="vo" items="${fileList}" >
@@ -199,12 +187,6 @@
 							      				<c:when test="${emp.position_no==11332}"><option selected>인턴</option></c:when>
 							      				<c:when test="${emp.position_no==11333}"><option selected>인턴2</option></c:when>
 							      			</c:choose>
-							      		</select>
-						      		</div>
-						      		<div class="approval-body" style="display: inline-block;">
-						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select class="approval-name" style="width:200px;" disabled>
-							      			<option selected>${emp.name}</option>
 							      		</select>
 						      		</div>
 						      		

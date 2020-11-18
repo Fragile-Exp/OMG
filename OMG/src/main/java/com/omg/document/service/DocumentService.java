@@ -120,7 +120,7 @@ public class DocumentService {
 	 * @param employee
 	 * @return
 	 */
-	public EmployeeVO doempName (EmployeeVO employee){
+	public String doempName (EmployeeVO employee){
 		return documentDaoImpl.doempName(employee);
 	}
 
@@ -132,4 +132,7 @@ public class DocumentService {
 		return documentDaoImpl.doMaxNumberId(documentVO);
 	}
 
+	public List<String> doempNameget(EmployeeVO employee) {
+		return documentDaoImpl.doempNameget(employee);
+	}
 }

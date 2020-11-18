@@ -31,8 +31,6 @@ import com.omg.cmn.Message;
 import com.omg.cmn.StringUtil;
 import com.omg.document.domain.DocumentVO;
 import com.omg.document.service.DocumentService;
-import com.omg.documentfile.domain.DocumentFileVO;
-import com.omg.documentfile.service.DocumentFileService;
 import com.omg.employee.domain.EmployeeVO;
 
 @Controller
@@ -42,8 +40,6 @@ public class DocumentController {
 	@Autowired
 	DocumentService documentService;
 
-	@Autowired
-	DocumentFileService documentFileService;
 	
 	@Autowired
 	AttachmentServiceImpl attachmentServiceImpl;
@@ -354,40 +350,44 @@ public class DocumentController {
 	 @RequestMapping(value="document/doempName.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	 @ResponseBody 
 	 public String doempName(EmployeeVO employee, Model model) {
-		 EmployeeVO Id= documentService.doempName(employee );
-		
-		 model.addAttribute("Id", Id.getEmployee_id());
+		 String Id= documentService.doempName(employee );
+		LOG.debug("Id : "+Id);
+		 model.addAttribute("Id", Id);
 		 
-		 LOG.debug("=doempName=" + Id.getEmployee_id());
+		 LOG.debug("=Id=" + Id);
 		 Message message = new Message();
 		 message.setMsgId(Id + "");
 		 
 		 Gson gson=new Gson(); 
 		 String json = gson.toJson(Id);
-		 LOG.debug("=================="); LOG.debug("=json="+json);
+		 LOG.debug("==================");
+		 LOG.debug("=json="+json);
 		 LOG.debug("==================");
 		 
 		 return json; 
 	 }
 
-	 @RequestMapping(value="document/documentFileInsert.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
+	
+
+	 @RequestMapping(value="document/doempNameget.do",method = RequestMethod.GET ,produces = "application/json;charset=UTF-8")
 	 @ResponseBody 
-	 public String documentFileInsert(DocumentFileVO documentFileVO ) {
+	 public  List<String>  doempNameget(EmployeeVO employee) {
+		 List<String> nameList = documentService.doempNameget(employee);
+		 LOG.debug("nameList" + nameList);
+	
 		 
-		 int flag = documentFileService.doInsert(documentFileVO);
-		 LOG.debug("=doInsert=" + flag);
-     	 Message message = new Message();
-		 message.setMsgId(flag + "");
-		
 		 Gson gson = new Gson();
-		 String json = gson.toJson(message);
+		 String json = gson.toJson(nameList);
 		 LOG.debug("==================");
 		 LOG.debug("=json=" + json);
 		 LOG.debug("==================");
 		 
-		 
-		 return null;
-	 }
+	
+		return nameList;
 
+		 
+	 }
+	 
+	 
 
 }
