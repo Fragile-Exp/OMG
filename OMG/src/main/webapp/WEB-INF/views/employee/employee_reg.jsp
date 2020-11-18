@@ -22,131 +22,140 @@
 	      		<!-- //top_bar -->
 	      		
 	      		<!-- page Content -->
-	      		<form action=""></form>
-	      		<div class="container-fluid">
-		      		<div class="col-lg-8">
-						<div class="card shadow mb-4">
-							<div class="card-header py-3">
-								<input type="button" class="btn btn-info btn-sm" value="취소" id="cancel">
-								<input type="button" class="btn btn-info btn-sm" value="사원 추가" id="employeeAdd">
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="col-lg-2 text-center">
-										<label for="employee_id" >아이디(사원번호)</label>
-									</div>
-									<div class="col-lg-8">
-										<input type="text" class="form-control" id="employee_id" placeholder="아이디(사원번호)" />
-									</div>
-									<button type="button" class="btn btn-info btn-sm" value="idConfirm" id="idConfirm">아이디 중복 확인</button>
+	      		<form id="userFrm" name="userFrm" action="">
+		      		<div class="container-fluid">
+			      		<div class="col-lg-8">
+							<div class="card shadow mb-4">
+								<div class="card-header py-3">
+									<input type="button" class="btn btn-info btn-sm" value="취소" id="cancel">
+									<input type="button" class="btn btn-info btn-sm" value="사원 추가" id="employeeAdd">
 								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="name" >이름</label>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-lg-2 text-center">
+											<label for="employee_id" >아이디(사원번호)</label>
+										</div>
+										<div class="col-lg-8">
+											<input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="아이디(사원번호)" maxlength="15" />
+										</div>
+										<button type="button" class="btn btn-info btn-sm" value="idConfirm" id="idConfirm">아이디 중복 확인</button>
 									</div>
-									<div class="col-lg-9">
-										<input type="text" class="form-control" id="name" placeholder="이름" />
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="name" >이름</label>
+										</div>
+										<div class="col-lg-9">
+											<input type="text" class="form-control" id="name" name="name"placeholder="이름" maxlength="15" />
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="password" >비밀번호</label>
+										</div>
+										<div class="col-lg-9">
+											<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" maxlength="15"/>
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="password" >비밀번호 확인</label>
+										</div>
+										<div class="col-lg-9">
+											<input type="password" class="form-control" id="passwordConf" name="passowordConf" placeholder="비밀번호확인" maxlength="15" />
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="dept_no" >부서명</label>
+										</div>
+										<div class="col-lg-9">
+											<select class="form-control input-sm" name="dept_no"  id="dept_no">
+												<c:if test="${deptList.size() >0}">
+													<c:forEach var="dept" items="${deptList}" >
+														<option value="${dept.deptNo }">${dept.deptNm}</option>
+													</c:forEach>
+												</c:if>
+								    		</select>
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="position_no" >직급</label>
+										</div>
+										<div class="col-lg-9">
+											<select class="form-control input-sm" name="position_no"  id="position_no">
+												<c:if test="${positionList.size() >0}">
+													<c:forEach var="position" items="${positionList}" >
+														<option value="${position.positionNo }">${position.positionNm}</option>
+													</c:forEach>
+												</c:if>
+								    		</select>
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="cell_phone" >핸드폰</label>
+										</div>
+										<div class="col-lg-9">
+											<input type="text" class="form-control" id="cell_phone" name="cell_phone" placeholder="핸드폰 EX)01012341234" maxlength="11"/>
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="email" >이메일</label>
+										</div>
+										<div class="col-lg-9">
+											<input type="text" class="form-control" id="email" name="email" placeholder="이메일 EX)omg@omg.com" maxlength="15" />
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="address" >주소</label>
+										</div>
+										<div class="col-lg-9">
+											<input type="text" class="form-control" id="address" placeholder="주소" maxlength="15" />
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="hire_date" >입사일 EX)20/11/19</label>
+										</div>
+										<div class="col-lg-9">
+											<input type="text" class="form-control" id="hire_date" name="hire_date" placeholder="입사일 EX)20/11/19" />
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="birth_day" >생년월일 EX)20/11/19</label>
+										</div>
+										<div class="col-lg-9">
+											<input type="text" class="form-control" id="birth_day" placeholder="생년월일 EX)20/11/19" />
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="holiday" >휴가일</label>
+										</div>
+										<div class="col-lg-9">
+											<input type="text" class="form-control" id="holiday" name="holiday" placeholder="휴가일" value="15"/>
+										</div>
+									</div>
+									<div class="row py-2">
+										<div class="col-lg-2 text-center">
+											<label for="auth" >권한</label>
+										</div>
+										<div class="col-lg-9">
+											<select class="form-control input-sm" name="auth"  id="auth">
+												<option value="1">일반</option>
+												<option value="9">관리자</option>
+								    		</select>
+										</div>
 									</div>
 								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="password" >비밀번호</label>
-									</div>
-									<div class="col-lg-9">
-										<input type="password" class="form-control" id="password" placeholder="비밀번호" />
-									</div>
-								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="dept_no" >부서명</label>
-									</div>
-									<div class="col-lg-9">
-										<select class="form-control input-sm" name="dept_no"  id="dept_no">
-											<c:if test="${deptList.size() >0}">
-												<c:forEach var="dept" items="${deptList}" >
-													<option value="${dept.deptNo }">${dept.deptNm}</option>
-												</c:forEach>
-											</c:if>
-							    		</select>
-									</div>
-								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="position_no" >직급</label>
-									</div>
-									<div class="col-lg-9">
-										<select class="form-control input-sm" name="position_no"  id="position_no">
-											<c:if test="${positionList.size() >0}">
-												<c:forEach var="position" items="${positionList}" >
-													<option value="${position.positionNo }">${position.positionNm}</option>
-												</c:forEach>
-											</c:if>
-							    		</select>
-									</div>
-								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="cell_phone" >핸드폰</label>
-									</div>
-									<div class="col-lg-9">
-										<input type="text" class="form-control" id="cell_phone" placeholder="핸드폰 EX)01012341234" />
-									</div>
-								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="email" >이메일</label>
-									</div>
-									<div class="col-lg-9">
-										<input type="text" class="form-control" id="email" placeholder="이메일 EX)omg@omg.com" />
-									</div>
-								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="address" >주소</label>
-									</div>
-									<div class="col-lg-9">
-										<input type="text" class="form-control" id="address" placeholder="주소" />
-									</div>
-								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="hire_date" >입사일 EX)20/11/19</label>
-									</div>
-									<div class="col-lg-9">
-										<input type="text" class="form-control" id="hire_date" placeholder="입사일 EX)20/11/19" />
-									</div>
-								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="birth_day" >생년월일 EX)20/11/19</label>
-									</div>
-									<div class="col-lg-9">
-										<input type="text" class="form-control" id="birth_day" placeholder="생년월일 EX)20/11/19" />
-									</div>
-								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="holiday" >휴가일</label>
-									</div>
-									<div class="col-lg-9">
-										<input type="text" class="form-control" id="holiday" placeholder="휴가일" />
-									</div>
-								</div>
-								<div class="row py-2">
-									<div class="col-lg-2 text-center">
-										<label for="auth" >권한</label>
-									</div>
-									<div class="col-lg-9">
-										<select class="form-control input-sm" name="auth"  id="auth">
-											<option value="1">일반</option>
-											<option value="9">관리자</option>
-							    		</select>
-									</div>
-								</div>
-							</div>
-						</div>	
-					</div>		
-		        </div>
+							</div>	
+						</div>		
+			        </div>
+		        </form>
 		        <!-- // page Content -->
 	      	
 	      	</div>
@@ -166,6 +175,7 @@
 		$("#setting").attr("aria-expanded","true");
 		$("#adminSetting").attr("class","collapse show");
 		$("#employee_reg").attr("class","collapse-item active");
+		bindEventHandler();
 		});
 
 	//아이디 존재 여부 확인
@@ -220,54 +230,8 @@
 		IMG_CODE */
 
 
-		//아이디(사원번호) 필수 체크
-		if($("#employee_id").val()==false || $("#employee_id").val() ==""){
-			alert("아이디(사원번호)를 확인하세요.");
-			return ;
-		}		
-		//name 필수 체크
-		if($("#name").val()==false || $("#name").val() ==""){
-			alert("이름을 확인하세요.");
-			return ;
-		}
-		//password 필수 체크
-		if($("#password").val()==false || $("#password").val() ==""){
-			alert("비밀번호를 확인하세요.");
-			return ;
-		}
-		//cell_phone 필수 체크
-		if($("#cell_phone").val()==false || $("#cell_phone").val() ==""){
-			alert("핸드폰을 확인하세요.");
-			return ;
-		}
-		//email 필수 체크
-		if($("#email").val()==false || $("#email").val() ==""){
-			alert("이메일을 확인하세요.");
-			return ;
-		}
-		//address 필수 체크
-		if($("#address").val()==false || $("#address").val() ==""){
-			alert("주소를 확인하세요.");
-			return ;
-		}
-		//hire_date 필수 체크
-		if($("#hire_date").val()==false || $("#hire_date").val() ==""){
-			alert("입사일을 확인하세요.");
-			return ;
-		}//birth_day 필수 체크
-		if($("#birth_day").val()==false || $("#birth_day").val() ==""){
-			alert("생년월일을 확인하세요.");
-			return ;
-		}//holiday 필수 체크
-		if($("#holiday").val()==false || $("#holiday").val() ==""){
-			alert("휴가일을 확인하세요.");
-			return ;
-		}
-
-		if($("#auth").val()==false || $("#auth").val() ==""){
-			alert("관리자 권한 확인하세요.");
-			return ;
-		}
+		if($("#userFrm").valid()==false) return;
+		
 		//ajax
         $.ajax({
            type:"POST",
@@ -341,6 +305,133 @@
 	    $( "#birth_day" ).datepicker();
 	  } );
 
+	
+	function bindEventHandler() {
+		/* 
+	 		validation 감지 및 메세지 
+	 		onfocusout : onblur  시 해당 항목을 validation할 것인지 여부 : default
+	 		rules : 각 항목별로 validation rule을 지정
+	 		errorPlacement : validator는 기본적으로 실패스 노드 우측에 메시지를 표시하게 되어있다.
+	 						 작동을 원치 않으면 내용이 없는 errorPlacement를 선언.
+	 		invalidHandler : validation 실패시 핸들러를 정의한다. 실패시 alert으로 표시하도록 함.
+	 		submitHandler : 유효성 검사가 완료된 뒤 수행할 내용정의
+	 		required : text,password,select,radio.checkbox
+
+	 		rules의 속성
+	 		minlength : 최소 길이 체크 ex)minlength : 2
+	 		maxlength : 최대길이 체크 ex)maxlength : 10
+
+	 		rangelength : 길이 범위 체크 rangelength : [2,10]
+
+	 		min : 숫자의 최소값 ex) min : 13
+	 		max : 숫자의 최대값 ex) max : 13
+
+	 		email: 이메일 형식인지 체크 ex) email : true
+
+	 		url : 유효한 url인지 체크 ex) url : true
+	 		data : 유효한 날짜 형식
+	 		digits : 유효한 digits 값 체크 ( 양의 정수만 체크)
+
+	 		creditcard : 유효한 카드번호 형식 체크 ex)creditcard : true
+
+	 		이 외에 찾는  rule이 없다면 생성도 가능. $.validator.addMethod()
+	 			$.validator.addMethod(
+					'mobilephone',function(value,element){
+						return (value.substring(0,1)==0)?true:false;
+					},'휴대전화 번호는 0으로 시작하여야 합니다.'
+			 	);
+	 			
+	 			
+	 			
+		*/   		
+		$("#userFrm").validate({
+			onfocusout: false,
+			errorClass : "invalid",
+			rules: {
+				employee_id : {
+					required:  true,
+					minlength:4
+				},
+				name : {
+					required:  true,
+					minlength:3
+				},
+				password : {
+					required: true,
+					rangelength: [5,15]
+				},
+				passwordConf : {
+					required: true,
+					equalTo: "#password"
+				},
+				cell_phone : {
+					required: true,
+					number : true,
+					minlength: 10
+				},
+				email : {
+					required: true,
+					email: true
+				},
+				address : {
+					required: true,
+					minlength: 5
+				},
+				holiday : {
+					required: true,
+					number : true
+				}
+				
+			},messages: {
+				employee_id : {
+					required:  "사번을 입력하세요",
+					minlength: $.validator.format("사번은 최소 {0}글자 이상 입력하세요.")
+				},
+				name : {
+					required:  "이름을 입력하세요",
+					minlength: $.validator.format("이름은 최소 {0}글자 이상 입력하세요.")
+				},
+				password : {
+					required: "패스워드를 입력하세요",
+					rangelength :  $.validator.format("패스워드는 {0}자 에서 {1}자 이하로 입력하세요")
+				},
+				passwordConf: {
+					required: "비밀번호확인을 입력하세요",
+					rangelength :  $.validator.format("패스워드는 {0}자 에서 {1}자 이하로 입력하세요"),
+					equalTo : "비밀번호 항목과 일치하지 않습니다."
+				},
+				cell_phone : {
+					required: "휴대폰 번호를 입력하세요",
+					number : "전화번호는 숫자이어야 합니다",
+					minlength: $.validator.format("전화번호는 최소 {0}글자 이상 입력하세요.")
+				},
+				email : {
+
+					required: "이메일을 입력하세요",
+					email: "올바른 이메일 주소가 아닙니다."
+				},
+				address : {
+					required: "주소를 입력하세요",
+					minlength:$.validator.format("주소는 최소 {0}글자 이상 입력하세요.")
+				},
+				holiday : {
+					required: "휴가총일수를 입력하세요",
+					number : "휴가일수는 숫자이어야 합니다."
+				}
+				
+				
+			},errorPlacement:function (error, element) {
+				//alert nothing
+				error.insertAfter(element);
+			},invalidHandler: function	(form,validator){
+				var errors = validator.numberOfInvalids();
+				if(errors) {
+					alert(validator.errorList[0].message);
+					//validator.errorList[0].element.focus();
+				}
+			}			
+		});
+	}
 	
 	
 	</script>

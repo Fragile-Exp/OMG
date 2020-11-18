@@ -143,33 +143,34 @@
 		<!-- Divider -->
 		<hr class="sidebar-divider d-none d-md-block">
 
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        관리자 메뉴
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a id="setting" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#adminSetting" aria-expanded="true" aria-controls="adminSetting">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>관리</span>
-        </a>
-        <div id="adminSetting" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-			<h6 class="collapse-header">조직 관리:</h6>
-			<a id="org" class="collapse-item" href="${hContext}/org/org.do">부서(직급) 관리</a>
-			<div class="collapse-divider"></div>
-			<h6 class="collapse-header">사원 관리:</h6>
-			<a id="employee_reg" class="collapse-item" href="${hContext}/employee/employee_reg.do">사원 추가</a>
-			<a id="employee_mng" class="collapse-item" href="${hContext}/employee/employee_mng.do">사원 정보 수정</a>
-			<div class="collapse-divider"></div>
-			<h6 class="collapse-header">근태 관리:</h6>
-			<a id="dept_commuting" class="collapse-item" href="${hContext}/commuting/doSelectDeptList.do">부서 근태 관리</a>
-			<div class="collapse-divider"></div>
-         </div>
-       </div>
-     </li>
-
+	 <c:if test="${sessionScope.employee.auth eq 9}">
+	      <!-- Heading -->
+	      <div class="sidebar-heading">
+	        관리자 메뉴
+	      </div>
+	
+	      <!-- Nav Item - Pages Collapse Menu -->
+	      <li class="nav-item">
+	        <a id="setting" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#adminSetting" aria-expanded="true" aria-controls="adminSetting">
+	          <i class="fas fa-fw fa-wrench"></i>
+	          <span>관리</span>
+	        </a>
+	        <div id="adminSetting" class="collapse" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
+	          <div class="bg-white py-2 collapse-inner rounded">
+				<h6 class="collapse-header">조직 관리:</h6>
+				<a id="org" class="collapse-item" href="${hContext}/org/org.do">부서(직급) 관리</a>
+				<div class="collapse-divider"></div>
+				<h6 class="collapse-header">사원 관리:</h6>
+				<a id="employee_reg" class="collapse-item" href="${hContext}/employee/employee_reg.do">사원 추가</a>
+				<a id="employee_mng" class="collapse-item" href="${hContext}/employee/employee_mng.do">사원 정보 수정</a>
+				<div class="collapse-divider"></div>
+				<h6 class="collapse-header">근태 관리:</h6>
+				<a id="dept_commuting" class="collapse-item" href="${hContext}/commuting/doSelectDeptList.do">부서 근태 관리</a>
+				<div class="collapse-divider"></div>
+	         </div>
+	       </div>
+	     </li>
+	</c:if>
     
 
     <!-- Sidebar Toggler (Sidebar) -->
@@ -181,7 +182,8 @@
   <!-- End of Sidebar -->
 
 <!-- Bootstrap core JavaScript-->
-<script src="${hContext}/resources/vendor/jquery/jquery.min.js"></script>
+<%-- <script src="${hContext}/resources/vendor/jquery/jquery.min.js"></script> --%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> 
 <script src="${hContext}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
@@ -191,3 +193,4 @@
 <script src="${hContext}/resources/js/sb-admin-2.min.js"></script>
 <script src="${hContext}/resources/js/jquery.bootpag.min.js"></script>
 <script src="${hContext}/resources/js/jquery-ui.min.js"></script>
+<script src="${hContext}/resources/js/jquery.validate.js"></script>
