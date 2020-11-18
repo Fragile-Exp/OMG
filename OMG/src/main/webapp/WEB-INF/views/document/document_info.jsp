@@ -154,58 +154,60 @@
 						      		</div>
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select class="approval-dept" name="dept_no" style="width:200px;" disabled>
+						      			<select id="approval-dept" name="dept_no" class="approval-body-select" style="width: 200px;" onchange="empNameget()" >
+							      		
 							      			<c:choose>
-							      				<c:when test="${emp.dept_no==10000}"><option selected>omg</option></c:when>
-							      				<c:when test="${emp.dept_no==11000}"><option selected>전략기획본부</option></c:when>
-							      				<c:when test="${emp.dept_no==12000}"><option selected>경영관리본부</option></c:when>
-							      				<c:when test="${emp.dept_no==13000}"><option selected>기술개발본부</option></c:when>
-							      				<c:when test="${emp.dept_no==14000}"><option selected>영업본부</option></c:when>
-							      				<c:when test="${emp.dept_no==13100}"><option selected>연구소</option></c:when>
-							      				<c:when test="${emp.dept_no==13110}"><option selected>제1연구소</option></c:when>
-							      				<c:when test="${emp.dept_no==13120}"><option selected>제2연구소</option></c:when>
-							      				<c:when test="${emp.dept_no==13200}"><option selected>기술부문</option></c:when>
-							      				<c:when test="${emp.dept_no==13210}"><option selected>기술1팀</option></c:when>
-							      				<c:when test="${emp.dept_no==13220}"><option selected>기술2팀</option></c:when>
-							      				<c:when test="${emp.dept_no==14100}"><option selected>아시아영업부</option></c:when>
+							      				<c:when test="${emp.dept_no==10000}"><option value="10000">omg</option>    	</c:when>
+							      				<c:when test="${emp.dept_no==11000}"><option value="11000">전략기획본부</option> </c:when>
+							      				<c:when test="${emp.dept_no==12000}"><option value="12000">경영관리본부</option> </c:when>
+							      				<c:when test="${emp.dept_no==13000}"><option value="13000">기술개발본부</option> </c:when>
+							      				<c:when test="${emp.dept_no==14000}"><option value="14000">영업본부</option>   </c:when>
+							      				<c:when test="${emp.dept_no==13100}"><option value="13100">연구소</option>    </c:when>
+							      				<c:when test="${emp.dept_no==13110}"><option value="13110">제1연구소</option>  </c:when>
+							      				<c:when test="${emp.dept_no==13120}"><option value="13120">제2연구소</option>  </c:when>
+							      				<c:when test="${emp.dept_no==13200}"><option value="13200">기술부문</option>   </c:when>
+							      				<c:when test="${emp.dept_no==13210}"><option value="13210">기술1팀</option>   </c:when>
+							      				<c:when test="${emp.dept_no==13220}"><option value="13220">기술2팀</option>   </c:when>
+							      				<c:when test="${emp.dept_no==14100}"><option value="14100">아시아영업부</option> </c:when>
 							      			</c:choose>
+							      			<option value="10000">omg</option>   
+											<option value="11000">전략기획본부</option>
+											<option value="12000">경영관리본부</option>
+											<option value="13000">기술개발본부</option>
+											<option value="14000">영업본부</option>  
+											<option value="13100">연구소</option>   
+											<option value="13110">제1연구소</option> 
+											<option value="13120">제2연구소</option> 
+											<option value="13200">기술부문</option>  
+											<option value="13210">기술1팀</option>  
+											<option value="13220">기술2팀</option>  
+											<option value="14100">아시아영업부</option>
+							      			
+							      			
 							      		</select>
 						      		</div>
-						      		<div class="approval-body" style="display: inline-block;">
-						      			<!-- to do : for문 사용해서 사원 입력하기  -->
-						      			<select class="approval-level" style="width:200px;" disabled>
-							      			<c:choose>
-							      				<c:when test="${emp.position_no==10000}"><option selected>사장</option></c:when>
-							      				<c:when test="${emp.position_no==11000}"><option selected>부사장</option></c:when>
-							      				<c:when test="${emp.position_no==11100}"><option selected>전무이사</option></c:when>
-							      				<c:when test="${emp.position_no==11200}"><option selected>상무이사</option></c:when>
-							      				<c:when test="${emp.position_no==11300}"><option selected>이사</option></c:when>
-							      				<c:when test="${emp.position_no==11310}"><option selected>수석</option></c:when>
-							      				<c:when test="${emp.position_no==11320}"><option selected>책임</option></c:when>
-							      				<c:when test="${emp.position_no==11330}"><option selected>선임</option></c:when>
-							      				<c:when test="${emp.position_no==11331}"><option selected>사원</option></c:when>
-							      				<c:when test="${emp.position_no==11332}"><option selected>인턴</option></c:when>
-							      				<c:when test="${emp.position_no==11333}"><option selected>인턴2</option></c:when>
-							      			</c:choose>
-							      		</select>
-						      		</div>
-						      		<div style="display: inline-block;">
-						      			<input type="text" value="${emp.name}" disabled>
-						      		</div>
-						      		
-						      	</div>
-					        	<div class="card-body-label" style="width:7%; margin-bottom:10px;">
-						      			<div class="cont-header bg-primary text-white btn-sm" style="text-align:center; width:100px;" >
-						      				문서 내용
-						      			</div>
-						      	</div>
-						    
-						      	<input id="cont" name="documentCont" class="cont-body" type="text" style="width:900px; height:100px;" value="${SeleteOne.documentCont}">
+						      	
+						      		<input id="emplist" type="hidden" value="">
+									<div id="approval-lever" class="approval-body" style="display: inline-block;">
+
+													<!-- to do : for문 사용해서 사원 입력하기  -->
+
+									</div>
+
+
+									<div style="display: inline-block;">
+										<input id="approval-button" type="button" style="width: 100px;" onclick="selectClick()" value="확인">
+									</div>
+								</div>
+					        	<div class="card-body-label" style="width: 7%; margin-bottom: 10px;">
+									<div class="cont-header bg-primary text-white btn-sm" style="text-align: center; width: 100px;">문서 내용</div>
+								</div>
+								<input id="cont" name="documentCont" class="cont-body" type="text" style="width:900px; height:100px;" value="${SeleteOne.documentCont}">
 					        
 					        
 					        	<input id="documentId" name="documentId" type="hidden" value="${SeleteOne.documentId}">
 					        	<input id="employeeId" name="employeeId" type="hidden" value="${SeleteOne.employeeId}">
-					        	<input id="documentSet" name="" type="hidden" value="${SeleteOne.documentSet}">
+					        	<input id="documentSet" name="documentSet" type="hidden" value="${SeleteOne.documentSet}">
 					        	<input id="okUser" name="documentSet" type="hidden" value="${SeleteOne.okUser}">
 					        	<input id="fileCode" name="fileCode" type="hidden" value="${SeleteOne.fileCode}">
 					        	
@@ -268,7 +270,7 @@
 
 		var frm = document.writeFrm;
 		var formData = new FormData(frm);
-		
+		formData.append("okUser",Id);
 		$.ajax({
 			url:"${hContext}/document/doUpdate.do",
 			type:"POST",
@@ -319,9 +321,72 @@
 		$("#fileListTable>tbody").append(html);
 	}
 	
+	function empNameget(){
+		$.ajax({
+			url : "${hContext}/document/doempNameget.do",
+			type : "GET",
+			data:{
+				"dept_no" : $("#approval-dept").val()
+				},
+		dataType:"html",
+		async: true,
+		success:function(data){
+			alert("검색 성공");
+			
+			var list = JSON.parse(data);
+			console.log(list);
 
+			var html ="";
+			html +="<select >";
+			
+			
+			for(var i=0; i<list.length; i++){
 
+				html += "<option>";
+				html +=list[i];
+				html +="</option>";
+			}
 
+			html += "</select>";	
+			$("#approval-lever").append(html);
+			
+
+		},
+		error:function(data){
+				
+		}
+			
+		});
+	}
+
+	
+	var Id;
+	function selectClick(){
+		
+		
+		$.ajax({
+			url:"${hContext}/document/doempName.do",
+			type:"GET",
+			data:{
+				  "dept_no": $('#approval-dept').val(),
+				  "name" : $("#approval-lever>select").val()
+				  },
+			dataType:"json",
+		success:function(data){
+		 	alert("존재합니다.");
+		 	alert(data);
+		 	Id = data;
+
+		 	
+		},
+		error:function(err){
+			alert("존재하지 않습니다.");
+		}
+	
+		});					
+			
+	}
+	
 
 	
 		

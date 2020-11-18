@@ -137,7 +137,7 @@
 												</div>
 												<div class="approval-body" style="display: inline-block;">
 													<!-- to do : for문 사용해서 사원 입력하기  -->
-													<select id="approval-dept" name="dept_no" class="approval-body-select" style="width: 200px;" onchange="empNameget()">
+													<select id="approval-dept" name="dept_no" class="approval-body-select" style="width: 200px;" onchange="empNameget()" >
 														<option>부서</option>
 														<option value="10000">omg</option>
 														<option value="11000">전략기획본부</option>

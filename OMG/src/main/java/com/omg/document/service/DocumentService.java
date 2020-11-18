@@ -145,7 +145,9 @@ public class DocumentService {
 		return documentDaoImpl.dodocumentapp(documentVO);
 	}
 
-
+	public int dosetUpdate(DocumentVO documentVO) {
+		return documentDaoImpl.dosetUpdate(documentVO);
+	}
 
 
 

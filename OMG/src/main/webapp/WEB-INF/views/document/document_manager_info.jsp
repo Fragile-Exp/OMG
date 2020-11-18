@@ -184,18 +184,12 @@
 	function okay(){
 	
 		$.ajax({
-				url:"${hContext}/document/doUpdate.do",
+				url:"${hContext}/document/dosetUpdate.do",
 				type:"GET",
 				data:{
 					"documentId" : $("#documentId").val(), 
-					"employeeId" : $("#employeeId").val(), 
-					"kind" : $("#kind").val(),
-					"title" : $("#title").val(),
-					"dDay" : $("#day").val(),
-					"documentCont" : $("#cont").val(),	
-					"documentSet" : "1",
-					"okUser" : $("#okUser").val()
-						 },
+					"documentSet" : "1"
+					},
 					dataType:"json",
 					success:function(data){
 						
@@ -215,18 +209,12 @@
 	function unokay(){
 
 		$.ajax({
-			url:"${hContext}/document/doUpdate.do",
+			url:"${hContext}/document/dosetUpdate.do",
 			type:"GET",
 			data:{
 				"documentId" : $("#documentId").val(), 
-				"employeeId" : $("#employeeId").val(), 
-				"kind" : $("#kind").val(),
-				"title" : $("#title").val(),
-				"dDay" : $("#day").val(),
-				"documentCont" : $("#cont").val(),	
-				"documentSet" : "2",
-				"okUser" : $("#okUser").val()
-					 },
+				"documentSet" : "2"
+				},
 				dataType:"json",
 				success:function(data){
 					

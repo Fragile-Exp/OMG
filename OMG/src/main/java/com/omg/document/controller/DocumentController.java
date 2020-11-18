@@ -104,15 +104,16 @@ public class DocumentController {
 		AttachmentVO inFileVO = new AttachmentVO();
 		inFileVO.setFileCode(SeleteOne.getFileCode());
 		List<AttachmentVO> fileList = attachmentServiceImpl.doSelectList(inFileVO);
-
+		LOG.debug("=fileList ="+fileList );
+		
 		empVO.setEmployee_id(SeleteOne.getOkUser());
 		LOG.debug("empVO" + empVO);
-		EmployeeVO  emp = documentService.doempIdSelete(empVO);
+		EmployeeVO emp = documentService.doempIdSelete(empVO);
 		LOG.debug("emp" + emp);
 
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("SeleteOne", SeleteOne);
-		model.addAttribute("emp", empVO);
+		model.addAttribute("emp", emp);
 
 		LOG.debug("SeleteOne" + SeleteOne);
 
@@ -343,9 +344,14 @@ public class DocumentController {
 			String fileCode = documentVO.getFileCode();
 			String dir = "document";
 			List<AttachmentVO> list = StringUtil.fileUpload(multi, fileCode, dir);
+			LOG.debug("업로드 파일 개수 = "+list.size());
 			int fileFlag = 0;
-			for (AttachmentVO vo : list) {
-				fileFlag = attachmentServiceImpl.doUpdate(vo);
+			if (list.size()>0) {
+				attachmentServiceImpl.doDelete(list.get(0));
+				for(AttachmentVO vo : list) {
+				
+					fileFlag = attachmentServiceImpl.doInsert(vo);
+				}
 			}
 
 			message.setMsgContents(documentVO.getTitle() + "문서가 수정 되었습니다.");
@@ -381,7 +387,26 @@ public class DocumentController {
 
 		return json;
 	}
+	
+	@RequestMapping(value = "document/dosetUpdate.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String dosetUpdate(DocumentVO documentVO, Model model) {
+		int flag = documentService.dosetUpdate(documentVO);
+		LOG.debug("Id : " + flag);
+		
 
+		Gson gson = new Gson();
+		String json = gson.toJson(flag);
+		LOG.debug("==================");
+		LOG.debug("=json=" + json);
+		LOG.debug("==================");
+
+		return json;
+	}
+	
+	
+	
+	
 	@RequestMapping(value = "document/doempNameget.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public List<String> doempNameget(EmployeeVO employee) {

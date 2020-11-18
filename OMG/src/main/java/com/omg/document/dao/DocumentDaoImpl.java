@@ -249,4 +249,14 @@ public class DocumentDaoImpl {
 		return flag;
 	}
 	
+	public int dosetUpdate(DocumentVO documentVO) {
+		LOG.debug("=dosetUpdate=");
+		
+		String statement = NAMESPACE+".dosetUpdate";
+		
+		int flag = sqlSessionTemplate.update(statement, documentVO);
+		return flag;
+		
+	}
+	
 }
