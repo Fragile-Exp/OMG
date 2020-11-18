@@ -35,8 +35,8 @@
 					<div class="d-sm-flex align-items-center justify-content-between mb-4" >
 					  
 					  <div class="btn-box">
-					  	<a  onClick="update()"  href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-file-upload fa-sm text-white-50"></i>수정</a>
-					  	<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
+					  	<a  onClick="update()"  href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>수정</a>
+					  	<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
 					  </div>
 					</div>
 					
@@ -67,9 +67,10 @@
 					      </div>
 					      <!-- Card Body -->
 					      <div class="card-body">
-					        <div class="chart-area">
+					        <div class="chart-area" style=" height:100%; ">
 					      		<!-- to do : 값들 name/id 부여 -->
 					      		<!-- 제목  -->
+					      		<form  name="writeFrm" action="" method="post" enctype="multipart/form-data">
 					      		<div>
 						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
 						      			<div class="title-header bg-primary text-white btn-sm" style="text-align:center;"  >
@@ -133,10 +134,27 @@
 						      				파일 
 						      			</div>
 						      		</div>
-						      		<!-- to do : 파일 등록 모양 만들기  -->
-						      		<div class="file-body" style="display: inline-block;">
-						      			<input class="file-input" multiple="multiple"   type="file" multiple style=" width :300px;">
+						      		<div class="file-body" style="display: inline-block;"> 
+						      			<input id="file" name="file" class="file-input" multiple="multiple"   type="file" onchange="file_upload(this)"  multiple  style=" width :300px;">
 						      		</div>
+						      		<div class="card card-body" style="width: 1324px;">
+										<c:choose>
+											<c:when test="${0 ne fileList.size() }">
+												<c:forEach var="vo" items="${fileList}" >
+													
+													<input type="hidden" name="originName"  id="originName" value="${vo.originName}" />
+													<input type="hidden" name="saveName" id="saveName" value="${vo.saveName}" />
+													<c:set var="originName" value="${vo.originName}" />
+													<c:set var="saveName" value="${vo.saveName}"/>
+													
+													
+													<a href="#" onclick='filedown("${originName}","${saveName}"); return false;'>${vo.originName}</a>
+													
+												</c:forEach>
+											</c:when>
+										</c:choose>
+									</div>
+										
 					        	</div>
 					        	<!--// 파일 등록 -->
 					        	<!-- 결재자 -->
@@ -204,6 +222,7 @@
 					        	<input id="employeeId" type="hidden" value="${SeleteOne.employeeId}">
 					        	<input id="documentSet" type="hidden" value="${SeleteOne.documentSet}">
 					        	<input id="okUser" type="hidden" value="${SeleteOne.okUser}">
+					        	</form>
 					        </div>
 					      </div>
 					    </div>
@@ -231,7 +250,31 @@
 
 
 
-	
+	function filedown(originName, saveName){
+		var form = document.createElement("form");
+		form.method = 'post';
+		form.action = "${hContext}/file/download.do" ;
+
+		var input01 = document.createElement('input');
+		var input02 = document.createElement('input');
+
+		input01.setAttribute("type","hidden");
+		input01.setAttribute("name","originName");
+		input01.setAttribute("value",originName);
+
+		input02.setAttribute("type","hidden");
+		input02.setAttribute("name","saveName");
+		input02.setAttribute("value",saveName);
+		
+		form.appendChild(input01);
+		form.appendChild(input02);
+
+		document.body.appendChild(form);
+
+		form.submit();
+		
+		
+	}
 
 
 	function update(){
@@ -264,6 +307,32 @@
 
 
 		}
+
+	function file_upload(e)	
+	{
+		var files = e.files;
+	    var fileArr = Array.prototype.slice.call(files);
+ 		html = "";
+ 		if(fileArr.length != 0){
+ 			for(var file of fileArr){
+ 				html += '<tr>';
+				html += '<td>';
+				html += file.name;
+				html += '</td>';
+				html += '</tr>';
+ 			}
+ 	 	} else{
+ 	 		html += '<tr>';
+			html += '<td class="text-center">';
+			html += '등록된 데이터가 없습니다.';
+			html += '</td>';
+			html += '</tr>';
+ 	 	 	}
+		
+		$("#fileListTable>tbody").empty();
+		$("#fileListTable>tbody").append(html);
+	}
+	
 	
 		
 </script>
