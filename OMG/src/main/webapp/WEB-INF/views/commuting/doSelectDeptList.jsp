@@ -83,30 +83,6 @@
 									</div>
 									<!-- //BUTTON -->
 								
-									<!-- paging -->
-									<div class="dataTables_paginate paging_simple_numbers pull-right"  id="dataTable_paginate" style="width:30%; display:inline-block;">
-										<ul class="pagination" style="display: flex; align-items: start; ">
-											<c:if test="${pageMaker.prev}">
-												<li class="paginate_button page-item previous" id="dataTable_previous">
-													<a href="${pageMaker.startPage - 1}" aria-control="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-												</li>
-											</c:if>
-											
-											<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-												<li class="paginate_button page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
-													<a href="${num}" aria-control="dataTable" data-dt-idx="${num}" tabindex="0" class="page-link">${num}</a>
-												</li>
-											</c:forEach>
-											
-											<c:if test="${pageMaker.next}">
-												<li class="paginate_button page-item next">
-													<a href="${pageMaker.endPage + 1}" aria-control="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
-												</li>
-											</c:if>
-										</ul>
-									</div>	
-									<!-- paging -->
-										
 								</div>
 								<!-- // header -->
 								
@@ -153,7 +129,6 @@
 														</tr>
 													</c:otherwise>
 												</c:choose>
-												<caption>금일 출결 목록</caption>
 											</tbody>
 										</table>
 										<!-- //table -->
@@ -178,9 +153,31 @@
 											</div>
 										</div>
 										<!-- //modal -->
+										<!-- paging -->
+										<div class="dataTables_paginate paging_simple_numbers "  id="dataTable_paginate" style="width:30%; display:inline-block;">
+											<ul class="pagination" style="display: flex; align-items: start; ">
+												<c:if test="${pageMaker.prev}">
+													<li class="paginate_button page-item previous" id="dataTable_previous">
+														<a href="${pageMaker.startPage - 1}" aria-control="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+													</li>
+												</c:if>
+												
+												<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+													<li class="paginate_button page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
+														<a href="${num}" aria-control="dataTable" data-dt-idx="${num}" tabindex="0" class="page-link">${num}</a>
+													</li>
+												</c:forEach>
+												
+												<c:if test="${pageMaker.next}">
+													<li class="paginate_button page-item next">
+														<a href="${pageMaker.endPage + 1}" aria-control="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
+													</li>
+												</c:if>
+											</ul>
+										</div>	
+										<!-- paging -->
 								</div>
 								<!-- // body -->
-								
 							</div>
 						</div>
 					</div>
