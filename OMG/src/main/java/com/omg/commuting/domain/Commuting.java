@@ -62,7 +62,9 @@ public class Commuting extends DTO {
 		this.attendTime = attendTime;
 		this.leaveTime = leaveTime;
 		this.presentState = presentState;
+		this.presentStateIntValue = presentState.intValue();
 		this.state = state;
+		this.stateIntValue = state.intValue();
 		this.workTime = workTime;
 		this.regDt = regDt;
 	}
