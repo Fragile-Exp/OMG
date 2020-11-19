@@ -176,7 +176,7 @@ public class DocumentController {
 		inFileVO.setFileCode(SeleteOne.getFileCode());
 		List<AttachmentVO> fileList = attachmentServiceImpl.doSelectList(inFileVO);
 
-		empVO.setEmployee_id(SeleteOne.getOkUser());
+		empVO.setName(SeleteOne.getOkUser());
 		LOG.debug("empVO" + empVO);
 		empVO = documentService.doempIdSelete(empVO);
 		LOG.debug("emp" + empVO);
