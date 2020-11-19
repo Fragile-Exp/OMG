@@ -102,20 +102,23 @@
 							      					</c:choose>
 													<td>${VO.documentId}</td>
 													<td>${VO.dDay}</td>
-													<c:set var="set" value="${VO.documentSet }"/>
+													<c:set  var="set" value="${VO.documentSet }"/>
 													<c:choose>
 														<c:when test="${set == 1 }"><td>승인</td></c:when>	
 														<c:when test="${set == 2 }"><td>미승인</td></c:when>	
 														<c:otherwise><td>대기</td></c:otherwise>	
 													</c:choose>
 													<td>
-														<a href="#" onClick="infoDocument(this)"  id="${VO.documentId}" class="info btn btn-sm btn-primary shadow-sm" >
+														<a href="#"  target="${VO.documentSet }" onClick="infoDocument(this)"  id="${VO.documentId}"  class="info btn btn-sm btn-primary shadow-sm" >
 															<i class="fas fa-arrow-right fa-sm text-white-50"></i>
+															<input name="set" type="hidden" value="${VO.documentSet }">
 														</a>
 													   	<input name="check"  type="checkbox" value="${VO.documentId}">
 													</td>
 												</tr>
 												</a>
+								        		
+													
 								        	</c:forEach>
 						        		</c:if>
 						        	</tbody>	
@@ -192,8 +195,17 @@
 
 	function infoDocument(e){ 
 
-		window.location.href="${hContext}/document/document_info.do?documentId="+$(e).attr("id");
-
+		var avalue = $(e).attr('target'); 
+		
+		if( avalue == 1){
+			alert("승인 되어진 문서 입니다.");
+			return;
+		}else{
+			
+			window.location.href="${hContext}/document/document_info.do?documentId="+$(e).attr("id");
+				
+		}
+		
 	}
 
 

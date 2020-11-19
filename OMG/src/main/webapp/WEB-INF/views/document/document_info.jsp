@@ -241,7 +241,7 @@
 
 	function filedown(originName, saveName){
 		var form = document.createElement("form");
-		form.method = 'post';
+		form.method = 'POST';
 		form.action = "${hContext}/file/download.do" ;
 
 		var input01 = document.createElement('input');
@@ -267,7 +267,27 @@
 
 
 	function update(){
+		if($('#title').val() == "" || $('#title').val() == null ){
+			alert("문서 제목을 입력 하세요");
+			return;
+		}
+		if($('#kind').val() == "" || $('#kind').val() == null ){
+			alert("문서 종류를 입력 하세요");
+			return;
+		}
+		if($('#dDay').val() == "" || $('#dDay').val() == null ){
+			alert("문서 마간 날짜를 입력 하세요");
+			return;
+		}
+		if($('#dDay').val() == "" || $('#dDay').val() == null ){
+			alert("문서 마간 날짜를 입력 하세요");
+			return;
+		}
+		 
 
+
+
+		
 		var frm = document.writeFrm;
 		var formData = new FormData(frm);
 		formData.append("okUser",Id);
