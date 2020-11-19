@@ -47,7 +47,7 @@
 										<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 											부서선택<span class="caret"></span>
 										</button>
-										<ul class="dropdown-menu" role="menu">
+										<ul class="dropdown-menu" id="deptmenu" role="menu">
 											<c:forEach items="${deptDiv}" var="dept">
 												<li><a href="${dept.deptNo}">${dept.deptNm}</a></li>
 											</c:forEach>
@@ -226,7 +226,7 @@
 			//부서변경 이벤트
 			var actionForm = $("#actionForm");
 		
-			$(".dropdown-menu a").on("click", function(e) {
+			$("#deptmenu a").on("click", function(e) {
 				e.preventDefault();			
 				console.log('click');			
 				actionForm.find("input[name='dept_no']").val($(this).attr("href"));
