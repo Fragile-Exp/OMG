@@ -56,7 +56,7 @@
 									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 									<h6 class="m-0 font-weight-bold text-primary">문서 등록</h6>
 									<div style="float: right;">
-										<a id="Insert" onClick="insertDcoument()" class="btn btn-sm btn-primary shadow-sm" style="color: white"><i class="fas fa-file-upload fa-sm text-white-50"></i>등록</a> 
+										<a id="Insert" onClick="insertDcoument()" class="btn btn-sm btn-primary shadow-sm" style="color: white"><i class="fas fa-file-upload fa-sm text-white-50"></i>상신</a> 
 										<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color: white"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
 									</div>
 								</div>
@@ -83,7 +83,7 @@
 												<div class="kind-body" style="display: inline-block;">
 													<!-- to do : for문 사용해서 문서 종류 데이터 입력   -->
 													<select id="kind" name="kind" class="kind-body-select" style="width: 400px;">
-														<option>----------</option>
+														<option value="10">----------</option>
 														<option value="0">휴가</option>
 														<option value="1">실험</option>
 														<option value="2">문서</option>
@@ -138,7 +138,12 @@
 												<div class="approval-body" style="display: inline-block;">
 													<!-- to do : for문 사용해서 사원 입력하기  -->
 													<select id="approval-dept" name="dept_no" class="approval-body-select" style="width: 200px;" onchange="empNameget()" >
-														<option>부서</option>
+														<c:if test="${deptList.size() >0}">
+															<c:forEach var="dept" items="${deptList}" >
+																<option value="${dept.deptNo }">${dept.deptNm}</option>
+															</c:forEach>
+														</c:if>
+														<!-- <option>부서</option>
 														<option value="10000">omg</option>
 														<option value="11000">전략기획본부</option>
 														<option value="12000">경영관리본부</option>
@@ -150,19 +155,22 @@
 														<option value="13200">기술부문</option>
 														<option value="13210">기술1팀</option>
 														<option value="13220">기술2팀</option>
-														<option value="14100">아시아영업부</option>
+														<option value="14100">아시아영업부</option> -->
 													</select>
 												</div>
 												<input id="emplist" type="hidden" value="">
 												<div id="approval-lever" class="approval-body" style="display: inline-block;">
-
-													<!-- to do : for문 사용해서 사원 입력하기  -->
+													<select id="approval-name" name="okUser" class="approval-body-select" style="width: 200px;">
+													<!-- 부서 사원  -->
+														<option value="">---------</option>
+													</select>
+													
 
 												</div>
 
-												<div style="display: inline-block;">
+												<!-- <div style="display: inline-block;">
 													<input id="approval-button" type="button" style="width: 100px;" onclick="selectClick()" value="확인">
-												</div>
+												</div> -->
 											</div>
 
 											<div class="card-body-label" style="width: 7%; margin-bottom: 10px;">
@@ -209,24 +217,21 @@
 			dataType:"html",
 			async: true,
 			success:function(data){
-				alert("검색 성공");
+				//alert("검색 성공");
+				$("#approval-name").empty();
 				
 				var list = JSON.parse(data);
 				console.log(list);
 
 				var html ="";
-				html +="<select >";
-				
-				
 				for(var i=0; i<list.length; i++){
 
-					html += "<option>";
+					html += "<option value='"+list[i]+"'>";
 					html +=list[i];
 					html +="</option>";
 				}
-
-				html += "</select>";	
-				$("#approval-lever").append(html);
+	
+				$("#approval-name").append(html);
 				
 
 			},
@@ -265,7 +270,7 @@
 
 
 		
-	var Id;
+/* 	var Id;
 	function selectClick(){
 		
 		
@@ -290,7 +295,7 @@
 	
 		});					
 			
-	}
+	} */
 
 		
 	
@@ -298,13 +303,30 @@
 	//title : 제목 ,  kind : 종류 ,dDay :기간 , approval : 결재자, cont : 내용
 	function insertDcoument (){
 		//널체크 필수값 체크
-		
+		if(null == $("#title").val() || $("#title").val().length ==0){
+			alert("제목을 입력하세요.");
+			return;
+		}
+
+		if(null == $("#kind").val() || $("#kind").val()> 9){
+			alert("문서의 종류를 선택하세요.");
+			return;
+		}
+
+		if(null == $("#dDay").val() || $("#dDay").val() ==0){
+			alert("날짜를 선택하세요.");
+			return;
+		}
+		if(null == $("#approval-name").val() || $("#approval-name").val() ==0){
+			alert("결재자를 선택하세요.");
+			return;
+		}
 		
 		var frm = document.writeFrm;
 		var formData = new FormData(frm);
-		formData.append("okUser",Id);
+		//formData.append("okUser",Id);
 		
-		alert(formData );
+		//alert(formData );
 		$.ajax({
 			url:"${hContext}/document/doInsert.do",
 			type:"POST",

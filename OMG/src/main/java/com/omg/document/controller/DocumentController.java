@@ -32,6 +32,8 @@ import com.omg.cmn.StringUtil;
 import com.omg.document.domain.DocumentVO;
 import com.omg.document.service.DocumentService;
 import com.omg.employee.domain.EmployeeVO;
+import com.omg.organization.domain.DeptVO;
+import com.omg.organization.service.DeptServiceImpl;
 
 @Controller
 public class DocumentController {
@@ -45,6 +47,9 @@ public class DocumentController {
 
 	@Autowired
 	MessageSource messageSource;
+	
+	@Autowired
+	DeptServiceImpl deptService;
 
 	String url = "http://localhost:8080/cmn";
 	// --view--
@@ -81,10 +86,16 @@ public class DocumentController {
 
 	// --문서 등록page
 	@RequestMapping(value = "document/document_reg.do", method = RequestMethod.GET)
-	public String document_reg() {
+	public String document_reg(Model model) {
 		LOG.debug("===========================");
 		LOG.debug("=document_reg.do=");
 		LOG.debug("===========================");
+		
+		// 부서 목록
+		List<DeptVO> deptList = deptService.doSelectList();
+		model.addAttribute("deptList",deptList);
+		
+		
 		return "document/document_reg";
 	}
 
@@ -106,14 +117,19 @@ public class DocumentController {
 		List<AttachmentVO> fileList = attachmentServiceImpl.doSelectList(inFileVO);
 		LOG.debug("=fileList ="+fileList );
 		
-		empVO.setEmployee_id(SeleteOne.getOkUser());
+		empVO.setName(SeleteOne.getOkUser());
 		LOG.debug("empVO" + empVO);
 		EmployeeVO emp = documentService.doempIdSelete(empVO);
-		LOG.debug("emp" + emp);
+		//EmployeeVO emp = employeeService.doSelectOne(empVO);
+		LOG.debug("=emp=" + emp);
 
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("SeleteOne", SeleteOne);
 		model.addAttribute("emp", emp);
+		
+		// 부서 목록
+		List<DeptVO> deptList = deptService.doSelectList();
+		model.addAttribute("deptList",deptList);
 
 		LOG.debug("SeleteOne" + SeleteOne);
 

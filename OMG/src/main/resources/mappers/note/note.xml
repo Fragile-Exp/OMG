@@ -23,7 +23,7 @@
 		SELECT note_no as noteNo, note_div as noteDiv, sender_id as senderId, sender_nm as senderNm, receive_div as receiveDiv,
 				receive_id as receiveId, receive_ref_div as receiveRefDiv, receive_ref as receiveRef, receive_ref_nm as receiveRefNm,
 				receive_nm as receiveNm, employee_id as employeeId, employee_nm as employeeNm,
-				title, contents, up_note as upNote, read, img_name as imgName      	  	     											
+				title, contents, up_note as upNote, read, img_name as imgName, 	  	     											
         		--등록일이 당일이면:HH24MI 그렇치 않으면: YYYY-MM-DD   
         		DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(send_dt,'YYYYMMDD'),
         				TO_CHAR(send_dt,'HH24:MI'),TO_CHAR(send_dt,'YYYY-MM-DD')) sendDt,

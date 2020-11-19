@@ -77,7 +77,7 @@
 	</select>
 	
 	<select id="doempIdSelete" parameterType="EmployeeVO" 	resultType="EmployeeVO">
-		SELECT * FROM employee WHERE employee_id = #{employee_id}
+		SELECT * FROM employee_view WHERE name = #{name}
 	</select>
 	
 	
