@@ -194,6 +194,7 @@
 					    		</select>
 							</div>
 						</div>
+						<input type="hidden" id="img_code" name="img_code" />
 			   		</div>
                 </div>
                 <!-- /.container-fluid -->
@@ -289,10 +290,11 @@
 		}
 		if(confirm("수정 하시겠습니까?") ==false)return;
 
+		$("#searchWord").val("");
 		//ajax
         $.ajax({
-           type:"GET",
-           url:"${hContext}/employee/doUpdate.do",
+           type:"POST",
+           url:"${hContext}/employee/doUpdateMng.do",
            dataType:"html",
            data:{
 	           "employee_id":$("#employee_id_edit").val(),
@@ -306,7 +308,7 @@
 	           "hire_date":$("#hire_date_edit").val(),
 	           "birth_day":$("#birth_day_edit").val(),
 	           "holiday":$("#holiday_edit").val(),
-	           "img_code":1,
+	           "img_code":$("#img_code").val(),
 	           "auth":$("#auth").val()
           }, 
         success: function(data){
@@ -406,6 +408,8 @@
            	$("#hire_date_edit").val(parseData.hire_date);
         	$("#birth_day_edit").val(parseData.birth_day);
         	$("#holiday_edit").val(parseData.holiday);
+        	$("#auth").val(parseData.auth);
+        	$("#img_code").val(parseData.img_code);
           
            //아이디 enable
            $("#employee_id_edit").prop("disabled", true);
@@ -441,7 +445,8 @@
 		$("#hire_date_edit").val("");
 		$("#birth_day_edit").val("");
 		$("#holiday_edit").val("");
-
+		$("#img_code").val("");
+		$("#auth").val("");
 		$("#doDelete").prop("disabled", false);
         $("#doUpdate").prop("disabled", false);
 		

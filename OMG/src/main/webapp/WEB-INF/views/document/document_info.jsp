@@ -125,16 +125,23 @@
 						      		<div class="file-body" style="display: inline-block;"> 
 						      			<input id="file" name="file" class="file-input" multiple="multiple"   type="file" onchange="file_upload(this)"  multiple  style=" width :300px;">
 						      		</div>
+						      		<table class="table table-striped table-bordered" id="fileListTable" style="width:900px;">
+										<thead>
+											<tr>
+												<th>교체 파일</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
 						      		<div class="card card-body" style="width: 900px;">
 										<c:choose>
 											<c:when test="${0 ne fileList.size() }">
+												<h6>기존 파일</h6>
 												<c:forEach var="vo" items="${fileList}" >
 													
-													<input type="hidden" name="originName"  id="originName" value="${vo.originName}" />
-													<input type="hidden" name="saveName" id="saveName" value="${vo.saveName}" />
 													<c:set var="originName" value="${vo.originName}" />
 													<c:set var="saveName" value="${vo.saveName}"/>
-													
 													
 													<a href="#" onclick='filedown("${originName}","${saveName}"); return false;'>${vo.originName}</a>
 													

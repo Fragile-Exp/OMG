@@ -302,6 +302,41 @@ public class EmployeeController {
 		return json;
 	}
 	
+	@RequestMapping(value="employee/doUpdateMng.do",method = RequestMethod.POST
+			,produces = "application/json;charset=UTF-8"
+			)
+	@ResponseBody
+	public String doUpdateMng(EmployeeVO employee){
+		LOG.debug("1==================");
+        LOG.debug("=user="+employee);
+        LOG.debug("==================");	
+        
+        //수정
+        int flag=this.employeeService.doUpdate(employee);
+        LOG.debug("2==================");
+        LOG.debug("=flag="+flag);
+        LOG.debug("==================");     
+        
+        //메세지 처리
+        Message message=new Message();
+        message.setMsgId(String.valueOf(flag));
+        
+        if(flag ==1 ) {
+        	
+        	message.setMsgContents(employee.getName()+" 님이 수정 되었습니다.");
+
+        }else {
+        	message.setMsgContents(employee.getName()+" 님 수정 실패.");
+        }
+        
+        Gson   gson=new Gson();
+        String json = gson.toJson(message);
+        LOG.debug("3==================");
+        LOG.debug("=json="+json);
+        LOG.debug("==================");		
+		return json;
+	}
+	
 
 	@RequestMapping(value="employee/doLogin.do",method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8"

@@ -55,6 +55,9 @@
 		<choose>
 			<when test="1 == noteVO.noteDiv">
 				<choose>
+					<when test="1 == noteVO.div">
+						AND read = 0
+					</when>
 					<when test="'10' == searchVO.searchDiv">
 						AND receive_id like #{searchVO.searchWord}||'%'
 					</when>

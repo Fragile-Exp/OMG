@@ -257,7 +257,7 @@
           var jData = JSON.parse(data);
           if(null != jData && jData.msgId=="1"){
             alert(jData.msgContents);
-            //window.location.reload();
+            window.location.reload();
           }else{
             alert(jData.msgId+"|"+jData.msgContents);
           }

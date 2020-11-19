@@ -56,7 +56,7 @@
 												<span class="icon text-white-50"> <i class="fas fa-trash"></i></span>
 												<span class="text">삭제</span>
 											</a>
-											<input type="checkbox" id="onlyNotRead" onclick="drawNote($('#noteDiv').val(),1);"/> 읽지 않음
+												<input type="checkbox" id="onlyNotRead" onclick="drawNote($('#noteDiv').val(),1);"/> 읽지 않음
 										</div>
 										<div class="col-lg-6" align="right">
 										

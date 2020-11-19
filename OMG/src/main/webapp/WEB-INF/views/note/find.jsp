@@ -210,7 +210,7 @@
            if(parseData.length>0){
                <!-- 문자: 왼쪽, 숫자: 오른쪽, 같은면: 가운데 --> 
 				$.each(parseData, function(i, value) {
-					html += "<a href='#' class='list-group-item list-group-sm' style='border-bottom:1px;' value='"+value.employee_id+"'>"+value.name;
+					html += "<a href='#' class='list-group-item list-group-sm' style='border-bottom:1px;' value='"+value.employee_id+"'>"+value.name; 
 					html += "</a>";
 				});
 			}

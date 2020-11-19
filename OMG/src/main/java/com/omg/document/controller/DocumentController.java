@@ -3,7 +3,6 @@ package com.omg.document.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,22 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
 import com.omg.attachment.domain.AttachmentVO;
 import com.omg.attachment.service.AttachmentServiceImpl;
-import com.omg.board.domain.BoardVO;
 import com.omg.cmn.Message;
 import com.omg.cmn.StringUtil;
 import com.omg.document.domain.DocumentVO;
@@ -176,7 +169,7 @@ public class DocumentController {
 		inFileVO.setFileCode(SeleteOne.getFileCode());
 		List<AttachmentVO> fileList = attachmentServiceImpl.doSelectList(inFileVO);
 
-		empVO.setEmployee_id(SeleteOne.getOkUser());
+		empVO.setName(SeleteOne.getOkUser());
 		LOG.debug("empVO" + empVO);
 		//empVO = documentService.doempIdSelete(empVO);
 		LOG.debug("emp" + empVO);
