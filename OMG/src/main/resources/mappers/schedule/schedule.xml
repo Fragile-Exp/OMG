@@ -58,22 +58,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 단건검색 -->
 	<select id="read" resultType="ScheduleVO">
-		SELECT A.*,
-       		   B.dept_nm
-		FROM(SELECT schedule_no,
-			   		dept_no,
-			   		employee_id,
-			   		category_id,
-			   		title,
-			   		content,
-			   		TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') start_dt,
-			   		TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') end_dt
-		FROM schedule
-		WHERE schedule_no = #{schedule_no}) A, DEPT B
-		WHERE A.dept_no = B.dept_no
+		SELECT C.*,
+			   D.name
+		FROM(SELECT A.*,
+					B.dept_nm
+			 FROM(SELECT schedule_no,
+						 dept_no,
+						 employee_id,
+						 category_id,
+						 title,
+						 content,
+						 TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') start_dt,
+						 TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') end_dt
+				 FROM schedule
+				 WHERE schedule_no = #{schedule_no}) A, DEPT B
+			 WHERE A.dept_no = B.dept_no)C, employee D
+		WHERE C.employee_id = D.employee_id
 	</select>
 
-	<!-- 다건검색 -->
+<!--
 	<select id="getList" resultType="ScheduleVO">
 		SELECT A.*,
 			   B.dept_nm
@@ -87,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') start_dt,
 					TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') end_dt
 		 	 FROM schedule
-		 	 WHERE <include refid="criteria"></include> <!-- 검색기준 -->
+		 	 WHERE <include refid="criteria"></include> 검색기준
 		 	 	   category_id = #{category_id}
 		 	 <![CDATA[
 		 	 AND rownum <= #{pageNum} * #{amount}
@@ -100,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					AND employee_id = #{employee_id}
 				</when> 
 			</choose> 
-		 	 <!-- AND (SUBSTR(TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI:SS'), 0, 7) = 
+		 	 AND (SUBSTR(TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI:SS'), 0, 7) = 
 		 	 	<choose>
 					<when test="start_dt != null">
 						#{start_dt}
@@ -118,12 +121,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						SUBSTR(TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI'), 0, 7)
 					</when>
 				</choose>
-			 ) -->
+			 )
 		 	 ORDER BY start_dt ASC, end_dt ASC) A, DEPT B
 		<![CDATA[
 		WHERE rn > (#{pageNum} - 1) * #{amount}
 		]]>
 		AND A.dept_no = B.dept_no
+	</select> -->
+	
+	<!-- 다건검색 -->
+	<select id="getList" resultType="ScheduleVO">
+		SELECT C.*,
+			   D.dept_nm
+		FROM(SELECT A.*,
+					B.name
+			 FROM(SELECT rownum rn,
+						 schedule_no,
+						 dept_no,
+						 employee_id,
+						 category_id,
+						 title,
+						 content,
+						 TO_CHAR(start_dt, 'YYYY-MM-DD HH24:MI') start_dt,
+						 TO_CHAR(end_dt, 'YYYY-MM-DD HH24:MI') end_dt
+				 FROM schedule
+				 WHERE <include refid="criteria"></include> <!-- 검색기준 -->
+				 	   category_id = #{category_id}
+				 <![CDATA[
+				 AND rownum <= #{pageNum} * #{amount}
+				 ]]>
+				 <!-- 게시판 구분 -->
+				 <choose>
+					<when test="category_id == 2">
+						AND dept_no = #{dept_no}
+					</when>
+					<when test="category_id == 3">
+						AND employee_id = #{employee_id}
+					</when> 
+				 </choose> 
+				 ORDER BY start_dt ASC, end_dt ASC) A, employee B
+			WHERE A.employee_id = B.employee_id) C, DEPT D
+		<![CDATA[
+		WHERE rn > (#{pageNum} - 1) * #{amount}
+		]]>
+		AND C.dept_no = D.dept_no
 	</select>
 	
 	<!-- toDoList -->

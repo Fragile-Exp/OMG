@@ -9,6 +9,7 @@ public class ScheduleVO extends PageDTO {
     private int dept_no; // 부서번호
     private String dept_nm; // 부서이름
     private String employee_id; // 사원번호
+    private String name; //사원이름
     private int category_id; // 카테고리ID
     private String title; // 제목
     private String content; // 내용
@@ -18,7 +19,7 @@ public class ScheduleVO extends PageDTO {
     public ScheduleVO() {}
 
     public ScheduleVO(Criteria cri, int total, int schedule_no, int dept_no, String dept_nm, String employee_id,
-	    int category_id, String title, String content, String start_dt, String end_dt) {
+	    String name,int category_id, String title, String content, String start_dt, String end_dt) {
 	super(cri, total);
 	this.schedule_no = schedule_no;
 	this.dept_no = dept_no;
@@ -29,9 +30,18 @@ public class ScheduleVO extends PageDTO {
 	this.content = content;
 	this.start_dt = start_dt;
 	this.end_dt = end_dt;
+	this.name = name;
     }
 
-    public int getSchedule_no() {
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getSchedule_no() {
         return schedule_no;
     }
 
@@ -103,11 +113,11 @@ public class ScheduleVO extends PageDTO {
         this.end_dt = end_dt;
     }
 
-    @Override
-    public String toString() {
-	return "ScheduleVO [schedule_no=" + schedule_no + ", dept_no=" + dept_no + ", dept_nm=" + dept_nm
-		+ ", employee_id=" + employee_id + ", category_id=" + category_id + ", title=" + title + ", content="
-		+ content + ", start_dt=" + start_dt + ", end_dt=" + end_dt + "]";
-    }
-    
+	@Override
+	public String toString() {
+		return "ScheduleVO [schedule_no=" + schedule_no + ", dept_no=" + dept_no + ", dept_nm=" + dept_nm
+				+ ", employee_id=" + employee_id + ", name=" + name + ", category_id=" + category_id + ", title="
+				+ title + ", content=" + content + ", start_dt=" + start_dt + ", end_dt=" + end_dt + "]";
+	}
+
 }

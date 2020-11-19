@@ -83,7 +83,7 @@
 									<td><c:out value="${schedule.start_dt}"/></td>
 									<td><c:out value="${schedule.end_dt}"/></td>
 									<td><c:out value="${schedule.dept_nm}"/></td>
-									<td><c:out value="${schedule.employee_id}"/></td>
+									<td><c:out value="${schedule.name}"/></td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -159,7 +159,7 @@
 						</form>
 						
 						<!-- Modal추가 -->
-						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+						<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -169,11 +169,11 @@
 										<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
 									</div>
 									 
-									<div class="modal-body">처리가 완료되었습니다.</div>
+									<div class="modal-body2">처리가 완료되었습니다.</div>
 									
 									<div class="modal-footer">
 										<button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
-										<!-- <button type="button" class="btn btn-default">Save changes</button>  -->
+										
 									</div>
 								</div>
 							</div>
@@ -203,10 +203,10 @@
 				}
 		
 				if(parseInt(result) > 0) {
-					$(".modal-body").html("게시글이 등록되었습니다.");
+					$(".modal-body2").html("게시글이 등록되었습니다.");
 				}
 		
-				$("#myModal").modal("show");
+				$("#scheduleModal").modal("show");
 			}
 		
 			$("#regBtn").on("click", function(){
