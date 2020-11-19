@@ -169,7 +169,7 @@
 										<button type="button" class="close" data-dismiss="modal" arai-hidden="true">&times;</button>
 									</div>
 									 
-									<div class="modal-body2">처리가 완료되었습니다.</div>
+									<div class="modal-body">처리가 완료되었습니다.</div>
 									
 									<div class="modal-footer">
 										<button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
@@ -203,7 +203,7 @@
 				}
 		
 				if(parseInt(result) > 0) {
-					$(".modal-body2").html("게시글이 등록되었습니다.");
+					$(".modal-body").html("게시글이 등록되었습니다.");
 				}
 		
 				$("#scheduleModal").modal("show");
