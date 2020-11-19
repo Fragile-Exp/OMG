@@ -50,7 +50,7 @@
 					       
 					        <div style="float: right;">
 					        		<a  onClick="okay()"   class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>승인</a>
-					  				<a  onClick="unokay()" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>불승인</a>
+					  				<a  onClick="unokay()" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>반려</a>
 					  
 					        </div>
 					      </div>
@@ -70,6 +70,16 @@
 						      			<input id="title" name="title" class="title-input" type="text" style=" width :900px;" value="${SeleteOne.title}" disabled>
 						      		</div>
 					        	</div>
+					        	<div>
+						      		<div class="card-body-label" style="display: inline-block; width:7%; margin-bottom:10px;">
+						      			<div class="title-header bg-primary text-white btn-sm" style="text-align:center;"  >
+						      				상신자
+						      			</div>
+						      		</div>
+						      		<div class="title-body" style="display: inline-block;">
+						      			<input id="employeeId" name="employeeId" class="title-input" type="text" style=" width :900px;" value="${SeleteOne.employeeId}" disabled>
+						      		</div>
+					        	</div>
 					        	<!-- //제목  -->
 					        	<!-- 종류 / 기간   -->
 					        	<div>
@@ -86,7 +96,7 @@
 							      				<c:when test="${SeleteOne.kind == 0}"><option value="0">휴가</option></c:when>
 							      				<c:when test="${SeleteOne.kind == 1}"><option value="1">실험<option></c:when>
 							      				<c:when test="${SeleteOne.kind == 2}"><option value="2">문서<option></c:when>
-							      				<c:when test="${SeleteOne.kind == 3}"><option value="3">물풀구매<option></c:when>
+							      				<c:when test="${SeleteOne.kind == 3}"><option value="3">물품구매<option></c:when>
 							      				<c:when test="${SeleteOne.kind == 4}"><option value="4">프로젝트<option></c:when>
 							      				<c:when test="${SeleteOne.kind == 5}"><option value="5">회의록<option></c:when>
 							      				<c:when test="${SeleteOne.kind == 6}"><option value="6">행사<option></c:when>

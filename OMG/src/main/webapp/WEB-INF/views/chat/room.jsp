@@ -134,6 +134,10 @@
 	$("#createRoom").on("click",function(){
 		var roomNm = $("#roomNm").val();
 
+		if(null == roomNm || roomNm.length ==0){
+			alert("방 제목을 입력하세요.");
+			}
+
 		$.ajax({
             type:"GET",
             url:"${hContext}/chat/doInsert.do",

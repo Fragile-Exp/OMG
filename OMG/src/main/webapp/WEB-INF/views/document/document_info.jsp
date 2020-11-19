@@ -152,11 +152,16 @@
 						      				결재자
 						      			</div>
 						      		</div>
+						      		
 						      		<div class="approval-body" style="display: inline-block;">
 						      			<!-- to do : for문 사용해서 사원 입력하기  -->
 						      			<select id="approval-dept" name="dept_no" class="approval-body-select" style="width: 200px;" onchange="empNameget()" >
-							      		
-							      			<c:choose>
+							      			<c:if test="${deptList.size() >0}">
+												<c:forEach var="dept" items="${deptList}" >
+													<option value="${dept.deptNo }" <c:if test="${emp.dept_no eq dept.deptNo }">selected="selected"</c:if> >${dept.deptNm}</option>
+												</c:forEach>
+											</c:if>
+							      			<%-- <c:choose>
 							      				<c:when test="${emp.dept_no==10000}"><option value="10000">omg</option>    	</c:when>
 							      				<c:when test="${emp.dept_no==11000}"><option value="11000">전략기획본부</option> </c:when>
 							      				<c:when test="${emp.dept_no==12000}"><option value="12000">경영관리본부</option> </c:when>
@@ -181,7 +186,7 @@
 											<option value="13200">기술부문</option>  
 											<option value="13210">기술1팀</option>  
 											<option value="13220">기술2팀</option>  
-											<option value="14100">아시아영업부</option>
+											<option value="14100">아시아영업부</option> --%>
 							      			
 							      			
 							      		</select>
@@ -189,15 +194,17 @@
 						      	
 						      		<input id="emplist" type="hidden" value="">
 									<div id="approval-lever" class="approval-body" style="display: inline-block;">
-
-													<!-- to do : for문 사용해서 사원 입력하기  -->
+										<select id="approval-name" name="okUser" class="approval-body-select" style="width: 200px;">
+										<!-- 부서 사원  -->
+											<option value="">---------</option>
+										</select>
 
 									</div>
 
 
-									<div style="display: inline-block;">
+									<!-- <div style="display: inline-block;">
 										<input id="approval-button" type="button" style="width: 100px;" onclick="selectClick()" value="확인">
-									</div>
+									</div> -->
 								</div>
 					        	<div class="card-body-label" style="width: 7%; margin-bottom: 10px;">
 									<div class="cont-header bg-primary text-white btn-sm" style="text-align: center; width: 100px;">문서 내용</div>
@@ -236,6 +243,9 @@
 
 </body>
 <script type="text/javascript">
+	$(document).ready(function(){
+		$("#approval-dept").trigger("onchange")
+		})
 
 
 
@@ -290,7 +300,7 @@
 		
 		var frm = document.writeFrm;
 		var formData = new FormData(frm);
-		formData.append("okUser",Id);
+		//formData.append("okUser",Id);
 		$.ajax({
 			url:"${hContext}/document/doUpdate.do",
 			type:"POST",
@@ -351,25 +361,22 @@
 		dataType:"html",
 		async: true,
 		success:function(data){
-			alert("검색 성공");
+			$("#approval-name").empty();
 			
 			var list = JSON.parse(data);
 			console.log(list);
 
 			var html ="";
-			html +="<select >";
-			
-			
 			for(var i=0; i<list.length; i++){
 
-				html += "<option>";
+				html += "<option value='"+list[i]+"'>";
 				html +=list[i];
 				html +="</option>";
 			}
 
-			html += "</select>";	
-			$("#approval-lever").append(html);
-			
+			$("#approval-name").append(html);
+			var okUser = "${SeleteOne.okUser}";
+			$("#approval-name").val(okUser).prop("selected", true);;
 
 		},
 		error:function(data){
@@ -380,7 +387,7 @@
 	}
 
 	
-	var Id;
+/* 	var Id;
 	function selectClick(){
 		
 		
@@ -405,7 +412,7 @@
 	
 		});					
 			
-	}
+	} */
 	
 
 	
