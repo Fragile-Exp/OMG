@@ -109,7 +109,6 @@
 													
 													<td>
 														<a href="#" onClick="infoDocument(this)"  id="${VO.documentId}" class="info btn btn-sm btn-primary shadow-sm" >
-															
 															<i class="fas fa-arrow-right fa-sm text-white-50"></i>
 														</a>
 													   	<input name="check"  type="checkbox" value="${VO.documentId}">

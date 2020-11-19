@@ -286,16 +286,11 @@
 			return;
 		}
 		if($('#dDay').val() == "" || $('#dDay').val() == null ){
-			alert("문서 마간 날짜를 입력 하세요");
+			alert("문서 마rka 날짜를 입력 하세요");
 			return;
 		}
-		if($('#dDay').val() == "" || $('#dDay').val() == null ){
-			alert("문서 마간 날짜를 입력 하세요");
-			return;
 		}
 		 
-
-
 
 		
 		var frm = document.writeFrm;

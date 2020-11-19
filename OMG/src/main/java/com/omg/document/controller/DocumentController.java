@@ -178,12 +178,12 @@ public class DocumentController {
 
 		empVO.setEmployee_id(SeleteOne.getOkUser());
 		LOG.debug("empVO" + empVO);
-		empVO = documentService.doempIdSelete(empVO);
+		//empVO = documentService.doempIdSelete(empVO);
 		LOG.debug("emp" + empVO);
 
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("SeleteOne", SeleteOne);
-		model.addAttribute("emp", empVO);
+		//model.addAttribute("emp", empVO);
 
 		LOG.debug("SeleteOne" + SeleteOne);
 		
