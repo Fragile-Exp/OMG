@@ -46,7 +46,7 @@
 			
 									<div class="form-group">
 										<label>내용</label>
-										<textarea class="form-control" row="5" name="content"></textarea>
+										<textarea class="form-control" rows="15" name="content"></textarea>
 									</div>
 									
 									<div class="form-group">

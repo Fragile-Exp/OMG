@@ -38,13 +38,13 @@
 									</div>
 									<div class="form-group">
 										<label>내용</label>
-										<textarea class="form-control" rows="3" name="content" readonly="readonly"><c:out value="${schedule.content}"/>
+										<textarea class="form-control" rows="15" name="content" readonly="readonly"><c:out value="${schedule.content}"/>
 										</textarea>
 									</div>
 				
 									<div class="form-group">
 										<label>작성자</label>
-										<input class="form-control" name="employee_id" value="<c:out value="${schedule.employee_id}"/>" readonly="readonly"/>
+										<input class="form-control" name="name" value="<c:out value="${schedule.name}"/>" readonly="readonly"/>
 									</div>
 									
 									<div class="form-group">
