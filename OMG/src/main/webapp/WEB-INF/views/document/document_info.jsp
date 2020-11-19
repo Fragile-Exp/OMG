@@ -277,19 +277,23 @@
 
 
 	function update(){
-		if($('#title').val() == "" || $('#title').val() == null ){
+		if($("#title").val().length ==0 || $('#title').val() == null ){
 			alert("문서 제목을 입력 하세요");
 			return;
 		}
-		if($('#kind').val() == "" || $('#kind').val() == null ){
+		if($("#kind").val()> 9 || $('#kind').val() == null ){
 			alert("문서 종류를 입력 하세요");
 			return;
 		}
-		if($('#dDay').val() == "" || $('#dDay').val() == null ){
-			alert("문서 마rka 날짜를 입력 하세요");
+		if($("#dDay").val() ==0 || $('#dDay').val() == null ){
+			alert("문서 마감 날짜를 입력 하세요");
 			return;
 		}
+		if(null == $("#approval-name").val() || $("#approval-name").val() ==0){
+			alert("결재자를 선택하세요.");
+			return;
 		}
+		
 		 
 
 		

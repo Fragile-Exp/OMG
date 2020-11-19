@@ -105,7 +105,7 @@
 													<c:set  var="set" value="${VO.documentSet }"/>
 													<c:choose>
 														<c:when test="${set == 1 }"><td>승인</td></c:when>	
-														<c:when test="${set == 2 }"><td>미승인</td></c:when>	
+														<c:when test="${set == 2 }"><td>불승인</td></c:when>	
 														<c:otherwise><td>대기</td></c:otherwise>	
 													</c:choose>
 													<td>

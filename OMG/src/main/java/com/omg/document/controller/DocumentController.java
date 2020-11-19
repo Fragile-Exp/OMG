@@ -188,7 +188,7 @@ public class DocumentController {
 		LOG.debug("SeleteOne" + SeleteOne);
 		
 		return "document/document_manager_info";
-	
+	  
 	
 	
 	}
