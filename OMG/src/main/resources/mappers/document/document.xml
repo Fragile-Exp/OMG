@@ -72,12 +72,12 @@
 	</select>
 	
 	
-	<select id="doempNameget" parameterType="EmployeeVO" resultType="string">
-		SELECT name FROM employee WHERE dept_no = #{dept_no}
+	<select id="doempNameget" parameterType="EmployeeVO" resultType="EmployeeVO">
+		SELECT * FROM employee WHERE dept_no = #{dept_no}
 	</select>
 	
 	<select id="doempIdSelete" parameterType="EmployeeVO" 	resultType="EmployeeVO">
-		SELECT * FROM employee_view WHERE name = #{name}
+		SELECT * FROM employee_view WHERE employee_id = #{employee_id}
 	</select>
 	
 	

@@ -48,7 +48,9 @@
 					      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 					        <h6 class="m-0 font-weight-bold text-primary">문서 상세</h6>	
 					        <div style=" float: right;">
-					        	<a  onClick="update()"  class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>수정</a>
+					        	<c:if test="${SeleteOne.documentSet eq 0}">
+					        		<a  onClick="update()"  class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-file-upload fa-sm text-white-50"></i>수정</a>
+					        	</c:if>
 					  			<a href="${hContext}/document/document.do" class="btn btn-sm btn-primary shadow-sm" style="color:white"><i class="fas fa-backspace fa-sm text-white-50"></i>취소</a>
 					  	    </div>
 					       
@@ -125,15 +127,17 @@
 						      		<div class="file-body" style="display: inline-block;"> 
 						      			<input id="file" name="file" class="file-input" multiple="multiple"   type="file" onchange="file_upload(this)"  multiple  style=" width :300px;">
 						      		</div>
+						      		<c:if test="${SeleteOne.documentSet ne 1 && SeleteOne.documentSet ne 2 }">
 						      		<table class="table table-striped table-bordered" id="fileListTable" style="width:900px;">
 										<thead>
 											<tr>
-												<th>교체 파일</th>
+												<th>첨부 파일</th>
 											</tr>
 										</thead>
 										<tbody>
 										</tbody>
 									</table>
+									</c:if>
 						      		<div class="card card-body" style="width: 900px;">
 										<c:choose>
 											<c:when test="${0 ne fileList.size() }">
@@ -252,6 +256,13 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#approval-dept").trigger("onchange")
+		if(${SeleteOne.documentSet ne 0}){
+			$("input").prop("disabled",true);
+			$("#approval-dept").prop("disabled",true);
+			$("#approval-name").prop("disabled",true);
+			$("#kind").prop("disabled",true);
+			}
+		
 		})
 
 
@@ -375,8 +386,8 @@
 			var html ="";
 			for(var i=0; i<list.length; i++){
 
-				html += "<option value='"+list[i]+"'>";
-				html +=list[i];
+				html += "<option value='"+list[i].employee_id+"'>";
+				html +=list[i].name;
 				html +="</option>";
 			}
 

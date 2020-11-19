@@ -218,12 +218,12 @@ public class DocumentDaoImpl {
 		
 	}
 	
-	public List<String> doempNameget(EmployeeVO employee) {
+	public List<EmployeeVO> doempNameget(EmployeeVO employee) {
 		LOG.debug("=doempNameget=");
 		
 		String statement = NAMESPACE+".doempNameget";
 		
-		 List<String>  list = sqlSessionTemplate.selectList(statement, employee);
+		 List<EmployeeVO>  list = sqlSessionTemplate.selectList(statement, employee);
 		
 		
 		return list;

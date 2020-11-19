@@ -110,7 +110,7 @@ public class DocumentController {
 		List<AttachmentVO> fileList = attachmentServiceImpl.doSelectList(inFileVO);
 		LOG.debug("=fileList ="+fileList );
 		
-		empVO.setName(SeleteOne.getOkUser());
+		empVO.setEmployee_id(SeleteOne.getOkUser());
 		LOG.debug("empVO" + empVO);
 		EmployeeVO emp = documentService.doempIdSelete(empVO);
 		//EmployeeVO emp = employeeService.doSelectOne(empVO);
@@ -169,14 +169,14 @@ public class DocumentController {
 		inFileVO.setFileCode(SeleteOne.getFileCode());
 		List<AttachmentVO> fileList = attachmentServiceImpl.doSelectList(inFileVO);
 
-		empVO.setName(SeleteOne.getOkUser());
+		empVO.setEmployee_id(SeleteOne.getOkUser());
 		LOG.debug("empVO" + empVO);
-		//empVO = documentService.doempIdSelete(empVO);
+		empVO = documentService.doempIdSelete(empVO);
 		LOG.debug("emp" + empVO);
 
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("SeleteOne", SeleteOne);
-		//model.addAttribute("emp", empVO);
+		model.addAttribute("emp", empVO);
 
 		LOG.debug("SeleteOne" + SeleteOne);
 		
@@ -418,8 +418,8 @@ public class DocumentController {
 	
 	@RequestMapping(value = "document/doempNameget.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public List<String> doempNameget(EmployeeVO employee) {
-		List<String> nameList = documentService.doempNameget(employee);
+	public String doempNameget(EmployeeVO employee) {
+		List<EmployeeVO> nameList = documentService.doempNameget(employee);
 		LOG.debug("nameList" + nameList);
 
 		Gson gson = new Gson();
@@ -428,7 +428,7 @@ public class DocumentController {
 		LOG.debug("=json=" + json);
 		LOG.debug("==================");
 
-		return nameList;
+		return json;
 
 	}
 

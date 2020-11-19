@@ -132,7 +132,7 @@ public class DocumentService {
 		return documentDaoImpl.doMaxNumberId(documentVO);
 	}
 
-	public List<String> doempNameget(EmployeeVO employee) {
+	public List<EmployeeVO> doempNameget(EmployeeVO employee) {
 		return documentDaoImpl.doempNameget(employee);
 	}
 

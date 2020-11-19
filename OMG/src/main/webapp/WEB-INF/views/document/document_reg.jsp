@@ -226,8 +226,8 @@
 				var html ="";
 				for(var i=0; i<list.length; i++){
 
-					html += "<option value='"+list[i]+"'>";
-					html +=list[i];
+					html += "<option value='"+list[i].employee_id+"'>";
+					html +=list[i].name;
 					html +="</option>";
 				}
 	
